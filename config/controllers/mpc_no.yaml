@@ -1,7 +1,8 @@
-
-mpc:
-  Ts: 0.02
-  N: 20
-  Q: [10.0, 1.0, 300.0, 50.0]
-  R: 0.5
-  constraints: "none"
+mpc_no:
+  dt: 0.02
+  H: 3          # very short horizon
+  u_min: -10.0
+  u_max: 10.0
+  Q_theta: 20.0
+  Q_x: 2.0
+  R: 0.01
