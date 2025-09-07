@@ -1,0 +1,24 @@
+# venvs / IDE
+.venv/
+venv/
+.env/
+.vscode/
+.idea/
+
+# python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# data/runs/plots
+runs/
+*.npz
+*.png
+
+# OS cruft
+.DS_Store
+Thumbs.db

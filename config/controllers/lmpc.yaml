@@ -1,0 +1,11 @@
+
+mpc:
+  Ts: 0.02
+  N: 20
+  Q: [10.0, 1.0, 300.0, 50.0]
+  R: 0.5
+  dR: 0.0
+  u_min: -10.0
+  u_max: 10.0
+  soft_constraints: false
+  solver: "OSQP"

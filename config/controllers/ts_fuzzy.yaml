@@ -1,0 +1,9 @@
+
+cart_loop: {type: "pd", Kp: 1.5, Kd: 5.0}
+ts:
+  rules: 2
+  theta_breaks: [-0.2, 0.0, 0.2]
+  theta_dot_breaks: [-1.0, 0.0, 1.0]
+  K_rules:
+    - {kth: -60.0, kthd: -8.0, kx: 0.0, kxd: 0.0}
+    - {kth: -90.0, kthd: -12.0, kx: 0.0, kxd: 0.0}

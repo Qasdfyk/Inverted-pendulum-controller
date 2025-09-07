@@ -1,0 +1,14 @@
+# Outer: cart position PD -> theta_ref (radians)
+cart_pid:
+  Kp: 0.22
+  Ki: 0.015          # tiny integral to remove residual x error
+  Kd: 0.08
+theta_ref_limit: 0.12        # max tilt ~6.9°
+theta_ref_rate: 0.6          # rad/s slew limit for theta_ref
+theta_ref_filter_tau: 0.12   # s first-order LPF on theta_ref
+
+# Inner: pendulum angle PD (used in thdd_des)
+pend_pid:
+  Kp: 12.0
+  Ki: 0.0
+  Kd: 4.0
