@@ -1,6 +1,6 @@
 # Outer: cart PD -> theta_ref (radians)
 cart_pid:
-  Kp: 0.12
+  Kp: 0.02
   Ki: 0.0
   Kd: 0.08
 theta_ref_limit: 0.12   # optional; set to null to remove clamp
