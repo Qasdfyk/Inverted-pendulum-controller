@@ -6,7 +6,7 @@ from env.model import f_nonlinear
 class MPCNO(Controller):
     """
     Ultra-simple MPC-NO (fast).
-    - Horizon H small (3–4)
+    - Horizon H small (3-4)
     - Candidates = [-umax, 0, +umax]
     - Cost = theta^2 + 0.1*x^2 + 0.01*u^2
     """
