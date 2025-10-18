@@ -1,8 +1,9 @@
 mpc_no:
-  dt: 0.02
-  H: 3          # very short horizon
-  u_min: -10.0
-  u_max: 10.0
-  Q_theta: 20.0
-  Q_x: 2.0
-  R: 0.01
+  h: 0.06
+  rho1: 0.08
+  r: 2.0
+  rho2: 0.6
+  gm_min: 1.6
+  x_ref: 0.0
+  umax: 12.0
+
