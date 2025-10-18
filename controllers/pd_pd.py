@@ -7,7 +7,7 @@ def sat(v, vmin, vmax):
 
 class PDPD(Controller):
     """
-    Minimal cascade PD–PD (art2 linearization for inner-loop inversion):
+    Minimal cascade PD-PD (art2 linearization for inner-loop inversion):
         thdd ≈ a*th + b*u, with
             a = (M + m)*g/(M*l)
             b = -1/(M*l)
