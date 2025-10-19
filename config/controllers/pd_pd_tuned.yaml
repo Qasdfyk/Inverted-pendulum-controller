@@ -1,15 +1,15 @@
 pid_pid:
   # Angle PID (use your found gains)
   angle_pid:
-    Kp: -40.0
+    Kp: -283.449
     Ki: 0.0
-    Kd: -8.0
+    Kd: -11.027
 
   # Cart PID (use your found gains)
   cart_pid:
-    Kp: -1.0
+    Kp: 0.693
     Ki: 0.0
-    Kd: -3.0
+    Kd: -1.228
 
   # References
   theta_ref: 0.0   # rad
