@@ -2,6 +2,7 @@
 # --------------------------------------------------------
 # Nonlinear MPC for the cart-pole (art2 model) + animation + metrics.
 # Parameters fixed to your env config.
+# Wind disturbance (Fw) affects the PLANT ONLY (MPC predicts with Fw = 0).
 # --------------------------------------------------------
 
 from __future__ import annotations
@@ -10,7 +11,7 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-
+from typing import Callable, Optional
 
 # =========================
 # Fixed physical & sim params
@@ -19,10 +20,30 @@ PLANT = {"M": 2.4, "m": 0.23, "l": 0.36, "g": 9.81}
 SIM = {
     "T": 10.0,
     "dt": 0.1,         # MPC + integration step
-    "x0": np.array([0.03, 0.0, 0.0, 0.0]),  # [rad, rad/s, m, m/s]
+    "x0": np.array([0.03, 0.0, 0.0, 0.0]),  # [rad, rad/s, m, m/s] -> [theta, theta_dot, x, x_dot]
     "x_ref": np.array([0.0, 0.0, 0.10, 0.0]),    # track 0.1 m cart step
     "u_sat": 100.0
 }
+
+# =========================
+# Disturbance (wind) — ENABLE / DISABLE
+#   - Disable wind: wind = None
+#   - Enable  wind: wind = Wind(T, seed=23341, Ts=0.02, power=2e-3, smooth=7)
+# =========================
+class Wind:
+    def __init__(self, t_end: float, seed=23341, Ts=0.01, power=1e-3, smooth=5):
+        rng = np.random.default_rng(seed)
+        self.tgrid = np.arange(0.0, t_end + Ts, Ts)
+        sigma = np.sqrt(power / Ts)
+        w = rng.normal(0.0, sigma, size=self.tgrid.shape)
+        if smooth and smooth > 1:
+            kernel = np.ones(smooth) / smooth
+            self.Fw = np.convolve(w, kernel, mode='same')
+        else:
+            self.Fw = w
+
+    def __call__(self, t: float) -> float:
+        return float(np.interp(t, self.tgrid, self.Fw))
 
 
 # =========================
@@ -40,7 +61,6 @@ def f_nonlinear(x: np.ndarray, u: float, pars: dict, Fw: float = 0.0) -> np.ndar
     xdd  = (u + m * l * s * (thd ** 2) - m * g * c * s + Fw * (s * s)) / denom_x
     return np.array([thd, thdd, posd, xdd], dtype=float)
 
-
 def rk4_step(f, x, u, pars, dt):
     k1 = f(x, u, pars)
     k2 = f(x + 0.5 * dt * k1, u, pars)
@@ -48,9 +68,26 @@ def rk4_step(f, x, u, pars, dt):
     k4 = f(x + dt * k3, u, pars)
     return x + (dt / 6.0) * (k1 + 2*k2 + 2*k3 + k4)
 
+def rk4_step_wind(f, x, u, pars, dt, t,
+                  Fw_fn: Optional[Callable[[float], float]] = None):
+    """RK4 with time-varying disturbance Fw(t) for PLANT ONLY."""
+    F1 = Fw_fn(t) if Fw_fn else 0.0
+    k1 = f(x, u, pars, F1)
+
+    F2 = Fw_fn(t + 0.5 * dt) if Fw_fn else 0.0
+    k2 = f(x + 0.5 * dt * k1, u, pars, F2)
+
+    F3 = Fw_fn(t + 0.5 * dt) if Fw_fn else 0.0
+    k3 = f(x + 0.5 * dt * k2, u, pars, F3)
+
+    F4 = Fw_fn(t + dt) if Fw_fn else 0.0
+    k4 = f(x + dt * k3, u, pars, F4)
+
+    return x + (dt / 6.0) * (k1 + 2*k2 + 2*k3 + k4)
+
 
 # =========================
-# Nonlinear MPC
+# Nonlinear MPC (no preview; predicts with Fw = 0)
 # =========================
 class MPCController:
     def __init__(self,
@@ -72,6 +109,7 @@ class MPCController:
         self.R = R
 
     def _rollout(self, x0, u_seq):
+        """Predict with zero disturbance."""
         x = np.array(x0, dtype=float)
         traj = []
         for ui in u_seq:
@@ -179,17 +217,26 @@ def print_summary(metrics):
 # =========================
 # Simulation loop
 # =========================
-def simulate_mpc(pars, controller, x0, x_ref, T, dt, u0=0.0):
+def simulate_mpc(pars, controller: MPCController, x0, x_ref, T, dt,
+                 u0=0.0,
+                 wind: Optional[Callable[[float], float]] = None):
+    """Simulate with optional real wind hitting the plant (MPC always predicts with Fw=0)."""
     steps = int(np.round(T / dt))
     x = np.asarray(x0, float).copy(); u_prev = float(u0)
     traj = [x.copy()]; forces = []
+    t = 0.0
     for _ in range(steps):
         u_seq = controller.compute_control(x, x_ref, u_prev)
         u_apply = float(u_seq[0])
         forces.append(u_apply)
-        x = rk4_step(f_nonlinear, x, u_apply, pars, dt)
+
+        # Plant evolves with actual wind (can be None => zero)
+        x = rk4_step_wind(f_nonlinear, x, u_apply, pars, dt, t, wind)
         traj.append(x.copy())
+
         u_prev = u_apply
+        t += dt
+
     return np.vstack(traj), np.asarray(forces)
 
 
@@ -200,6 +247,14 @@ if __name__ == "__main__":
     dt, T = SIM["dt"], SIM["T"]
     x0, x_ref, u_sat = SIM["x0"], SIM["x_ref"], SIM["u_sat"]
     plant = PLANT
+
+    # ---- Wind toggle -------------------------------------------------------
+    # Disable wind:
+    # wind = None
+    # Enable wind:
+    wind = Wind(T, seed=23341, Ts=0.02, power=2e-3, smooth=7)
+    #wind = None
+    # -----------------------------------------------------------------------
 
     ctrl = MPCController(
         pars=plant,
@@ -212,14 +267,16 @@ if __name__ == "__main__":
         R=1e-3
     )
 
-    X, U = simulate_mpc(plant, ctrl, x0, x_ref, T, dt)
+    X, U = simulate_mpc(plant, ctrl, x0, x_ref, T, dt, wind=wind)
     t = np.arange(0, T + dt, dt)
     if len(X) != len(t): t = np.linspace(0, T, len(X))
 
     # ---- plotting same as env ----
-    controller = "mpc_no"; disturbance = False; step_type = "position_step"
+    controller_name = "mpc_no"
+    disturbance = wind is not None
+    step_type = "position_step"
     fig = plt.figure(figsize=(9, 7))
-    fig.suptitle(f"{controller}  |  wind={'on' if disturbance else 'off'}  |  step={step_type}",
+    fig.suptitle(f"{controller_name}  |  wind={'on' if disturbance else 'off'}  |  step={step_type}",
                  fontsize=12, y=0.98)
     ax1 = fig.add_subplot(3, 1, 1); ax1.plot(t, X[:, 0]); ax1.grid(True); ax1.set_ylabel('theta [rad]')
     ax2 = fig.add_subplot(3, 1, 2); ax2.plot(t, X[:, 2]); ax2.grid(True); ax2.set_ylabel('x [m]')
