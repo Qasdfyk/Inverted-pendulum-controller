@@ -1,32 +1,34 @@
-# controllers/ts_fuzzy_autopick.py
+# controllers/ts_fuzzy_art3ish.py
 # --------------------------------------------------------
-# TS-fuzzy (Takagi–Sugeno, art3 style) + AUTOPICK znaków/kierunków.
-# - 4 reguły nad (theta, theta_dot); u_i = -sign * (F_i @ [th, thd, x, xd])
-# - zewnętrzny PD na pozycję wózka
-# - krótka autokalibracja (3 s) testuje 16 wariantów znaków i skalowania:
-#       sign ∈ {+1, -1}, flip_u ∈ {0,1}, dex_sign ∈ {+1, -1}, gain_scale ∈ {0.6, 1.0, 1.4, 1.8}
-#   i wybiera ten, który najszybciej zmniejsza |theta| bez wysadzenia trajektorii.
-# - miękki rozruch (lambda ramp), ograniczenie du/dt, saturacja.
+# TS-fuzzy (16 reguł, 4 premise) + LQR (art3-ish) + AUTOPICK
+# + animacja + metryki
 # --------------------------------------------------------
 
 from __future__ import annotations
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+import os
 from dataclasses import dataclass
 from typing import Optional, Callable, Sequence, Tuple
 
-# ===== Plant & sim =====
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.animation import FuncAnimation
+
+# =========================
+# Parametry fizyczne i sym
+# =========================
 PLANT = {"M": 2.4, "m": 0.23, "l": 0.36, "g": 9.81}
 SIM = {
     "T": 10.0,
-    "dt": 0.05,                          # na strojenie stabilniejsze
-    "x0": np.array([0.03, 0.0, 0.0, 0.0]),   # [theta, theta_dot, x, x_dot]
-    "x_ref": np.array([0.0, 0.0, 0.10, 0.0]),
-    "u_sat": 100.0
+    "dt": 0.05,
+    "x0": np.array([0.03, 0.0, 0.0, 0.0]),        # [theta, theta_dot, x, x_dot]
+    "x_ref": np.array([0.0, 0.0, 0.10, 0.0]),      # chcemy przestawić wózek na 0.10 m
+    "u_sat": 100.0,
 }
+EPS = 1e-12
 
-# ===== Wind (opcjonalnie na koniec) =====
+# =========================
+# Zakłócenie (wiatr)
+# =========================
 class Wind:
     def __init__(self, t_end: float, seed=23341, Ts=0.02, power=2e-3, smooth=7):
         rng = np.random.default_rng(seed)
@@ -35,24 +37,36 @@ class Wind:
         w = rng.normal(0.0, sigma, size=self.tgrid.shape)
         if smooth and smooth > 1:
             ker = np.ones(smooth) / smooth
-            self.Fw = np.convolve(w, ker, mode='same')
+            self.Fw = np.convolve(w, ker, mode="same")
         else:
             self.Fw = w
+
     def __call__(self, t: float) -> float:
         return float(np.interp(t, self.tgrid, self.Fw))
 
-# ===== Dynamics + RK4 (wiatr tylko w roślinie) =====
+# =========================
+# Dynamika + RK4
+# =========================
 def f_nonlinear(x: np.ndarray, u: float, pars: dict, Fw: float = 0.0) -> np.ndarray:
     th, thd, pos, posd = x
     M, m, l, g = pars["M"], pars["m"], pars["l"], pars["g"]
     s, c = np.sin(th), np.cos(th)
+
     denom_x  = (M + m) - m * c * c
     denom_th = (m * l * c * c) - (M + m) * l
+
     thdd = (u * c - (M + m) * g * s + m * l * (c * s) * (thd ** 2) - (M / m) * Fw * c) / denom_th
     xdd  = (u + m * l * s * (thd ** 2) - m * g * c * s + Fw * (s * s)) / denom_x
     return np.array([thd, thdd, posd, xdd], dtype=float)
 
-def rk4_step_wind(x, u, pars, dt, t, wind: Optional[Callable[[float], float]] = None):
+def rk4_step_wind(
+    x: np.ndarray,
+    u: float,
+    pars: dict,
+    dt: float,
+    t: float,
+    wind: Optional[Callable[[float], float]] = None,
+) -> np.ndarray:
     F1 = wind(t) if wind else 0.0
     k1 = f_nonlinear(x, u, pars, F1)
     F2 = wind(t + 0.5 * dt) if wind else 0.0
@@ -63,177 +77,345 @@ def rk4_step_wind(x, u, pars, dt, t, wind: Optional[Callable[[float], float]] = 
     k4 = f_nonlinear(x + dt * k3, u, pars, F4)
     return x + (dt / 6.0) * (k1 + 2*k2 + 2*k3 + k4)
 
-# ===== TS fuzzy =====
-EPS = 1e-12
+# =========================
+# LQR jak w art3 (część klasyczna)
+# =========================
+def linearize_cartpole(pars: dict) -> tuple[np.ndarray, np.ndarray]:
+    M, m, l, g = pars["M"], pars["m"], pars["l"], pars["g"]
+    A = np.zeros((4, 4))
+    A[0, 1] = 1.0
+    A[1, 0] = (M + m) * g / (M * l)   # dtheta_dot/dtheta
+    A[2, 3] = 1.0
+    A[3, 0] = -m * g / M
+    B = np.zeros((4, 1))
+    B[1, 0] = -1.0 / (M * l)
+    B[3, 0] =  1.0 / M
+    return A, B
+
+def solve_care(A: np.ndarray, B: np.ndarray, Q: np.ndarray, R: np.ndarray) -> np.ndarray:
+    """Rozwiązanie ARE metodą hamiltonianu (czysty numpy)."""
+    n = A.shape[0]
+    Rinv = np.linalg.inv(R)
+    H = np.block([
+        [ A,                -B @ Rinv @ B.T],
+        [-Q,               -A.T          ],
+    ])
+    eigvals, eigvecs = np.linalg.eig(H)
+    idx = [i for i, v in enumerate(eigvals) if np.real(v) < 0.0]
+    V = eigvecs[:, idx]
+    V1 = V[:n, :]
+    V2 = V[n:, :]
+    X = np.real(V2 @ np.linalg.inv(V1))
+    return X
+
+def lqr_from_pars(pars: dict,
+                  Q: Optional[np.ndarray] = None,
+                  R: Optional[np.ndarray] = None) -> np.ndarray:
+    A, B = linearize_cartpole(pars)
+    if Q is None:
+        Q = np.diag([60.0, 6.0, 15.0, 2.0])   # mocno na kąt, trochę na x
+    if R is None:
+        R = np.array([[3.5]])                 # hamuje agresję
+    X = solve_care(A, B, Q, R)
+    K = np.linalg.inv(R) @ (B.T @ X)          # (1,4)
+    return K
+
+# =========================
+# TS-fuzzy 16 reguł (4 premise)
+# =========================
 def tri_mf(x: float, a: float, b: float, c: float) -> float:
-    if x <= a or x >= c: return 0.0
-    if x == b: return 1.0
-    if x < b: return (x - a) / (b - a + 1e-12)
+    if x <= a or x >= c:
+        return 0.0
+    if x == b:
+        return 1.0
+    if x < b:
+        return (x - a) / (b - a + 1e-12)
     return (c - x) / (c - b + 1e-12)
 
 @dataclass
-class TSParams:
-    theta_small: Sequence[float]      # [a,b,c]
-    thdot_small: Sequence[float]      # [a,b,c]
-    F_rules: np.ndarray               # (4,4): rows (S,S),(L,S),(S,L),(L,L); cols [kth,kthd,kx,kxd]
-    Kp_cart: float
-    Kd_cart: float
+class TSParams16:
+    th_small: Sequence[float]
+    thd_small: Sequence[float]
+    x_small: Sequence[float]
+    xd_small: Sequence[float]
+    F_rules: np.ndarray         # (16,2) -> [theta, theta_dot]
     u_sat: float
-    sign: int         # +1 lub -1
-    flip_u: bool      # True -> wyjście * (-1)
-    dex_sign: int     # +1 lub -1, mnoży x_dot w pętli PD
-    gain_scale: float # globalny mnożnik F_rules
+    sign: int
+    flip_u: bool
+    gain_scale: float
 
-class TSFuzzyController:
-    def __init__(self, pars: dict, params: TSParams, dt: float,
-                 du_max: float = 800.0, ramp_T: float = 2.0):
+def starter_ts_params16(u_sat: float) -> TSParams16:
+    # zbiory rozmyte (szerokie)
+    th_small  = (-0.20, 0.0, 0.20)
+    thd_small = (-1.5, 0.0, 1.5)
+    x_small   = (-0.4, 0.0, 0.4)
+    xd_small  = (-0.8, 0.0, 0.8)
+
+    # 16 reguł: im więcej "L" w premise, tym większe wzmocnienie
+    F_rules = np.zeros((16, 2), dtype=float)
+    base_th = 65.0
+    base_thd = 10.0
+    for idx in range(16):
+        bits = [(idx >> b) & 1 for b in (3, 2, 1, 0)]  # th, thd, x, xd
+        largeness = sum(bits)
+        F_rules[idx, 0] = base_th  + 35.0 * largeness
+        F_rules[idx, 1] = base_thd +  6.0 * largeness
+
+    return TSParams16(
+        th_small=th_small,
+        thd_small=thd_small,
+        x_small=x_small,
+        xd_small=xd_small,
+        F_rules=F_rules,
+        u_sat=u_sat,
+        sign=-1,          # WAŻNE: tak, żeby miało ten sam kierunek co LQR
+        flip_u=False,
+        gain_scale=0.25,  # fuzzy tylko dopomaga
+    )
+
+def ts_weights16(th: float, thd: float, x: float, xd: float, p: TSParams16) -> np.ndarray:
+    ms_th   = tri_mf(th,  *p.th_small);  ml_th  = 1.0 - ms_th
+    ms_thd  = tri_mf(thd, *p.thd_small); ml_thd = 1.0 - ms_thd
+    ms_x    = tri_mf(x,   *p.x_small);   ml_x   = 1.0 - ms_x
+    ms_xd   = tri_mf(xd,  *p.xd_small);  ml_xd  = 1.0 - ms_xd
+
+    w = np.zeros(16, dtype=float)
+    idx = 0
+    for a in (ms_th, ml_th):
+        for b in (ms_thd, ml_thd):
+            for c in (ms_x, ml_x):
+                for d in (ms_xd, ml_xd):
+                    w[idx] = a * b * c * d
+                    idx += 1
+    return w / (np.sum(w) + EPS)
+
+class TSFuzzyArt3Controller:
+    def __init__(self,
+                 pars: dict,
+                 ts_params: TSParams16,
+                 K_lqr: np.ndarray,
+                 dt: float,
+                 du_max: float = 800.0,
+                 ramp_T: float = 2.0):
         self.pars = pars
-        self.p = params
+        self.p = ts_params
+        self.K = K_lqr.reshape(1, 4)
         self.dt = dt
+        self.du_max = du_max
+        self.ramp_T = ramp_T
         self.u_prev = 0.0
-        self.du_max = float(du_max)            # rate limit [N/s]
-        self.ramp_T = float(ramp_T)            # miękki rozruch (sekundy)
-
-    def _weights(self, th: float, thd: float) -> np.ndarray:
-        ms_t  = tri_mf(th,  *self.p.theta_small)
-        ms_td = tri_mf(thd, *self.p.thdot_small)
-        ml_t, ml_td = 1.0 - ms_t, 1.0 - ms_td
-        w1 = ms_t * ms_td
-        w2 = ml_t * ms_td
-        w3 = ms_t * ml_td
-        w4 = ml_t * ml_td
-        W = w1 + w2 + w3 + w4 + EPS
-        return np.array([w1, w2, w3, w4], dtype=float) / W
 
     def _u_ts(self, th: float, thd: float, x: float, xd: float) -> float:
-        mu = self._weights(th, thd)
-        z = np.array([th, thd, x, xd], float)
-        F = self.p.F_rules * self.p.gain_scale
-        u_rules = - self.p.sign * (F @ z)
-        return float(mu @ u_rules)
-
-    def _u_cart_pd(self, x: float, xd: float, x_ref: float) -> float:
-        ex  = (x_ref - x)
-        dex = self.p.dex_sign * xd * (-1.0)  # jeśli dex_sign = -1 -> jak wcześniej; jeśli +1 -> odwrócenie
-        return self.p.Kp_cart * ex + self.p.Kd_cart * dex
+        mu = ts_weights16(th, thd, x, xd, self.p)
+        z = np.array([th, thd], dtype=float)
+        u_rules = - self.p.sign * (self.p.F_rules @ z)
+        u = float(mu @ u_rules) * self.p.gain_scale
+        if self.p.flip_u:
+            u = -u
+        return u
 
     def step(self, t: float, state: np.ndarray, ref_state: np.ndarray) -> float:
         th, thd, x, xd = state
-        u = self._u_cart_pd(x, xd, ref_state[2]) + self._u_ts(th, thd, x, xd)
-        if self.p.flip_u:
-            u = -u
+        # LQR na pełnym stanie, ale z referencją na x
+        target = np.array([0.0, 0.0, ref_state[2], 0.0], dtype=float)
+        err = state - target
+        u_lqr = float(- self.K @ err)
+
+        # fuzzy na [theta, theta_dot]
+        u_ts = self._u_ts(th, thd, x, xd)
+
+        u = u_lqr + u_ts
+
         # miękki rozruch
-        if self.ramp_T > 0.0:
-            alpha = min(1.0, t / self.ramp_T)
-            u *= (0.25 + 0.75 * alpha)
-        # rate limit
+        alpha = min(1.0, t / self.ramp_T)
+        u *= (0.25 + 0.75 * alpha)
+
+        # ograniczenie du/dt
         du = np.clip(u - self.u_prev, -self.du_max * self.dt, self.du_max * self.dt)
         u_limited = self.u_prev + du
+
+        # saturacja
         self.u_prev = float(np.clip(u_limited, -self.p.u_sat, self.p.u_sat))
         return self.u_prev
 
-# ===== Metrics / simulate (z wczesnym odcięciem) =====
+# =========================
+# Symulacja + metryki
+# =========================
 def mse(y, yref): return float(np.mean((np.asarray(y) - np.asarray(yref))**2))
+def mae(y, yref): return float(np.mean(np.abs(np.asarray(y) - np.asarray(yref))))
+
 def evaluate_run(X: np.ndarray, U: np.ndarray, x_ref: float) -> float:
     th = X[:, 0]; x = X[:, 2]
     th_ref = np.zeros_like(th); xr = np.ones_like(x) * x_ref
-    u_rms = float(np.sqrt(np.mean(U**2))) if len(U) else 1e6
-    return 3.0*float(np.mean((th - th_ref)**2)) + 1.0*float(np.mean((x - xr)**2)) + 0.02*u_rms
+    u_rms = float(np.sqrt(np.mean(U**2))) if len(U) else 0.0
+    # trochę jak w art3: duży nacisk na kąt
+    return 4.0*mse(th, th_ref) + 1.5*mse(x, xr) + 0.01*u_rms
 
-def simulate(pars, controller: TSFuzzyController, x0, x_ref, T, dt,
+def simulate(pars: dict,
+             controller: TSFuzzyArt3Controller,
+             x0: np.ndarray,
+             x_ref: np.ndarray,
+             T: float,
+             dt: float,
              wind: Optional[Callable[[float], float]] = None,
-             early_thresh: Tuple[float, float] = (2.8, 4.0),
-             early_T: float | None = None) -> tuple[np.ndarray, np.ndarray, bool]:
+             early_stop: Optional[Tuple[float, float]] = None) -> tuple[np.ndarray, np.ndarray, bool]:
     steps = int(np.round(T / dt))
-    early_steps = steps if early_T is None else min(steps, int(np.round(early_T / dt)))
     x = np.asarray(x0, float).copy()
-    traj = [x.copy()]; forces = []
-    t = 0.0; ok = True
-    th_th, x_th = early_thresh
-    controller.u_prev = 0.0
-    for k in range(steps):
+    traj = [x.copy()]
+    forces = []
+    t = 0.0
+    ok = True
+    for _ in range(steps):
         u = controller.step(t, x, x_ref)
         forces.append(u)
         x = rk4_step_wind(x, u, pars, dt, t, wind)
         traj.append(x.copy())
         t += dt
-        if abs(x[0]) > th_th or abs(x[2]) > x_th:
-            ok = False; break
-        if (k+1) >= early_steps and early_T is not None:
-            break
+        if early_stop is not None:
+            th_th, x_th = early_stop
+            if abs(x[0]) > th_th or abs(x[2]) > x_th:
+                ok = False
+                break
     return np.vstack(traj), np.asarray(forces), ok
 
-# ===== Starter param (łagodny, jak w paperowych przykładach) =====
-def starter_params(u_sat=SIM["u_sat"]) -> TSParams:
-    theta_small = [-0.12, 0.0, 0.12]
-    thdot_small = [-0.9,  0.0, 0.9]
-    F = np.array([
-        [ 65.0, 10.0,  0.0,  0.0],   # (S,S)
-        [120.0, 16.0,  0.0,  0.0],   # (L,S)
-        [ 85.0, 22.0,  0.0,  0.0],   # (S,L)
-        [180.0, 32.0,  0.0,  0.0],   # (L,L)
-    ], float)
-    return TSParams(theta_small, thdot_small, F, Kp_cart=2.2, Kd_cart=6.5,
-                    u_sat=u_sat, sign=+1, flip_u=False, dex_sign=-1, gain_scale=1.0)
+# =========================
+# Autopick (znak + skala)
+# =========================
+def autopick_variant(pars: dict, base: TSParams16, dt: float) -> TSParams16:
+    best_p = None
+    best_s = np.inf
+    for sgn in (+1, -1):
+        for sc in (0.15, 0.25, 0.35, 0.45):
+            cand = TSParams16(
+                th_small=base.th_small,
+                thd_small=base.thd_small,
+                x_small=base.x_small,
+                xd_small=base.xd_small,
+                F_rules=base.F_rules.copy(),
+                u_sat=base.u_sat,
+                sign=sgn,
+                flip_u=False,
+                gain_scale=sc,
+            )
+            K_lqr = lqr_from_pars(pars)
+            ctrl = TSFuzzyArt3Controller(pars, cand, K_lqr, dt, du_max=1000.0, ramp_T=1.5)
+            Xs, Us, ok = simulate(
+                pars,
+                ctrl,
+                SIM["x0"],
+                SIM["x_ref"],
+                T=3.0,
+                dt=dt,
+                wind=None,
+                early_stop=(2.8, 4.0),
+            )
+            if not ok:
+                continue
+            score = evaluate_run(Xs, Us, SIM["x_ref"][2])
+            if score < best_s:
+                best_s = score
+                best_p = cand
+    return best_p if best_p is not None else base
 
-# ===== Autopick wariantu znaków/skal =====
-def autopick_variant() -> TSParams:
-    base = starter_params()
-    best_p = None; best_s = np.inf
-    variants = []
-    for sign in (+1, -1):
-        for flip_u in (False, True):
-            for dex_sign in (+1, -1):
-                for scale in (0.6, 1.0, 1.4, 1.8):
-                    p = starter_params()
-                    p.sign = sign
-                    p.flip_u = flip_u
-                    p.dex_sign = dex_sign
-                    p.gain_scale = scale
-                    variants.append(p)
-
-    for p in variants:
-        ctrl = TSFuzzyController(PLANT, p, SIM["dt"], du_max=1000.0, ramp_T=1.5)
-        Xs, Us, ok = simulate(PLANT, ctrl, SIM["x0"], SIM["x_ref"], SIM["T"], SIM["dt"],
-                              wind=None, early_thresh=(2.8, 4.0), early_T=3.0)
-        if not ok: 
-            continue
-        s = evaluate_run(Xs, Us, SIM["x_ref"][2])
-        if s < best_s:
-            best_s, best_p = s, p
-    return best_p
-
-# ===== Plot/anim =====
-def plot_result(X, U, title):
-    t = np.arange(0, SIM["T"] + SIM["dt"], SIM["dt"])
-    if len(X) != len(t): t = np.linspace(0.0, SIM["T"], len(X))
+# =========================
+# Wykresy + animacja
+# =========================
+def plot_result(t: np.ndarray, X: np.ndarray, U: np.ndarray, title: str):
     fig = plt.figure(figsize=(9,7))
     fig.suptitle(title, fontsize=12, y=0.98)
     ax1 = fig.add_subplot(3,1,1); ax1.plot(t, X[:,0]); ax1.grid(True); ax1.set_ylabel('theta [rad]')
     ax2 = fig.add_subplot(3,1,2); ax2.plot(t, X[:,2]); ax2.grid(True); ax2.set_ylabel('x [m]')
-    tf = t[:-1] if len(U) == (len(t)-1) else np.linspace(0.0, SIM["T"], len(U))
+    tf = t[:-1] if len(U) == (len(t)-1) else np.linspace(0.0, t[-1], len(U))
     ax3 = fig.add_subplot(3,1,3); ax3.plot(tf, U); ax3.grid(True); ax3.set_ylabel('u [N]'); ax3.set_xlabel('t [s]')
     plt.tight_layout(rect=[0,0,1,0.95]); plt.show()
 
-# ===== Main =====
+def animate_cartpole(t: np.ndarray, X: np.ndarray, params: Optional[dict] = None, speed: float = 1.0):
+    th = X[:, 0]; x = X[:, 2]
+    p = params or {}; l = p.get("l", 0.36)
+    cart_w, cart_h = 0.35, 0.18; wheel_r = 0.05
+    pole_len = l * 1.5; pad = 0.8
+
+    fig, ax = plt.subplots(figsize=(9, 3.6))
+    ax.grid(True, alpha=0.3); ax.set_title("Cart–Pole  (TS-fuzzy + LQR)")
+    xmin, xmax = float(np.min(x) - pad), float(np.max(x) + pad)
+    ax.set_xlim(xmin, xmax); ax.set_ylim(-(wheel_r + 0.25), pole_len + 0.45)
+    ax.plot([xmin, xmax], [0, 0], color='k', lw=1, alpha=0.6)
+
+    cart = plt.Rectangle((x[0]-cart_w/2, wheel_r), cart_w, cart_h, ec='k', fc='#e6f3ff', lw=1.5)
+    wheel1 = plt.Circle((x[0]-cart_w/3, wheel_r), wheel_r, ec='k', fc='#333333')
+    wheel2 = plt.Circle((x[0]+cart_w/3, wheel_r), wheel_r, ec='k', fc='#333333')
+    ax.add_patch(cart); ax.add_patch(wheel1); ax.add_patch(wheel2)
+    pole_line, = ax.plot([], [], lw=3, solid_capstyle='round', alpha=0.9)
+    trail_line, = ax.plot([], [], lw=1, alpha=0.4)
+
+    def pole_end(i):
+        cx = x[i]; cy = wheel_r + cart_h
+        px = cx + pole_len * np.sin(th[i]); py = cy + pole_len * np.cos(th[i])
+        return cx, cy, px, py
+
+    def update(i):
+        cx, cy, px, py = pole_end(i)
+        cart.set_x(cx - cart_w/2)
+        wheel1.center = (cx - cart_w/3, wheel_r)
+        wheel2.center = (cx + cart_w/3, wheel_r)
+        pole_line.set_data([cx, px], [cy, py])
+        j0 = max(0, i - 150)
+        trail_line.set_data(x[j0:i+1], (wheel_r + 0.01) * np.ones(i + 1 - j0))
+        ax.set_xlim(cx - pad, cx + pad)
+        return cart, wheel1, wheel2, pole_line, trail_line
+
+    interval_ms = max(10, int(1000 * (t[1] - t[0]) / max(speed, 1e-6)))
+    ani = FuncAnimation(fig, update, frames=len(t), interval=interval_ms, blit=False)
+    setattr(fig, "_cartpole_ani", ani)
+    plt.show()
+
+def print_metrics(X: np.ndarray, U: np.ndarray, x_ref: float):
+    t_len = len(X)
+    th_ref_tr = np.zeros(t_len)
+    x_ref_tr  = np.ones(t_len) * x_ref
+    metrics = {
+        "mse_theta": mse(X[:,0], th_ref_tr),
+        "mae_theta": mae(X[:,0], th_ref_tr),
+        "mse_x":     mse(X[:,2], x_ref_tr),
+        "mae_x":     mae(X[:,2], x_ref_tr),
+        "u_rms":     float(np.sqrt(np.mean(U**2))) if len(U) else 0.0
+    }
+    print(f"MSE(theta)={metrics['mse_theta']:.6f}  MAE(theta)={metrics['mae_theta']:.6f}  "
+          f"MSE(x)={metrics['mse_x']:.6f}  MAE(x)={metrics['mae_x']:.6f}  u_rms={metrics['u_rms']:.4f}")
+
+# =========================
+# Main
+# =========================
 if __name__ == "__main__":
-    pick = autopick_variant()
-    if pick is None:
-        print("Autopick nie znalazł stabilnego wariantu w 3 s. Spróbuj ręcznie: ustaw flip_u=True albo sign=-1.")
-        # awaryjnie odpal najbezpieczniejszy wariant:
-        pick = starter_params(); pick.sign = -1; pick.flip_u = True; pick.dex_sign = -1; pick.gain_scale = 1.0
+    plant = PLANT
+    dt, T = SIM["dt"], SIM["T"]
+    x0, x_ref = SIM["x0"], SIM["x_ref"]
 
-    print("Użyty wariant:",
-          f"sign={pick.sign}, flip_u={pick.flip_u}, dex_sign={pick.dex_sign}, scale={pick.gain_scale}")
-    ctrl = TSFuzzyController(PLANT, pick, SIM["dt"], du_max=1000.0, ramp_T=2.0)
+    # jak w Twoim MPC – można włączyć/wyłączyć wiatr
+    wind = None
+    #wind = Wind(T, seed=23341, Ts=0.02, power=2e-3, smooth=7)
 
-    # końcowy bieg (bez wiatru; jak chcesz, włącz niżej wind)
-    X, U, ok = simulate(PLANT, ctrl, SIM["x0"], SIM["x_ref"], SIM["T"], SIM["dt"],
-                        wind=None, early_thresh=(3.14, 4.5), early_T=None)
-    print("Stable:", ok)
-    plot_result(X, U, "ts_fuzzy_autopick  |  wind=off  |  step=position_step")
+    base_ts  = starter_ts_params16(u_sat=SIM["u_sat"])
+    picked_ts = autopick_variant(plant, base_ts, dt)
+    K_lqr    = lqr_from_pars(plant)
 
-    # test z wiatrem (opcjonalnie)
-    # wind = Wind(SIM["T"], seed=23341, Ts=0.02, power=2e-3, smooth=7)
-    # Xw, Uw, okw = simulate(PLANT, ctrl, SIM["x0"], SIM["x_ref"], SIM["T"], SIM["dt"], wind=wind)
-    # plot_result(Xw, Uw, "ts_fuzzy_autopick  |  wind=on  |  step=position_step")
+    print("Użyty wariant TS:",
+          f"sign={picked_ts.sign}, gain_scale={picked_ts.gain_scale:.2f}, flip_u={picked_ts.flip_u}")
+    print("LQR K:", K_lqr)
+
+    ctrl = TSFuzzyArt3Controller(plant, picked_ts, K_lqr, dt, du_max=1000.0, ramp_T=2.0)
+
+    X, U, ok = simulate(plant, ctrl, x0, x_ref, T, dt,
+                        wind=wind, early_stop=None)
+
+    t = np.arange(0.0, T + dt, dt)
+    if len(X) != len(t):
+        t = np.linspace(0.0, T, len(X))
+
+    title = f"ts_fuzzy_art3ish  |  wind={'on' if wind else 'off'}  |  step=position_step  |  ok={ok}"
+    plot_result(t, X, U, title)
+    print_metrics(X, U, x_ref[2])
+
+    # animacja opcjonalna
+    if os.environ.get("ANIMATE", "0") == "1":
+        animate_cartpole(t, X, params=plant)
