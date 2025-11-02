@@ -1,22 +1,22 @@
 \babel@toc {polish}{}\relax 
 \contentsline {section}{\numberline {1\relax .\enspace }Wstęp}{7}{section.1}%
-\contentsline {subsection}{\numberline {1.1\relax .\enspace }Cel pracy}{7}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2\relax .\enspace }Omówienie literatury}{7}{subsection.1.2}%
-\contentsline {section}{\numberline {2\relax .\enspace }Model matematyczny układu}{8}{section.2}%
-\contentsline {subsection}{\numberline {2.1\relax .\enspace }Opis fizyczny układu}{8}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2\relax .\enspace }Model liniowy w przestrzeni stanów}{8}{subsection.2.2}%
-\contentsline {section}{\numberline {3\relax .\enspace }Środowisko}{9}{section.3}%
-\contentsline {section}{\numberline {4\relax .\enspace }Metody sterowania}{10}{section.4}%
-\contentsline {subsection}{\numberline {4.1\relax .\enspace }Regulator PID (dla kąta wahadła)}{10}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2\relax .\enspace }Regulator PD (dla pozycji wózka)}{10}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3\relax .\enspace }Regulator LQR (Linear–Quadratic Regulator)}{10}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4\relax .\enspace }Regulator złożony (Composite Controller)}{11}{subsection.4.4}%
-\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{12}{section.5}%
-\contentsline {subsection}{\numberline {5.1\relax .\enspace }Opis przeprowadzonych eksperymentów}{12}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2\relax .\enspace }Dobór parametrów regulatorów}{13}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3\relax .\enspace }Porównanie jakości regulacji – wskaźniki błędów}{15}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4\relax .\enspace }Podsumowanie eksperymentów}{15}{subsection.5.4}%
-\contentsline {section}{Bibliografia}{17}{section*.8}%
-\contentsline {section}{Wykaz symboli i skrótów}{18}{section*.9}%
-\contentsline {section}{Spis rysunków}{18}{section*.9}%
-\contentsline {section}{Spis tabel}{18}{section*.9}%
+\contentsline {subsection}{\numberline {1.1\relax .\enspace }Cel pracy}{8}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2\relax .\enspace }Omówienie literatury}{9}{subsection.1.2}%
+\contentsline {section}{\numberline {2\relax .\enspace }Model matematyczny układu}{11}{section.2}%
+\contentsline {subsection}{\numberline {2.1\relax .\enspace }Opis fizyczny układu}{11}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2\relax .\enspace }Model liniowy w przestrzeni stanów}{11}{subsection.2.2}%
+\contentsline {section}{\numberline {3\relax .\enspace }Środowisko}{12}{section.3}%
+\contentsline {section}{\numberline {4\relax .\enspace }Metody sterowania}{13}{section.4}%
+\contentsline {subsection}{\numberline {4.1\relax .\enspace }Regulator PID (dla kąta wahadła)}{13}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2\relax .\enspace }Regulator PD (dla pozycji wózka)}{13}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3\relax .\enspace }Regulator LQR (Linear–Quadratic Regulator)}{13}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4\relax .\enspace }Regulator złożony (Composite Controller)}{14}{subsection.4.4}%
+\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{15}{section.5}%
+\contentsline {subsection}{\numberline {5.1\relax .\enspace }Opis przeprowadzonych eksperymentów}{15}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2\relax .\enspace }Dobór parametrów regulatorów}{16}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3\relax .\enspace }Porównanie jakości regulacji – wskaźniki błędów}{18}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4\relax .\enspace }Podsumowanie eksperymentów}{18}{subsection.5.4}%
+\contentsline {section}{Bibliografia}{19}{section*.8}%
+\contentsline {section}{Wykaz symboli i skrótów}{20}{section*.9}%
+\contentsline {section}{Spis rysunków}{20}{section*.9}%
+\contentsline {section}{Spis tabel}{20}{section*.9}%
