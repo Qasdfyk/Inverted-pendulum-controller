@@ -12,6 +12,7 @@ from typing import Optional, Callable, Sequence, Tuple
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+from scipy.linalg import solve_continuous_are   # <-- LQR "normalnie"
 
 # =========================
 # Parametry fizyczne i sym
@@ -78,50 +79,47 @@ def rk4_step_wind(
     return x + (dt / 6.0) * (k1 + 2*k2 + 2*k3 + k4)
 
 # =========================
-# LQR jak w art3 (część klasyczna)
+# LQR "normalnie" (jak pisałeś)
 # =========================
-def linearize_cartpole(pars: dict) -> tuple[np.ndarray, np.ndarray]:
-    M, m, l, g = pars["M"], pars["m"], pars["l"], pars["g"]
-    A = np.zeros((4, 4))
-    A[0, 1] = 1.0
-    A[1, 0] = (M + m) * g / (M * l)   # dtheta_dot/dtheta
-    A[2, 3] = 1.0
-    A[3, 0] = -m * g / M
-    B = np.zeros((4, 1))
-    B[1, 0] = -1.0 / (M * l)
-    B[3, 0] =  1.0 / M
+def linearize_upright(M: float, m: float, l: float, g: float) -> tuple[np.ndarray, np.ndarray]:
+    """
+    Linearizacja wokół theta = 0, stan: [th, thd, x, xd]
+    """
+    A = np.array([
+        [0.0,                 1.0, 0.0, 0.0],
+        [(M + m)*g/(M*l),     0.0, 0.0, 0.0],
+        [0.0,                 0.0, 0.0, 1.0],
+        [-m*g/M,              0.0, 0.0, 0.0]
+    ], dtype=float)
+
+    B = np.array([
+        [0.0],
+        [-1.0/(M*l)],
+        [0.0],
+        [1.0/M]
+    ], dtype=float)
+
     return A, B
 
-def solve_care(A: np.ndarray, B: np.ndarray, Q: np.ndarray, R: np.ndarray) -> np.ndarray:
-    """Rozwiązanie ARE metodą hamiltonianu (czysty numpy)."""
-    n = A.shape[0]
-    Rinv = np.linalg.inv(R)
-    H = np.block([
-        [ A,                -B @ Rinv @ B.T],
-        [-Q,               -A.T          ],
-    ])
-    eigvals, eigvecs = np.linalg.eig(H)
-    idx = [i for i, v in enumerate(eigvals) if np.real(v) < 0.0]
-    V = eigvecs[:, idx]
-    V1 = V[:n, :]
-    V2 = V[n:, :]
-    X = np.real(V2 @ np.linalg.inv(V1))
-    return X
-
-def lqr_from_pars(pars: dict,
-                  Q: Optional[np.ndarray] = None,
-                  R: Optional[np.ndarray] = None) -> np.ndarray:
-    A, B = linearize_cartpole(pars)
-    if Q is None:
-        Q = np.diag([60.0, 6.0, 15.0, 2.0])   # mocno na kąt, trochę na x
-    if R is None:
-        R = np.array([[3.5]])                 # hamuje agresję
-    X = solve_care(A, B, Q, R)
-    K = np.linalg.inv(R) @ (B.T @ X)          # (1,4)
+def lqr_from_plant(plant: dict) -> np.ndarray:
+    """
+    Dokładnie ten styl:
+        Q = diag([...])
+        R = [[...]]
+        A,B = linearize_upright(...)
+        P = solve_continuous_are(...)
+        K = R^-1 B^T P
+    """
+    A, B = linearize_upright(plant["M"], plant["m"], plant["l"], plant["g"])
+    # Twoje wartości:
+    Q = np.diag([1.0, 1.0, 500.0, 250.0])
+    R = np.array([[1.0]], dtype=float)
+    P = solve_continuous_are(A, B, Q, R)
+    K = np.linalg.solve(R, B.T @ P).ravel()    # shape (4,)
     return K
 
 # =========================
-# TS-fuzzy 16 reguł (4 premise)
+# TS-fuzzy 16 reguł (4 premise) – teraz z pełnym wektorem
 # =========================
 def tri_mf(x: float, a: float, b: float, c: float) -> float:
     if x <= a or x >= c:
@@ -138,7 +136,7 @@ class TSParams16:
     thd_small: Sequence[float]
     x_small: Sequence[float]
     xd_small: Sequence[float]
-    F_rules: np.ndarray         # (16,2) -> [theta, theta_dot]
+    F_rules: np.ndarray         # (16,4) -> [theta, theta_dot, x, x_dot]
     u_sat: float
     sign: int
     flip_u: bool
@@ -152,14 +150,19 @@ def starter_ts_params16(u_sat: float) -> TSParams16:
     xd_small  = (-0.8, 0.0, 0.8)
 
     # 16 reguł: im więcej "L" w premise, tym większe wzmocnienie
-    F_rules = np.zeros((16, 2), dtype=float)
-    base_th = 65.0
-    base_thd = 10.0
+    # TERAZ: sterujemy też x i x_dot, żeby fuzzy "coś robił"
+    F_rules = np.zeros((16, 4), dtype=float)
+    base_th   = 70.0
+    base_thd  = 12.0
+    base_x    = 10.0
+    base_xd   = 3.0
     for idx in range(16):
         bits = [(idx >> b) & 1 for b in (3, 2, 1, 0)]  # th, thd, x, xd
         largeness = sum(bits)
-        F_rules[idx, 0] = base_th  + 35.0 * largeness
-        F_rules[idx, 1] = base_thd +  6.0 * largeness
+        F_rules[idx, 0] = base_th   + 35.0 * largeness   # theta
+        F_rules[idx, 1] = base_thd  +  6.0 * largeness   # theta_dot
+        F_rules[idx, 2] = base_x    +  4.0 * largeness   # x
+        F_rules[idx, 3] = base_xd   +  1.5 * largeness   # x_dot
 
     return TSParams16(
         th_small=th_small,
@@ -168,9 +171,9 @@ def starter_ts_params16(u_sat: float) -> TSParams16:
         xd_small=xd_small,
         F_rules=F_rules,
         u_sat=u_sat,
-        sign=-1,          # WAŻNE: tak, żeby miało ten sam kierunek co LQR
+        sign=+1,          # w tym układzie lepiej = +1, bo LQR ma ten sam kierunek
         flip_u=False,
-        gain_scale=0.25,  # fuzzy tylko dopomaga
+        gain_scale=0.45,  # fuzzy realnie wchodzi
     )
 
 def ts_weights16(th: float, thd: float, x: float, xd: float, p: TSParams16) -> np.ndarray:
@@ -207,7 +210,7 @@ class TSFuzzyArt3Controller:
 
     def _u_ts(self, th: float, thd: float, x: float, xd: float) -> float:
         mu = ts_weights16(th, thd, x, xd, self.p)
-        z = np.array([th, thd], dtype=float)
+        z = np.array([th, thd, x, xd], dtype=float)
         u_rules = - self.p.sign * (self.p.F_rules @ z)
         u = float(mu @ u_rules) * self.p.gain_scale
         if self.p.flip_u:
@@ -221,7 +224,7 @@ class TSFuzzyArt3Controller:
         err = state - target
         u_lqr = float(- self.K @ err)
 
-        # fuzzy na [theta, theta_dot]
+        # fuzzy na [theta, theta_dot, x, x_dot]
         u_ts = self._u_ts(th, thd, x, xd)
 
         u = u_lqr + u_ts
@@ -248,7 +251,6 @@ def evaluate_run(X: np.ndarray, U: np.ndarray, x_ref: float) -> float:
     th = X[:, 0]; x = X[:, 2]
     th_ref = np.zeros_like(th); xr = np.ones_like(x) * x_ref
     u_rms = float(np.sqrt(np.mean(U**2))) if len(U) else 0.0
-    # trochę jak w art3: duży nacisk na kąt
     return 4.0*mse(th, th_ref) + 1.5*mse(x, xr) + 0.01*u_rms
 
 def simulate(pars: dict,
@@ -279,13 +281,13 @@ def simulate(pars: dict,
     return np.vstack(traj), np.asarray(forces), ok
 
 # =========================
-# Autopick (znak + skala)
+# Autopick (znak + skala) – teraz korzysta z nowego LQR
 # =========================
-def autopick_variant(pars: dict, base: TSParams16, dt: float) -> TSParams16:
+def autopick_variant(pars: dict, base: TSParams16, dt: float, K_lqr: np.ndarray) -> TSParams16:
     best_p = None
     best_s = np.inf
     for sgn in (+1, -1):
-        for sc in (0.15, 0.25, 0.35, 0.45):
+        for sc in (0.35, 0.45, 0.65):
             cand = TSParams16(
                 th_small=base.th_small,
                 thd_small=base.thd_small,
@@ -297,7 +299,6 @@ def autopick_variant(pars: dict, base: TSParams16, dt: float) -> TSParams16:
                 flip_u=False,
                 gain_scale=sc,
             )
-            K_lqr = lqr_from_pars(pars)
             ctrl = TSFuzzyArt3Controller(pars, cand, K_lqr, dt, du_max=1000.0, ramp_T=1.5)
             Xs, Us, ok = simulate(
                 pars,
@@ -391,17 +392,18 @@ if __name__ == "__main__":
     dt, T = SIM["dt"], SIM["T"]
     x0, x_ref = SIM["x0"], SIM["x_ref"]
 
-    # jak w Twoim MPC – można włączyć/wyłączyć wiatr
+    # wiatr: wyłączony na start
     wind = None
-    #wind = Wind(T, seed=23341, Ts=0.02, power=2e-3, smooth=7)
+    # wind = Wind(T, seed=23341, Ts=0.02, power=2e-3, smooth=7)
+
+    K_lqr = lqr_from_plant(plant)
+    print("LQR K (from CARE):", K_lqr)
 
     base_ts  = starter_ts_params16(u_sat=SIM["u_sat"])
-    picked_ts = autopick_variant(plant, base_ts, dt)
-    K_lqr    = lqr_from_pars(plant)
+    picked_ts = autopick_variant(plant, base_ts, dt, K_lqr)
 
     print("Użyty wariant TS:",
           f"sign={picked_ts.sign}, gain_scale={picked_ts.gain_scale:.2f}, flip_u={picked_ts.flip_u}")
-    print("LQR K:", K_lqr)
 
     ctrl = TSFuzzyArt3Controller(plant, picked_ts, K_lqr, dt, du_max=1000.0, ramp_T=2.0)
 
@@ -416,6 +418,5 @@ if __name__ == "__main__":
     plot_result(t, X, U, title)
     print_metrics(X, U, x_ref[2])
 
-    # animacja opcjonalna
     if os.environ.get("ANIMATE", "0") == "1":
         animate_cartpole(t, X, params=plant)
