@@ -1,0 +1,57 @@
+\section{Model matematyczny układu}
+\subsection{Opis fizyczny układu}
+Rozważany układ składa się z wózka o masie \(M\), poruszającego się poziomo, oraz przegubowo zamocowanego wahadła o masie \(m\) i długości \(l\), wychylającego się od pionu o kąt \(\varphi(t)\). Na wózek działa sterowanie w postaci siły \(u(t)\). Wahadło jest niestateczne w pozycji pionowej i wymaga stabilizacji aktywnej.
+
+Parametry fizyczne:
+\begin{itemize}
+    \item \(M\) – masa wózka [kg],
+    \item \(m\) – masa wahadła [kg],
+    \item \(l\) – długość wahadła [m],
+    \item \(I\) – moment bezwładności wahadła względem osi [kg·m²],
+    \item \(b\) – współczynnik tłumienia wózka [N·s/m],
+    \item \(g\) – przyspieszenie ziemskie [m/s²].
+\end{itemize}
+
+\subsection{Model liniowy w przestrzeni stanów}
+Model został uzyskany przez uproszczenie dynamiczne i liniaryzację wokół punktu równowagi (\(\varphi = 0\)). Stan układu opisuje wektor:
+\[
+    \mathbf{x} = \begin{bmatrix}x \\ \dot{x} \\ \varphi \\ \dot{\varphi}\end{bmatrix},
+\]
+gdzie \(x\) – pozycja wózka, \(\varphi\) – kąt odchylenia wahadła. Model przyjmuje postać:
+\[
+    \dot{\mathbf{x}}(t) = A\,\mathbf{x}(t) + B\,u(t), 
+    \quad
+    \mathbf{y}(t) = C\,\mathbf{x}(t),
+\]
+przy czym:
+\[
+    p = I\,(M + m) + M m l^2,
+\]
+\[
+    A =
+    \begin{bmatrix}
+        0 & 1 & 0 & 0 \\
+        0 & -\frac{(I + m l^2)\,b}{p} & \frac{m^2 g l^2}{p} & 0 \\
+        0 & 0 & 0 & 1 \\
+        0 & -\frac{m l\,b}{p} & \frac{m g l\,(M + m)}{p} & 0
+    \end{bmatrix}, 
+    \quad
+    B =
+    \begin{bmatrix}
+        0 \\[6pt]
+        \frac{I + m l^2}{p} \\[6pt]
+        0 \\[6pt]
+        \frac{m l}{p}
+    \end{bmatrix},
+\]
+\[
+    C = 
+    \begin{bmatrix}
+        1 & 0 & 0 & 0 \\ 
+        0 & 0 & 1 & 0
+    \end{bmatrix}, 
+    \quad
+    D = \begin{bmatrix}0 \\ 0\end{bmatrix}.
+\]
+
+Model został zaimplementowany w MATLAB-ie jako funkcja \texttt{state\_space\_model.m}, która zwraca obiekt przestrzeni stanów \texttt{ss(A, B, C, D)}.

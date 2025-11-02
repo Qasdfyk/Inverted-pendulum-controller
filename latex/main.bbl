@@ -1,0 +1,66 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{art1}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=49a2228798f6e682eb2778d9ed9cc076}{%
+           family={Prasad},
+           familyi={P\bibinitperiod},
+           given={L.\bibnamedelimi B.},
+           giveni={L\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=82d97e99f679c59a37409123f9ad2774}{%
+           family={Tyagi},
+           familyi={T\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=b6704db85da33e74931ebdc19422e6bf}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={H.\bibnamedelimi O.},
+           giveni={H\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+      }
+      \strng{namehash}{dad4897a5975a13f0b18fab9a1a9de56}
+      \strng{fullhash}{d6abadc95a1b44ded543fd464079533f}
+      \strng{fullhashraw}{d6abadc95a1b44ded543fd464079533f}
+      \strng{bibnamehash}{d6abadc95a1b44ded543fd464079533f}
+      \strng{authorbibnamehash}{d6abadc95a1b44ded543fd464079533f}
+      \strng{authornamehash}{dad4897a5975a13f0b18fab9a1a9de56}
+      \strng{authorfullhash}{d6abadc95a1b44ded543fd464079533f}
+      \strng{authorfullhashraw}{d6abadc95a1b44ded543fd464079533f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Automation and Computing}
+      \field{number}{6}
+      \field{title}{Optimal Control of Nonlinear Inverted Pendulum System Using PID Controller and LQR: Performance Analysis Without and With Disturbance Input}
+      \field{volume}{11}
+      \field{year}{2014}
+      \field{pages}{661\bibrangedash 670}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1007/s11633-014-0818-1
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

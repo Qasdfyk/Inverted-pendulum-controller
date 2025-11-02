@@ -1,0 +1,29 @@
+\section{Środowisko}
+\begin{itemize}
+    \item \textbf{Oprogramowanie: } MATLAB R2024a \& Simulink.
+    \item \textbf{Biblioteki: } Control System Toolbox.
+    \item \textbf{Parametry fizyczne układu:}
+    \[
+        M = 0{,}5\text{ kg}, \quad
+        m = 0{,}2\text{ kg}, \quad
+        l = 0{,}3\text{ m}, \quad
+        I = 0{,}006\text{ kg·m}^2, \quad
+        b = 0{,}1\text{ N·s/m}, \quad
+        g = 9{,}81\text{ m/s}^2.
+    \]
+    \item \textbf{Warunki początkowe:} 
+    \[
+        \varphi(0) = 45^\circ,\quad \dot\varphi(0)=0,\quad x(0)=0,\quad \dot x(0)=0.
+    \]
+    \item \textbf{Czas symulacji: } \(t \in [0,\,5]\text{ s}\) z krokiem \(\Delta t = 0{,}01\,\text{s}\).
+    \item \textbf{Zaburzenie od wiatru:} Wersja z zakłóceniem realizuje się jako dodanie do równania ruchu siły \(F_w(t)\). Zby łatwiej było zaobserwować wpływ wiatru na działanie układu, jako zakłócenie przyjęto dwa podmuchy w 1 i 3 sekundzie symulacji
+    \item \textbf{Animacja wahadła: } 
+    W celu lepszego zobrazowania dynamiki układu, projekt zawiera funkcję \texttt{animate\_pendulum}, która rysuje ruch wózka i wahadła w czasie. 
+    Wózek wizualizowany jest jako prostokąt, drążek wahadła jako linia, a jego koniec jako czerwona kropka.
+    \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/animacja.png}
+    \caption{Animacja wahadła na wózku}
+    \label{fig:schemat_ukladu}
+\end{figure}
+\end{itemize}

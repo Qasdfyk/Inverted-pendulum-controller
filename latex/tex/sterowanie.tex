@@ -1,0 +1,59 @@
+\section{Metody sterowania}
+\subsection{Regulator PID (dla kąta wahadła)}
+Regulator PID ma transmitancję:
+\[
+    C_{\text{PID}}(s) = K_p + \frac{K_i}{s} + K_d\,s.
+\]
+Dobór parametrów \(K_p, K_i, K_d\) wykonano w MATLAB–ie za pomocą funkcji \texttt{pidtune}, działającej na modeli typu \(\mathrm{TF}\) dla toru prostego (kąt \(\varphi\) w zamknięciu sprzężenia zwrotnego). Regulator ma za zadanie stabilizować kąt wahadła do zera, przy zerowym odchyleniu wózka.  
+W postaci dyskretnej implementacja wygląda tak:
+\[
+    u[k] = K_p\,e[k] + K_i \sum_{j=0}^k e[j]\,\Delta t + K_d \frac{e[k]-e[k-1]}{\Delta t}, 
+    \quad e[k] = -\,\varphi[k].
+\]
+Regulator PID w kodzie znajduje się w pliku \texttt{controllers/pid\_controller.m}. Układ zamknięty jest tworzony jako obiekt \(\mathrm{ss}\bigl(\mathrm{feedback}(C_{\text{PID}} \cdot P_{\text{pend}},\,1)\bigr)\).
+
+\subsection{Regulator PD (dla pozycji wózka)}
+Aby uzyskać lepszą regulację położenia \(x\), można użyć regulatora PD:
+\[
+    C_{\text{PD}}(s) = K_p + K_d\,s.
+\]
+Dobór nastaw wykonany jest również z wykorzystaniem \texttt{pidtune}, lecz z opcją \texttt{'PD'}. Torem wejścia jest sygnał sterujący \(u\), a wyjściem – pozycja \(x\). Model względny utworzono z liniowego modelu stanu, wyciągając transmitancję od \(u \to x\).
+
+\subsection{Regulator LQR (Linear–Quadratic Regulator)}
+Regulator LQR minimalizuje funkcję kosztu:
+\[
+    J = \int_{0}^{\infty} \Bigl(\mathbf{x}^\mathsf{T} Q \,\mathbf{x} + u^\mathsf{T} R \,u\Bigr)\,dt,
+\]
+gdzie \(Q = Q^\mathsf{T} \succeq 0\) oraz \(R = R^\mathsf{T} \succ 0\). Rozwiązanie problemu LQR daje wzmocnienie \(K\) takie, że:
+\[
+    u(t) = -\,K\,\mathbf{x}(t).
+\]
+W MATLAB–ie nastawy otrzymuje się poprzez wywołanie funkcji \texttt{lqr(A,B,Q,R)}, a zamknięty układ jest definiowany jako  
+\(\mathrm{ss}\bigl(A - B K,\,B,\,C,\,D\bigr)\). Regulacja LQR stabilizuje całość wektora stanu, a w szczególności kąt \(\varphi\).
+
+\subsection{Regulator złożony (Composite Controller)}
+Koncepcja regulatora złożonego polega na połączeniu dwóch oddzielnych pętli:
+\begin{itemize}
+    \item Pętla LQR, pracująca na wektorze stanu \(\mathbf{x} = [x, \dot{x}, \varphi, \dot{\varphi}]^\mathsf{T}\), w celu stabilizacji kąta \(\varphi\).
+    \item Pętla PID/PD, pracująca wyłącznie na torze położenia \(x\), w celu stabilizacji położenia wózka wokół zera.
+\end{itemize}
+Sygnały sterujące sumują się:
+\[
+    u_{\text{composite}}(t) \;=\; u_{\text{LQR}}(t) + u_{\text{pos}}(t),
+\]
+gdzie
+\[
+    u_{\text{LQR}}(t) = -K_{\text{lqr}}\,\mathbf{x}(t), 
+    \quad
+    u_{\text{pos}}(t) = K_p^x\,e_x + K_i^x \int_{0}^{t} e_x(\tau)\,d\tau + K_d^x \frac{d e_x}{dt}, 
+    \quad e_x = -\,x(t).
+\]
+Implementacja znajduje się w pliku \texttt{controllers/composite\_controller.m}. W kodzie symulacyjnym obliczenia wykonuje się w pętli dyskretnej:
+\begin{enumerate}
+    \item Od aktualnego stanu \(\mathbf{x}[k]\) obliczamy \(u_{\text{LQR}}[k] = -K_{\text{lqr}}\,\mathbf{x}[k]\).
+    \item Na podstawie odchylenia \(e_x[k] = -\,x[k]\) obliczamy \(u_{\text{pos}}[k]\) zgodnie z równaniem PD lub PID.
+    \item Suma \(u[k] = u_{\text{LQR}}[k] + u_{\text{pos}}[k]\) jest podawana do układu stanu:
+    \[
+        \mathbf{x}[k+1] = \mathbf{x}[k] + \Delta t \Bigl(A \,\mathbf{x}[k] + B\,u[k]\Bigr).
+    \]
+\end{enumerate}

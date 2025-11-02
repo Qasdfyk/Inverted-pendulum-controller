@@ -1,0 +1,21 @@
+% !TEX encoding = utf8
+\section{Wstęp}
+Odwrócone wahadło na wózku jest klasycznym przykładem nieliniowego, niestabilnego układu, wykorzystywanym zarówno w dydaktyce, jak i w badaniach nad zaawansowanymi technikami sterowania. Jego atrakcyjność wynika z tego, że choć geometria i parametry są stosunkowo proste, to układ ten jest trudny do stabilizacji i wymaga precyzyjnej regulacji w czasie rzeczywistym.
+
+\subsection{Cel pracy}
+Celem niniejszego sprawozdania jest przedstawienie projektu symulacyjnego układu stabilizacji odwróconego wahadła na wózku, w którym porównano klasyczne regulatory:
+\begin{enumerate}
+    \item Regulator PD lub PID do regulacji położenia wózka \(x\) oraz regulator LQR do regulacji kąta wahadła \(\varphi\).
+    \item Regulator PID do regulacji całego systemu.
+    \item Regulator LQR do regulacji całego systemu.
+\end{enumerate}
+Dodatkowo zestawiono wskaźniki jakości regulacji: średni błąd kwadratowy (MSE) oraz średni błąd bezwzględny (MAE) dla trajektorii \(\varphi(t)\) i \(x(t)\), a także przeanalizowano wpływ zakłóceń na jakość regulacji.
+
+\subsection{Omówienie literatury}
+W literaturze problem sterowania odwróconego wahadła na wózku jest traktowany jako wzorcowy układ niestabilny i nieliniowy, służący do oceny efektywności różnych algorytmów sterowania. W~\cite{art1} autorzy prezentują:
+\begin{itemize}
+    \item Model nieliniowy systemu z uwzględnieniem zaburzenia od wiatru oraz jego liniaryzację wokół punktu równowagi.
+    \item Projekt dwóch pętli PID: jedna dla kąta \(\theta\), druga dla położenia \(x\), oraz algorytm LQR zaprojektowany na zlinearyzowanym modelu.
+    \item Analizę porównawczą działania regulatorów PID, PID+LQR (dwie konfiguracje: \emph{2PID+LQR} oraz \emph{1PID+LQR}), zarówno w przypadku bez zakłóceń, jak i z zakłóceniem od wiatru.
+\end{itemize}
+Wzorując się na ~\cite{art1} zimplementowano regulator PID+LQR.

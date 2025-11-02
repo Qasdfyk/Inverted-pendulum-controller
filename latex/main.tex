@@ -1,0 +1,151 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bachelor's & Master's Thesis Template             %%
+%% Copyleft by Artur M. Brodzki & Piotr Woźniak      %%
+%% Faculty of Electronics and Information Technology %%
+%% Warsaw University of Technology, 2019-2020        %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[
+    left=2.5cm,         % Sadly, generic margin parameter
+    right=2.5cm,        % doesnt't work, as it is
+    top=2.5cm,          % superseded by more specific
+    bottom=3cm,         % left...bottom parameters.
+    bindingoffset=6mm,  % Optional binding offset.
+    nohyphenation=false % You may turn off hyphenation, if don't like.
+]{eiti/eiti-thesis}
+
+\langpol % Dla języka angielskiego mamy \langeng
+\graphicspath{{img/}}             % Katalog z obrazkami.
+\addbibresource{bibliografia.bib} % Plik .bib z bibliografią
+
+\begin{document}
+
+%--------------------------------------
+% Strona tytułowa
+%--------------------------------------
+\EngineerThesis % Dla pracy inżynierskiej mamy \EngineerThesis
+\instytut{Instytut Automatyki i Informatyki Stosowanej}
+\kierunek{Automatyka i Robotyka}
+% \specjalnosc{XXXXXX}
+\title{
+    Efektywny układ stabilizacji odwróconego wahadła na wózku
+}
+\engtitle{ % Tytuł po angielsku do angielskiego streszczenia
+    Effective stabilisation system of the inverted pendulum on the cart
+}
+\author{Adam Sokołowski}
+\album{324892}
+\promotor{Robert Nebeluk}
+\date{\the\year}
+\maketitle
+
+%--------------------------------------
+% Streszczenie po polsku
+%--------------------------------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\streszczenie
+W pracy porównano wybrane metody sterowania odwróconym wahadłem na wózku. Przeprowadzono symulacje numeryczne z wykorzystaniem regulatorów PID, LQR oraz układu złożonego. Analizie poddano odpowiedzi układu w warunkach nominalnych i przy zakłóceniach. Wyniki przedstawiono w formie wykresów oraz wskaźników błędów, co umożliwiło ocenę skuteczności poszczególnych metod.
+
+\slowakluczowe odwrócone wahadło, regulator PID, regulator LQR, sterowanie optymalne, zakłócenia, symulacja, układ nieliniowy
+
+%--------------------------------------
+% Streszczenie po angielsku
+%--------------------------------------
+\newpage
+\abstract
+The paper compares selected control methods for an inverted pendulum on a cart. Numerical simulations were performed using PID, LQR controllers, and a complex system. The system responses were analyzed under nominal conditions and under disturbances. The results were presented in the form of graphs and error indices, which enabled the evaluation of the effectiveness of individual methods.
+
+\keywords inverted pendulum, PID controller, LQR controller, optimal control, disturbances, simulation, nonlinear system
+
+
+%--------------------------------------
+% Oświadczenie o autorstwie
+%--------------------------------------
+\cleardoublepage  % Zaczynamy od nieparzystej strony
+%\pagestyle{plain}
+%\makeauthorship
+
+%--------------------------------------
+% Spis treści
+%--------------------------------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\tableofcontents
+
+%--------------------------------------
+% Rozdziały
+%--------------------------------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\pagestyle{headings}
+
+%\input{tex/1-wstep}         % Wygodnie jest trzymać każdy rozdział w osobnym pliku.
+%\input{tex/2-de-finibus}    % Umożliwia to również łatwą migrację do nowej wersji szablonu:
+%\input{tex/3-code-listings} % wystarczy podmienić swoje pliki main.tex i eiti-thesis.cls
+                            % na nowe wersje, a cały tekst pracy pozostaje nienaruszony.
+
+\input{tex/wstep}
+\newpage 
+\input{tex/matma}
+\newpage
+\input{tex/srodowisko}
+\newpage
+\input{tex/sterowanie}
+\newpage
+\input{tex/wyniki_eksperymentów}
+
+%--------------------------------------------
+% Literatura
+%--------------------------------------------
+\cleardoublepage % Zaczynamy od nieparzystej strony
+\printbibliography
+
+%--------------------------------------------
+% Spisy (opcjonalne)
+%--------------------------------------------
+\newpage
+\pagestyle{plain}
+
+% Wykaz symboli i skrótów.
+% Pamiętaj, żeby posortować symbole alfabetycznie
+% we własnym zakresie. Ponieważ mało kto używa takiego wykazu,
+% uznałem, że robienie automatycznie sortowanej listy
+% na poziomie LaTeXa to za duży overkill.
+% Makro \acronymlist generuje właściwy tytuł sekcji,
+% w zależności od języka.
+% Makro \acronym dodaje skrót/symbol do listy,
+% zapewniając podstawowe formatowanie.
+% //AB
+\vspace{0.8cm}
+\acronymlist
+\acronym{$x$}{Położenie wózka [m]}
+\acronym{$\dot{x}$}{Prędkość wózka [m/s]}
+\acronym{$\varphi$}{Kąt odchylenia wahadła od pionu [rad]}
+\acronym{$\dot{\varphi}$}{Prędkość kątowa wahadła [rad/s]}
+\acronym{$u$}{Sygnał sterujący (siła działająca na wózek) [N]}
+\acronym{LQR}{Linear-Quadratic Regulator – regulator liniowo-kwadratowy}
+\acronym{PID}{Proporcjonalno-Całkująco-Różniczkujący regulator}
+\acronym{MSE}{Mean Squared Error – średni błąd kwadratowy}
+\acronym{MAE}{Mean Absolute Error – średni błąd bezwzględny}
+\acronym{$\Delta t$}{Krok czasowy symulacji [s]}
+\acronym{$N$}{Liczba próbek w sygnale dyskretnym}
+
+
+\listoffigurestoc     % Spis rysunków.
+\vspace{1cm}          % vertical space
+\listoftablestoc      % Spis tabel.
+\vspace{1cm}          % vertical space
+% \listofappendicestoc  % Spis załączników
+
+% Załączniki
+% \newpage
+% \appendix{Nazwa załącznika 1}
+% \lipsum[1-8]
+
+% \newpage
+% \appendix{Nazwa załącznika 2}
+% \lipsum[1-4]
+
+% Używając powyższych spisów jako szablonu,
+% możesz tu dodać swój własny wykaz bądź listę,
+% np. spis algorytmów.
+
+\end{document} % Dobranoc.
