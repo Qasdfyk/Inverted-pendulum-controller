@@ -1,57 +1,152 @@
 \section{Model matematyczny układu}
-\subsection{Opis fizyczny układu}
-Rozważany układ składa się z wózka o masie \(M\), poruszającego się poziomo, oraz przegubowo zamocowanego wahadła o masie \(m\) i długości \(l\), wychylającego się od pionu o kąt \(\varphi(t)\). Na wózek działa sterowanie w postaci siły \(u(t)\). Wahadło jest niestateczne w pozycji pionowej i wymaga stabilizacji aktywnej.
 
-Parametry fizyczne:
+\subsection{Opis fizyczny układu}
+
+Rozważany układ stanowi klasyczny przykład niestabilnego i nieliniowego obiektu dynamicznego – wahadło odwrócone na wózku. Składa się on z wózka o masie \(M\), poruszającego się po torze poziomym, oraz wahadła o masie \(m\) i długości \(l\), przegubowo zamocowanego do wózka. Punkt zawieszenia znajduje się na jego górnej części, a wahadło może swobodnie wychylać się w płaszczyźnie pionowej. 
+
+Układ jest zasilany siłą sterującą \(u(t)\), przyłożoną do wózka w kierunku poziomym. Zadaniem sterowania jest takie kształtowanie tej siły, aby utrzymać wahadło w pozycji odwróconej (\(\theta = 0\)), a jednocześnie stabilizować położenie wózka \(x(t)\) wokół zadanej pozycji. Pozycja odwrócona jest położeniem równowagi niestabilnej – najmniejsze zaburzenie powoduje wychylenie i upadek wahadła, jeśli nie zostanie ono aktywnie stabilizowane.
+
+Z uwagi na to, że układ ten jest nieliniowy i sprzężony, stanowi on powszechnie wykorzystywany model badawczy w dziedzinie teorii sterowania. Na jego podstawie testuje się zarówno klasyczne metody regulacji, jak i nowoczesne podejścia optymalne i predykcyjne.
+
+Parametry fizyczne układu przyjęto w postaci:
 \begin{itemize}
     \item \(M\) – masa wózka [kg],
     \item \(m\) – masa wahadła [kg],
-    \item \(l\) – długość wahadła [m],
-    \item \(I\) – moment bezwładności wahadła względem osi [kg·m²],
-    \item \(b\) – współczynnik tłumienia wózka [N·s/m],
+    \item \(l\) – długość pręta wahadła [m],
     \item \(g\) – przyspieszenie ziemskie [m/s²].
 \end{itemize}
 
-\subsection{Model liniowy w przestrzeni stanów}
-Model został uzyskany przez uproszczenie dynamiczne i liniaryzację wokół punktu równowagi (\(\varphi = 0\)). Stan układu opisuje wektor:
+Przyjęto, że tarcie kół wózka oraz opory w przegubie wahadła są pomijalnie małe, co pozwala uprościć równania ruchu. Układ współrzędnych przyjęto w taki sposób, że pozycja wózka oznaczona jest jako \(x(t)\), natomiast kąt wychylenia wahadła \(\theta(t)\) mierzony jest względem osi pionowej (rysunek 2.1). 
+
+W dalszych rozważaniach zakłada się, że \(\theta(t) = 0\) odpowiada położeniu pionowemu wahadła w górę, czyli stanowi punkt równowagi niestabilnej, który ma zostać ustabilizowany poprzez odpowiedni dobór sygnału sterującego \(u(t)\).
+
+\subsection{Równania nieliniowe ruchu}
+
+Aby otrzymać matematyczny opis dynamiki układu, należy zapisać równania ruchu wynikające z drugiej zasady dynamiki Newtona. Dla wózka sumę sił działających w kierunku poziomym można zapisać w postaci:
 \[
-    \mathbf{x} = \begin{bmatrix}x \\ \dot{x} \\ \varphi \\ \dot{\varphi}\end{bmatrix},
+(M + m)\ddot{x} - m l \sin\theta \dot{\theta}^2 + m l \cos\theta \ddot{\theta} = u,
 \]
-gdzie \(x\) – pozycja wózka, \(\varphi\) – kąt odchylenia wahadła. Model przyjmuje postać:
+gdzie pierwszy człon odpowiada za siłę bezwładności wózka i masy wahadła, drugi za siłę odśrodkową działającą w kierunku poziomym, a trzeci za składową siły wynikającą z przyspieszenia kątowego wahadła.
+
+Dla samego wahadła, po wykonaniu bilansu momentów względem punktu zawieszenia, otrzymuje się zależność:
 \[
-    \dot{\mathbf{x}}(t) = A\,\mathbf{x}(t) + B\,u(t), 
-    \quad
-    \mathbf{y}(t) = C\,\mathbf{x}(t),
+m\ddot{x}\cos\theta + m l \ddot{\theta} = m g \sin\theta.
 \]
-przy czym:
+Równania te tworzą nieliniowy układ równań różniczkowych drugiego rzędu. Po algebraicznych przekształceniach można uzyskać końcową postać równań ruchu:
 \[
-    p = I\,(M + m) + M m l^2,
-\]
-\[
-    A =
-    \begin{bmatrix}
-        0 & 1 & 0 & 0 \\
-        0 & -\frac{(I + m l^2)\,b}{p} & \frac{m^2 g l^2}{p} & 0 \\
-        0 & 0 & 0 & 1 \\
-        0 & -\frac{m l\,b}{p} & \frac{m g l\,(M + m)}{p} & 0
-    \end{bmatrix}, 
-    \quad
-    B =
-    \begin{bmatrix}
-        0 \\[6pt]
-        \frac{I + m l^2}{p} \\[6pt]
-        0 \\[6pt]
-        \frac{m l}{p}
-    \end{bmatrix},
+\ddot{x} = 
+\frac{u + m l \sin\theta \dot{\theta}^2 - m g \cos\theta \sin\theta}
+{M + m - m \cos^2\theta},
 \]
 \[
-    C = 
-    \begin{bmatrix}
-        1 & 0 & 0 & 0 \\ 
-        0 & 0 & 1 & 0
-    \end{bmatrix}, 
-    \quad
-    D = \begin{bmatrix}0 \\ 0\end{bmatrix}.
+\ddot{\theta} =
+\frac{u \cos\theta - (M + m) g \sin\theta + m l \cos\theta \sin\theta \dot{\theta}^2}
+{l \left( m \cos^2\theta - (M + m) \right)}.
 \]
 
-Model został zaimplementowany w MATLAB-ie jako funkcja \texttt{state\_space\_model.m}, która zwraca obiekt przestrzeni stanów \texttt{ss(A, B, C, D)}.
+Powyższe równania stanowią kompletny opis nieliniowej dynamiki wahadła odwróconego na wózku. Warto zauważyć, że układ jest silnie sprzężony – zmiana położenia wózka wpływa na ruch wahadła i odwrotnie. Nieliniowość wynika głównie z obecności funkcji trygonometrycznych \(\sin\theta\), \(\cos\theta\) oraz iloczynów tych funkcji z prędkościami.
+
+\subsection{Model nieliniowy w przestrzeni stanów}
+
+W celu dalszej analizy oraz projektowania regulatorów korzystne jest zapisanie modelu w postaci równań stanu. W tym celu definiuje się wektor stanu:
+\[
+\mathbf{x} =
+\begin{bmatrix}
+x_1 \\ x_2 \\ x_3 \\ x_4
+\end{bmatrix}
+=
+\begin{bmatrix}
+\theta \\ \dot{\theta} \\ x \\ \dot{x}
+\end{bmatrix},
+\]
+gdzie \(x_1\) i \(x_2\) opisują kąt oraz prędkość kątową wahadła, natomiast \(x_3\) i \(x_4\) – położenie i prędkość liniową wózka.
+
+W tej notacji model przyjmuje postać:
+\[
+\dot{\mathbf{x}} = f(\mathbf{x}, u),
+\]
+czyli:
+\[
+\begin{aligned}
+\dot{x}_1 &= x_2, \\
+\dot{x}_2 &= 
+\frac{u \cos x_1 - (M + m) g \sin x_1 + m l (\cos x_1 \sin x_1) x_2^2}
+{l \left( m \cos^2 x_1 - (M + m) \right)}, \\
+\dot{x}_3 &= x_4, \\
+\dot{x}_4 &= 
+\frac{u + m l (\sin x_1) x_2^2 - m g \cos x_1 \sin x_1}
+{M + m - m \cos^2 x_1}.
+\end{aligned}
+\]
+
+Model w tej postaci jest użyteczny do symulacji nieliniowej w środowisku MATLAB/Simulink, gdyż pozwala bezpośrednio analizować wpływ nieliniowości na stabilność oraz dynamikę układu. Wyjściami (wielkościami obserwowanymi) są kąt wychylenia wahadła i położenie wózka:
+\[
+\mathbf{y} =
+\begin{bmatrix}
+\theta \\ x
+\end{bmatrix}
+=
+C \mathbf{x}, \quad
+C =
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0
+\end{bmatrix}.
+\]
+
+\subsection{Model liniowy zlinearyzowany wokół punktu równowagi}
+
+Ponieważ pozycja odwrócona (\(\theta = 0\)) stanowi punkt pracy, wokół którego układ ma być stabilizowany, przeprowadza się liniaryzację modelu nieliniowego w tym punkcie. Liniaryzacja umożliwia zastosowanie klasycznych metod analizy i syntezy regulatorów, takich jak LQR, PID czy MPC.
+
+Dla małych wychyleń (\(|\theta| \ll 1\)) można przyjąć przybliżenia:
+\[
+\sin\theta \approx \theta, \quad \cos\theta \approx 1.
+\]
+Po wstawieniu ich do równań nieliniowych i pominięciu wyrazów wyższego rzędu otrzymuje się model liniowy w postaci przestrzeni stanów:
+\[
+\dot{\mathbf{x}} = A \mathbf{x} + B u,
+\]
+gdzie:
+\[
+A =
+\begin{bmatrix}
+0 & 1 & 0 & 0 \\
+\frac{(M + m) g}{M l} & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+-\frac{m g}{M} & 0 & 0 & 0
+\end{bmatrix},
+\quad
+B =
+\begin{bmatrix}
+0 \\[4pt]
+-\frac{1}{M l} \\[4pt]
+0 \\[4pt]
+\frac{1}{M}
+\end{bmatrix}.
+\]
+
+Model ten stanowi podstawę dla dalszego projektowania układów sterowania. Jest to klasyczna postać zlinearyzowanego wahadła odwróconego, szeroko wykorzystywana w literaturze, m.in. w pracach Prasada i in. (2014), Ogaty (2005) czy Burnsa (2001). 
+
+Z punktu widzenia teorii sterowania układ taki jest **sterowalny**, co oznacza, że istnieje sygnał \(u(t)\), który pozwala doprowadzić system do dowolnego stanu w skończonym czasie. Dzięki temu możliwe jest zastosowanie regulatorów optymalnych (LQR, MPC) oraz klasycznych (PID).
+
+\subsection{Model z zakłóceniem zewnętrznym}
+
+W rzeczywistych warunkach pracy układ może być narażony na zaburzenia, np. siłę poziomą działającą na wahadło (efekt wiatru lub drgań otoczenia). Aby uwzględnić ten wpływ, do równania sił wprowadza się dodatkowy składnik \(F_w(t)\):
+\[
+(M + m)\ddot{x} - m l \sin\theta \dot{\theta}^2 + m l \cos\theta \ddot{\theta} = u + F_w.
+\]
+Po uwzględnieniu tego zaburzenia i ponownej liniaryzacji wokół \(\theta = 0\) otrzymuje się model w postaci:
+\[
+\dot{\mathbf{x}} = A \mathbf{x} + B_1 u + B_2 F_w,
+\]
+gdzie:
+\[
+B_2 =
+\begin{bmatrix}
+0 \\[4pt]
+-\frac{1}{m l} \\[4pt]
+0 \\[4pt]
+0
+\end{bmatrix}.
+\]
+Model ten pozwala analizować wpływ zakłóceń na stabilność i jakość regulacji. Jest on szczególnie istotny przy badaniu odporności regulatorów (np. LQR i MPC) na zmienne warunki pracy i siły zewnętrzne.

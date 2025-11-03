@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 1762098332.09343 "main.bcf" "main.bbl" "main" 1762098343.75192 0
+["biber main"] 1762098332.09343 "main.bcf" "main.bbl" "main" 1762203341.80066 0
   "bibliografia.bib" 1762097390 4414 e4738eb22b74027af603dc83f12e4147 ""
-  "main.bcf" 1762098343 108485 5608441fd628d8dc0d914011c7646ba8 "pdflatex"
+  "main.bcf" 1762203341 108485 5608441fd628d8dc0d914011c7646ba8 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1762098340.89975 "c:/Users/adams/OneDrive/Pulpit/cartpole/latex/main.tex" "main.pdf" "main" 1762098343.75273 0
+["pdflatex"] 1762203338.69311 "c:/Users/adams/OneDrive/Pulpit/cartpole/latex/main.tex" "main.pdf" "main" 1762203341.8015 0
   "C:/Users/adams/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1762085471 82665 3eb0bcc9d631fc78d736d6e53fe0e9b2 ""
   "C:/Users/adams/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ectt1200.pk" 1762085466 24152 2c22d56fc1b2e1a5f2722f5025c76f5b ""
   "C:/Users/adams/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1762084665 13321867 fa717df4c1bbdf12100d55eeb67a36d5 ""
@@ -192,7 +192,7 @@
   "C:/Users/adams/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/adams/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
   "C:/Users/adams/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "c:/Users/adams/OneDrive/Pulpit/cartpole/latex/main.tex" 1762098051 8893 b8a417eee162e00bb36d64cebc04c11a ""
+  "c:/Users/adams/OneDrive/Pulpit/cartpole/latex/main.tex" 1762203180 8893 b8a417eee162e00bb36d64cebc04c11a ""
   "eiti/eiti-thesis.cls" 1762081584 15204 a297e4f7c25e43e18298925d9c62f1fc ""
   "eiti/header.png" 1762081586 96189 5f741ab9643c2309a548a148d7762c31 ""
   "eiti/title-inz.png" 1762081586 149789 d6e79f3ba007c791da2ee86beb735fc5 ""
@@ -201,15 +201,15 @@
   "img/pid_zly.png" 1762081588 18112 e5d6081c6212700775be51b31b5d1b6e ""
   "img/przebiegi_phi.png" 1762081586 59895 21a7a2f0d885e1e1b42ec28726686b81 ""
   "img/zaklocenia.png" 1762081586 73361 960482fdb396e99f0e8fc995991e7026 ""
-  "main.aux" 1762098343 5919 75beab7c738fcb20f20212d6890b4fcb "pdflatex"
+  "main.aux" 1762203341 6414 e45c4f36d6beffd95d8175fc227b582b "pdflatex"
   "main.bbl" 1762098334 15604 cc60709e70a312814eed3d0551b6516c "biber main"
-  "main.lof" 1762098343 594 b0c36731b50760c77832231004cd2393 "pdflatex"
-  "main.lot" 1762098343 343 2240715701055cfa81937985fd3dd345 "pdflatex"
-  "main.out" 1762098343 3772 37f87141416e51592fbdcb2c8112e2d4 "pdflatex"
-  "main.run.xml" 1762098343 2403 774d68cdce99405f0870b4a35a1d196f "pdflatex"
-  "main.tex" 1762098051 8893 b8a417eee162e00bb36d64cebc04c11a ""
-  "main.toc" 1762098343 2097 a22f480ade8c3591ea516dbd2a75f271 "pdflatex"
-  "tex/matma.tex" 1762081584 2015 21a8eec1b4af7eff7fa41b2c236616b3 ""
+  "main.lof" 1762203341 594 daf8cc85f20860e2295df0a8764824a8 "pdflatex"
+  "main.lot" 1762203341 343 e585e1ad4279f6dbdf71fa1f0329a387 "pdflatex"
+  "main.out" 1762203341 4547 050b2757775768dbdefbe5241457fd70 "pdflatex"
+  "main.run.xml" 1762203341 2403 774d68cdce99405f0870b4a35a1d196f "pdflatex"
+  "main.tex" 1762203180 8893 b8a417eee162e00bb36d64cebc04c11a ""
+  "main.toc" 1762203341 2466 88c64730a80009e86b8177bc18c6ca50 "pdflatex"
+  "tex/matma.tex" 1762203336 7316 fb3de3ed80fe743289ea88b715ebf8e7 ""
   "tex/srodowisko.tex" 1762081584 1452 a8a4ac4e6a91fa30a2841c997ed11d3e ""
   "tex/sterowanie.tex" 1762081584 3364 6d5c80e5b33361458e90626cdd1df5b4 ""
   "tex/wstep.tex" 1762098328 9592 569e617d4be46892b008947ee67fc80c ""
