@@ -202,7 +202,7 @@ class TSFuzzyArt3Controller:
                  ramp_T: float = 2.0):
         self.pars = pars
         self.p = ts_params
-        self.K = K_lqr.reshape(1, 4)
+        self.K = np.asarray(K_lqr, dtype=float).ravel()
         self.dt = dt
         self.du_max = du_max
         self.ramp_T = ramp_T
@@ -219,11 +219,9 @@ class TSFuzzyArt3Controller:
 
     def step(self, t: float, state: np.ndarray, ref_state: np.ndarray) -> float:
         th, thd, x, xd = state
-        # LQR na pełnym stanie, ale z referencją na x
         target = np.array([0.0, 0.0, ref_state[2], 0.0], dtype=float)
         err = state - target
-        u_lqr = float(- self.K @ err)
-
+        u_lqr = -float(np.dot(self.K, err))
         # fuzzy na [theta, theta_dot, x, x_dot]
         u_ts = self._u_ts(th, thd, x, xd)
 
