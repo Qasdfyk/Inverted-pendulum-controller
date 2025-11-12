@@ -27,7 +27,10 @@ class PIDLQR(Controller):
         de_x = -xd
         self.z += e_x * ref["dt"]
         u_pid = self.Kp*e_x + self.Ki*self.z + self.Kd*de_x
-        u_lqr = - float(self.Klqr @ np.array([th, thd, x, xd]))
+        x_ref = ref["x_ref"]
+        state_dev = np.array([th - 0.0, thd - 0.0, x - x_ref, xd - 0.0])
+        u_lqr = - float(self.Klqr @ state_dev)
+
         return u_pid + u_lqr
 
 def build(cfg: dict):
