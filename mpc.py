@@ -12,6 +12,7 @@ from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 from typing import Callable, Optional
+from time import perf_counter  # timing
 
 # =========================
 # Fixed physical & sim params
@@ -20,8 +21,8 @@ PLANT = {"M": 2.4, "m": 0.23, "l": 0.36, "g": 9.81}
 SIM = {
     "T": 10.0,
     "dt": 0.1,         # MPC + integration step
-    "x0": np.array([0.03, 0.0, 0.0, 0.0]),  # [rad, rad/s, m, m/s] -> [theta, theta_dot, x, x_dot]
-    "x_ref": np.array([0.0, 0.0, 0.10, 0.0]),    # track 0.1 m cart step
+    "x0": np.array([0.03, 0.0, 0.0, 0.0]),  # [theta, theta_dot, x, x_dot]
+    "x_ref": np.array([0.0, 0.0, 0.10, 0.0]),    # track 0.1 m cart step (position_step)
     "u_sat": 100.0
 }
 
@@ -205,13 +206,115 @@ def animate_cartpole(t, X, params=None, speed=1.0):
 
 
 # =========================
-# Metrics
+# Metrics (spójne z env/sim.py)
 # =========================
-def mse(y, yref): return float(np.mean((np.asarray(y) - np.asarray(yref))**2))
-def mae(y, yref): return float(np.mean(np.abs(np.asarray(y) - np.asarray(yref))))
-def print_summary(metrics):
-    print(f"MSE(theta)={metrics['mse_theta']:.6f}  MAE(theta)={metrics['mae_theta']:.6f}  "
-          f"MSE(x)={metrics['mse_x']:.6f}  MAE(x)={metrics['mae_x']:.6f}")
+def mse(y, yref):
+    y, yref = np.asarray(y), np.asarray(yref)
+    return float(np.mean((y - yref)**2))
+
+def mae(y, yref):
+    y, yref = np.asarray(y), np.asarray(yref)
+    return float(np.mean(np.abs(y - yref)))
+
+def iae(t, y, yref):
+    t = np.asarray(t); e = np.abs(np.asarray(y) - np.asarray(yref))
+    return float(np.trapz(e, t))
+
+def ise(t, y, yref):
+    t = np.asarray(t); e = np.asarray(y) - np.asarray(yref)
+    return float(np.trapz(e*e, t))
+
+def control_energy_l2(t, u):
+    t = np.asarray(t); u = np.asarray(u)
+    return float(np.trapz(u*u, t))
+
+def control_energy_l1(t, u):
+    t = np.asarray(t); u = np.asarray(u)
+    return float(np.trapz(np.abs(u), t))
+
+def settling_time(t, y, yref, eps, hold_time):
+    """
+    Najwcześniejszy czas, od którego |y - yref| <= eps utrzymuje się
+    nieprzerwanie >= hold_time. Jeśli brak — zwraca NaN.
+    """
+    t = np.asarray(t); e = np.abs(np.asarray(y) - np.asarray(yref))
+    inside = e <= eps
+    N = len(t)
+    if N < 2: return float('nan')
+    dt = np.diff(t).mean()
+    win = max(1, int(np.round(hold_time / dt)))
+    for i in range(N - win + 1):
+        if np.all(inside[i:i+win]):
+            return float(t[i])
+    return float('nan')
+
+def overshoot(y, yref_final):
+    """
+    Maksymalne przeregulowanie względem końcowej wartości referencyjnej.
+    Zwraca % (0..), lub NaN gdy ref_final ~ 0.
+    """
+    y = np.asarray(y); r = float(yref_final)
+    if np.isclose(r, 0.0, atol=1e-12):
+        return float('nan')
+    peak = float(np.max(y)) if r >= y[0] else float(np.min(y))
+    return float(100.0 * (peak - r) / abs(r))
+
+def steady_state_error(t, y, yref, window_frac=0.1, window_min=0.5):
+    """
+    Średni błąd na końcówce (ostatnie window_frac czasu, min window_min sek).
+    Zwraca (mean, rms).
+    """
+    t = np.asarray(t); y = np.asarray(y); yref = np.asarray(yref)
+    T = t[-1] - t[0] if len(t) > 1 else 0.0
+    w = max(window_min, window_frac * T)
+    t0 = t[-1] - w
+    idx = t >= t0
+    e = y[idx] - yref[idx]
+    if e.size == 0:
+        return float('nan'), float('nan')
+    return float(np.mean(e)), float(np.sqrt(np.mean(e**2)))
+
+def disturbance_robustness(t, e, Fw, window_frac=0.5, window_min=1.0):
+    """
+    SNR = RMS(e)/RMS(Fw) w stanie ustalonym (ostatnie okno). Mniejsze = lepiej.
+    """
+    t = np.asarray(t); e = np.asarray(e); Fw = np.asarray(Fw)
+    T = t[-1] - t[0] if len(t) > 1 else 0.0
+    w = max(window_min, window_frac * T)
+    t0 = t[-1] - w
+    idx = t >= t0
+    if not np.any(idx):
+        return float('nan'), float('nan'), float('nan')
+    e_win = e[idx]; F_win = Fw[idx]
+    rms_e = float(np.sqrt(np.mean(e_win**2)))
+    rms_F = float(np.sqrt(np.mean(F_win**2))) if np.any(np.abs(F_win) > 0) else 0.0
+    snr = float(rms_e / (rms_F + 1e-12)) if rms_F > 0 else float('nan')
+    return snr, rms_e, rms_F
+
+def print_summary(metrics: dict):
+    parts = [
+        f"MSE(th)={metrics.get('mse_theta', float('nan')):.6f}",
+        f"MAE(th)={metrics.get('mae_theta', float('nan')):.6f}",
+        f"MSE(x)={metrics.get('mse_x', float('nan')):.6f}",
+        f"MAE(x)={metrics.get('mae_x', float('nan')):.6f}",
+        f"IAE(th)={metrics.get('iae_theta', float('nan')):.4f}",
+        f"ISE(th)={metrics.get('ise_theta', float('nan')):.4f}",
+        f"IAE(x)={metrics.get('iae_x', float('nan')):.4f}",
+        f"ISE(x)={metrics.get('ise_x', float('nan')):.4f}",
+        f"E_u(L2)={metrics.get('e_u_l2', float('nan')):.4f}",
+        f"E_u(L1)={metrics.get('e_u_l1', float('nan')):.4f}",
+        f"t_s(th)={metrics.get('t_s_theta', float('nan')):.3f}s",
+        f"t_s(x)={metrics.get('t_s_x', float('nan')):.3f}s",
+        f"OS(th)={metrics.get('overshoot_theta', float('nan')):.2f}%",
+        f"OS(x)={metrics.get('overshoot_x', float('nan')):.2f}%",
+        f"ess(th)={metrics.get('ess_theta', float('nan')):.5f}",
+        f"ess(x)={metrics.get('ess_x', float('nan')):.5f}",
+        f"SNR_th={metrics.get('snr_theta', float('nan')):.3g}",
+        f"SNR_x={metrics.get('snr_x', float('nan')):.3g}",
+        f"T_sim={metrics.get('sim_time_wall', float('nan')):.3f}s",
+        f"T_ctrl={metrics.get('ctrl_time_total', float('nan')):.3f}s",
+    ]
+    print("  ".join(parts))
 
 
 # =========================
@@ -220,24 +323,42 @@ def print_summary(metrics):
 def simulate_mpc(pars, controller: MPCController, x0, x_ref, T, dt,
                  u0=0.0,
                  wind: Optional[Callable[[float], float]] = None):
-    """Simulate with optional real wind hitting the plant (MPC always predicts with Fw=0)."""
+    """
+    Sim with optional wind on PLANT (MPC predicts with Fw=0).
+    Zwraca: X, U, Fw_tr, ctrl_time_total, sim_time_wall
+    """
     steps = int(np.round(T / dt))
     x = np.asarray(x0, float).copy(); u_prev = float(u0)
-    traj = [x.copy()]; forces = []
+    traj = [x.copy()]
+    forces = []      # sterowanie u(t_k)
+    Fw_tr = []       # Fw(t_k) w chwili sterowania
     t = 0.0
+
+    ctrl_time_total = 0.0
+    sim_t0 = perf_counter()
+
     for _ in range(steps):
+        # --- MPC compute time
+        t0c = perf_counter()
         u_seq = controller.compute_control(x, x_ref, u_prev)
+        ctrl_time_total += perf_counter() - t0c
+
         u_apply = float(u_seq[0])
         forces.append(u_apply)
 
-        # Plant evolves with actual wind (can be None => zero)
+        F_cur = float(wind(t)) if wind else 0.0
+        Fw_tr.append(F_cur)
+
+        # Plant evolves with actual wind
         x = rk4_step_wind(f_nonlinear, x, u_apply, pars, dt, t, wind)
         traj.append(x.copy())
 
         u_prev = u_apply
         t += dt
 
-    return np.vstack(traj), np.asarray(forces)
+    sim_time_wall = perf_counter() - sim_t0
+
+    return np.vstack(traj), np.asarray(forces), np.asarray(Fw_tr), ctrl_time_total, sim_time_wall
 
 
 # =========================
@@ -249,11 +370,11 @@ if __name__ == "__main__":
     plant = PLANT
 
     # ---- Wind toggle -------------------------------------------------------
+    # Enable wind:
+    # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
     # Disable wind:
     # wind = None
-    # Enable wind:
-    wind = Wind(T, seed=23341, Ts=0.02, power=2e-3, smooth=7)
-    #wind = None
+    wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
     # -----------------------------------------------------------------------
 
     ctrl = MPCController(
@@ -267,11 +388,15 @@ if __name__ == "__main__":
         R=1e-3
     )
 
-    X, U = simulate_mpc(plant, ctrl, x0, x_ref, T, dt, wind=wind)
-    t = np.arange(0, T + dt, dt)
-    if len(X) != len(t): t = np.linspace(0, T, len(X))
+    X, U, Fw_tr, ctrl_time_total, sim_time_wall = simulate_mpc(plant, ctrl, x0, x_ref, T, dt, wind=wind)
 
-    # ---- plotting same as env ----
+    # siatki czasu: stany w węzłach t_k = 0..T (len = steps+1),
+    # sterowanie/Fw w węzłach k=0..steps-1 (len = steps)
+    steps = len(U)
+    t = np.linspace(0.0, T, steps + 1)
+    tf = t[:-1]  # czas dla U i Fw_tr
+
+    # ---- plotting (jak w env) ----
     controller_name = "mpc_no"
     disturbance = wind is not None
     step_type = "position_step"
@@ -280,20 +405,72 @@ if __name__ == "__main__":
                  fontsize=12, y=0.98)
     ax1 = fig.add_subplot(3, 1, 1); ax1.plot(t, X[:, 0]); ax1.grid(True); ax1.set_ylabel('theta [rad]')
     ax2 = fig.add_subplot(3, 1, 2); ax2.plot(t, X[:, 2]); ax2.grid(True); ax2.set_ylabel('x [m]')
-    tf = t[:-1] if len(U) == (len(t)-1) else np.linspace(0.0, T, len(U))
-    ax3 = fig.add_subplot(3, 1, 3); ax3.plot(tf, U); ax3.grid(True); ax3.set_ylabel('u [N]'); ax3.set_xlabel('t [s]')
+    ax3 = fig.add_subplot(3, 1, 3); ax3.plot(tf, U);      ax3.grid(True); ax3.set_ylabel('u [N]'); ax3.set_xlabel('t [s]')
     plt.tight_layout(rect=[0, 0, 1, 0.95])
     plt.show()
 
-    # ---- metrics ----
+    # ---- refs ----
     th_ref_tr = np.zeros_like(t)
-    x_ref_tr = np.ones_like(t) * x_ref[2]
+    x_ref_tr  = np.ones_like(t) * x_ref[2]
+
+    # ---- metryki (spójne z env/sim.py) ----
+    eps_theta = 0.01  # rad
+    eps_x     = 0.01  # m
+    hold_time = 0.5   # s
+    ess_window_frac = 0.10
+    ess_window_min  = 0.5
+    is_step = True  # ten plik robi position_step
+
+    # błędy
+    e_th = X[:,0] - th_ref_tr
+    e_x  = X[:,2] - x_ref_tr
+
     metrics = {
         "mse_theta": mse(X[:, 0], th_ref_tr),
         "mae_theta": mae(X[:, 0], th_ref_tr),
-        "mse_x": mse(X[:, 2], x_ref_tr),
-        "mae_x": mae(X[:, 2], x_ref_tr)
+        "mse_x":     mse(X[:, 2], x_ref_tr),
+        "mae_x":     mae(X[:, 2], x_ref_tr),
+        "iae_theta": iae(t, X[:, 0], th_ref_tr),
+        "ise_theta": ise(t, X[:, 0], th_ref_tr),
+        "iae_x":     iae(t, X[:, 2], x_ref_tr),
+        "ise_x":     ise(t, X[:, 2], x_ref_tr),
+        "e_u_l2":    control_energy_l2(tf, U),
+        "e_u_l1":    control_energy_l1(tf, U),
+        "sim_time_wall": sim_time_wall,
+        "ctrl_time_total": ctrl_time_total,
     }
+
+    metrics["t_s_theta"] = settling_time(t, X[:,0], th_ref_tr, eps=eps_theta, hold_time=hold_time) if is_step else float('nan')
+    metrics["t_s_x"]     = settling_time(t, X[:,2], x_ref_tr,  eps=eps_x,     hold_time=hold_time) if is_step else float('nan')
+
+    metrics["overshoot_theta"] = overshoot(X[:,0], th_ref_tr[-1]) if is_step else float('nan')  # NaN gdy ref=0
+    metrics["overshoot_x"]     = overshoot(X[:,2], x_ref_tr[-1])  if is_step else float('nan')
+
+    ess_th_mean, ess_th_rms = steady_state_error(t, X[:,0], th_ref_tr, window_frac=ess_window_frac, window_min=ess_window_min)
+    ess_x_mean,  ess_x_rms  = steady_state_error(t, X[:,2], x_ref_tr,  window_frac=ess_window_frac, window_min=ess_window_min)
+    metrics["ess_theta"] = ess_th_mean
+    metrics["ess_x"]     = ess_x_mean
+    metrics["ess_theta_rms"] = ess_th_rms
+    metrics["ess_x_rms"]     = ess_x_rms
+
+    if disturbance:
+        # e na siatce tf (pomijamy pierwszy punkt stanu)
+        e_th_tf = X[1:, 0] - th_ref_tr[1:]
+        e_x_tf  = X[1:, 2] - x_ref_tr[1:]
+        snr_th, rms_e_th, rms_F = disturbance_robustness(tf, e_th_tf, Fw_tr, window_frac=0.5, window_min=1.0)
+        snr_x,  rms_e_x,  _     = disturbance_robustness(tf, e_x_tf,  Fw_tr, window_frac=0.5, window_min=1.0)
+        metrics["snr_theta"] = snr_th
+        metrics["snr_x"]     = snr_x
+        metrics["rms_e_theta"] = rms_e_th
+        metrics["rms_e_x"]     = rms_e_x
+        metrics["rms_Fw"]      = rms_F
+    else:
+        metrics["snr_theta"] = float('nan')
+        metrics["snr_x"]     = float('nan')
+        metrics["rms_e_theta"] = float('nan')
+        metrics["rms_e_x"]     = float('nan')
+        metrics["rms_Fw"]      = float('nan')
+
     print_summary(metrics)
 
     # ---- optional animation ----

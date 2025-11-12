@@ -1,10 +1,3 @@
-# mpc_cartpole_J2_wind.py
-# --------------------------------------------------------
-# J2 = sum_k( q_theta*theta_k^2 + q_thdot*theta_dot_k^2
-#             + q_x*x_k^2 + q_xdot*x_dot_k^2 + r*(Δu_k)^2 )
-# Wind disturbance (Fw) affects the PLANT ONLY (MPC predicts with Fw = 0).
-# --------------------------------------------------------
-
 from __future__ import annotations
 import os
 import numpy as np
@@ -56,37 +49,49 @@ class MPCControllerJ2:
     def __init__(self, pars, dt, N, Nu, umin, umax, q_theta, q_thdot, q_x, q_xdot, r):
         self.pars, self.dt, self.N, self.Nu = pars, dt, N, Nu
         self.umin, self.umax = umin, umax
-        self.q_theta, self.q_thdot, self.q_x, self.q_xdot = q_theta, q_thdot, q_x, q_xdot
-        self.r = r
+        self.q_theta, self.q_thdot, self.q_x, self.q_xdot = float(q_theta), float(q_thdot), float(q_x), float(q_xdot)
+        self.r = float(r)
+
     def _rollout(self, x0, u_seq):
         x = np.array(x0, float); traj=[]
         for ui in u_seq:
             x = rk4_step(f_nonlinear, x, float(ui), self.pars, self.dt)  # predict with Fw=0
             traj.append(x.copy())
         return np.asarray(traj)
-    def _cost(self, du, x0, u_prev):
+
+    def _cost(self, du, x0, x_ref, u_prev):
         du = np.asarray(du, float)
+        # Δu -> u_seq (hold-after-Nu)
         u_seq = np.zeros(self.N)
         if self.Nu>0:
             u_cum = u_prev + np.cumsum(du); upto=min(self.Nu,self.N)
-            u_seq[:upto]=u_cum[:upto]; 
+            u_seq[:upto]=u_cum[:upto]
             if self.N>self.Nu: u_seq[self.Nu:]=u_cum[upto-1]
-        else: u_seq[:] = u_prev
+        else:
+            u_seq[:] = u_prev
+
         preds = self._rollout(x0, u_seq)
-        th, thd, x, xd = preds[:,0], preds[:,1], preds[:,2], preds[:,3]
-        cost_y = float(np.sum(self.q_theta*th*th + self.q_thdot*thd*thd + self.q_x*x*x + self.q_xdot*xd*xd))
+        e = preds - x_ref.reshape(1,-1)  # <-- tracking
+        th_e, thd_e, x_e, xd_e = e[:,0], e[:,1], e[:,2], e[:,3]
+
+        cost_y = float(np.sum(self.q_theta*th_e*th_e
+                              + self.q_thdot*thd_e*thd_e
+                              + self.q_x*x_e*x_e
+                              + self.q_xdot*xd_e*xd_e))
         cost_u = float(self.r*np.sum(du*du))
         return cost_y + cost_u
-    def compute_control(self, x0, u_prev):
+
+    def compute_control(self, x0, x_ref, u_prev):
         du_min, du_max = self.umin - u_prev, self.umax - u_prev
         bounds=[(du_min, du_max)]*self.Nu; du0=np.zeros(self.Nu)
-        res=minimize(self._cost, du0, args=(x0, u_prev), method='SLSQP', bounds=bounds,
+        res=minimize(self._cost, du0, args=(x0, x_ref, u_prev), method='SLSQP', bounds=bounds,
                      options={'maxiter':500,'ftol':1e-4,'disp':False})
         du_opt = res.x if res.success else du0
         u_seq=np.zeros(self.N); u_cum=u_prev+np.cumsum(du_opt); upto=min(self.Nu,self.N)
-        u_seq[:upto]=u_cum[:upto]; 
+        u_seq[:upto]=u_cum[:upto]
         if self.N>self.Nu: u_seq[self.Nu:]=u_cum[upto-1]
-        np.clip(u_seq, self.umin, self.umax, out=u_seq); return u_seq
+        np.clip(u_seq, self.umin, self.umax, out=u_seq)
+        return u_seq
 
 def animate_cartpole(t, X, params=None, speed=1.0):
     th=X[:,0]; x=X[:,2]; p=params or {}; l=p.get("l",0.36)
@@ -116,12 +121,12 @@ def print_summary(m):
     print(f"MSE(theta)={m['mse_theta']:.6f}  MAE(theta)={m['mae_theta']:.6f}  "
           f"MSE(x)={m['mse_x']:.6f}  MAE(x)={m['mae_x']:.6f}")
 
-def simulate_mpc(pars, controller: MPCControllerJ2, x0, T, dt, u0=0.0,
+def simulate_mpc(pars, controller: MPCControllerJ2, x0, x_ref, T, dt, u0=0.0,
                  wind: Optional[Callable[[float], float]] = None):
     steps=int(np.round(T/dt)); x=np.asarray(x0,float).copy(); u_prev=float(u0)
     traj=[x.copy()]; forces=[]; t=0.0
     for _ in range(steps):
-        u_seq = controller.compute_control(x, u_prev)
+        u_seq = controller.compute_control(x, x_ref, u_prev)
         u_apply=float(u_seq[0]); forces.append(u_apply)
         x = rk4_step_wind(f_nonlinear, x, u_apply, pars, dt, t, wind)  # plant with wind
         traj.append(x.copy()); u_prev=u_apply; t+=dt
@@ -131,14 +136,14 @@ if __name__ == "__main__":
     dt,T = SIM["dt"], SIM["T"]; x0,x_ref,u_sat = SIM["x0"], SIM["x_ref"], SIM["u_sat"]; plant=PLANT
     # ---- Wind toggle ----
     wind = None                # disable wind
-    #wind = Wind(T, seed=23341, Ts=0.02, power=2e-3, smooth=7)  # enable wind
+    # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)  # enable wind
     # ---------------------
     ctrl = MPCControllerJ2(plant, dt, N=10, Nu=8, umin=-u_sat, umax=u_sat,
                            q_theta=60.0, q_thdot=3.0, q_x=15.0, q_xdot=1.0, r=1e-3)
-    X,U = simulate_mpc(plant, ctrl, x0, T, dt, wind=wind)
+    X,U = simulate_mpc(plant, ctrl, x0, x_ref, T, dt, wind=wind)
     t = np.arange(0, T + dt, dt); 
     if len(X)!=len(t): t=np.linspace(0, T, len(X))
-    controller_name="mpc_J2"; disturbance = wind is not None; step_type="regulation"
+    controller_name="mpc_J2"; disturbance = wind is not None; step_type="position_step"
     fig=plt.figure(figsize=(9,7))
     fig.suptitle(f"{controller_name}  |  wind={'on' if disturbance else 'off'}  |  step={step_type}", fontsize=12, y=0.98)
     ax1=fig.add_subplot(3,1,1); ax1.plot(t, X[:,0]); ax1.grid(True); ax1.set_ylabel('theta [rad]')
