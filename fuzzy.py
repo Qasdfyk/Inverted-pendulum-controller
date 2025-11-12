@@ -175,7 +175,7 @@ def ts_weights16(th: float, thd: float, x: float, xd: float, p: TSParams16) -> n
                     idx += 1
     return w / (np.sum(w) + EPS)
 
-class TSFuzzyArt3Controller:
+class TSFuzzyController:
     def __init__(self,
                  pars: dict,
                  ts_params: TSParams16,
@@ -191,9 +191,9 @@ class TSFuzzyArt3Controller:
         self.ramp_T = ramp_T
         self.u_prev = 0.0
 
-    def _u_ts(self, th: float, thd: float, x: float, xd: float) -> float:
-        mu = ts_weights16(th, thd, x, xd, self.p)
-        z = np.array([th, thd, x, xd], dtype=float)
+    def _u_ts(self, th: float, thd: float, ex: float, exd: float) -> float:
+        mu = ts_weights16(th, thd, ex, exd, self.p)
+        z = np.array([th, thd, ex, exd], dtype=float)
         u_rules = - self.p.sign * (self.p.F_rules @ z)
         u = float(mu @ u_rules) * self.p.gain_scale
         if self.p.flip_u:
@@ -202,10 +202,16 @@ class TSFuzzyArt3Controller:
 
     def step(self, t: float, state: np.ndarray, ref_state: np.ndarray) -> float:
         th, thd, x, xd = state
-        target = np.array([0.0, 0.0, ref_state[2], 0.0], dtype=float)
+        xref = float(ref_state[2])
+
+        target = np.array([0.0, 0.0, xref, 0.0], dtype=float)
         err = state - target
         u_lqr = -float(np.dot(self.K, err))
-        u_ts = self._u_ts(th, thd, x, xd)
+
+        ex  = x  - xref
+        exd = xd - 0.0
+        u_ts = self._u_ts(th, thd, ex, exd)
+
         u = u_lqr + u_ts
 
         # miękki rozruch
@@ -293,7 +299,7 @@ def evaluate_run(X: np.ndarray, U: np.ndarray, x_ref: float) -> float:
     return 4.0*mse(th, th_ref) + 1.5*mse(x, xr) + 0.01*u_rms
 
 def simulate(pars: dict,
-             controller: TSFuzzyArt3Controller,
+             controller: TSFuzzyController,
              x0: np.ndarray,
              x_ref: np.ndarray,
              T: float,
@@ -357,7 +363,7 @@ def autopick_variant(pars: dict, base: TSParams16, dt: float, K_lqr: np.ndarray)
                 flip_u=False,
                 gain_scale=sc,
             )
-            ctrl = TSFuzzyArt3Controller(pars, cand, K_lqr, dt, du_max=1000.0, ramp_T=1.5)
+            ctrl = TSFuzzyController(pars, cand, K_lqr, dt, du_max=1000.0, ramp_T=1.5)
             Xs, Us, ok, _, _, _ = simulate(
                 pars,
                 ctrl,
@@ -448,7 +454,7 @@ if __name__ == "__main__":
     print("Użyty wariant TS:",
           f"sign={picked_ts.sign}, gain_scale={picked_ts.gain_scale:.2f}, flip_u={picked_ts.flip_u}")
 
-    ctrl = TSFuzzyArt3Controller(plant, picked_ts, K_lqr, dt, du_max=1000.0, ramp_T=2.0)
+    ctrl = TSFuzzyController(plant, picked_ts, K_lqr, dt, du_max=1000.0, ramp_T=2.0)
 
     X, U, ok, Fw_tr, ctrl_time_total, sim_time_wall = simulate(
         plant, ctrl, x0, x_ref, T, dt, wind=wind, early_stop=None
