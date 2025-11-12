@@ -218,19 +218,19 @@ def mae(y, yref):
 
 def iae(t, y, yref):
     t = np.asarray(t); e = np.abs(np.asarray(y) - np.asarray(yref))
-    return float(np.trapz(e, t))
+    return float(np.trapezoid(e, t))
 
 def ise(t, y, yref):
     t = np.asarray(t); e = np.asarray(y) - np.asarray(yref)
-    return float(np.trapz(e*e, t))
+    return float(np.trapezoid(e*e, t))
 
 def control_energy_l2(t, u):
     t = np.asarray(t); u = np.asarray(u)
-    return float(np.trapz(u*u, t))
+    return float(np.trapezoid(u*u, t))
 
 def control_energy_l1(t, u):
     t = np.asarray(t); u = np.asarray(u)
-    return float(np.trapz(np.abs(u), t))
+    return float(np.trapezoid(np.abs(u), t))
 
 def settling_time(t, y, yref, eps, hold_time):
     """
@@ -373,8 +373,8 @@ if __name__ == "__main__":
     # Enable wind:
     # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
     # Disable wind:
-    # wind = None
-    wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
+    wind = None
+    #wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
     # -----------------------------------------------------------------------
 
     ctrl = MPCController(
