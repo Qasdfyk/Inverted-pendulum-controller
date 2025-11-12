@@ -1,7 +1,8 @@
 # controllers/ts_fuzzy_art3ish.py
 # --------------------------------------------------------
 # TS-fuzzy (16 reguł, 4 premise) + LQR (art3-ish) + AUTOPICK
-# + animacja + metryki
+# + animacja + metryki (IAE/ISE, energia sterowania L2/L1, czasy,
+#   overshoot, czas ustalania, błąd ustalony, SNR odporności)
 # --------------------------------------------------------
 
 from __future__ import annotations
@@ -12,7 +13,8 @@ from typing import Optional, Callable, Sequence, Tuple
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from scipy.linalg import solve_continuous_are   # <-- LQR "normalnie"
+from scipy.linalg import solve_continuous_are
+from time import perf_counter
 
 # =========================
 # Parametry fizyczne i sym
@@ -79,47 +81,34 @@ def rk4_step_wind(
     return x + (dt / 6.0) * (k1 + 2*k2 + 2*k3 + k4)
 
 # =========================
-# LQR "normalnie" (jak pisałeś)
+# LQR
 # =========================
 def linearize_upright(M: float, m: float, l: float, g: float) -> tuple[np.ndarray, np.ndarray]:
-    """
-    Linearizacja wokół theta = 0, stan: [th, thd, x, xd]
-    """
+    """Linearizacja wokół theta = 0, stan: [th, thd, x, xd]"""
     A = np.array([
         [0.0,                 1.0, 0.0, 0.0],
         [(M + m)*g/(M*l),     0.0, 0.0, 0.0],
         [0.0,                 0.0, 0.0, 1.0],
         [-m*g/M,              0.0, 0.0, 0.0]
     ], dtype=float)
-
     B = np.array([
         [0.0],
         [-1.0/(M*l)],
         [0.0],
         [1.0/M]
     ], dtype=float)
-
     return A, B
 
 def lqr_from_plant(plant: dict) -> np.ndarray:
-    """
-    Dokładnie ten styl:
-        Q = diag([...])
-        R = [[...]]
-        A,B = linearize_upright(...)
-        P = solve_continuous_are(...)
-        K = R^-1 B^T P
-    """
     A, B = linearize_upright(plant["M"], plant["m"], plant["l"], plant["g"])
-    # Twoje wartości:
     Q = np.diag([1.0, 1.0, 500.0, 250.0])
     R = np.array([[1.0]], dtype=float)
     P = solve_continuous_are(A, B, Q, R)
-    K = np.linalg.solve(R, B.T @ P).ravel()    # shape (4,)
+    K = np.linalg.solve(R, B.T @ P).ravel()
     return K
 
 # =========================
-# TS-fuzzy 16 reguł (4 premise) – teraz z pełnym wektorem
+# TS-fuzzy 16 reguł (4 premise)
 # =========================
 def tri_mf(x: float, a: float, b: float, c: float) -> float:
     if x <= a or x >= c:
@@ -143,26 +132,20 @@ class TSParams16:
     gain_scale: float
 
 def starter_ts_params16(u_sat: float) -> TSParams16:
-    # zbiory rozmyte (szerokie)
     th_small  = (-0.20, 0.0, 0.20)
     thd_small = (-1.5, 0.0, 1.5)
     x_small   = (-0.4, 0.0, 0.4)
     xd_small  = (-0.8, 0.0, 0.8)
 
-    # 16 reguł: im więcej "L" w premise, tym większe wzmocnienie
-    # TERAZ: sterujemy też x i x_dot, żeby fuzzy "coś robił"
     F_rules = np.zeros((16, 4), dtype=float)
-    base_th   = 70.0
-    base_thd  = 12.0
-    base_x    = 10.0
-    base_xd   = 3.0
+    base_th, base_thd, base_x, base_xd = 70.0, 12.0, 10.0, 3.0
     for idx in range(16):
         bits = [(idx >> b) & 1 for b in (3, 2, 1, 0)]  # th, thd, x, xd
         largeness = sum(bits)
-        F_rules[idx, 0] = base_th   + 35.0 * largeness   # theta
-        F_rules[idx, 1] = base_thd  +  6.0 * largeness   # theta_dot
-        F_rules[idx, 2] = base_x    +  4.0 * largeness   # x
-        F_rules[idx, 3] = base_xd   +  1.5 * largeness   # x_dot
+        F_rules[idx, 0] = base_th   + 35.0 * largeness
+        F_rules[idx, 1] = base_thd  +  6.0 * largeness
+        F_rules[idx, 2] = base_x    +  4.0 * largeness
+        F_rules[idx, 3] = base_xd   +  1.5 * largeness
 
     return TSParams16(
         th_small=th_small,
@@ -171,9 +154,9 @@ def starter_ts_params16(u_sat: float) -> TSParams16:
         xd_small=xd_small,
         F_rules=F_rules,
         u_sat=u_sat,
-        sign=+1,          # w tym układzie lepiej = +1, bo LQR ma ten sam kierunek
+        sign=+1,
         flip_u=False,
-        gain_scale=0.45,  # fuzzy realnie wchodzi
+        gain_scale=0.45,
     )
 
 def ts_weights16(th: float, thd: float, x: float, xd: float, p: TSParams16) -> np.ndarray:
@@ -222,9 +205,7 @@ class TSFuzzyArt3Controller:
         target = np.array([0.0, 0.0, ref_state[2], 0.0], dtype=float)
         err = state - target
         u_lqr = -float(np.dot(self.K, err))
-        # fuzzy na [theta, theta_dot, x, x_dot]
         u_ts = self._u_ts(th, thd, x, xd)
-
         u = u_lqr + u_ts
 
         # miękki rozruch
@@ -240,11 +221,71 @@ class TSFuzzyArt3Controller:
         return self.u_prev
 
 # =========================
-# Symulacja + metryki
+# METRYKI (spójne z innymi plikami)
 # =========================
-def mse(y, yref): return float(np.mean((np.asarray(y) - np.asarray(yref))**2))
-def mae(y, yref): return float(np.mean(np.abs(np.asarray(y) - np.asarray(yref))))
+def mse(y,yref): return float(np.mean((np.asarray(y)-np.asarray(yref))**2))
+def mae(y,yref): return float(np.mean(np.abs(np.asarray(y)-np.asarray(yref))))
+def iae(t,y,yref): t=np.asarray(t); e=np.abs(np.asarray(y)-np.asarray(yref)); return float(np.trapezoid(e,t))
+def ise(t,y,yref): t=np.asarray(t); e=np.asarray(y)-np.asarray(yref); return float(np.trapezoid(e*e,t))
+def control_energy_l2(t,u): t=np.asarray(t); u=np.asarray(u); return float(np.trapezoid(u*u,t))
+def control_energy_l1(t,u): t=np.asarray(t); u=np.asarray(u); return float(np.trapezoid(np.abs(u),t))
+def settling_time(t,y,yref,eps,hold_time):
+    t=np.asarray(t); e=np.abs(np.asarray(y)-np.asarray(yref))
+    N=len(t)
+    if N<2: return float('nan')
+    inside=(e<=eps); dt=np.diff(t).mean(); win=max(1,int(np.round(hold_time/dt)))
+    for i in range(N-win+1):
+        if np.all(inside[i:i+win]): return float(t[i])
+    return float('nan')
+def overshoot(y,yref_final):
+    y=np.asarray(y); r=float(yref_final)
+    if np.isclose(r,0.0,atol=1e-12): return float('nan')
+    peak=float(np.max(y)) if r>=y[0] else float(np.min(y))
+    return float(100.0*(peak-r)/abs(r))
+def steady_state_error(t,y,yref,window_frac=0.1,window_min=0.5):
+    t=np.asarray(t); y=np.asarray(y); yref=np.asarray(yref)
+    T=t[-1]-t[0] if len(t)>1 else 0.0; w=max(window_min,window_frac*T); t0=t[-1]-w
+    idx=t>=t0; e=y[idx]-yref[idx]
+    if e.size==0: return float('nan'), float('nan')
+    return float(np.mean(e)), float(np.sqrt(np.mean(e**2)))
+def disturbance_robustness(t,e,Fw,window_frac=0.5,window_min=1.0):
+    t=np.asarray(t); e=np.asarray(e); Fw=np.asarray(Fw)
+    T=t[-1]-t[0] if len(t)>1 else 0.0; w=max(window_min,window_frac*T); t0=t[-1]-w
+    idx=t>=t0
+    if not np.any(idx): return float('nan'), float('nan'), float('nan')
+    e_win=e[idx]; F_win=Fw[idx]
+    rms_e=float(np.sqrt(np.mean(e_win**2)))
+    rms_F=float(np.sqrt(np.mean(F_win**2))) if np.any(np.abs(F_win)>0) else 0.0
+    snr=float(rms_e/(rms_F+1e-12)) if rms_F>0 else float('nan')
+    return snr, rms_e, rms_F
+def print_summary(m: dict):
+    parts=[
+        f"MSE(th)={m.get('mse_theta',float('nan')):.6f}",
+        f"MAE(th)={m.get('mae_theta',float('nan')):.6f}",
+        f"MSE(x)={m.get('mse_x',float('nan')):.6f}",
+        f"MAE(x)={m.get('mae_x',float('nan')):.6f}",
+        f"IAE(th)={m.get('iae_theta',float('nan')):.4f}",
+        f"ISE(th)={m.get('ise_theta',float('nan')):.4f}",
+        f"IAE(x)={m.get('iae_x',float('nan')):.4f}",
+        f"ISE(x)={m.get('ise_x',float('nan')):.4f}",
+        f"E_u(L2)={m.get('e_u_l2',float('nan')):.4f}",
+        f"E_u(L1)={m.get('e_u_l1',float('nan')):.4f}",
+        f"t_s(th)={m.get('t_s_theta',float('nan')):.3f}s",
+        f"t_s(x)={m.get('t_s_x',float('nan')):.3f}s",
+        f"OS(th)={m.get('overshoot_theta',float('nan')):.2f}%",
+        f"OS(x)={m.get('overshoot_x',float('nan')):.2f}%",
+        f"ess(th)={m.get('ess_theta',float('nan')):.5f}",
+        f"ess(x)={m.get('ess_x',float('nan')):.5f}",
+        f"SNR_th={m.get('snr_theta',float('nan')):.3g}",
+        f"SNR_x={m.get('snr_x',float('nan')):.3g}",
+        f"T_sim={m.get('sim_time_wall',float('nan')):.3f}s",
+        f"T_ctrl={m.get('ctrl_time_total',float('nan')):.3f}s",
+    ]
+    print("  ".join(parts))
 
+# =========================
+# Symulacja (z logiem Fw i czasów)
+# =========================
 def evaluate_run(X: np.ndarray, U: np.ndarray, x_ref: float) -> float:
     th = X[:, 0]; x = X[:, 2]
     th_ref = np.zeros_like(th); xr = np.ones_like(x) * x_ref
@@ -258,28 +299,47 @@ def simulate(pars: dict,
              T: float,
              dt: float,
              wind: Optional[Callable[[float], float]] = None,
-             early_stop: Optional[Tuple[float, float]] = None) -> tuple[np.ndarray, np.ndarray, bool]:
+             early_stop: Optional[Tuple[float, float]] = None
+             ) -> tuple[np.ndarray, np.ndarray, bool, np.ndarray, float, float]:
+    """
+    Zwraca: X, U, ok, Fw_tr, ctrl_time_total, sim_time_wall
+    """
     steps = int(np.round(T / dt))
     x = np.asarray(x0, float).copy()
     traj = [x.copy()]
-    forces = []
+    forces: list[float] = []
+    Fw_tr: list[float] = []
     t = 0.0
     ok = True
+
+    ctrl_time_total = 0.0
+    sim_t0 = perf_counter()
+
     for _ in range(steps):
+        # czas kontrolera
+        t0c = perf_counter()
         u = controller.step(t, x, x_ref)
+        ctrl_time_total += perf_counter() - t0c
+
         forces.append(u)
+        F_cur = float(wind(t)) if wind else 0.0
+        Fw_tr.append(F_cur)
+
         x = rk4_step_wind(x, u, pars, dt, t, wind)
         traj.append(x.copy())
         t += dt
+
         if early_stop is not None:
             th_th, x_th = early_stop
             if abs(x[0]) > th_th or abs(x[2]) > x_th:
                 ok = False
                 break
-    return np.vstack(traj), np.asarray(forces), ok
+
+    sim_time_wall = perf_counter() - sim_t0
+    return np.vstack(traj), np.asarray(forces), ok, np.asarray(Fw_tr), ctrl_time_total, sim_time_wall
 
 # =========================
-# Autopick (znak + skala) – teraz korzysta z nowego LQR
+# Autopick (znak + skala)
 # =========================
 def autopick_variant(pars: dict, base: TSParams16, dt: float, K_lqr: np.ndarray) -> TSParams16:
     best_p = None
@@ -298,7 +358,7 @@ def autopick_variant(pars: dict, base: TSParams16, dt: float, K_lqr: np.ndarray)
                 gain_scale=sc,
             )
             ctrl = TSFuzzyArt3Controller(pars, cand, K_lqr, dt, du_max=1000.0, ramp_T=1.5)
-            Xs, Us, ok = simulate(
+            Xs, Us, ok, _, _, _ = simulate(
                 pars,
                 ctrl,
                 SIM["x0"],
@@ -368,22 +428,8 @@ def animate_cartpole(t: np.ndarray, X: np.ndarray, params: Optional[dict] = None
     setattr(fig, "_cartpole_ani", ani)
     plt.show()
 
-def print_metrics(X: np.ndarray, U: np.ndarray, x_ref: float):
-    t_len = len(X)
-    th_ref_tr = np.zeros(t_len)
-    x_ref_tr  = np.ones(t_len) * x_ref
-    metrics = {
-        "mse_theta": mse(X[:,0], th_ref_tr),
-        "mae_theta": mae(X[:,0], th_ref_tr),
-        "mse_x":     mse(X[:,2], x_ref_tr),
-        "mae_x":     mae(X[:,2], x_ref_tr),
-        "u_rms":     float(np.sqrt(np.mean(U**2))) if len(U) else 0.0
-    }
-    print(f"MSE(theta)={metrics['mse_theta']:.6f}  MAE(theta)={metrics['mae_theta']:.6f}  "
-          f"MSE(x)={metrics['mse_x']:.6f}  MAE(x)={metrics['mae_x']:.6f}  u_rms={metrics['u_rms']:.4f}")
-
 # =========================
-# Main
+# Main (+ liczenie metryk)
 # =========================
 if __name__ == "__main__":
     plant = PLANT
@@ -399,22 +445,88 @@ if __name__ == "__main__":
 
     base_ts  = starter_ts_params16(u_sat=SIM["u_sat"])
     picked_ts = autopick_variant(plant, base_ts, dt, K_lqr)
-
     print("Użyty wariant TS:",
           f"sign={picked_ts.sign}, gain_scale={picked_ts.gain_scale:.2f}, flip_u={picked_ts.flip_u}")
 
     ctrl = TSFuzzyArt3Controller(plant, picked_ts, K_lqr, dt, du_max=1000.0, ramp_T=2.0)
 
-    X, U, ok = simulate(plant, ctrl, x0, x_ref, T, dt,
-                        wind=wind, early_stop=None)
+    X, U, ok, Fw_tr, ctrl_time_total, sim_time_wall = simulate(
+        plant, ctrl, x0, x_ref, T, dt, wind=wind, early_stop=None
+    )
 
-    t = np.arange(0.0, T + dt, dt)
-    if len(X) != len(t):
-        t = np.linspace(0.0, T, len(X))
+    # siatka czasu
+    steps = len(U)
+    t = np.linspace(0.0, T, steps + 1)
+    tf = t[:-1]  # siatka dla U i Fw_tr
 
+    # wykres
     title = f"ts_fuzzy_art3ish  |  wind={'on' if wind else 'off'}  |  step=position_step  |  ok={ok}"
     plot_result(t, X, U, title)
-    print_metrics(X, U, x_ref[2])
 
+    # ===== METRYKI =====
+    th_ref_tr = np.zeros_like(t)
+    x_ref_tr  = np.ones_like(t) * x_ref[2]
+
+    # progi (spójne z innymi plikami)
+    eps_theta = 0.01  # rad
+    eps_x     = 0.01  # m
+    hold_time = 0.5   # s
+    ess_window_frac = 0.10
+    ess_window_min  = 0.5
+    is_step = True
+
+    # błędy
+    e_th = X[:,0] - th_ref_tr
+    e_x  = X[:,2] - x_ref_tr
+
+    metrics = {
+        "mse_theta": mse(X[:,0], th_ref_tr),
+        "mae_theta": mae(X[:,0], th_ref_tr),
+        "mse_x":     mse(X[:,2], x_ref_tr),
+        "mae_x":     mae(X[:,2], x_ref_tr),
+        "iae_theta": iae(t, X[:,0], th_ref_tr),
+        "ise_theta": ise(t, X[:,0], th_ref_tr),
+        "iae_x":     iae(t, X[:,2], x_ref_tr),
+        "ise_x":     ise(t, X[:,2], x_ref_tr),
+        "e_u_l2":    control_energy_l2(tf, U),
+        "e_u_l1":    control_energy_l1(tf, U),
+        "sim_time_wall": sim_time_wall,
+        "ctrl_time_total": ctrl_time_total,
+    }
+
+    metrics["t_s_theta"] = settling_time(t, X[:,0], th_ref_tr, eps=eps_theta, hold_time=hold_time) if is_step else float('nan')
+    metrics["t_s_x"]     = settling_time(t, X[:,2], x_ref_tr,  eps=eps_x,     hold_time=hold_time) if is_step else float('nan')
+
+    metrics["overshoot_theta"] = overshoot(X[:,0], th_ref_tr[-1]) if is_step else float('nan')  # NaN bo ref=0
+    metrics["overshoot_x"]     = overshoot(X[:,2], x_ref_tr[-1])  if is_step else float('nan')
+
+    ess_th_mean, ess_th_rms = steady_state_error(t, X[:,0], th_ref_tr, window_frac=ess_window_frac, window_min=ess_window_min)
+    ess_x_mean,  ess_x_rms  = steady_state_error(t, X[:,2], x_ref_tr,  window_frac=ess_window_frac, window_min=ess_window_min)
+    metrics["ess_theta"] = ess_th_mean
+    metrics["ess_x"]     = ess_x_mean
+    metrics["ess_theta_rms"] = ess_th_rms
+    metrics["ess_x_rms"]     = ess_x_rms
+
+    if wind is not None and len(Fw_tr) == len(tf):
+        # dopasuj błędy do siatki tf (bez pierwszego punktu stanu)
+        e_th_tf = X[1:,0] - th_ref_tr[1:]
+        e_x_tf  = X[1:,2] - x_ref_tr[1:]
+        snr_th, rms_e_th, rms_F = disturbance_robustness(tf, e_th_tf, Fw_tr, window_frac=0.5, window_min=1.0)
+        snr_x,  rms_e_x,  _     = disturbance_robustness(tf, e_x_tf,  Fw_tr, window_frac=0.5, window_min=1.0)
+        metrics["snr_theta"] = snr_th
+        metrics["snr_x"]     = snr_x
+        metrics["rms_e_theta"] = rms_e_th
+        metrics["rms_e_x"]     = rms_e_x
+        metrics["rms_Fw"]      = rms_F
+    else:
+        metrics["snr_theta"] = float('nan')
+        metrics["snr_x"]     = float('nan')
+        metrics["rms_e_theta"] = float('nan')
+        metrics["rms_e_x"]     = float('nan')
+        metrics["rms_Fw"]      = float('nan')
+
+    print_summary(metrics)
+
+    # animacja (opcjonalnie)
     if os.environ.get("ANIMATE", "0") == "1":
         animate_cartpole(t, X, params=plant)
