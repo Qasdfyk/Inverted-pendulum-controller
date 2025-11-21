@@ -126,7 +126,7 @@ class MPCControllerJ1:
 def animate_cartpole(t, X, params=None, speed=1.0):
     th=X[:,0]; x=X[:,2]; p=params or {}; l=p.get("l",0.36)
     cart_w,cart_h=0.35,0.18; wheel_r=0.05; pole_len=l*1.5; pad=0.8
-    fig,ax=plt.subplots(figsize=(9,3.6)); ax.grid(True,alpha=0.3); ax.set_title("Cart–Pole")
+    fig,ax=plt.subplots(figsize=(9,3.6)); ax.grid(True,alpha=0.3); ax.set_title("Cart-Pole")
     xmin,xmax=float(np.min(x)-pad), float(np.max(x)+pad)
     ax.set_xlim(xmin,xmax); ax.set_ylim(-(wheel_r+0.25), pole_len+0.45)
     ax.plot([xmin,xmax],[0,0],color='k',lw=1,alpha=0.6)
@@ -231,8 +231,8 @@ def simulate_mpc(pars, controller: MPCControllerJ1, x0, x_ref, T, dt, u0=0.0,
 if __name__ == "__main__":
     dt,T = SIM["dt"], SIM["T"]; x0,x_ref,u_sat = SIM["x0"], SIM["x_ref"], SIM["u_sat"]; plant=PLANT
     # ---- Wind toggle ----
-    wind = None                # disable wind
-    # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)  # enable wind
+    #wind = None                # disable wind
+    wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)  # enable wind
     # ---------------------
     ctrl = MPCControllerJ1(plant, dt, N=10, Nu=8, umin=-u_sat, umax=u_sat,
                            q_theta=60.0, q_thdot=3.0, q_x=15.0, q_xdot=1.0, r=1e-3)

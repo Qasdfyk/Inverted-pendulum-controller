@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  3 NOV 2025 21:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  21 NOV 2025 15:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1202,17 +1202,17 @@ LaTeX Font Info:    Font shape `U/futm/m/n' will be
 
 ] (tex/wstep.tex
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 13.24796pt on input line 9.
+(Font)              scaled to size 13.24796pt on input line 16.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 9.19998pt on input line 9.
+(Font)              scaled to size 9.19998pt on input line 16.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 7.35999pt on input line 9.
+(Font)              scaled to size 7.35999pt on input line 16.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 13.24796pt on input line 9.
+(Font)              scaled to size 13.24796pt on input line 16.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 9.19998pt on input line 9.
+(Font)              scaled to size 9.19998pt on input line 16.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 7.35999pt on input line 9.
+(Font)              scaled to size 7.35999pt on input line 16.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1221,13 +1221,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [7]
 
 Package babel Info: 'polish' activates 'polish' shorthands.
-(babel)             Reported on input line 46.
-[8]
+(babel)             Reported on input line 66.
+[8])
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[9])
+[9]
 
 [10] (tex/matma.tex
 LaTeX Font Info:    Trying to load font information for TS1+futs on input line 16.
@@ -1360,21 +1360,21 @@ LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-10-09>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 050B2757775768DBDEFBE5241457FD70;4547.
+(rerunfilecheck)             Checksum: 73168921FDC6B873C9284B4269C9A9BB;4541.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
  32375 strings out of 468080
- 618426 string characters out of 5425772
+ 618425 string characters out of 5425772
  1731275 words of memory out of 5000000
  60071 multiletter control sequences out of 15000+600000
- 808476 words of font info for 461 fonts, out of 8000000 for 9000
+ 808472 words of font info for 461 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 123i,12n,121p,1085b,1940s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 123i,12n,121p,1047b,1940s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss9.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (24 pages, 554453 bytes).
+Output written on main.pdf (24 pages, 553993 bytes).
 PDF statistics:
  393 PDF objects out of 1000 (max. 8388607)
  73 named destinations out of 1000 (max. 500000)

@@ -4,7 +4,7 @@ Regulator PID ma transmitancję:
 \[
     C_{\text{PID}}(s) = K_p + \frac{K_i}{s} + K_d\,s.
 \]
-Dobór parametrów \(K_p, K_i, K_d\) wykonano w MATLAB–ie za pomocą funkcji \texttt{pidtune}, działającej na modeli typu \(\mathrm{TF}\) dla toru prostego (kąt \(\varphi\) w zamknięciu sprzężenia zwrotnego). Regulator ma za zadanie stabilizować kąt wahadła do zera, przy zerowym odchyleniu wózka.  
+Dobór parametrów \(K_p, K_i, K_d\) wykonano w MATLAB-ie za pomocą funkcji \texttt{pidtune}, działającej na modeli typu \(\mathrm{TF}\) dla toru prostego (kąt \(\varphi\) w zamknięciu sprzężenia zwrotnego). Regulator ma za zadanie stabilizować kąt wahadła do zera, przy zerowym odchyleniu wózka.  
 W postaci dyskretnej implementacja wygląda tak:
 \[
     u[k] = K_p\,e[k] + K_i \sum_{j=0}^k e[j]\,\Delta t + K_d \frac{e[k]-e[k-1]}{\Delta t}, 
@@ -17,9 +17,9 @@ Aby uzyskać lepszą regulację położenia \(x\), można użyć regulatora PD:
 \[
     C_{\text{PD}}(s) = K_p + K_d\,s.
 \]
-Dobór nastaw wykonany jest również z wykorzystaniem \texttt{pidtune}, lecz z opcją \texttt{'PD'}. Torem wejścia jest sygnał sterujący \(u\), a wyjściem – pozycja \(x\). Model względny utworzono z liniowego modelu stanu, wyciągając transmitancję od \(u \to x\).
+Dobór nastaw wykonany jest również z wykorzystaniem \texttt{pidtune}, lecz z opcją \texttt{'PD'}. Torem wejścia jest sygnał sterujący \(u\), a wyjściem - pozycja \(x\). Model względny utworzono z liniowego modelu stanu, wyciągając transmitancję od \(u \to x\).
 
-\subsection{Regulator LQR (Linear–Quadratic Regulator)}
+\subsection{Regulator LQR (Linear-Quadratic Regulator)}
 Regulator LQR minimalizuje funkcję kosztu:
 \[
     J = \int_{0}^{\infty} \Bigl(\mathbf{x}^\mathsf{T} Q \,\mathbf{x} + u^\mathsf{T} R \,u\Bigr)\,dt,
@@ -28,7 +28,7 @@ gdzie \(Q = Q^\mathsf{T} \succeq 0\) oraz \(R = R^\mathsf{T} \succ 0\). Rozwiąz
 \[
     u(t) = -\,K\,\mathbf{x}(t).
 \]
-W MATLAB–ie nastawy otrzymuje się poprzez wywołanie funkcji \texttt{lqr(A,B,Q,R)}, a zamknięty układ jest definiowany jako  
+W MATLAB-ie nastawy otrzymuje się poprzez wywołanie funkcji \texttt{lqr(A,B,Q,R)}, a zamknięty układ jest definiowany jako  
 \(\mathrm{ss}\bigl(A - B K,\,B,\,C,\,D\bigr)\). Regulacja LQR stabilizuje całość wektora stanu, a w szczególności kąt \(\varphi\).
 
 \subsection{Regulator złożony (Composite Controller)}

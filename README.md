@@ -1,7 +1,7 @@
 
-# Cart-Pole Controllers (PID+LQR, PD/PD, LMPC, MPC, T–S Fuzzy)
+# Cart-Pole Controllers (PID+LQR, PD/PD, LMPC, MPC, T-S Fuzzy)
 
-Unified environment for testing multiple controllers on the same nonlinear cart–pole plant.
+Unified environment for testing multiple controllers on the same nonlinear cart-pole plant.
 
 ## Quick start
 

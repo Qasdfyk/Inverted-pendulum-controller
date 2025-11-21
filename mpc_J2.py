@@ -101,7 +101,7 @@ class MPCControllerJ2:
 def animate_cartpole(t, X, params=None, speed=1.0):
     th=X[:,0]; x=X[:,2]; p=params or {}; l=p.get("l",0.36)
     cart_w,cart_h=0.35,0.18; wheel_r=0.05; pole_len=l*1.5; pad=0.8
-    fig,ax=plt.subplots(figsize=(9,3.6)); ax.grid(True,alpha=0.3); ax.set_title("Cart–Pole")
+    fig,ax=plt.subplots(figsize=(9,3.6)); ax.grid(True,alpha=0.3); ax.set_title("Cart-Pole")
     xmin,xmax=float(np.min(x)-pad), float(np.max(x)+pad)
     ax.set_xlim(xmin,xmax); ax.set_ylim(-(wheel_r+0.25), pole_len+0.45)
     ax.plot([xmin,xmax],[0,0],color='k',lw=1,alpha=0.6)

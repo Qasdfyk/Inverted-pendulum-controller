@@ -4,7 +4,7 @@ from matplotlib.animation import FuncAnimation
 
 def animate_cartpole(t, X, params=None, speed=1.0):
     """
-    Clean cart–pole animation with wheels, smooth camera, and robust drawing.
+    Clean cart-pole animation with wheels, smooth camera, and robust drawing.
     Avoids 'blit' to prevent backend issues; keeps animation object alive.
     """
     th = X[:, 0]
@@ -19,7 +19,7 @@ def animate_cartpole(t, X, params=None, speed=1.0):
 
     fig, ax = plt.subplots(figsize=(9, 3.6))
     ax.grid(True, alpha=0.3)
-    ax.set_title("Cart–Pole")
+    ax.set_title("Cart-Pole")
 
     xmin = float(np.min(x) - pad)
     xmax = float(np.max(x) + pad)

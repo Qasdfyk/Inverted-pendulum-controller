@@ -401,7 +401,7 @@ def animate_cartpole(t: np.ndarray, X: np.ndarray, params: Optional[dict] = None
     pole_len = l * 1.5; pad = 0.8
 
     fig, ax = plt.subplots(figsize=(9, 3.6))
-    ax.grid(True, alpha=0.3); ax.set_title("Cart–Pole  (TS-fuzzy + LQR)")
+    ax.grid(True, alpha=0.3); ax.set_title("Cart-Pole  (TS-fuzzy + LQR)")
     xmin, xmax = float(np.min(x) - pad), float(np.max(x) + pad)
     ax.set_xlim(xmin, xmax); ax.set_ylim(-(wheel_r + 0.25), pole_len + 0.45)
     ax.plot([xmin, xmax], [0, 0], color='k', lw=1, alpha=0.6)

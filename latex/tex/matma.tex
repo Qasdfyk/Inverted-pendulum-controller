@@ -2,18 +2,18 @@
 
 \subsection{Opis fizyczny układu}
 
-Rozważany układ stanowi klasyczny przykład niestabilnego i nieliniowego obiektu dynamicznego – wahadło odwrócone na wózku. Składa się on z wózka o masie \(M\), poruszającego się po torze poziomym, oraz wahadła o masie \(m\) i długości \(l\), przegubowo zamocowanego do wózka. Punkt zawieszenia znajduje się na jego górnej części, a wahadło może swobodnie wychylać się w płaszczyźnie pionowej. 
+Rozważany układ stanowi klasyczny przykład niestabilnego i nieliniowego obiektu dynamicznego - wahadło odwrócone na wózku. Składa się on z wózka o masie \(M\), poruszającego się po torze poziomym, oraz wahadła o masie \(m\) i długości \(l\), przegubowo zamocowanego do wózka. Punkt zawieszenia znajduje się na jego górnej części, a wahadło może swobodnie wychylać się w płaszczyźnie pionowej. 
 
-Układ jest zasilany siłą sterującą \(u(t)\), przyłożoną do wózka w kierunku poziomym. Zadaniem sterowania jest takie kształtowanie tej siły, aby utrzymać wahadło w pozycji odwróconej (\(\theta = 0\)), a jednocześnie stabilizować położenie wózka \(x(t)\) wokół zadanej pozycji. Pozycja odwrócona jest położeniem równowagi niestabilnej – najmniejsze zaburzenie powoduje wychylenie i upadek wahadła, jeśli nie zostanie ono aktywnie stabilizowane.
+Układ jest zasilany siłą sterującą \(u(t)\), przyłożoną do wózka w kierunku poziomym. Zadaniem sterowania jest takie kształtowanie tej siły, aby utrzymać wahadło w pozycji odwróconej (\(\theta = 0\)), a jednocześnie stabilizować położenie wózka \(x(t)\) wokół zadanej pozycji. Pozycja odwrócona jest położeniem równowagi niestabilnej - najmniejsze zaburzenie powoduje wychylenie i upadek wahadła, jeśli nie zostanie ono aktywnie stabilizowane.
 
 Z uwagi na to, że układ ten jest nieliniowy i sprzężony, stanowi on powszechnie wykorzystywany model badawczy w dziedzinie teorii sterowania. Na jego podstawie testuje się zarówno klasyczne metody regulacji, jak i nowoczesne podejścia optymalne i predykcyjne.
 
 Parametry fizyczne układu przyjęto w postaci:
 \begin{itemize}
-    \item \(M\) – masa wózka [kg],
-    \item \(m\) – masa wahadła [kg],
-    \item \(l\) – długość pręta wahadła [m],
-    \item \(g\) – przyspieszenie ziemskie [m/s²].
+    \item \(M\) - masa wózka [kg],
+    \item \(m\) - masa wahadła [kg],
+    \item \(l\) - długość pręta wahadła [m],
+    \item \(g\) - przyspieszenie ziemskie [m/s²].
 \end{itemize}
 
 Przyjęto, że tarcie kół wózka oraz opory w przegubie wahadła są pomijalnie małe, co pozwala uprościć równania ruchu. Układ współrzędnych przyjęto w taki sposób, że pozycja wózka oznaczona jest jako \(x(t)\), natomiast kąt wychylenia wahadła \(\theta(t)\) mierzony jest względem osi pionowej (rysunek 2.1). 
@@ -44,7 +44,7 @@ Równania te tworzą nieliniowy układ równań różniczkowych drugiego rzędu.
 {l \left( m \cos^2\theta - (M + m) \right)}.
 \]
 
-Powyższe równania stanowią kompletny opis nieliniowej dynamiki wahadła odwróconego na wózku. Warto zauważyć, że układ jest silnie sprzężony – zmiana położenia wózka wpływa na ruch wahadła i odwrotnie. Nieliniowość wynika głównie z obecności funkcji trygonometrycznych \(\sin\theta\), \(\cos\theta\) oraz iloczynów tych funkcji z prędkościami.
+Powyższe równania stanowią kompletny opis nieliniowej dynamiki wahadła odwróconego na wózku. Warto zauważyć, że układ jest silnie sprzężony - zmiana położenia wózka wpływa na ruch wahadła i odwrotnie. Nieliniowość wynika głównie z obecności funkcji trygonometrycznych \(\sin\theta\), \(\cos\theta\) oraz iloczynów tych funkcji z prędkościami.
 
 \subsection{Model nieliniowy w przestrzeni stanów}
 
@@ -59,7 +59,7 @@ x_1 \\ x_2 \\ x_3 \\ x_4
 \theta \\ \dot{\theta} \\ x \\ \dot{x}
 \end{bmatrix},
 \]
-gdzie \(x_1\) i \(x_2\) opisują kąt oraz prędkość kątową wahadła, natomiast \(x_3\) i \(x_4\) – położenie i prędkość liniową wózka.
+gdzie \(x_1\) i \(x_2\) opisują kąt oraz prędkość kątową wahadła, natomiast \(x_3\) i \(x_4\) - położenie i prędkość liniową wózka.
 
 W tej notacji model przyjmuje postać:
 \[

@@ -1,8 +1,15 @@
 % !TEX encoding = utf8
 \section{Wstęp}
-Odwrócone wahadło na wózku jest klasycznym przykładem nieliniowego, niestabilnego układu, wykorzystywanym zarówno w dydaktyce, jak i w badaniach nad zaawansowanymi technikami sterowania. Jego atrakcyjność wynika z tego, że choć geometria i parametry są stosunkowo proste, to układ ten pozostaje trudny do stabilizacji i wymaga precyzyjnej regulacji w czasie rzeczywistym. Charakterystyczna podwzbudność underactuation oraz silna wrażliwość na zakłócenia sprawiają, że nawet niewielkie odchylenia prowadzą do gwałtownego narastania błędów i utraty równowagi.
+Odwrócone wahadło na wózku jest klasycznym przykładem nieliniowego, niestabilnego układu,
+wykorzystywanym zarówno w dydaktyce, jak i w badaniach nad zaawansowanymi technikami sterowania. 
+Jego atrakcyjność wynika z tego, że choć geometria i parametry są stosunkowo proste, to układ ten pozostaje trudny 
+do stabilizacji i wymaga precyzyjnej regulacji w czasie rzeczywistym. Charakterystyczna podwzbudność
+oraz silna wrażliwość na zakłócenia sprawiają, że nawet niewielkie odchylenia prowadzą do gwałtownego narastania błędów i utraty równowagi.
 
-Znaczenie tego modelu wykracza daleko poza cele dydaktyczne. Odwrócone wahadło na wózku służy jako kanoniczny benchmark dla metod sterowania i estymacji stanu, ponieważ łączy w sobie typowe trudności spotykane w systemach rzeczywistych: nieliniowość, niestabilność, ograniczenia aktuatora oraz niepewność parametrów fizycznych. Umożliwia badanie zachowania regulatorów w sytuacjach, w których klasyczne założenia liniowe przestają obowiązywać, a układ wymaga adaptacji lub sterowania optymalnego.
+Znaczenie tego modelu wykracza daleko poza cele dydaktyczne. Odwrócone wahadło na wózku służy jako kanoniczny benchmark 
+dla metod sterowania i estymacji stanu, ponieważ łączy w sobie typowe trudności spotykane w systemach rzeczywistych: nieliniowość, 
+niestabilność, ograniczenia aktuatora oraz niepewność parametrów fizycznych. Umożliwia badanie zachowania regulatorów w sytuacjach, 
+w których klasyczne założenia liniowe przestają obowiązywać, a układ wymaga adaptacji lub sterowania optymalnego.
 
 Model ten ma również liczne odpowiedniki w praktyce inżynierskiej. Jego dynamika jest analogiczna do wielu złożonych zjawisk fizycznych i konstrukcji technicznych, w tym:
 \begin{itemize}
@@ -12,44 +19,73 @@ Model ten ma również liczne odpowiedniki w praktyce inżynierskiej. Jego dynam
   \item równoważenia platform i pojazdów samobalansujących, gdzie zachowanie pionowej pozycji wymaga ciągłego dopasowywania siły napędowej do położenia środka masy.
 \end{itemize}
 
-Ze względu na te analogie, problem stabilizacji odwróconego wahadła jest powszechnie traktowany jako uproszczony model wielu systemów rzeczywistych o podobnej dynamice. Jego badanie pozwala na praktyczne sprawdzenie skuteczności różnych algorytmów sterowania, zanim zostaną one zastosowane w bardziej złożonych lub kosztownych obiektach. Z tego powodu układ ten od dziesięcioleci stanowi ważny punkt odniesienia w badaniach nad nowoczesnymi metodami regulacji — od klasycznych regulatorów PID i LQR po sterowanie predykcyjne, adaptacyjne i rozmyte.
+Ze względu na te analogie, problem stabilizacji odwróconego wahadła jest powszechnie traktowany jako uproszczony model wielu systemów rzeczywistych 
+o podobnej dynamice. Jego badanie pozwala na praktyczne sprawdzenie skuteczności różnych algorytmów sterowania, zanim zostaną one zastosowane w bardziej 
+złożonych lub kosztownych obiektach. Z tego powodu układ ten od dziesięcioleci stanowi ważny punkt odniesienia w badaniach nad nowoczesnymi metodami regulacji — od
+ klasycznych regulatorów PID i LQR po sterowanie predykcyjne, adaptacyjne i rozmyte.
 
-Prostota modelu matematycznego oraz łatwość interpretacji wyników (kąt wychylenia wahadła i położenie wózka) sprawiają, że odwrócone wahadło pozostaje jednym z najbardziej rozpoznawalnych obiektów w teorii sterowania. Łączy ono elegancję analityczną z praktycznymi wyzwaniami inżynierskimi, stanowiąc uniwersalne narzędzie do nauki, testowania i rozwijania metod stabilizacji systemów nieliniowych i niestabilnych.
+Prostota modelu matematycznego oraz łatwość interpretacji wyników (kąt wychylenia wahadła i położenie wózka) sprawiają, że odwrócone wahadło 
+pozostaje jednym z najbardziej rozpoznawalnych obiektów w teorii sterowania. Łączy ono elegancję analityczną z praktycznymi wyzwaniami inżynierskimi, 
+stanowiąc uniwersalne narzędzie do nauki, testowania i rozwijania metod stabilizacji systemów nieliniowych i niestabilnych.
 
 \subsection{Cel pracy}
-Celem niniejszego sprawozdania jest przedstawienie projektu symulacyjnego układu stabilizacji odwróconego wahadła na wózku, będącego klasycznym przykładem niestabilnego i nieliniowego obiektu dynamicznego. W ramach pracy przeprowadzono analizę i porównanie skuteczności różnych metod sterowania, zarówno klasycznych, jak i nowoczesnych, w identycznych warunkach testowych.
+Celem niniejszego sprawozdania jest przedstawienie projektu symulacyjnego układu stabilizacji odwróconego wahadła na wózku, 
+będącego klasycznym przykładem niestabilnego i nieliniowego obiektu dynamicznego. W ramach pracy przeprowadzono analizę i 
+porównanie skuteczności różnych metod sterowania, zarówno klasycznych, jak i nowoczesnych, w identycznych warunkach testowych.
 
 Zaimplementowano i zbadano działanie następujących regulatorów:
 \begin{enumerate}
-    \item \textbf{Regulator PID–PID} — klasyczny układ kaskadowy z dwiema pętlami sprzężenia zwrotnego, w którym jedna pętla odpowiada za stabilizację kąta wychylenia wahadła \(\varphi\), a druga za pozycję wózka \(x\).
-    \item \textbf{Regulator PID–LQR} — połączenie klasycznego sterowania PID dla położenia wózka z optymalnym regulatorem stanu LQR dla kąta wahadła, stanowiące kompromis między prostotą implementacji a wysoką jakością regulacji.
-    \item \textbf{Regulator LQR} — regulator optymalny zaprojektowany dla pełnego modelu zlinearyzowanego układu, minimalizujący zdefiniowaną funkcję kosztu energii błędów i sygnału sterującego.
-    \item \textbf{Regulator MPC\_NO} — model predykcyjny bez ograniczeń, wykorzystujący optymalizację w horyzoncie czasowym do przewidywania przyszłych stanów układu.
-    \item \textbf{Regulator MPC\_NO z alternatywną funkcją kosztu} — warianty metody MPC o zmodyfikowanym kryterium optymalizacji, kładące nacisk na ograniczenie prędkości stanów lub silniejsze karanie dużych wychyleń wahadła.
-    \item \textbf{Regulator rozmyty Takagi--Sugeno} — metoda bazująca na lokalnych modelach liniowych i regułach typu jeśli-to, stanowiąca przykład podejścia adaptacyjnego i nieliniowego.
+    \item \textbf{Regulator PID-PID} — klasyczny układ kaskadowy z dwiema pętlami sprzężenia zwrotnego, 
+    w którym jedna pętla odpowiada za stabilizację kąta wychylenia wahadła \(\varphi\), a druga za pozycję wózka \(x\).
+    \item \textbf{Regulator PID-LQR} — połączenie klasycznego sterowania PID dla położenia wózka z optymalnym 
+    regulatorem stanu LQR dla kąta wahadła, stanowiące kompromis między prostotą implementacji a wysoką jakością regulacji.
+    \item \textbf{Regulator LQR} — regulator optymalny zaprojektowany dla pełnego modelu zlinearyzowanego
+     układu, minimalizujący zdefiniowaną funkcję kosztu energii błędów i sygnału sterującego.
+    \item \textbf{Regulator MPC\_NO} — model predykcyjny bez ograniczeń, wykorzystujący optymalizację 
+    w horyzoncie czasowym do przewidywania przyszłych stanów układu.
+    \item \textbf{Regulator MPC\_NO z alternatywną funkcją kosztu} — warianty metody MPC o zmodyfikowanym kryterium 
+    optymalizacji, kładące nacisk na ograniczenie prędkości stanów lub silniejsze karanie dużych wychyleń wahadła.
+    \item \textbf{Regulator rozmyty Takagi--Sugeno} — metoda bazująca na lokalnych modelach liniowych i regułach typu 
+    jeśli-to, stanowiąca przykład podejścia adaptacyjnego i nieliniowego.
 \end{enumerate}
 
-Celem porównań było określenie, która z metod zapewnia najlepszy kompromis między dokładnością, szybkością, stabilnością oraz odpornością układu na zakłócenia i zmienność parametrów. Dla każdego z regulatorów przeanalizowano odpowiedź układu w warunkach nominalnych oraz przy obecności zaburzeń zewnętrznych w postaci siły poziomej działającej na wózek.
+Celem porównań było określenie, która z metod zapewnia najlepszy kompromis między dokładnością, szybkością, 
+stabilnością oraz odpornością układu na zakłócenia i zmienność parametrów. Dla każdego z regulatorów przeanalizowano 
+odpowiedź układu w warunkach nominalnych oraz przy obecności zaburzeń zewnętrznych w postaci siły poziomej działającej na wózek.
 
-Dodatkowo zestawiono i porównano miary jakości regulacji:
-\begin{itemize}
-    \item średni błąd kwadratowy (MSE) oraz średni błąd bezwzględny (MAE) dla trajektorii \(\varphi(t)\) i \(x(t)\),
-    \item czas regulacji i przeregulowanie,
-    \item energię sygnału sterującego,
-    \item średni czas obliczeń poszczególnych metod.
-\end{itemize}
-
-Uzyskane wyniki pozwalają na ocenę efektywności, złożoności obliczeniowej oraz odporności na zakłócenia poszczególnych metod sterowania, a także stanowią punkt wyjścia do dalszych badań nad sterowaniem predykcyjnym i rozmytym dla układów nieliniowych.
+Uzyskane wyniki pozwalają na ocenę efektywności, złożoności obliczeniowej oraz odporności na zakłócenia poszczególnych metod 
+sterowania, a także stanowią punkt wyjścia do dalszych badań nad sterowaniem predykcyjnym i rozmytym dla układów nieliniowych.
 
 \subsection{Omówienie literatury}
-W literaturze przedmiotu odwrócone wahadło na wózku jest traktowane jako wzorcowy układ niestabilny i nieliniowy, stanowiący użyteczną platformę do porównywania metod regulacji i estymacji stanu. W pracy ~\cite{art1} przedstawiono kompletny model nieliniowy z uwzględnieniem zaburzenia siłowego (wiatru) oraz liniaryzację w otoczeniu punktu równowagi. Na tej podstawie zaprojektowano regulatory PID i LQR, a także rozważono konfiguracje hybrydowe PID+LQR (warianty z jedną i dwiema pętlami PID), porównując odpowiedzi czasowe w warunkach nominalnych i przy zakłóceniach. Wyniki wskazują, że włączenie komponentu LQR poprawia szybkość i gładkość odpowiedzi w stosunku do regulacji wyłącznie typu PID.
+W literaturze przedmiotu odwrócone wahadło na wózku jest traktowane jako wzorcowy układ niestabilny i nieliniowy, 
+stanowiący użyteczną platformę do porównywania metod regulacji i estymacji stanu. W pracy ~\cite{art1} przedstawiono 
+kompletny model nieliniowy z uwzględnieniem zaburzenia siłowego (wiatru) oraz liniaryzację w otoczeniu punktu równowagi.
+Na tej podstawie zaprojektowano regulatory PID i LQR, a także rozważono konfiguracje hybrydowe PID+LQR (warianty z jedną i dwiema pętlami PID),
+porównując odpowiedzi czasowe w warunkach nominalnych i przy zakłóceniach. Wyniki wskazują, że włączenie komponentu LQR poprawia szybkość i 
+gładkość odpowiedzi w stosunku do regulacji wyłącznie typu PID.
 
-Ujęcie konferencyjne ~\cite{art2} poszerza perspektywę o sterowanie predykcyjne (MPC), prezentując jednorodne środowisko symulacyjne i porównania PID, LQR, konfiguracji PID+LQR oraz MPC. Autorzy zestawiają przebiegi stanów i sygnałów sterujących, analizując przypadki bez zakłóceń i z zakłóceniami (szum pasmowo ograniczony). Z punktu widzenia jakości regulacji wyniki potwierdzają przewagę rozwiązań z udziałem LQR nad czystym PID oraz pokazują potencjał MPC w poprawie własności dynamicznych.
+Ujęcie konferencyjne ~\cite{art2} poszerza perspektywę o sterowanie predykcyjne (MPC), prezentując jednorodne środowisko symulacyjne i porównania
+PID, LQR, konfiguracji PID+LQR oraz MPC. Autorzy zestawiają przebiegi stanów i sygnałów sterujących, analizując przypadki bez zakłóceń i z zakłóceniami 
+(szum pasmowo ograniczony). Z punktu widzenia jakości regulacji wyniki potwierdzają przewagę rozwiązań z udziałem LQR nad czystym PID oraz pokazują
+potencjał MPC w poprawie własności dynamicznych.
 
-Nowsze prace integrują metody optymalne i rozmyte. Artykuł ~\cite{art3} przedstawia rozwiązanie bazujące na połączeniu LQR i regulatora rozmytego Takagi-Sugeno (z kompensacją typu PDC), uzupełnione obserwatorami prędkości kątowej (porównanie obserwatora ESO i wysokorzędowego integral-chain). Otrzymane wyniki wskazują na przyspieszenie zbieżności i poprawę jakości estymacji w stosunku do układu opartego wyłącznie na LQR, co czyni podejścia hybrydowe atrakcyjnymi w obecności zakłóceń i niepewności parametrów.
+Nowsze prace integrują metody optymalne i rozmyte. Artykuł ~\cite{art3} przedstawia rozwiązanie bazujące na połączeniu LQR i regulatora rozmytego Takagi-Sugeno 
+(z kompensacją typu PDC), uzupełnione obserwatorami prędkości kątowej (porównanie obserwatora ESO i wysokorzędowego integral-chain). Otrzymane wyniki wskazują 
+na przyspieszenie zbieżności i poprawę jakości estymacji w stosunku do układu opartego wyłącznie na LQR, co czyni podejścia hybrydowe atrakcyjnymi w obecności
+zakłóceń i niepewności parametrów.
 
-W polskiej literaturze akademickiej, w tym w pracach zespołów z Politechniki Warszawskiej, porównywano LQR z predykcyjnym regulatorem przestrzeni stanu (SSMPC) na rzeczywistych stanowiskach laboratoryjnych dla wahadła odwróconego ~\cite{jezierski2017}. Wykazano między innymi, że LQR dobrze radzi sobie z regulacją do wartości stałej oraz tłumieniem zakłóceń, podczas gdy SSMPC zapewnia łagodniejsze zmiany sterowania i korzystne własności śledzenia trajektorii, co ma znaczenie dla trwałości elementów wykonawczych.
+W polskiej literaturze akademickiej, w tym w pracach zespołów z Politechniki Warszawskiej, porównywano LQR z predykcyjnym regulatorem przestrzeni stanu (SSMPC) 
+na rzeczywistych stanowiskach laboratoryjnych dla wahadła odwróconego ~\cite{jezierski2017}. Wykazano między innymi, że LQR dobrze radzi sobie z regulacją do
+wartości stałej oraz tłumieniem zakłóceń, podczas gdy SSMPC zapewnia łagodniejsze zmiany sterowania i korzystne własności śledzenia trajektorii, co ma 
+znaczenie dla trwałości elementów wykonawczych.
 
-Z punktu widzenia podstaw teoretycznych i zaleceń projektowych dla MPC, prace monograficzne ~\cite{camacho2007} stanowią powszechnie przywoływane źródła. Omawiają one formułowanie funkcji kosztu (w tym składnika terminalnego i kar na przyrosty sterowania), wybór horyzontów, stabilność zamkniętej pętli oraz aspekty obliczeniowe. Po stronie wdrożeń i wykonalności obliczeniowej NMPC, istotne są wyniki uzyskane na stanowiskach rzeczywistych, gdzie rozwiązywano w czasie rzeczywistym zadania nieliniowe z wieloma ograniczeniami ~\cite{mills2009}. Wątki związane z efektywnością obliczeń i ograniczeniami czasowymi są rozwijane w nowszych pracach, również w czasopismach krajowych ~\cite{diwan2022}. Dla ujęć rozmytych i hybrydowych, użyteczne tło eksperymentalne i metodyczne oferują opracowania poświęcone regulatorom Takagi-Sugeno z kompensacją PDC oraz ich porównaniom z podejściami klasycznymi ~\cite{roose2017}.
+Z punktu widzenia podstaw teoretycznych i zaleceń projektowych dla MPC, prace monograficzne ~\cite{camacho2007} stanowią powszechnie przywoływane źródła.
+Omawiają one formułowanie funkcji kosztu (w tym składnika terminalnego i kar na przyrosty sterowania), wybór horyzontów, stabilność zamkniętej pętli oraz
+aspekty obliczeniowe. Po stronie wdrożeń i wykonalności obliczeniowej NMPC, istotne są wyniki uzyskane na stanowiskach rzeczywistych, gdzie rozwiązywano 
+w czasie rzeczywistym zadania nieliniowe z wieloma ograniczeniami ~\cite{mills2009}. Wątki związane z efektywnością obliczeń i ograniczeniami czasowymi są
+rozwijane w nowszych pracach, również w czasopismach krajowych ~\cite{diwan2022}. Dla ujęć rozmytych i hybrydowych, użyteczne tło eksperymentalne i metodyczne 
+oferują opracowania poświęcone regulatorom Takagi-Sugeno z kompensacją PDC oraz ich porównaniom z podejściami klasycznymi ~\cite{roose2017}.
 
-Podsumowując, korpus literatury obejmuje: klasyczne porównania PID/LQR wraz z analizą wpływu zakłóceń ~\cite{art1}, rozszerzenie o ujęcia predykcyjne i zestandaryzowane scenariusze porównawcze ~\cite{art2}, integrację metod optymalnych i rozmytych z estymacją stanów ~\cite{art3}, a także wyniki badań laboratoryjnych i zalecenia projektowe dla MPC potwierdzone w pracach monograficznych i wdrożeniowych.
+Podsumowując, korpus literatury obejmuje: klasyczne porównania PID/LQR wraz z analizą wpływu zakłóceń ~\cite{art1}, rozszerzenie o ujęcia predykcyjne i
+zestandaryzowane scenariusze porównawcze ~\cite{art2}, integrację metod optymalnych i rozmytych z estymacją stanów ~\cite{art3}, a także wyniki badań
+laboratoryjnych i zalecenia projektowe dla MPC potwierdzone w pracach monograficznych i wdrożeniowych.

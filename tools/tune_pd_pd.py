@@ -91,13 +91,13 @@ def run_search(n_trials=60, seed=23341, verbose=True):
     return best
 
 def main():
-    ap = argparse.ArgumentParser(description="Tune PD–PD controller (only write best config).")
+    ap = argparse.ArgumentParser(description="Tune PD-PD controller (only write best config).")
     ap.add_argument("--trials", type=int, default=60, help="number of random trials")
     ap.add_argument("--seed", type=int, default=23341, help="random seed")
     ap.add_argument("--out", type=str, default="pd_pd_tuned", help="output config variant name (without .yaml)")
     args = ap.parse_args()
 
-    print(f"=== Tuning PD–PD (headless) trials={args.trials} seed={args.seed} ===")
+    print(f"=== Tuning PD-PD (headless) trials={args.trials} seed={args.seed} ===")
     best = run_search(n_trials=args.trials, seed=args.seed, verbose=True)
 
     if best["cfg"] is None:
