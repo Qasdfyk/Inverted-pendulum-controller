@@ -1,14 +1,14 @@
 from __future__ import annotations
 import os
 from dataclasses import dataclass
-from typing import Optional, Callable, Sequence, Tuple, List
+from typing import Optional, Callable, Sequence, Tuple
+from time import perf_counter
 
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.linalg import solve_continuous_are
-from time import perf_counter
 
-# Import z mpc_utils (musi być w folderze obok!)
+# Import z Twojego mpc_utils (musi być w tym samym folderze)
 from mpc_utils import (
     PLANT, SIM, Wind, f_nonlinear, rk4_step_wind, 
     print_summary, animate_cartpole,
@@ -19,7 +19,7 @@ from mpc_utils import (
 EPS = 1e-12
 
 # =========================
-# LQR (Stabilizacja podstawowa)
+# LQR Helper (Linearization)
 # =========================
 def linearize_upright(M: float, m: float, l: float, g: float) -> tuple[np.ndarray, np.ndarray]:
     A = np.array([
@@ -42,7 +42,7 @@ def lqr_from_plant(plant: dict) -> np.ndarray:
     return K
 
 # =========================
-# TS-fuzzy Logic
+# TS-Fuzzy Logic Core
 # =========================
 def tri_mf(x: float, a: float, b: float, c: float) -> float:
     if x <= a or x >= c: return 0.0
@@ -63,23 +63,17 @@ class TSParams16:
     gain_scale: float
 
 def starter_ts_params16(u_sat: float) -> TSParams16:
-    # Zakresy zbiorów rozmytych
     th_small  = (-0.20, 0.0, 0.20)
     thd_small = (-1.5, 0.0, 1.5)
     x_small   = (-0.4, 0.0, 0.4)
     xd_small  = (-0.8, 0.0, 0.8)
 
     F_rules = np.zeros((16, 4), dtype=float)
-    
-    # !!! KLUCZOWA ZMIANA DLA dt=0.1 !!!
-    # Zmniejszone wartości bazowe. Przy 10Hz nie można szarpać.
-    # Stare wartości: 70, 12, 10, 3 -> Nowe: dużo mniejsze
     base_th, base_thd, base_x, base_xd = 15.0, 5.0, 5.0, 1.0
     
     for idx in range(16):
         bits = [(idx >> b) & 1 for b in (3, 2, 1, 0)]
         largeness = sum(bits)
-        # Również przyrosty (mnożniki) zmniejszone
         F_rules[idx, 0] = base_th   + 10.0 * largeness
         F_rules[idx, 1] = base_thd  +  3.0 * largeness
         F_rules[idx, 2] = base_x    +  2.0 * largeness
@@ -87,7 +81,7 @@ def starter_ts_params16(u_sat: float) -> TSParams16:
 
     return TSParams16(
         th_small=th_small, thd_small=thd_small, x_small=x_small, xd_small=xd_small,
-        F_rules=F_rules, u_sat=u_sat, sign=+1, flip_u=False, gain_scale=0.2, # Startujemy nisko
+        F_rules=F_rules, u_sat=u_sat, sign=+1, flip_u=False, gain_scale=0.2, 
     )
 
 def ts_weights16(th: float, thd: float, x: float, xd: float, p: TSParams16) -> np.ndarray:
@@ -130,30 +124,26 @@ class TSFuzzyController:
         target = np.array([0.0, 0.0, xref, 0.0], dtype=float)
         err = state - target
         
-        # LQR base
         u_lqr = -float(np.dot(self.K, err))
 
-        # Fuzzy correction
         ex  = x  - xref
         exd = xd - 0.0
         u_ts = self._u_ts(th, thd, ex, exd)
 
         u = u_lqr + u_ts
 
-        # Ramp up
-        alpha = min(1.0, t / self.ramp_T)
-        u *= (0.25 + 0.75 * alpha)
+        if self.ramp_T > 0:
+            alpha = min(1.0, t / self.ramp_T)
+            u *= (0.25 + 0.75 * alpha)
 
-        # Rate limiter
         du = np.clip(u - self.u_prev, -self.du_max * self.dt, self.du_max * self.dt)
         u_limited = self.u_prev + du
         
-        # Saturation
         self.u_prev = float(np.clip(u_limited, -self.p.u_sat, self.p.u_sat))
         return self.u_prev
 
 # =========================
-# Simulation & Autopick
+# Simulation Logic
 # =========================
 def evaluate_run(X: np.ndarray, U: np.ndarray, x_ref: float) -> float:
     th = X[:, 0]; x = X[:, 2]
@@ -161,12 +151,16 @@ def evaluate_run(X: np.ndarray, U: np.ndarray, x_ref: float) -> float:
     u_rms = float(np.sqrt(np.mean(U**2))) if len(U) else 0.0
     return 4.0*mse(th, np.zeros_like(th)) + 1.5*mse(x, xr) + 0.01*u_rms
 
-def simulate_fuzzy_local(pars: dict, controller: TSFuzzyController, x0: np.ndarray, x_ref: np.ndarray, T: float, dt: float, wind: Optional[Callable[[float], float]] = None, early_stop: Optional[Tuple[float, float]] = None) -> tuple:
+def simulate_fuzzy(pars: dict, controller: TSFuzzyController, x0: np.ndarray, x_ref: np.ndarray, T: float, dt: float, wind: Optional[Callable[[float], float]] = None, early_stop: Optional[Tuple[float, float]] = None) -> tuple:
     steps = int(np.round(T / dt))
     x = np.asarray(x0, float).copy()
-    traj = [x.copy()]; forces = []; Fw_tr = []; t = 0.0
+    traj = [x.copy()]
+    forces = []
+    Fw_tr = [] 
+    t = 0.0
     ok = True
-    ctrl_time_total = 0.0; sim_t0 = perf_counter()
+    ctrl_time_total = 0.0
+    sim_t0 = perf_counter()
 
     for _ in range(steps):
         t0c = perf_counter()
@@ -174,11 +168,13 @@ def simulate_fuzzy_local(pars: dict, controller: TSFuzzyController, x0: np.ndarr
         ctrl_time_total += perf_counter() - t0c
         
         forces.append(u)
+        
         F_cur = float(wind(t)) if wind else 0.0
         Fw_tr.append(F_cur)
         
         x = rk4_step_wind(f_nonlinear, x, u, pars, dt, t, wind)
-        traj.append(x.copy()); t += dt
+        traj.append(x.copy())
+        t += dt
 
         if early_stop is not None:
             if abs(x[0]) > early_stop[0] or abs(x[2]) > early_stop[1]:
@@ -188,87 +184,109 @@ def simulate_fuzzy_local(pars: dict, controller: TSFuzzyController, x0: np.ndarr
     return np.vstack(traj), np.asarray(forces), ok, np.asarray(Fw_tr), ctrl_time_total, sim_time_wall
 
 def autopick_variant(pars: dict, base: TSParams16, dt: float, K_lqr: np.ndarray) -> TSParams16:
+    print("--- Autopicking Fuzzy Gain ---")
     best_p = None; best_s = np.inf
-    # Skala bardzo mała - bo dt jest duże!
-    scales = [0.05, 0.1, 0.2, 0.3] 
+    scales = [0.05, 0.1, 0.2, 0.3, 0.4] 
     
     for sgn in (+1, -1):
         for sc in scales:
-            cand = TSParams16(th_small=base.th_small, thd_small=base.thd_small, x_small=base.x_small, xd_small=base.xd_small, F_rules=base.F_rules.copy(), u_sat=base.u_sat, sign=sgn, flip_u=False, gain_scale=sc)
+            cand = TSParams16(
+                th_small=base.th_small, thd_small=base.thd_small, 
+                x_small=base.x_small, xd_small=base.xd_small, 
+                F_rules=base.F_rules.copy(), u_sat=base.u_sat, 
+                sign=sgn, flip_u=False, gain_scale=sc
+            )
             ctrl = TSFuzzyController(pars, cand, K_lqr, dt, du_max=1000.0, ramp_T=1.5)
-            Xs, Us, ok, _, _, _ = simulate_fuzzy_local(pars, ctrl, SIM["x0"], SIM["x_ref"], T=4.0, dt=dt, wind=None, early_stop=(1.0, 2.0))
+            Xs, Us, ok, _, _, _ = simulate_fuzzy(pars, ctrl, SIM["x0"], SIM["x_ref"], T=4.0, dt=dt, wind=None, early_stop=(1.0, 2.0))
             
             if ok:
                 score = evaluate_run(Xs, Us, SIM["x_ref"][2])
-                if score < best_s: best_s = score; best_p = cand
+                if score < best_s: 
+                    best_s = score; best_p = cand
     
+    print(f"--- Best Found: scale={best_p.gain_scale}, sign={best_p.sign} ---")
     return best_p if best_p is not None else base
 
-def plot_result(t: np.ndarray, X: np.ndarray, U: np.ndarray, title: str):
-    fig = plt.figure(figsize=(9,7)); fig.suptitle(title, fontsize=12, y=0.98)
-    ax1 = fig.add_subplot(3,1,1); ax1.plot(t, X[:,0]); ax1.grid(True); ax1.set_ylabel('theta [rad]')
-    ax2 = fig.add_subplot(3,1,2); ax2.plot(t, X[:,2]); ax2.grid(True); ax2.set_ylabel('x [m]')
-    tf = t[:-1] if len(U) == (len(t)-1) else np.linspace(0.0, t[-1], len(U))
-    ax3 = fig.add_subplot(3,1,3); ax3.plot(tf, U); ax3.grid(True); ax3.set_ylabel('u [N]'); ax3.set_xlabel('t [s]')
-    plt.tight_layout(rect=[0,0,1,0.95]); plt.show()
+# =========================
+# Custom Plotting
+# =========================
+def plot_result(t: np.ndarray, tf: np.ndarray, X: np.ndarray, U: np.ndarray, controller_name: str, disturbance: bool):
+    fig = plt.figure(figsize=(9, 7))
+    fig.suptitle(f"{controller_name} | wind={'on' if disturbance else 'off'}", fontsize=12, y=0.98)
+    
+    ax1 = fig.add_subplot(3, 1, 1); ax1.plot(t, X[:, 0]); ax1.grid(True); ax1.set_ylabel('theta [rad]')
+    ax2 = fig.add_subplot(3, 1, 2); ax2.plot(t, X[:, 2]); ax2.grid(True); ax2.set_ylabel('x [m]')
+    ax3 = fig.add_subplot(3, 1, 3); ax3.plot(tf, U);      ax3.grid(True); ax3.set_ylabel('u [N]'); ax3.set_xlabel('t [s]')
+    
+    plt.tight_layout(rect=[0, 0, 1, 0.95])
+    plt.show()
 
 # =========================
 # Main
 # =========================
 if __name__ == "__main__":
     plant = PLANT
-    dt = SIM["dt"] # Powinno być 0.1 z mpc_utils
+    dt = SIM["dt"]
     T = SIM["T"]
     x0, x_ref = SIM["x0"], SIM["x_ref"]
 
-    wind = None
-    # wind = Wind(T, seed=23341, Ts=0.02, power=2e-3, smooth=7)
+    # --- Ustawienia Wiatru ---
+    # wind = Wind(T, seed=42, Ts=0.05, power=5e-3, smooth=10) # Odkomentuj dla wiatru
+    wind = None 
 
     K_lqr = lqr_from_plant(plant)
-    print(f"Running Fuzzy with dt={dt}s (From mpc_utils)")
+    print(f"LQR Gain: {K_lqr}")
 
     base_ts = starter_ts_params16(u_sat=SIM["u_sat"])
     picked_ts = autopick_variant(plant, base_ts, dt, K_lqr)
     
-    print(f"Autopick result: scale={picked_ts.gain_scale:.2f}")
-
-    ctrl = TSFuzzyController(plant, picked_ts, K_lqr, dt, du_max=1000.0, ramp_T=2.0)
+    ctrl = TSFuzzyController(plant, picked_ts, K_lqr, dt, du_max=800.0, ramp_T=1.0)
     
-    X, U, ok, Fw_tr, ctrl_time_total, sim_time_wall = simulate_fuzzy_local(plant, ctrl, x0, x_ref, T, dt, wind=wind, early_stop=None)
+    print(f"Running Simulation (dt={dt}s)...")
+    X, U, ok, Fw_tr, ctrl_time_total, sim_time_wall = simulate_fuzzy(
+        plant, ctrl, x0, x_ref, T, dt, wind=wind, early_stop=None
+    )
 
+    # --- Metryki i Wykresy ---
     steps = len(U)
     t = np.linspace(0.0, T, steps + 1)
-    tf = t[:-1]
+    tf = t[:-1] # Czas dla sterowania (o 1 krótszy niż stan)
 
-    plot_result(t, X, U, f"ts_fuzzy_art3ish | wind={'on' if wind else 'off'} | ok={ok}")
+    # Obliczanie metryk
+    th_ref_tr = np.zeros_like(t)
+    x_ref_tr = np.ones_like(t) * x_ref[2]
 
-    # Metrics
-    th_ref_tr = np.zeros_like(t); x_ref_tr = np.ones_like(t) * x_ref[2]
     metrics = {
-        "mse_theta": mse(X[:,0], th_ref_tr), "mae_theta": mae(X[:,0], th_ref_tr),
-        "mse_x": mse(X[:,2], x_ref_tr), "mae_x": mae(X[:,2], x_ref_tr),
-        "iae_theta": iae(t, X[:,0], th_ref_tr), "ise_theta": ise(t, X[:,0], th_ref_tr),
-        "iae_x": iae(t, X[:,2], x_ref_tr), "ise_x": ise(t, X[:,2], x_ref_tr),
-        "e_u_l2": control_energy_l2(tf, U), "e_u_l1": control_energy_l1(tf, U),
-        "sim_time_wall": sim_time_wall, "ctrl_time_total": ctrl_time_total,
+        "mse_theta": mse(X[:,0], th_ref_tr), 
+        "mae_theta": mae(X[:,0], th_ref_tr),
+        "mse_x": mse(X[:,2], x_ref_tr), 
+        "mae_x": mae(X[:,2], x_ref_tr),
+        "iae_theta": iae(t, X[:,0], th_ref_tr), 
+        "ise_theta": ise(t, X[:,0], th_ref_tr),
+        "iae_x": iae(t, X[:,2], x_ref_tr), 
+        "ise_x": ise(t, X[:,2], x_ref_tr),
+        "e_u_l2": control_energy_l2(tf, U), 
+        "e_u_l1": control_energy_l1(tf, U),
+        "sim_time_wall": sim_time_wall, 
+        "ctrl_time_total": ctrl_time_total,
+        "t_s_theta": settling_time(t, X[:,0], th_ref_tr, 0.01, 0.5),
+        "t_s_x": settling_time(t, X[:,2], x_ref_tr, 0.01, 0.5),
+        "overshoot_theta": overshoot(X[:,0], th_ref_tr[-1]),
+        "overshoot_x": overshoot(X[:,2], x_ref_tr[-1]),
     }
-    metrics["t_s_theta"] = settling_time(t, X[:,0], th_ref_tr, 0.01, 0.5)
-    metrics["t_s_x"]     = settling_time(t, X[:,2], x_ref_tr, 0.01, 0.5)
-    metrics["overshoot_theta"] = overshoot(X[:,0], th_ref_tr[-1])
-    metrics["overshoot_x"]     = overshoot(X[:,2], x_ref_tr[-1])
-    metrics["ess_theta"], metrics["ess_theta_rms"] = steady_state_error(t, X[:,0], th_ref_tr)
-    metrics["ess_x"], metrics["ess_x_rms"] = steady_state_error(t, X[:,2], x_ref_tr)
+    metrics["ess_theta"], _ = steady_state_error(t, X[:,0], th_ref_tr)
+    metrics["ess_x"], _     = steady_state_error(t, X[:,2], x_ref_tr)
 
     if wind:
         snr_th, rms_e_th, rms_F = disturbance_robustness(tf, X[1:,0]-th_ref_tr[1:], Fw_tr)
-        snr_x, rms_e_x, _ = disturbance_robustness(tf, X[1:,2]-x_ref_tr[1:], Fw_tr)
-        metrics["snr_theta"] = snr_th; metrics["rms_e_theta"] = rms_e_th; metrics["rms_Fw"] = rms_F
-        metrics["snr_x"] = snr_x; metrics["rms_e_x"] = rms_e_x
-    else:
-        metrics["snr_theta"]=float('nan'); metrics["snr_x"]=float('nan')
-        metrics["rms_e_theta"]=float('nan'); metrics["rms_e_x"]=float('nan'); metrics["rms_Fw"]=float('nan')
-
+        snr_x, rms_e_x, _       = disturbance_robustness(tf, X[1:,2]-x_ref_tr[1:], Fw_tr)
+        metrics.update({"snr_theta": snr_th, "snr_x": snr_x})
+    
+    print("\nSimulation Result:")
     print_summary(metrics)
+    
+    # Wywołanie Twojego nowego plota
+    plot_result(t, tf, X, U, "TS-Fuzzy", wind is not None)
 
     if os.environ.get("ANIMATE", "0") == "1":
         animate_cartpole(t, X, params=plant)
