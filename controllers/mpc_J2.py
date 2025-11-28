@@ -4,26 +4,27 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
-# Import utilsów
+# Import wszystkich niezbędnych narzędzi z mpc_utils
 from mpc_utils import (PLANT, SIM, Wind, f_nonlinear, rk4_step, simulate_mpc, 
                        print_summary, animate_cartpole,
                        mse, mae, iae, ise, control_energy_l2, control_energy_l1,
                        settling_time, overshoot, steady_state_error, disturbance_robustness)
 
 class MPCControllerJ2:
-    def __init__(self, pars, dt, N, Nu, umin, umax, q_theta, q_thdot, q_x, q_xdot, r):
+    def __init__(self, pars: dict, dt: float, N: int, Nu: int,
+                 umin: float, umax: float, q_theta: float, q_x: float, r: float):
         self.pars = pars
         self.dt = dt
         self.N = N
         self.Nu = Nu
         self.umin = umin
         self.umax = umax
-        # Przyjmujemy wszystkie 4 wagi (tłumienie jest kluczowe dla stabilności!)
         self.q_theta = float(q_theta)
-        self.q_thdot = float(q_thdot)
         self.q_x = float(q_x)
-        self.q_xdot = float(q_xdot)
-        self.r = float(r)
+        self.r = float(r) # Kara za zmianę (delta u)
+        
+        # Dodatkowy parametr: Kara za absolutną wartość sterowania
+        self.r_absolute = 0.005 
 
     def _rollout(self, x0, u_seq):
         x = np.array(x0, dtype=float)
@@ -35,6 +36,7 @@ class MPCControllerJ2:
 
     def _cost(self, du, x0, x_ref, u_prev):
         du = np.asarray(du, dtype=float)
+        
         u_seq = np.zeros(self.N)
         if self.Nu > 0:
             u_cum = u_prev + np.cumsum(du)
@@ -49,21 +51,23 @@ class MPCControllerJ2:
         
         # Błędy stanu
         e_th   = preds[:, 0] - x_ref[0]
-        e_th_d = preds[:, 1] - x_ref[1]
+        e_thd  = preds[:, 1] - x_ref[1]
         e_x    = preds[:, 2] - x_ref[2]
-        e_x_d  = preds[:, 3] - x_ref[3]
+        e_xd   = preds[:, 3] - x_ref[3]
 
-        # WZÓR: Suma modułów (L1 Norm) dla wszystkich zmiennych
-        # Dzięki uwzględnieniu e_th_d i e_x_d (prędkości), układ jest tłumiony i stabilny.
-        cost_y = (self.q_theta * np.sum(np.abs(e_th)) +
-                  self.q_thdot * np.sum(np.abs(e_th_d)) +
-                  self.q_x     * np.sum(np.abs(e_x)) +
-                  self.q_xdot  * np.sum(np.abs(e_x_d)))
-                  
-        # Koszt sterowania też jako moduł
-        cost_u = self.r * np.sum(np.abs(du))
+        # Standardowy koszt stanu (L2)
+        cost_state = np.sum(self.q_theta * e_th**2 + 
+                            1.0 * e_thd**2 + 
+                            self.q_x * e_x**2 + 
+                            1.0 * e_xd**2)
 
-        return cost_y + cost_u
+        # --- ENERGY COST ---
+        # 1. Kara za zmianę (płynność)
+        cost_du = self.r * np.sum(du**2)
+        # 2. Kara za amplitudę (oszczędność)
+        cost_u_abs = self.r_absolute * np.sum(u_seq**2)
+
+        return cost_state + cost_du + cost_u_abs
 
     def compute_control(self, x0, x_ref, u_prev):
         du_min = self.umin - u_prev
@@ -80,45 +84,56 @@ class MPCControllerJ2:
         )
         du_opt = res.x if res.success else du0
         
-        return np.array([u_prev + du_opt[0]])
+        u_seq = np.zeros(self.N)
+        u_cum = u_prev + np.cumsum(du_opt)
+        upto = min(self.Nu, self.N)
+        u_seq[:upto] = u_cum[:upto]
+        if self.N > self.Nu:
+            u_seq[self.Nu:] = u_cum[upto-1]
+        np.clip(u_seq, self.umin, self.umax, out=u_seq)
+        return u_seq
 
 if __name__ == "__main__":
     dt, T = SIM["dt"], SIM["T"]
     x0, x_ref, u_sat = SIM["x0"], SIM["x_ref"], SIM["u_sat"]
     plant = PLANT
-
-    # Wind setup
-    wind = None
+    
     # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
+    wind = None
 
-    # Oryginalne parametry (mają sens, bo przywróciliśmy tłumienie q_thdot/q_xdot)
     ctrl = MPCControllerJ2(
-        pars=plant, dt=dt, N=10, Nu=8, 
+        pars=plant, dt=dt, 
+        N=15, Nu=5, 
         umin=-u_sat, umax=u_sat,
-        q_theta=60.0, q_thdot=3.0, q_x=15.0, q_xdot=1.0, r=1e-3
+        q_theta=30.0, 
+        q_x=20.0, 
+        r=0.01 
     )
 
     X, U, Fw_tr, ctrl_time_total, sim_time_wall = simulate_mpc(plant, ctrl, x0, x_ref, T, dt, wind=wind)
 
-    # --- PEŁNY OUTPUT ---
+    # --- Wykresy ---
     steps = len(U)
     t = np.linspace(0.0, T, steps + 1)
     tf = t[:-1]
 
-    controller_name = "mpc_J2_L1"
+    controller_name = "mpc_J2_energy"
     disturbance = wind is not None
     step_type = "position_step"
+    
     fig = plt.figure(figsize=(9, 7))
-    fig.suptitle(f"{controller_name}  |  wind={'on' if disturbance else 'off'}", fontsize=12, y=0.98)
+    fig.suptitle(f"{controller_name} | wind={'on' if disturbance else 'off'}", fontsize=12, y=0.98)
     ax1 = fig.add_subplot(3, 1, 1); ax1.plot(t, X[:, 0]); ax1.grid(True); ax1.set_ylabel('theta [rad]')
     ax2 = fig.add_subplot(3, 1, 2); ax2.plot(t, X[:, 2]); ax2.grid(True); ax2.set_ylabel('x [m]')
     ax3 = fig.add_subplot(3, 1, 3); ax3.plot(tf, U);      ax3.grid(True); ax3.set_ylabel('u [N]'); ax3.set_xlabel('t [s]')
     plt.tight_layout(rect=[0, 0, 1, 0.95])
     plt.show()
 
+    # --- PEŁNE METRYKI ---
     th_ref_tr = np.zeros_like(t)
     x_ref_tr  = np.ones_like(t) * x_ref[2]
 
+    # Parametry metryk
     eps_theta = 0.01; eps_x = 0.01; hold_time = 0.5
     ess_window_frac = 0.10; ess_window_min = 0.5
     is_step = True
@@ -145,21 +160,16 @@ if __name__ == "__main__":
 
     ess_th_mean, ess_th_rms = steady_state_error(t, X[:,0], th_ref_tr, window_frac=ess_window_frac, window_min=ess_window_min)
     ess_x_mean,  ess_x_rms  = steady_state_error(t, X[:,2], x_ref_tr,  window_frac=ess_window_frac, window_min=ess_window_min)
-    metrics["ess_theta"] = ess_th_mean
-    metrics["ess_x"]     = ess_x_mean
-    metrics["ess_theta_rms"] = ess_th_rms
-    metrics["ess_x_rms"]     = ess_x_rms
+    metrics["ess_theta"] = ess_th_mean; metrics["ess_x"] = ess_x_mean
+    metrics["ess_theta_rms"] = ess_th_rms; metrics["ess_x_rms"] = ess_x_rms
 
     if disturbance:
         e_th_tf = X[1:, 0] - th_ref_tr[1:]
         e_x_tf  = X[1:, 2] - x_ref_tr[1:]
-        snr_th, rms_e_th, rms_F = disturbance_robustness(tf, e_th_tf, Fw_tr)
-        snr_x,  rms_e_x,  _     = disturbance_robustness(tf, e_x_tf,  Fw_tr)
-        metrics["snr_theta"] = snr_th
-        metrics["snr_x"]     = snr_x
-        metrics["rms_e_theta"] = rms_e_th
-        metrics["rms_e_x"]     = rms_e_x
-        metrics["rms_Fw"]      = rms_F
+        snr_th, rms_e_th, rms_F = disturbance_robustness(tf, e_th_tf, Fw_tr, window_frac=0.5, window_min=1.0)
+        snr_x,  rms_e_x,  _     = disturbance_robustness(tf, e_x_tf,  Fw_tr, window_frac=0.5, window_min=1.0)
+        metrics["snr_theta"] = snr_th; metrics["snr_x"] = snr_x
+        metrics["rms_e_theta"] = rms_e_th; metrics["rms_e_x"] = rms_e_x; metrics["rms_Fw"] = rms_F
     else:
         metrics["snr_theta"] = float('nan'); metrics["snr_x"] = float('nan')
         metrics["rms_e_theta"] = float('nan'); metrics["rms_e_x"] = float('nan'); metrics["rms_Fw"] = float('nan')

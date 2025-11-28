@@ -89,7 +89,7 @@ if __name__ == "__main__":
     t = np.linspace(0.0, T, steps + 1)
     tf = t[:-1]
 
-    controller_name = "mpc_matrix"
+    controller_name = "mpc"
     disturbance = wind is not None
     step_type = "position_step"
     fig = plt.figure(figsize=(9, 7))
