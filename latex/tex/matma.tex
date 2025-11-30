@@ -1,152 +1,249 @@
 \section{Model matematyczny układu}
 
-\subsection{Opis fizyczny układu}
+Celem niniejszego rozdziału jest szczegółowe wyprowadzenie modelu 
+matematycznego obiektu sterowania, którym jest odwrócone wahadło na~wózku. 
+Precyzyjne odwzorowanie dynamiki procesu jest fundamentalnym etapem 
+projektowania układu sterowania, gdyż jakość modelu bezpośrednio wpływa 
+na~skuteczność algorytmów predykcyjnych (MPC) oraz optymalnych (LQR). 
+Wyprowadzenie oparto na~prawach mechaniki klasycznej oraz analizie sił 
+i~momentów przedstawionej w~literaturze przedmiotu~\cite{art1}.
 
-Rozważany układ stanowi klasyczny przykład niestabilnego i nieliniowego obiektu dynamicznego - wahadło odwrócone na wózku. Składa się on z wózka o masie \(M\), poruszającego się po torze poziomym, oraz wahadła o masie \(m\) i długości \(l\), przegubowo zamocowanego do wózka. Punkt zawieszenia znajduje się na jego górnej części, a wahadło może swobodnie wychylać się w płaszczyźnie pionowej. 
+\subsection{Opis fizyczny i~założenia upraszczające}
 
-Układ jest zasilany siłą sterującą \(u(t)\), przyłożoną do wózka w kierunku poziomym. Zadaniem sterowania jest takie kształtowanie tej siły, aby utrzymać wahadło w pozycji odwróconej (\(\theta = 0\)), a jednocześnie stabilizować położenie wózka \(x(t)\) wokół zadanej pozycji. Pozycja odwrócona jest położeniem równowagi niestabilnej - najmniejsze zaburzenie powoduje wychylenie i upadek wahadła, jeśli nie zostanie ono aktywnie stabilizowane.
+Rozważany obiekt sterowania należy do~klasy mechanicznych układów 
+podwzbudnych (ang. \textit{underactuated systems}), co oznacza, że liczba 
+wejść sterujących jest mniejsza od~liczby stopni swobody. Układ składa się 
+z~wózka poruszającego się wzdłuż poziomej osi oraz pręta z~masą skupioną, 
+zamocowanego przegubowo do~wózka.
 
-Z uwagi na to, że układ ten jest nieliniowy i sprzężony, stanowi on powszechnie wykorzystywany model badawczy w dziedzinie teorii sterowania. Na jego podstawie testuje się zarówno klasyczne metody regulacji, jak i nowoczesne podejścia optymalne i predykcyjne.
-
-Parametry fizyczne układu przyjęto w postaci:
+Przyjęto następujące parametry fizyczne modelu, zgodne z~oznaczeniami 
+stosowanymi w~pracach badawczych~\cite{art1}:
 \begin{itemize}
-    \item \(M\) - masa wózka [kg],
-    \item \(m\) - masa wahadła [kg],
-    \item \(l\) - długość pręta wahadła [m],
-    \item \(g\) - przyspieszenie ziemskie [m/s²].
+    \item \(M\) --- masa wózka [kg],
+    \item \(m\) --- masa wahadła (traktowana jako masa punktowa na~końcu pręta) [kg],
+    \item \(l\) --- długość wahadła (odległość od~osi obrotu do~środka ciężkości) [m],
+    \item \(g\) --- przyspieszenie ziemskie [m/s\textsuperscript{2}],
+    \item \(u(t)\) --- siła sterująca przyłożona do~wózka [N],
+    \item \(F_w(t)\) --- siła zakłócająca (wiatr) działająca poziomo na~masę wahadła [N].
 \end{itemize}
 
-Przyjęto, że tarcie kół wózka oraz opory w przegubie wahadła są pomijalnie małe, co pozwala uprościć równania ruchu. Układ współrzędnych przyjęto w taki sposób, że pozycja wózka oznaczona jest jako \(x(t)\), natomiast kąt wychylenia wahadła \(\theta(t)\) mierzony jest względem osi pionowej (rysunek 2.1). 
+W~celu sformułowania modelu analitycznego przyjęto następujące założenia 
+upraszczające~\cite{art1}:
+\begin{enumerate}
+    \item Pręt wahadła jest nieważki i~sztywny.
+    \item Tarcie w~łożyskach kół wózka oraz w~przegubie wahadła jest pomijalnie małe.
+    \item Ruch odbywa się w~płaszczyźnie pionowej \(x-y\).
+\end{enumerate}
 
-W dalszych rozważaniach zakłada się, że \(\theta(t) = 0\) odpowiada położeniu pionowemu wahadła w górę, czyli stanowi punkt równowagi niestabilnej, który ma zostać ustabilizowany poprzez odpowiedni dobór sygnału sterującego \(u(t)\).
+TODO - zdjecie jakies
 
-\subsection{Równania nieliniowe ruchu}
 
-Aby otrzymać matematyczny opis dynamiki układu, należy zapisać równania ruchu wynikające z drugiej zasady dynamiki Newtona. Dla wózka sumę sił działających w kierunku poziomym można zapisać w postaci:
-\[
-(M + m)\ddot{x} - m l \sin\theta \dot{\theta}^2 + m l \cos\theta \ddot{\theta} = u,
-\]
-gdzie pierwszy człon odpowiada za siłę bezwładności wózka i masy wahadła, drugi za siłę odśrodkową działającą w kierunku poziomym, a trzeci za składową siły wynikającą z przyspieszenia kątowego wahadła.
+Układ odniesienia zdefiniowano w~taki sposób, że współrzędna \(x(t)\) 
+opisuje poziome przesunięcie wózka, natomiast kąt \(\theta(t)\) określa 
+wychylenie wahadła od~pionu w~kierunku zgodnym z~ruchem wskazówek zegara. 
+Pozycja \(\theta = 0\) odpowiada niestabilnemu punktowi równowagi 
+(wahadło w~górze).
 
-Dla samego wahadła, po wykonaniu bilansu momentów względem punktu zawieszenia, otrzymuje się zależność:
-\[
-m\ddot{x}\cos\theta + m l \ddot{\theta} = m g \sin\theta.
-\]
-Równania te tworzą nieliniowy układ równań różniczkowych drugiego rzędu. Po algebraicznych przekształceniach można uzyskać końcową postać równań ruchu:
-\[
-\ddot{x} = 
-\frac{u + m l \sin\theta \dot{\theta}^2 - m g \cos\theta \sin\theta}
-{M + m - m \cos^2\theta},
-\]
-\[
-\ddot{\theta} =
-\frac{u \cos\theta - (M + m) g \sin\theta + m l \cos\theta \sin\theta \dot{\theta}^2}
-{l \left( m \cos^2\theta - (M + m) \right)}.
-\]
+\subsection{Analiza kinematyczna}
 
-Powyższe równania stanowią kompletny opis nieliniowej dynamiki wahadła odwróconego na wózku. Warto zauważyć, że układ jest silnie sprzężony - zmiana położenia wózka wpływa na ruch wahadła i odwrotnie. Nieliniowość wynika głównie z obecności funkcji trygonometrycznych \(\sin\theta\), \(\cos\theta\) oraz iloczynów tych funkcji z prędkościami.
+W~pierwszej kolejności zdefiniowano położenie środka ciężkości (COG) 
+masy wahadła \(m\) w~nieruchomym układzie odniesienia. Oznaczając 
+współrzędne środka masy jako \((x_G, y_G)\), można je wyrazić jako sumę 
+przemieszczenia wózka oraz rzutu geometrycznego ramienia wahadła~\cite{art1}:
 
-\subsection{Model nieliniowy w przestrzeni stanów}
+\begin{equation}
+    x_G(t) = x(t) + l \sin\theta(t),
+    \label{eq:pos_x}
+\end{equation}
+\begin{equation}
+    y_G(t) = l \cos\theta(t).
+    \label{eq:pos_y}
+\end{equation}
 
-W celu dalszej analizy oraz projektowania regulatorów korzystne jest zapisanie modelu w postaci równań stanu. W tym celu definiuje się wektor stanu:
-\[
-\mathbf{x} =
-\begin{bmatrix}
-x_1 \\ x_2 \\ x_3 \\ x_4
-\end{bmatrix}
-=
-\begin{bmatrix}
-\theta \\ \dot{\theta} \\ x \\ \dot{x}
-\end{bmatrix},
-\]
-gdzie \(x_1\) i \(x_2\) opisują kąt oraz prędkość kątową wahadła, natomiast \(x_3\) i \(x_4\) - położenie i prędkość liniową wózka.
+Gdzie \(x_G\) to pozioma współrzędna masy wahadła, a~\(y_G\) to jej 
+współrzędna pionowa (odległość od~osi wózka).
 
-W tej notacji model przyjmuje postać:
-\[
-\dot{\mathbf{x}} = f(\mathbf{x}, u),
-\]
-czyli:
-\[
-\begin{aligned}
-\dot{x}_1 &= x_2, \\
-\dot{x}_2 &= 
-\frac{u \cos x_1 - (M + m) g \sin x_1 + m l (\cos x_1 \sin x_1) x_2^2}
-{l \left( m \cos^2 x_1 - (M + m) \right)}, \\
-\dot{x}_3 &= x_4, \\
-\dot{x}_4 &= 
-\frac{u + m l (\sin x_1) x_2^2 - m g \cos x_1 \sin x_1}
-{M + m - m \cos^2 x_1}.
-\end{aligned}
-\]
+Aby zastosować drugą zasadę dynamiki Newtona dla masy \(m\), konieczne jest 
+wyznaczenie jej prędkości oraz przyspieszeń całkowitych (bezwzględnych). 
+Różniczkując równania (\ref{eq:pos_x}) i~(\ref{eq:pos_y}) względem czasu, 
+otrzymuje się składowe prędkości:
+\begin{equation}
+    \dot{x}_G = \dot{x} + l \cos\theta \cdot \dot{\theta},
+\end{equation}
+\begin{equation}
+    \dot{y}_G = -l \sin\theta \cdot \dot{\theta}.
+\end{equation}
 
-Model w tej postaci jest użyteczny do symulacji nieliniowej w środowisku MATLAB/Simulink, gdyż pozwala bezpośrednio analizować wpływ nieliniowości na stabilność oraz dynamikę układu. Wyjściami (wielkościami obserwowanymi) są kąt wychylenia wahadła i położenie wózka:
-\[
-\mathbf{y} =
-\begin{bmatrix}
-\theta \\ x
-\end{bmatrix}
-=
-C \mathbf{x}, \quad
-C =
-\begin{bmatrix}
-1 & 0 & 0 & 0 \\
-0 & 0 & 1 & 0
-\end{bmatrix}.
-\]
+Ponowne różniczkowanie pozwala wyznaczyć składowe przyspieszenia środka 
+masy wahadła \(\ddot{x}_G\) oraz \(\ddot{y}_G\). Uwzględniają one zarówno 
+przyspieszenie liniowe wózka, jak i~składowe ruchu obrotowego 
+(przyspieszenie styczne i~dośrodkowe):
+\begin{equation}
+    \ddot{x}_G = \ddot{x} + l \cos\theta \cdot \ddot{\theta} - l \sin\theta \cdot \dot{\theta}^2,
+    \label{eq:acc_x}
+\end{equation}
+\begin{equation}
+    \ddot{y}_G = -l \sin\theta \cdot \ddot{\theta} - l \cos\theta \cdot \dot{\theta}^2.
+    \label{eq:acc_y}
+\end{equation}
 
-\subsection{Model liniowy zlinearyzowany wokół punktu równowagi}
+Powyższe zależności (\ref{eq:acc_x}) i~(\ref{eq:acc_y}) są kluczowe, 
+ponieważ siły bezwładności działające na~masę wahadła zależą od~jej 
+całkowitego przyspieszenia w~przestrzeni, a~nie tylko od~kąta wychylenia.
 
-Ponieważ pozycja odwrócona (\(\theta = 0\)) stanowi punkt pracy, wokół którego układ ma być stabilizowany, przeprowadza się liniaryzację modelu nieliniowego w tym punkcie. Liniaryzacja umożliwia zastosowanie klasycznych metod analizy i syntezy regulatorów, takich jak LQR, PID czy MPC.
+\subsection{Równania dynamiki układu}
 
-Dla małych wychyleń (\(|\theta| \ll 1\)) można przyjąć przybliżenia:
-\[
-\sin\theta \approx \theta, \quad \cos\theta \approx 1.
-\]
-Po wstawieniu ich do równań nieliniowych i pominięciu wyrazów wyższego rzędu otrzymuje się model liniowy w postaci przestrzeni stanów:
-\[
-\dot{\mathbf{x}} = A \mathbf{x} + B u,
-\]
-gdzie:
-\[
-A =
-\begin{bmatrix}
-0 & 1 & 0 & 0 \\
-\frac{(M + m) g}{M l} & 0 & 0 & 0 \\
-0 & 0 & 0 & 1 \\
--\frac{m g}{M} & 0 & 0 & 0
-\end{bmatrix},
-\quad
-B =
-\begin{bmatrix}
-0 \\[4pt]
--\frac{1}{M l} \\[4pt]
-0 \\[4pt]
-\frac{1}{M}
-\end{bmatrix}.
-\]
+Model dynamiczny wyprowadzono, rozpatrując siły działające na~wózek oraz 
+na~wahadło osobno, a~następnie składając je w~układ równań sprzężonych.
 
-Model ten stanowi podstawę dla dalszego projektowania układów sterowania. Jest to klasyczna postać zlinearyzowanego wahadła odwróconego, szeroko wykorzystywana w literaturze, m.in. w pracach Prasada i in. (2014), Ogaty (2005) czy Burnsa (2001). 
+\subsubsection{Bilans sił w~kierunku poziomym}
+Zgodnie z~drugą zasadą dynamiki Newtona, suma sił zewnętrznych działających 
+na~cały układ w~kierunku osi \(x\) musi równać się zmianie pędu układu. 
+Siłami zewnętrznymi są: siła sterująca \(u(t)\) przyłożona do~wózka oraz 
+siła zakłócająca \(F_w(t)\) przyłożona do~masy wahadła~\cite{art1}.
 
-Z punktu widzenia teorii sterowania układ taki jest **sterowalny**, co oznacza, że istnieje sygnał \(u(t)\), który pozwala doprowadzić system do dowolnego stanu w skończonym czasie. Dzięki temu możliwe jest zastosowanie regulatorów optymalnych (LQR, MPC) oraz klasycznych (PID).
+Równanie równowagi sił dla całego układu (masy \(M\) i~\(m\)) 
+przyjmuje postać:
+\begin{equation}
+    M \ddot{x} + m \ddot{x}_G = u + F_w.
+    \label{eq:force_balance_raw}
+\end{equation}
 
-\subsection{Model z zakłóceniem zewnętrznym}
+Podstawiając wyznaczone wcześniej przyspieszenie poziome środka masy 
+wahadła (\ref{eq:acc_x}) do~równania (\ref{eq:force_balance_raw}), 
+otrzymujemy:
+\begin{equation}
+    M \ddot{x} + m \left( \ddot{x} + l \cos\theta \cdot \ddot{\theta} - l \sin\theta \cdot \dot{\theta}^2 \right) = u + F_w.
+\end{equation}
 
-W rzeczywistych warunkach pracy układ może być narażony na zaburzenia, np. siłę poziomą działającą na wahadło (efekt wiatru lub drgań otoczenia). Aby uwzględnić ten wpływ, do równania sił wprowadza się dodatkowy składnik \(F_w(t)\):
-\[
-(M + m)\ddot{x} - m l \sin\theta \dot{\theta}^2 + m l \cos\theta \ddot{\theta} = u + F_w.
-\]
-Po uwzględnieniu tego zaburzenia i ponownej liniaryzacji wokół \(\theta = 0\) otrzymuje się model w postaci:
-\[
-\dot{\mathbf{x}} = A \mathbf{x} + B_1 u + B_2 F_w,
-\]
-gdzie:
-\[
-B_2 =
-\begin{bmatrix}
-0 \\[4pt]
--\frac{1}{m l} \\[4pt]
-0 \\[4pt]
-0
-\end{bmatrix}.
-\]
-Model ten pozwala analizować wpływ zakłóceń na stabilność i jakość regulacji. Jest on szczególnie istotny przy badaniu odporności regulatorów (np. LQR i MPC) na zmienne warunki pracy i siły zewnętrzne.
+Po~uporządkowaniu wyrazów i~wyciągnięciu \(\ddot{x}\) przed nawias, 
+otrzymujemy pierwsze równanie różniczkowe opisujące ruch postępowy układu:
+\begin{equation}
+    (M + m)\ddot{x} + m l \cos\theta \cdot \ddot{\theta} - m l \sin\theta \cdot \dot{\theta}^2 = u + F_w.
+    \label{eq:dynamic_translation}
+\end{equation}
+
+\subsubsection{Bilans momentów sił}
+Ruch obrotowy wahadła opisano poprzez sumę momentów sił względem punktu 
+zawieszenia (przegubu na~wózku). Siłami generującymi moment obrotowy są 
+siły bezwładności masy wahadła, siła ciężkości oraz siła zakłócająca.
+
+Zgodnie z~analizą przedstawioną w~pracy~\cite{art1}, równanie momentów 
+przyjmuje postać:
+\begin{equation}
+    (m \ddot{x}_G) l \cos\theta - (m \ddot{y}_G) l \sin\theta = (mg) l \sin\theta + (F_w) l \cos\theta.
+    \label{eq:torque_balance_raw}
+\end{equation}
+
+W~równaniu tym lewa strona reprezentuje moment wynikający z~sił 
+bezwładności, natomiast prawa strona uwzględnia momenty od~sił 
+zewnętrznych (grawitacji i~wiatru). Należy zauważyć, że siła wiatru \(F_w\) 
+działa poziomo, stąd jej ramię siły względem punktu obrotu wynosi 
+\(l \cos\theta\).
+
+Podstawiając wyrażenia na~przyspieszenia \(\ddot{x}_G\) (\ref{eq:acc_x}) 
+oraz \(\ddot{y}_G\) (\ref{eq:acc_y}) do~równania momentów 
+(\ref{eq:torque_balance_raw}), otrzymujemy rozbudowaną postać równania:
+\begin{equation}
+    m l \cos\theta \left( \ddot{x} + l \cos\theta \ddot{\theta} - l \sin\theta \dot{\theta}^2 \right) - m l \sin\theta \left( -l \sin\theta \ddot{\theta} - l \cos\theta \dot{\theta}^2 \right) = m g l \sin\theta + F_w l \cos\theta.
+\end{equation}
+
+Po~wymnożeniu nawiasów składniki zawierające \(\dot{\theta}^2\) 
+wzajemnie się redukują. Wykorzystując jedynkę trygonometryczną 
+\(\cos^2\theta + \sin^2\theta = 1\) oraz dzieląc całe równanie przez \(l\), 
+otrzymujemy ostateczne drugie równanie dynamiki~\cite{art1}:
+\begin{equation}
+    m \cos\theta \cdot \ddot{x} + m l \cdot \ddot{\theta} = m g \sin\theta + F_w \cos\theta.
+    \label{eq:dynamic_rotation}
+\end{equation}
+
+\subsection{Nieliniowy model w~przestrzeni stanów}
+
+Układ równań (\ref{eq:dynamic_translation}) i~(\ref{eq:dynamic_rotation}) 
+stanowi kompletny, sprzężony opis dynamiki. W~celu przeprowadzenia 
+symulacji numerycznej, konieczne jest rozprzężenie układu i~wyznaczenie 
+jawnych postaci przyspieszeń \(\ddot{x}\) i~\(\ddot{\theta}\).
+
+Wyznaczając \(\ddot{x}\) z~równania (\ref{eq:dynamic_rotation}):
+\begin{equation}
+    \ddot{x} = \frac{1}{m \cos\theta} \left( m g \sin\theta + F_w \cos\theta - m l \ddot{\theta} \right),
+\end{equation}
+i~podstawiając do~równania (\ref{eq:dynamic_translation}), a~następnie 
+wykonując przekształcenia algebraiczne, otrzymujemy jawne wzory 
+na~przyspieszenia.
+
+Ostateczne równania ruchu, uwzględniające wpływ siły sterującej \(u\) 
+oraz zakłócenia \(F_w\), przyjmują postać~\cite{art1}:
+
+\begin{equation}
+    \ddot{x} = \frac{u + m l \sin\theta \cdot \dot{\theta}^2 - m g \sin\theta \cos\theta + F_w \sin^2\theta}{M + m - m \cos^2\theta},
+    \label{eq:x_dd_final}
+\end{equation}
+
+\begin{equation}
+    \ddot{\theta} = \frac{(M + m) g \sin\theta - u \cos\theta - m l \sin\theta \cos\theta \cdot \dot{\theta}^2 - \frac{M}{m} F_w \cos\theta + F_w \cos\theta}{l (M + m - m \cos^2\theta)}.
+    \label{eq:theta_dd_final}
+\end{equation}
+
+Definiując wektor stanu \(\mathbf{x} = [\theta, \dot{\theta}, x, \dot{x}]^T\), 
+model w~przestrzeni stanów zapisujemy jako układ czterech równań 
+różniczkowych pierwszego rzędu:
+
+\begin{equation}
+    \begin{bmatrix}
+    \dot{x}_1 \\ \dot{x}_2 \\ \dot{x}_3 \\ \dot{x}_4
+    \end{bmatrix}
+    =
+    \begin{bmatrix}
+    x_2 \\
+    \frac{(M + m) g \sin x_1 - u \cos x_1 - m l (\sin x_1 \cos x_1) x_2^2 - F_w \left(\frac{M}{m} \cos x_1 - \cos x_1\right)}{l ( M + m - m \cos^2 x_1 )} \\
+    x_4 \\
+    \frac{u + m l (\sin x_1) x_2^2 - m g \sin x_1 \cos x_1 + F_w \sin^2 x_1}{M + m - m \cos^2 x_1}
+    \end{bmatrix}.
+\end{equation}
+
+\subsection{Liniaryzacja modelu w~punkcie pracy}
+
+W~celu zastosowania algorytmów sterowania liniowego (PID, LQR), 
+przeprowadzono linearyzację modelu nieliniowego wokół punktu równowagi 
+chwiejnej (\(\theta=0\)). Dla małych wychyleń zastosowano przybliżenia 
+\(\sin\theta \approx \theta\), \(\cos\theta \approx 1\), a~wyrazy wyższego 
+rzędu (\(\dot{\theta}^2\), \(\sin^2\theta\)) pominięto.
+
+Liniowy model układu w~postaci \(\dot{\mathbf{x}} = A \mathbf{x} + B u + B_{dist} F_w\) 
+opisują macierze wyznaczone zgodnie z~literaturą~\cite{art1}:
+
+\begin{equation}
+    A =
+    \begin{bmatrix}
+    0 & 1 & 0 & 0 \\
+    \frac{(M + m) g}{M l} & 0 & 0 & 0 \\
+    0 & 0 & 0 & 1 \\
+    -\frac{m g}{M} & 0 & 0 & 0
+    \end{bmatrix}.
+\end{equation}
+
+Macierz sterowania \(B\) oraz macierz zakłóceń \(B_{dist}\) przyjmują postać:
+\begin{equation}
+    B =
+    \begin{bmatrix}
+    0 \\[4pt]
+    -\frac{1}{M l} \\[4pt]
+    0 \\[4pt]
+    \frac{1}{M}
+    \end{bmatrix},
+    \quad
+    B_{dist} =
+    \begin{bmatrix}
+    0 \\[4pt]
+    -\frac{1}{m l} \\[4pt]
+    0 \\[4pt]
+    0
+    \end{bmatrix}.
+\end{equation}
+
+Warto zauważyć, że w~modelu zlinearyzowanym wpływ wiatru na~przyspieszenie 
+kątowe wahadła jest odwrotnie proporcjonalny do~masy \(m\) (element \(-\frac{1}{ml}\) 
+w~macierzy \(B_{dist}\)), podczas gdy w~równaniu przyspieszenia wózka 
+efekt ten zanika dla małych kątów (element zerowy). Jest to zgodne 
+z~wynikami prezentowanymi w~pracy źródłowej~\cite{art1}.

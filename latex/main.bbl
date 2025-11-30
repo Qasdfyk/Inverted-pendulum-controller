@@ -253,6 +253,32 @@
       \verb 10.1007/978-1-84628-615-5
       \endverb
     \endentry
+    \entry{tatjewski_pl}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=991fe5a3b69195adf9f3ed4ba5623082}{%
+           family={Tatjewski},
+           familyi={T\bibinitperiod},
+           given={Piotr},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Akademicka Oficyna Wydawnicza EXIT Andrzej Lang}%
+      }
+      \strng{namehash}{991fe5a3b69195adf9f3ed4ba5623082}
+      \strng{fullhash}{991fe5a3b69195adf9f3ed4ba5623082}
+      \strng{fullhashraw}{991fe5a3b69195adf9f3ed4ba5623082}
+      \strng{bibnamehash}{991fe5a3b69195adf9f3ed4ba5623082}
+      \strng{authorbibnamehash}{991fe5a3b69195adf9f3ed4ba5623082}
+      \strng{authornamehash}{991fe5a3b69195adf9f3ed4ba5623082}
+      \strng{authorfullhash}{991fe5a3b69195adf9f3ed4ba5623082}
+      \strng{authorfullhashraw}{991fe5a3b69195adf9f3ed4ba5623082}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Sterowanie zaawansowane obiektów przemysłowych. Struktury i algorytmy. Wydanie drugie zmienione}
+      \field{year}{2016}
+    \endentry
     \entry{mills2009}{inproceedings}{}{}
       \name{author}{3}{}{%
         {{hash=c1521c94eee5b63801ad97b18546e8f2}{%
@@ -282,8 +308,8 @@
       \strng{authornamehash}{64a4958f807c0209187708313f7ea45c}
       \strng{authorfullhash}{e0d88cbe972f3c3792601a6931703b8a}
       \strng{authorfullhashraw}{e0d88cbe972f3c3792601a6931703b8a}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proceedings of the American Control Conference (ACC)}

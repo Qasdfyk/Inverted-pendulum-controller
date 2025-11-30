@@ -8,7 +8,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from scipy.linalg import solve_continuous_are
 
-# Import z Twojego mpc_utils (musi być w tym samym folderze)
 from mpc_utils import (
     PLANT, SIM, Wind, f_nonlinear, rk4_step_wind, 
     print_summary, animate_cartpole,
@@ -250,9 +249,8 @@ if __name__ == "__main__":
     # --- Metryki i Wykresy ---
     steps = len(U)
     t = np.linspace(0.0, T, steps + 1)
-    tf = t[:-1] # Czas dla sterowania (o 1 krótszy niż stan)
+    tf = t[:-1]
 
-    # Obliczanie metryk
     th_ref_tr = np.zeros_like(t)
     x_ref_tr = np.ones_like(t) * x_ref[2]
 
@@ -285,7 +283,6 @@ if __name__ == "__main__":
     print("\nSimulation Result:")
     print_summary(metrics)
     
-    # Wywołanie Twojego nowego plota
     plot_result(t, tf, X, U, "TS-Fuzzy", wind is not None)
 
     if os.environ.get("ANIMATE", "0") == "1":
