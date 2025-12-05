@@ -80,8 +80,11 @@ if __name__ == "__main__":
     # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
 
     # Gains from config/controllers/pid_lqr.yaml
-    pid_gains = {"Kp": 1.5, "Ki": 0.0, "Kd": 5.0}
-    lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0}
+    # pid_gains = {"Kp": 1.5, "Ki": 0.0, "Kd": 5.0}
+    # lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0}
+
+    pid_gains = {"Kp": -4.5, "Ki": 0.0, "Kd": -3}
+    lqr_gains = {"Q": [69.44, 76.98, 17.70, 14.17], "R": 8.0280}
 
     ctrl = PDLQRController(
         pars=plant, dt=dt, 

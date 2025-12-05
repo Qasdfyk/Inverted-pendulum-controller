@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 from scipy.linalg import solve_continuous_are
 
 from mpc_utils import (
-    PLANT, SIM, Wind, f_nonlinear, rk4_step_wind, 
+    PLANT, SIM, Wind, f_nonlinear, rk4_step_wind, simulate_mpc,
     print_summary, animate_cartpole, linearize_upright,
     mse, mae, iae, ise, control_energy_l2, control_energy_l1,
     settling_time, overshoot, steady_state_error, disturbance_robustness
@@ -51,18 +51,22 @@ class TSParams16:
     flip_u: bool
     gain_scale: float
 
-def starter_ts_params16(u_sat: float) -> TSParams16:
+#def starter_ts_params16(u_sat: float, base_th=15.0, base_thd=5.0, base_x=5.0, base_xd=1.0) -> TSParams16:
+# def starter_ts_params16(u_sat: float, base_th=5.2, base_thd=4.5, base_x=20.9, base_xd=18.6) -> TSParams16:
+# Optimized Params (Cost: 0.1080)
+def starter_ts_params16(u_sat: float, base_th=95.5538, base_thd=2.5756, base_x=27.2785, base_xd=5.6576) -> TSParams16:
     th_small  = (-0.20, 0.0, 0.20)
     thd_small = (-1.5, 0.0, 1.5)
     x_small   = (-0.4, 0.0, 0.4)
     xd_small  = (-0.8, 0.0, 0.8)
 
     F_rules = np.zeros((16, 4), dtype=float)
-    base_th, base_thd, base_x, base_xd = 15.0, 5.0, 5.0, 1.0
+
     
     for idx in range(16):
         bits = [(idx >> b) & 1 for b in (3, 2, 1, 0)]
         largeness = sum(bits)
+        # Rules increase aggressiveness based on "largeness" of error
         F_rules[idx, 0] = base_th   + 10.0 * largeness
         F_rules[idx, 1] = base_thd  +  3.0 * largeness
         F_rules[idx, 2] = base_x    +  2.0 * largeness
@@ -70,7 +74,8 @@ def starter_ts_params16(u_sat: float) -> TSParams16:
 
     return TSParams16(
         th_small=th_small, thd_small=thd_small, x_small=x_small, xd_small=xd_small,
-        F_rules=F_rules, u_sat=u_sat, sign=+1, flip_u=False, gain_scale=0.2, 
+        # F_rules=F_rules, u_sat=u_sat, sign=-1, flip_u=False, gain_scale=0.9, 
+        F_rules=F_rules, u_sat=u_sat, sign=-1, flip_u=False, gain_scale=0.9892, 
     )
 
 def ts_weights16(th: float, thd: float, x: float, xd: float, p: TSParams16) -> np.ndarray:
@@ -98,6 +103,21 @@ class TSFuzzyController:
         self.du_max = du_max
         self.ramp_T = ramp_T
         self.u_prev = 0.0
+        self.step_counter = 0
+
+    def compute_control(self, x0, x_ref, u_prev):
+        # Compatibility wrapper for simulate_mpc
+        
+        t = self.step_counter * self.dt
+        self.step_counter += 1
+        
+        # update internal u_prev if passed (simulate_mpc passes it)
+        self.u_prev = u_prev 
+        
+        u = self.step(t, x0, x_ref)
+        
+        # Return as sequence for simulate_mpc (which expects u_seq array)
+        return np.array([u])
 
     def _u_ts(self, th: float, thd: float, ex: float, exd: float) -> float:
         mu = ts_weights16(th, thd, ex, exd, self.p)
@@ -134,67 +154,6 @@ class TSFuzzyController:
 # =========================
 # Simulation Logic
 # =========================
-def evaluate_run(X: np.ndarray, U: np.ndarray, x_ref: float) -> float:
-    th = X[:, 0]; x = X[:, 2]
-    xr = np.ones_like(x) * x_ref
-    u_rms = float(np.sqrt(np.mean(U**2))) if len(U) else 0.0
-    return 4.0*mse(th, np.zeros_like(th)) + 1.5*mse(x, xr) + 0.01*u_rms
-
-def simulate_fuzzy(pars: dict, controller: TSFuzzyController, x0: np.ndarray, x_ref: np.ndarray, T: float, dt: float, wind: Optional[Callable[[float], float]] = None, early_stop: Optional[Tuple[float, float]] = None) -> tuple:
-    steps = int(np.round(T / dt))
-    x = np.asarray(x0, float).copy()
-    traj = [x.copy()]
-    forces = []
-    Fw_tr = [] 
-    t = 0.0
-    ok = True
-    ctrl_time_total = 0.0
-    sim_t0 = perf_counter()
-
-    for _ in range(steps):
-        t0c = perf_counter()
-        u = controller.step(t, x, x_ref)
-        ctrl_time_total += perf_counter() - t0c
-        
-        forces.append(u)
-        
-        F_cur = float(wind(t)) if wind else 0.0
-        Fw_tr.append(F_cur)
-        
-        x = rk4_step_wind(f_nonlinear, x, u, pars, dt, t, wind)
-        traj.append(x.copy())
-        t += dt
-
-        if early_stop is not None:
-            if abs(x[0]) > early_stop[0] or abs(x[2]) > early_stop[1]:
-                ok = False; break
-
-    sim_time_wall = perf_counter() - sim_t0
-    return np.vstack(traj), np.asarray(forces), ok, np.asarray(Fw_tr), ctrl_time_total, sim_time_wall
-
-def autopick_variant(pars: dict, base: TSParams16, dt: float, K_lqr: np.ndarray) -> TSParams16:
-    print("--- Autopicking Fuzzy Gain ---")
-    best_p = None; best_s = np.inf
-    scales = [0.05, 0.1, 0.2, 0.3, 0.4] 
-    
-    for sgn in (+1, -1):
-        for sc in scales:
-            cand = TSParams16(
-                th_small=base.th_small, thd_small=base.thd_small, 
-                x_small=base.x_small, xd_small=base.xd_small, 
-                F_rules=base.F_rules.copy(), u_sat=base.u_sat, 
-                sign=sgn, flip_u=False, gain_scale=sc
-            )
-            ctrl = TSFuzzyController(pars, cand, K_lqr, dt, du_max=1000.0, ramp_T=1.5)
-            Xs, Us, ok, _, _, _ = simulate_fuzzy(pars, ctrl, SIM["x0"], SIM["x_ref"], T=4.0, dt=dt, wind=None, early_stop=(1.0, 2.0))
-            
-            if ok:
-                score = evaluate_run(Xs, Us, SIM["x_ref"][2])
-                if score < best_s: 
-                    best_s = score; best_p = cand
-    
-    print(f"--- Best Found: scale={best_p.gain_scale}, sign={best_p.sign} ---")
-    return best_p if best_p is not None else base
 
 # =========================
 # Custom Plotting
@@ -227,13 +186,13 @@ if __name__ == "__main__":
     print(f"LQR Gain: {K_lqr}")
 
     base_ts = starter_ts_params16(u_sat=SIM["u_sat"])
-    picked_ts = autopick_variant(plant, base_ts, dt, K_lqr)
+    picked_ts = base_ts
     
     ctrl = TSFuzzyController(plant, picked_ts, K_lqr, dt, du_max=800.0, ramp_T=1.0)
     
     print(f"Running Simulation (dt={dt}s)...")
-    X, U, ok, Fw_tr, ctrl_time_total, sim_time_wall = simulate_fuzzy(
-        plant, ctrl, x0, x_ref, T, dt, wind=wind, early_stop=None
+    X, U, Fw_tr, ctrl_time_total, sim_time_wall = simulate_mpc(
+        plant, ctrl, x0, x_ref, T, dt, wind=wind
     )
 
     # --- Metrics and Plots ---

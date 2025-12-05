@@ -11,7 +11,9 @@ from mpc_utils import (PLANT, SIM, Wind, f_nonlinear, rk4_step, simulate_mpc,
 
 class MPCControllerJ2:
     def __init__(self, pars: dict, dt: float, N: int, Nu: int,
-                 umin: float, umax: float, q_theta: float, q_x: float, r: float, r_abs: float):
+                 umin: float, umax: float, 
+                 q_theta: float, q_x: float, q_thd: float = 1.0, q_xd: float = 1.0,
+                 r: float = 0.001, r_abs: float = 0.0):
         self.pars = pars
         self.dt = dt
         self.N = N
@@ -20,6 +22,8 @@ class MPCControllerJ2:
         self.umax = umax
         self.q_theta = q_theta
         self.q_x = q_x
+        self.q_thd = q_thd
+        self.q_xd = q_xd
         self.r = r
         self.r_abs = r_abs
 
@@ -50,8 +54,8 @@ class MPCControllerJ2:
         e_x   = preds[:, 2] - x_ref[2]
         e_xd  = preds[:, 3] - x_ref[3]
 
-        cost_state = np.sum(self.q_theta * e_th**2 + 1.0 * e_thd**2 + 
-                            self.q_x * e_x**2 + 1.0 * e_xd**2)
+        cost_state = np.sum(self.q_theta * e_th**2 + self.q_thd * e_thd**2 + 
+                            self.q_x * e_x**2 + self.q_xd * e_xd**2)
         
         cost_du = self.r * np.sum(du**2)
         cost_u_abs = self.r_abs * np.sum(u_seq**2)
@@ -91,7 +95,8 @@ if __name__ == "__main__":
 
     ctrl = MPCControllerJ2(
         pars=plant, dt=dt, N=15, Nu=5, umin=-u_sat, umax=u_sat,
-        q_theta=30.0, q_x=20.0, r=0.01, r_abs=0.005
+        q_theta=60.0, q_x=15.0, q_thd=3.0, q_xd=1.0,
+        r=0.001, r_abs=0.0
     )
 
     X, U, Fw_tr, ctrl_time_total, sim_time_wall = simulate_mpc(plant, ctrl, x0, x_ref, T, dt, wind=wind)
