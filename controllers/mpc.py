@@ -101,11 +101,11 @@ if __name__ == "__main__":
     plt.tight_layout(rect=[0, 0, 1, 0.95])
     plt.show()
 
-       # ---- refs ----
+    # ---- refs ----
     th_ref_tr = np.zeros_like(t)
     x_ref_tr  = np.ones_like(t) * x_ref[2]
 
-    # ---- metryki ----
+    # ---- metrics ----
     eps_theta = 0.01; eps_x = 0.01; hold_time = 0.5
     ess_window_frac = 0.10; ess_window_min = 0.5
     is_step = True

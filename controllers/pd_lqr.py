@@ -1,87 +1,76 @@
 from __future__ import annotations
-import os
 import numpy as np
-from scipy.optimize import minimize
 import matplotlib.pyplot as plt
+import os
+import sys
+
+# Ensure we can import env from parent directory
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from scipy.linalg import solve_continuous_are
 
 from mpc_utils import (PLANT, SIM, Wind, f_nonlinear, rk4_step, simulate_mpc, 
-                       print_summary, animate_cartpole,
+                       print_summary, animate_cartpole, linearize_upright,
                        mse, mae, iae, ise, control_energy_l2, control_energy_l1,
                        settling_time, overshoot, steady_state_error, disturbance_robustness)
 
-class MPCControllerLQR:
-    def __init__(self, pars: dict, dt: float, N: int, Nu: int,
-                 umin: float, umax: float, Q_weights: list, R: float):
+class PDLQRController:
+    def __init__(self, pars: dict, dt: float, 
+                 pid_gains: dict, lqr_gains: dict,
+                 u_limit: float = 80.0, integ_limit: float = 5.0):
         self.pars = pars
         self.dt = dt
-        self.N = N
-        self.Nu = Nu
-        self.umin = umin
-        self.umax = umax
+        self.pid = pid_gains
+        self.lqr = lqr_gains
+        self.u_limit = u_limit
+        self.integ_limit = integ_limit
         
-        # Q_weights: lista [q_theta, q_theta_dot, q_x, q_x_dot]
-        # R: kara za u^2
-        self.Q = np.array(Q_weights, dtype=float)
-        self.R = float(R)
+        self.z = 0.0 # integrator for PID
 
-    def _rollout(self, x0, u_seq):
-        x = np.array(x0, dtype=float)
-        traj = []
-        for ui in u_seq:
-            x = rk4_step(f_nonlinear, x, float(ui), self.pars, self.dt)
-            traj.append(x.copy())
-        return np.asarray(traj)
-
-    def _cost(self, u_opt, x0, x_ref, u_prev):
-        u_opt = np.asarray(u_opt, dtype=float)
+        # Compute LQR gain K
+        M, m, l, g = pars["M"], pars["m"], pars["l"], pars["g"]
+        A, B = linearize_upright(M, m, l, g)
+        Q_diag = lqr_gains.get("Q", [1, 1, 1, 1])
+        R_val = lqr_gains.get("R", 1.0)
         
-        # 1. Rekonstrukcja pełnej sekwencji sterowania
-        u_seq = np.zeros(self.N)
-        upto = min(self.Nu, self.N)
-        u_seq[:upto] = u_opt[:upto]
-        if self.N > self.Nu:
-            u_seq[self.Nu:] = u_opt[-1]
-
-        # 2. Predykcja (Rollout)
-        preds = self._rollout(x0, u_seq)
+        Q = np.diag(Q_diag)
+        R = np.array([[R_val]], dtype=float)
         
-        # 3. Obliczenie błędów dla każdego stanu
-        # preds ma kształt (N, 4), x_ref ma kształt (4,)
-        # Tworzymy macierz błędów (N, 4)
-        errors = preds - x_ref.reshape(1, 4)
-        
-        # --- KLASYCZNA FUNKCJA KOSZTU LQR (Camacho & Bordons) ---
-        
-        # A. Koszt Stanu (State Cost): e^T * Q * e
-        # Mnożymy kwadraty błędów przez wagi Q i sumujemy po wszystkich krokach i stanach
-        cost_state = np.sum((errors**2) @ self.Q)
-
-        # B. Koszt Sterowania (Input Cost): u^T * R * u
-        cost_input = self.R * np.sum(u_seq**2)
-
-        return cost_state + cost_input
+        P = solve_continuous_are(A, B, Q, R)
+        self.Klqr = (np.linalg.solve(R, B.T @ P)).ravel()
+        print(f"LQR Gain K: {self.Klqr}")
 
     def compute_control(self, x0, x_ref, u_prev):
-        bounds = [(self.umin, self.umax)] * self.Nu
-        u0 = np.full(self.Nu, u_prev)
+        # x0 = [th, thd, x, xd]
+        th, thd, pos, posd = x0
+        
+        target_pos = x_ref[2]
 
-        res = minimize(
-            self._cost, u0,
-            args=(x0, x_ref, u_prev),
-            method='SLSQP',
-            bounds=bounds,
-            options={'maxiter': 100, 'ftol': 1e-3, 'disp': False}
-        )
+        # PID on Cart Position
+        e_x = target_pos - pos
+        de_x = -posd
         
-        u_opt_seq = res.x if res.success else u0
+        Kp = float(self.pid.get("Kp", 0.0))
+        Ki = float(self.pid.get("Ki", 0.0))
+        Kd = float(self.pid.get("Kd", 0.0))
         
-        u_full = np.zeros(self.N)
-        upto = min(self.Nu, self.N)
-        u_full[:upto] = u_opt_seq[:upto]
-        if self.N > self.Nu:
-            u_full[self.Nu:] = u_opt_seq[-1]
+        if Ki != 0.0:
+            self.z += e_x * self.dt
+            self.z = float(np.clip(self.z, -self.integ_limit, self.integ_limit))
             
-        return u_full
+        u_pid = Kp * e_x + Ki * self.z + Kd * de_x
+
+        # LQR (State Feedback)
+        # Deviation state
+        # Linearization was around upright (th=0) and x=0 (or arbitrary x if LTI A matrix doesn't depend on x).
+        # A matrix for cartpole usually has 0 column for x (position invariant).
+        # So we can use x_dev = x - x_ref.
+        state_dev = np.array([th, thd, pos - target_pos, posd])
+        u_lqr = - float(self.Klqr @ state_dev)
+        
+        u = u_pid + u_lqr
+        u = float(np.clip(u, -self.u_limit, self.u_limit))
+        
+        return np.array([u])
 
 if __name__ == "__main__":
     dt, T = SIM["dt"], SIM["T"]
@@ -90,18 +79,14 @@ if __name__ == "__main__":
     wind = None
     # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
 
-    # DOBÓR WAG (LQR Tuning):
-    # Q: [theta, theta_dot, x, x_dot]
-    # Duża waga na theta (np. 50-100) -> priorytet pionizacji
-    # Średnia waga na x (np. 10-20) -> priorytet pozycji
-    # R: Małe R (np. 0.01) -> agresywne sterowanie, Duże R (0.1+) -> wolne/oszczędne
-    
-    ctrl = MPCControllerLQR(
+    # Gains from config/controllers/pid_lqr.yaml
+    pid_gains = {"Kp": 1.5, "Ki": 0.0, "Kd": 5.0}
+    lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0}
+
+    ctrl = PDLQRController(
         pars=plant, dt=dt, 
-        N=15, Nu=5, 
-        umin=-u_sat, umax=u_sat,
-        Q_weights=[50.0, 1.0, 20.0, 1.0], 
-        R=0.01 
+        pid_gains=pid_gains, lqr_gains=lqr_gains,
+        u_limit=80.0, integ_limit=5.0
     )
 
     X, U, Fw_tr, ctrl_time_total, sim_time_wall = simulate_mpc(plant, ctrl, x0, x_ref, T, dt, wind=wind)
@@ -110,7 +95,7 @@ if __name__ == "__main__":
     t = np.linspace(0.0, T, steps + 1)
     tf = t[:-1]
 
-    controller_name = "mpc_LQR_Classic"
+    controller_name = "pd_lqr"
     disturbance = wind is not None
     step_type = "position_step"
     fig = plt.figure(figsize=(9, 7))
@@ -122,15 +107,14 @@ if __name__ == "__main__":
     plt.tight_layout(rect=[0, 0, 1, 0.95])
     plt.show()
 
+    # ---- refs ----
     th_ref_tr = np.zeros_like(t)
     x_ref_tr  = np.ones_like(t) * x_ref[2]
 
+    # ---- metrics ----
     eps_theta = 0.01; eps_x = 0.01; hold_time = 0.5
     ess_window_frac = 0.10; ess_window_min = 0.5
     is_step = True
-
-    e_th = X[:,0] - th_ref_tr
-    e_x  = X[:,2] - x_ref_tr
 
     metrics = {
         "mse_theta": mse(X[:, 0], th_ref_tr),
@@ -146,10 +130,9 @@ if __name__ == "__main__":
         "sim_time_wall": sim_time_wall,
         "ctrl_time_total": ctrl_time_total,
     }
-
+    
     metrics["t_s_theta"] = settling_time(t, X[:,0], th_ref_tr, eps=eps_theta, hold_time=hold_time) if is_step else float('nan')
     metrics["t_s_x"]     = settling_time(t, X[:,2], x_ref_tr,  eps=eps_x,     hold_time=hold_time) if is_step else float('nan')
-
     metrics["overshoot_theta"] = overshoot(X[:,0], th_ref_tr[-1]) if is_step else float('nan')
     metrics["overshoot_x"]     = overshoot(X[:,2], x_ref_tr[-1])  if is_step else float('nan')
 
@@ -157,8 +140,6 @@ if __name__ == "__main__":
     ess_x_mean,  ess_x_rms  = steady_state_error(t, X[:,2], x_ref_tr,  window_frac=ess_window_frac, window_min=ess_window_min)
     metrics["ess_theta"] = ess_th_mean
     metrics["ess_x"]     = ess_x_mean
-    metrics["ess_theta_rms"] = ess_th_rms
-    metrics["ess_x_rms"]     = ess_x_rms
 
     if disturbance:
         e_th_tf = X[1:, 0] - th_ref_tr[1:]
@@ -167,16 +148,10 @@ if __name__ == "__main__":
         snr_x,  rms_e_x,  _     = disturbance_robustness(tf, e_x_tf,  Fw_tr, window_frac=0.5, window_min=1.0)
         metrics["snr_theta"] = snr_th
         metrics["snr_x"]     = snr_x
-        metrics["rms_e_theta"] = rms_e_th
-        metrics["rms_e_x"]     = rms_e_x
-        metrics["rms_Fw"]      = rms_F
     else:
         metrics["snr_theta"] = float('nan')
         metrics["snr_x"]     = float('nan')
-        metrics["rms_e_theta"] = float('nan')
-        metrics["rms_e_x"]     = float('nan')
-        metrics["rms_Fw"]      = float('nan')
-
+    
     print_summary(metrics)
 
     if os.environ.get("ANIMATE", "0") == "1":

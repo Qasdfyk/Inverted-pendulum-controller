@@ -69,6 +69,26 @@ def rk4_step_wind(f, x, u, pars, dt, t,
     return x + (dt / 6.0) * (k1 + 2*k2 + 2*k3 + k4)
 
 # =========================
+# Linearization
+# =========================
+def linearize_upright(M: float, m: float, l: float, g: float) -> tuple[np.ndarray, np.ndarray]:
+    A = np.array([
+        [0.0,                 1.0, 0.0, 0.0],
+        [(M + m)*g/(M*l),     0.0, 0.0, 0.0],
+        [0.0,                 0.0, 0.0, 1.0],
+        [-m*g/M,              0.0, 0.0, 0.0]
+    ], dtype=float)
+
+    B = np.array([
+        [0.0],
+        [-1.0/(M*l)],
+        [0.0],
+        [1.0/M]
+    ], dtype=float)
+
+    return A, B
+
+# =========================
 # Metrics (FIXED np.trapezoid -> np.trapz)
 # =========================
 def mse(y, yref):
@@ -177,8 +197,8 @@ def simulate_mpc(pars, controller, x0, x_ref, T, dt,
     steps = int(np.round(T / dt))
     x = np.asarray(x0, float).copy(); u_prev = float(u0)
     traj = [x.copy()]
-    forces = []      # sterowanie u(t_k)
-    Fw_tr = []       # Fw(t_k) w chwili sterowania
+    forces = []      # control u(t_k)
+    Fw_tr = []       # Fw(t_k) at control instant
     t = 0.0
 
     ctrl_time_total = 0.0

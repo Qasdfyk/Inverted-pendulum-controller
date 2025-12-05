@@ -10,7 +10,7 @@ from scipy.linalg import solve_continuous_are
 
 from mpc_utils import (
     PLANT, SIM, Wind, f_nonlinear, rk4_step_wind, 
-    print_summary, animate_cartpole,
+    print_summary, animate_cartpole, linearize_upright,
     mse, mae, iae, ise, control_energy_l2, control_energy_l1,
     settling_time, overshoot, steady_state_error, disturbance_robustness
 )
@@ -20,17 +20,7 @@ EPS = 1e-12
 # =========================
 # LQR Helper (Linearization)
 # =========================
-def linearize_upright(M: float, m: float, l: float, g: float) -> tuple[np.ndarray, np.ndarray]:
-    A = np.array([
-        [0.0,                 1.0, 0.0, 0.0],
-        [(M + m)*g/(M*l),     0.0, 0.0, 0.0],
-        [0.0,                 0.0, 0.0, 1.0],
-        [-m*g/M,              0.0, 0.0, 0.0]
-    ], dtype=float)
-    B = np.array([
-        [0.0], [-1.0/(M*l)], [0.0], [1.0/M]
-    ], dtype=float)
-    return A, B
+# linearize_upright imported from mpc_utils
 
 def lqr_from_plant(plant: dict) -> np.ndarray:
     A, B = linearize_upright(plant["M"], plant["m"], plant["l"], plant["g"])
@@ -229,8 +219,8 @@ if __name__ == "__main__":
     T = SIM["T"]
     x0, x_ref = SIM["x0"], SIM["x_ref"]
 
-    # --- Ustawienia Wiatru ---
-    # wind = Wind(T, seed=42, Ts=0.05, power=5e-3, smooth=10) # Odkomentuj dla wiatru
+    # --- Wind Settings ---
+    # wind = Wind(T, seed=42, Ts=0.05, power=5e-3, smooth=10) # Uncomment for wind
     wind = None 
 
     K_lqr = lqr_from_plant(plant)
@@ -246,7 +236,7 @@ if __name__ == "__main__":
         plant, ctrl, x0, x_ref, T, dt, wind=wind, early_stop=None
     )
 
-    # --- Metryki i Wykresy ---
+    # --- Metrics and Plots ---
     steps = len(U)
     t = np.linspace(0.0, T, steps + 1)
     tf = t[:-1]
