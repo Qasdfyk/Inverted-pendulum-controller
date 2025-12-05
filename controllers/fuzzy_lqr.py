@@ -54,7 +54,7 @@ class TSParams16:
 #def starter_ts_params16(u_sat: float, base_th=15.0, base_thd=5.0, base_x=5.0, base_xd=1.0) -> TSParams16:
 # def starter_ts_params16(u_sat: float, base_th=5.2, base_thd=4.5, base_x=20.9, base_xd=18.6) -> TSParams16:
 # Optimized Params (Cost: 0.1080)
-def starter_ts_params16(u_sat: float, base_th=95.5538, base_thd=2.5756, base_x=27.2785, base_xd=5.6576) -> TSParams16:
+def starter_ts_params16(u_sat: float, base_th=50, base_thd=2, base_x=15, base_xd=0.1) -> TSParams16:
     th_small  = (-0.20, 0.0, 0.20)
     thd_small = (-1.5, 0.0, 1.5)
     x_small   = (-0.4, 0.0, 0.4)
@@ -75,7 +75,7 @@ def starter_ts_params16(u_sat: float, base_th=95.5538, base_thd=2.5756, base_x=2
     return TSParams16(
         th_small=th_small, thd_small=thd_small, x_small=x_small, xd_small=xd_small,
         # F_rules=F_rules, u_sat=u_sat, sign=-1, flip_u=False, gain_scale=0.9, 
-        F_rules=F_rules, u_sat=u_sat, sign=-1, flip_u=False, gain_scale=0.9892, 
+        F_rules=F_rules, u_sat=u_sat, sign=-1, flip_u=False, gain_scale=0.9, 
     )
 
 def ts_weights16(th: float, thd: float, x: float, xd: float, p: TSParams16) -> np.ndarray:
