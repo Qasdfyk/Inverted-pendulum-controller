@@ -243,7 +243,20 @@ Macierz sterowania \(B\) oraz macierz zakłóceń \(B_{dist}\) przyjmują posta�
 \end{equation}
 
 Warto zauważyć, że w~modelu zlinearyzowanym wpływ wiatru na~przyspieszenie 
-kątowe wahadła jest odwrotnie proporcjonalny do~masy \(m\) (element \(-\frac{1}{ml}\) 
-w~macierzy \(B_{dist}\)), podczas gdy w~równaniu przyspieszenia wózka 
-efekt ten zanika dla małych kątów (element zerowy). Jest to zgodne 
-z~wynikami prezentowanymi w~pracy źródłowej~\cite{art1}.
+    kątowe wahadła jest odwrotnie proporcjonalny do~masy \(m\) (element \(-\frac{1}{ml}\) 
+    w~macierzy \(B_{dist}\)), podczas gdy w~równaniu przyspieszenia wózka 
+    efekt ten zanika dla małych kątów (element zerowy). Jest to zgodne 
+    z~wynikami prezentowanymi w~pracy źródłowej~\cite{art1}.
+
+\subsection{Analiza zachowania układu w pętli otwartej}
+
+Odwrócone wahadło jest z natury układem niestabilnym w górnym punkcie równowagi ($\theta = 0$). Aby zobrazować tę właściwość, przeprowadzono symulację zachowania obiektu bez działania układu sterowania ($u(t) = 0$), przy niewielkim wychyleniu początkowym $\theta_0 = 0{,}1$ rad (ok. $5{,}7^\circ$).
+
+Jak pokazano na Rys. \ref{fig:open_loop}, nawet niewielkie odchylenie od pionu powoduje, że pod wpływem siły grawitacji wahadło gwałtownie traci równowagę i opada. W rzeczywistym układzie fizycznym, obecność tarcia w przegubie oraz oporu powietrza sprawia, że energia mechaniczna jest rozpraszana. W rezultacie, kąt wychylenia \(\theta(t)\) dąży do stabilnego punktu równowagi dolnej, tj. \(\theta = \pi\) rad.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/open_loop.png}
+    \caption{Symulacja odpowiedzi swobodnej układu (z uwzględnionym tłumieniem) na małe wychylenie początkowe. Układ opuszcza niestabilny punkt równowagi ($\theta \approx 0$) i stabilizuje się w pozycji wiszącej ($\theta = \pi$).}
+    \label{fig:open_loop}
+\end{figure}
