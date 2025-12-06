@@ -10,18 +10,12 @@
 \contentsline {subsubsection}{\numberline {2.3.2\relax .\enspace }Bilans momentów sił}{12}{subsubsection.2.3.2}%
 \contentsline {subsection}{\numberline {2.4\relax .\enspace }Nieliniowy model w~przestrzeni stanów}{12}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5\relax .\enspace }Liniaryzacja modelu w~punkcie pracy}{13}{subsection.2.5}%
-\contentsline {section}{\numberline {3\relax .\enspace }Środowisko}{15}{section.3}%
-\contentsline {section}{\numberline {4\relax .\enspace }Metody sterowania}{16}{section.4}%
-\contentsline {subsection}{\numberline {4.1\relax .\enspace }Regulator PID (dla kąta wahadła)}{16}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2\relax .\enspace }Regulator PD (dla pozycji wózka)}{16}{subsection.4.2}%
-\contentsline {subsection}{\numberline {4.3\relax .\enspace }Regulator LQR (Linear-Quadratic Regulator)}{16}{subsection.4.3}%
-\contentsline {subsection}{\numberline {4.4\relax .\enspace }Regulator złożony (Composite Controller)}{17}{subsection.4.4}%
-\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{18}{section.5}%
-\contentsline {subsection}{\numberline {5.1\relax .\enspace }Opis przeprowadzonych eksperymentów}{18}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2\relax .\enspace }Dobór parametrów regulatorów}{19}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3\relax .\enspace }Porównanie jakości regulacji - wskaźniki błędów}{21}{subsection.5.3}%
-\contentsline {subsection}{\numberline {5.4\relax .\enspace }Podsumowanie eksperymentów}{21}{subsection.5.4}%
-\contentsline {section}{Bibliografia}{23}{section*.8}%
-\contentsline {section}{Wykaz symboli i skrótów}{24}{section*.9}%
-\contentsline {section}{Spis rysunków}{24}{section*.9}%
-\contentsline {section}{Spis tabel}{24}{section*.9}%
+\contentsline {section}{\numberline {3\relax .\enspace }Środowisko symulacyjne i implementacja}{15}{section.3}%
+\contentsline {subsection}{\numberline {3.1\relax .\enspace }Narzędzia programistyczne}{15}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2\relax .\enspace }Konfiguracja symulacji}{15}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3\relax .\enspace }Modelowanie zakłóceń}{16}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4\relax .\enspace }Wizualizacja i animacja}{17}{subsection.3.4}%
+\contentsline {section}{Bibliografia}{19}{section*.4}%
+\contentsline {section}{Wykaz symboli i skrótów}{20}{section*.5}%
+\contentsline {section}{Spis rysunków}{20}{section*.5}%
+\contentsline {section}{Spis tabel}{20}{section*.5}%

@@ -1,29 +1,132 @@
-\section{Środowisko}
+\section{Środowisko symulacyjne i implementacja}
+
+W celu przeprowadzenia badań i weryfikacji działania algorytmów sterowania, przygotowano autorskie środowisko symulacyjne zrealizowane w języku \textbf{Python 3}. Wybór tego języka podyktowany był jego powszechnością w zastosowaniach naukowych, dostępnością bibliotek do obliczeń numerycznych i optymalizacji, a także łatwością prototypowania złożonych struktur sterowania.
+
+\subsection{Narzędzia programistyczne}
+
+W projekcie wykorzystano następujące biblioteki i narzędzia:
 \begin{itemize}
-    \item \textbf{Oprogramowanie: } MATLAB R2024a \& Simulink.
-    \item \textbf{Biblioteki: } Control System Toolbox.
-    \item \textbf{Parametry fizyczne układu:}
-    \[
-        M = 0{,}5\text{ kg}, \quad
-        m = 0{,}2\text{ kg}, \quad
-        l = 0{,}3\text{ m}, \quad
-        I = 0{,}006\text{ kg·m}^2, \quad
-        b = 0{,}1\text{ N·s/m}, \quad
-        g = 9{,}81\text{ m/s}^2.
-    \]
-    \item \textbf{Warunki początkowe:} 
-    \[
-        \varphi(0) = 45^\circ,\quad \dot\varphi(0)=0,\quad x(0)=0,\quad \dot x(0)=0.
-    \]
-    \item \textbf{Czas symulacji: } \(t \in [0,\,5]\text{ s}\) z krokiem \(\Delta t = 0{,}01\,\text{s}\).
-    \item \textbf{Zaburzenie od wiatru:} Wersja z zakłóceniem realizuje się jako dodanie do równania ruchu siły \(F_w(t)\). Zby łatwiej było zaobserwować wpływ wiatru na działanie układu, jako zakłócenie przyjęto dwa podmuchy w 1 i 3 sekundzie symulacji
-    \item \textbf{Animacja wahadła: } 
-    W celu lepszego zobrazowania dynamiki układu, projekt zawiera funkcję \texttt{animate\_pendulum}, która rysuje ruch wózka i wahadła w czasie. 
-    Wózek wizualizowany jest jako prostokąt, drążek wahadła jako linia, a jego koniec jako czerwona kropka.
-    \begin{figure}[H]
-    \centering
-    \includegraphics[width=0.7\textwidth]{img/animacja.png}
-    \caption{Animacja wahadła na wózku}
-    \label{fig:schemat_ukladu}
-\end{figure}
+    \item \textbf{NumPy} -- podstawowa biblioteka do obliczeń macierzowych i operacji na wielowymiarowych tablicach danych, wykorzystywana do implementacji równań stanu oraz przechowywania przebiegów symulacji.
+    \item \textbf{SciPy} -- pakiet naukowy dostarczający zaawansowanych algorytmów numerycznych. W pracy użyto modułów:
+    \begin{itemize}
+        \item \texttt{scipy.linalg} -- do rozwiązywania algebraicznego równania Riccatiego (ARE) w algorytmie LQR.
+        \item \texttt{scipy.optimize} -- zawierającego solwer \texttt{minimize} (metoda SLSQP), wykorzystywany do rozwiązywania zadań optymalizacji nieliniowej z ograniczeniami w regulatorze MPC.
+    \end{itemize}
+    \item \textbf{Matplotlib} -- biblioteka służąca do wizualizacji wyników w postaci wykresów przebiegów czasowych oraz do generowania animacji ruchu wahadła.
 \end{itemize}
+
+\subsection{Konfiguracja symulacji}
+
+Symulator opiera się na numerycznym całkowaniu wyprowadzonych wcześniej nieliniowych równań dynamiki. Zaimplementowano procedurę całkowania metodą \textbf{Rungego-Kutty czwartego rzędu (RK4)}, co zapewnia wysoki kompromis pomiędzy dokładnością a szybkością obliczeń. Kluczowy fragment implementacji algorytmu przedstawiono na Listingu \ref{lst:rk4}.
+
+\begin{lstlisting}[language=Python, caption={Implementacja metody Rungego-Kutty 4. rzędu}, label={lst:rk4}, basicstyle=\ttfamily\footnotesize, breaklines=true]
+def rk4_step(f, x, u, pars, dt):
+    k1 = f(x, u, pars)
+    k2 = f(x + 0.5 * dt * k1, u, pars)
+    k3 = f(x + 0.5 * dt * k2, u, pars)
+    k4 = f(x + dt * k3, u, pars)
+    return x + (dt / 6.0) * (k1 + 2*k2 + 2*k3 + k4)
+\end{lstlisting}
+
+Przyjęto stały krok symulacji oraz sterowania wynoszący \(\Delta t = 0{,}1\,\text{s}\). Jest to wartość, przy której dynamika wahadła jest odwzorowana z wystarczającą precyzją, a jednocześnie pozwala na efektywne działanie numerycznych algorytmów optymalizacji w czasie rzeczywistym.
+
+\begin{table}[H]
+	\centering
+	\caption{Parametry fizyczne modelu przyjęte w symulacji}
+	\label{tab:parametry_modelu}
+	\renewcommand{\arraystretch}{1.2}
+	\begin{tabular}{|l|c|c|c|}
+		\hline
+		\textbf{Parametr} & \textbf{Symbol} & \textbf{Wartość} & \textbf{Jednostka} \\ \hline
+		Masa wózka & $M$ & $2{,}4$ & $\text{kg}$ \\ \hline
+		Masa wahadła & $m$ & $0{,}23$ & $\text{kg}$ \\ \hline
+		Długość wahadła & $l$ & $0{,}36$ & $\text{m}$ \\ \hline
+		Przyspieszenie ziemskie & $g$ & $9{,}81$ & $\text{m/s}^2$ \\ \hline
+        Ograniczenie sterowania & $u_{max}$ & $100{,}0$ & $\text{N}$ \\ \hline
+	\end{tabular}
+\end{table}
+
+Symulacje przeprowadzane są dla zadania stabilizacji układu w pionie (tzw. punkt pracy), startując z niezerowych warunków początkowych lub wymuszając zmianę pozycji wózka.
+
+\textbf{Warunki początkowe (domyślne):}
+\[
+\mathbf{x}_0 = [\theta, \dot{\theta}, x, \dot{x}]^T = [0{,}05\,\text{rad}, 0, 0, 0]^T
+\]
+Oznacza to niewielkie (ok. $2{,}86^\circ$) początkowe wychylenie wahadła, które regulator musi zniwelować.
+
+\textbf{Wartości zadane:}
+Celem układu jest osiągnięcie stanu $\mathbf{x}_{ref} = [0, 0, x_{ref}, 0]^T$, gdzie $x_{ref}$ (np. $0{,}1$ m) jest zadaną nową pozycją wózka, przy jednoczesnym utrzymaniu pionowej pozycji wahadła ($\theta = 0$).
+
+\subsection{Modelowanie zakłóceń}
+
+Aby zweryfikować odporność układów sterowania, zaimplementowano generator zakłóceń symulujący podmuchy wiatru działające na wahadło. Model zakłócenia $F_w(t)$ oparty jest na procesie stochastycznym:
+\begin{enumerate}
+    \item Generowany jest biały szum gaussowski o zadanej mocy.
+    \item Sygnał jest wygładzany filtrem uśredniającym (splot z oknem prostokątnym), co pozwala uzyskać bardziej realistyczne, ciągłe w czasie przebiegi siły wiatru, zamiast nieskorelowanego szumu.
+\end{enumerate}
+W eksperymentach z zakłóceniami, siła $F_w$ jest dodawana bezpośrednio do równań dynamiki w każdym kroku całkowania. Przykładowy przebieg wygenerowanego sygnału zakłócającego przedstawiono na Rys. \ref{fig:wind_signal}, a sposób jego generacji w kodzie źródłowym na Listingu \ref{lst:wind}.
+
+\begin{lstlisting}[language=Python, caption={Klasa generatora zakłóceń wiatru}, label={lst:wind}, basicstyle=\ttfamily\footnotesize, breaklines=true]
+class Wind:
+    def __init__(self, t_end: float, seed=23341, Ts=0.1, power=1e-3, smooth=5):
+        rng = np.random.default_rng(seed)
+        self.tgrid = np.arange(0.0, t_end + Ts, Ts)
+        sigma = np.sqrt(power / Ts)
+        w = rng.normal(0.0, sigma, size=self.tgrid.shape)
+        if smooth and smooth > 1:
+            kernel = np.ones(smooth) / smooth
+            self.Fw = np.convolve(w, kernel, mode='same')
+        else:
+            self.Fw = w
+
+    def __call__(self, t: float) -> float:
+        return float(np.interp(t, self.tgrid, self.Fw))
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{img/wind_signal.png}
+    \caption{Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru) działającego na wahadło w czasie symulacji.}
+    \label{fig:wind_signal}
+\end{figure}
+
+\subsection{Wizualizacja i animacja}
+
+Oprócz standardowych wykresów zmiennych stanu i sterowania, środowisko wyposażono w moduł wizualizacji dynamicznej (Rys. \ref{fig:animacja_screenshot}). Implementacja animacji oparta jest na bibliotece \texttt{Matplotlib} i klasie \texttt{FuncAnimation}, która pozwala na cykliczne odświeżanie obiektów graficznych zgodnie z taktowaniem symulacji.
+
+Graficzna reprezentacja obiektu (robot) zbudowana jest z prostych prymitywów geometrycznych:
+\begin{itemize}
+    \item \textbf{Wózek}: obiekt typu \texttt{Rectangle}, którego pozycja pozioma aktualizowana jest w każdej klatce na podstawie zmiennej stanu $x(t)$.
+    \item \textbf{Koła}: obiekty \texttt{Circle}, poruszające się wraz z wózkiem.
+    \item \textbf{Wahadło}: obiekt liniowy, którego współrzędne końcowe wyznaczane są trigonometrycznie na podstawie kąta $\theta(t)$.
+\end{itemize}
+
+Kluczowym elementem implementacji jest funkcja aktualizująca \texttt{update}, wywoływana dla każdego kroku czasowego. Odpowiada ona za przeliczenie współrzędnych kinematycznych (Listing \ref{lst:animation_logic}) oraz przesunięcie okna widoku kamery tak, aby wózek znajdował się zawsze w centrum, co pozwala na obserwację ruchu na długim dystansie. Dodatkowo rysowany jest „ślad” (ang. \textit{trail}) przebytej drogi przez oś wózka, co ułatwia wizualną ocenę stabilności pozycji.
+
+\begin{lstlisting}[language=Python, caption={Logika aktualizacji klatki animacji}, label={lst:animation_logic}, basicstyle=\ttfamily\footnotesize, breaklines=true]
+    def pole_end(i):
+        cx = x[i]; cy = wheel_r + cart_h
+        # Kinematyka prosta wahadla
+        px = cx + pole_len * np.sin(th[i]) 
+        py = cy + pole_len * np.cos(th[i])
+        return cx, cy, px, py
+
+    def update(i):
+        cx, cy, px, py = pole_end(i)
+        # Aktualizacja pozycji obiektow graficznych
+        cart.set_x(cx - cart_w/2)
+        wheel1.center = (cx - cart_w/3, wheel_r)
+        pole_line.set_data([cx, px], [cy, py])
+        # Centrowanie kamery na wozku
+        ax.set_xlim(cx - pad, cx + pad)
+        return cart, wheel1, pole_line
+\end{lstlisting}
+
+Wykorzystanie animacji pozwala na szybką, intuicyjną weryfikację poprawności modelu fizycznego oraz ocenę jakości regulacji w sposób trudny do uchwycenia na statycznych wykresach (np. nienaturalne drgania czy gwałtowne reakcje „szarpnięcia”).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/animation.png} 
+    \caption{Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}
+    \label{fig:animacja_screenshot}
+\end{figure}

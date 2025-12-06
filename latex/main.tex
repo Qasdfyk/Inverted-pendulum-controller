@@ -44,26 +44,26 @@
 %--------------------------------------
 \cleardoublepage
 \streszczenie
-W pracy przeprowadzono analizę i porównanie wybranych metod sterowania odwróconym wahadłem na wózku — klasycznym przykładem nieliniowego i niestabilnego układu dynamicznego. Celem badań było opracowanie środowiska symulacyjnego umożliwiającego ocenę skuteczności różnych algorytmów regulacji oraz ich odporności na zakłócenia zewnętrzne. W ramach pracy zaimplementowano i przetestowano następujące podejścia: klasyczny regulator kaskadowy PID--PID, układ złożony PID--LQR, regulator LQR dla całego systemu, sterowanie predykcyjne modelowe MPC bez ograniczeń (MPC\_NO) w kilku wariantach funkcji kosztu, oraz regulator rozmyty Takagi--Sugeno.
+% W pracy przeprowadzono analizę i porównanie wybranych metod sterowania odwróconym wahadłem na wózku — klasycznym przykładem nieliniowego i niestabilnego układu dynamicznego. Celem badań było opracowanie środowiska symulacyjnego umożliwiającego ocenę skuteczności różnych algorytmów regulacji oraz ich odporności na zakłócenia zewnętrzne. W ramach pracy zaimplementowano i przetestowano następujące podejścia: klasyczny regulator kaskadowy PID--PID, układ złożony PID--LQR, regulator LQR dla całego systemu, sterowanie predykcyjne modelowe MPC bez ograniczeń (MPC\_NO) w kilku wariantach funkcji kosztu, oraz regulator rozmyty Takagi--Sugeno.
 
-Dla każdego z rozważanych regulatorów wykonano symulacje numeryczne w warunkach nominalnych oraz w obecności zakłóceń poziomych działających na wózek. Analizie poddano przebiegi kątów i położeń, a także obliczono wskaźniki jakości regulacji: średni błąd kwadratowy (MSE), średni błąd bezwzględny (MAE), czas regulacji, przeregulowanie, energię sygnału sterującego oraz średni czas obliczeń. Wyniki przedstawiono w postaci wykresów i tabel umożliwiających obiektywne porównanie metod.
+% Dla każdego z rozważanych regulatorów wykonano symulacje numeryczne w warunkach nominalnych oraz w obecności zakłóceń poziomych działających na wózek. Analizie poddano przebiegi kątów i położeń, a także obliczono wskaźniki jakości regulacji: średni błąd kwadratowy (MSE), średni błąd bezwzględny (MAE), czas regulacji, przeregulowanie, energię sygnału sterującego oraz średni czas obliczeń. Wyniki przedstawiono w postaci wykresów i tabel umożliwiających obiektywne porównanie metod.
 
-Otrzymane rezultaty wskazują, że włączenie metod optymalnych i predykcyjnych pozwala znacząco poprawić stabilność oraz odporność układu w porównaniu z klasycznym sterowaniem PID. Regulator MPC zapewniał najkrótszy czas stabilizacji przy zachowaniu umiarkowanego kosztu sterowania, natomiast regulator rozmyty Takagi--Sugeno wykazał dobrą adaptacyjność przy zmiennych warunkach pracy. Opracowane środowisko może stanowić podstawę do dalszych badań nad sterowaniem nieliniowym, w tym nad integracją metod rozmytych, optymalnych i predykcyjnych.
+% Otrzymane rezultaty wskazują, że włączenie metod optymalnych i predykcyjnych pozwala znacząco poprawić stabilność oraz odporność układu w porównaniu z klasycznym sterowaniem PID. Regulator MPC zapewniał najkrótszy czas stabilizacji przy zachowaniu umiarkowanego kosztu sterowania, natomiast regulator rozmyty Takagi--Sugeno wykazał dobrą adaptacyjność przy zmiennych warunkach pracy. Opracowane środowisko może stanowić podstawę do dalszych badań nad sterowaniem nieliniowym, w tym nad integracją metod rozmytych, optymalnych i predykcyjnych.
 
-\slowakluczowe odwrócone wahadło,\allowbreak regulator PID,\allowbreak regulator LQR,\allowbreak regulator MPC,\allowbreak Takagi\allowbreak--\allowbreak Sugeno,\allowbreak sterowanie predykcyjne,\allowbreak sterowanie optymalne,\allowbreak zakłócenia,\allowbreak stabilizacja,\allowbreak symulacja,\allowbreak układ nieliniowy
+% \slowakluczowe odwrócone wahadło,\allowbreak regulator PID,\allowbreak regulator LQR,\allowbreak regulator MPC,\allowbreak Takagi\allowbreak--\allowbreak Sugeno,\allowbreak sterowanie predykcyjne,\allowbreak sterowanie optymalne,\allowbreak zakłócenia,\allowbreak stabilizacja,\allowbreak symulacja,\allowbreak układ nieliniowy
 
 %--------------------------------------
 % Streszczenie po angielsku
 %--------------------------------------
 \newpage
 \abstract
-This thesis presents the analysis and comparison of several control methods for an inverted pendulum on a cart — a classical benchmark of nonlinear and unstable dynamics. The aim of the study was to develop a simulation framework enabling an objective evaluation of different control algorithms and their robustness to external disturbances. The implemented control strategies included a classical cascade PID--PID controller, a combined PID--LQR scheme, a full-state LQR controller, a model predictive controller without constraints (MPC\_NO) with alternative cost functions, and a fuzzy Takagi--Sugeno controller.
+% This thesis presents the analysis and comparison of several control methods for an inverted pendulum on a cart — a classical benchmark of nonlinear and unstable dynamics. The aim of the study was to develop a simulation framework enabling an objective evaluation of different control algorithms and their robustness to external disturbances. The implemented control strategies included a classical cascade PID--PID controller, a combined PID--LQR scheme, a full-state LQR controller, a model predictive controller without constraints (MPC\_NO) with alternative cost functions, and a fuzzy Takagi--Sugeno controller.
 
-For each controller, numerical simulations were performed under nominal conditions and under horizontal disturbance forces acting on the cart. The responses of the pendulum angle and cart position were analyzed, and several performance indices were calculated: mean squared error (MSE), mean absolute error (MAE), settling time, overshoot, control energy, and average computation time. The results were visualized in plots and summarized in tables, allowing a comprehensive comparison of control quality and computational efficiency.
+% For each controller, numerical simulations were performed under nominal conditions and under horizontal disturbance forces acting on the cart. The responses of the pendulum angle and cart position were analyzed, and several performance indices were calculated: mean squared error (MSE), mean absolute error (MAE), settling time, overshoot, control energy, and average computation time. The results were visualized in plots and summarized in tables, allowing a comprehensive comparison of control quality and computational efficiency.
 
-The obtained results show that introducing optimal and predictive control significantly improves system stability and robustness compared to classical PID regulation. The MPC controller provided the fastest stabilization with a moderate control effort, while the Takagi--Sugeno fuzzy controller demonstrated good adaptability under varying operating conditions. The developed simulation environment constitutes a solid foundation for further research on nonlinear control, particularly on hybrid combinations of fuzzy, optimal, and predictive methods.
+% The obtained results show that introducing optimal and predictive control significantly improves system stability and robustness compared to classical PID regulation. The MPC controller provided the fastest stabilization with a moderate control effort, while the Takagi--Sugeno fuzzy controller demonstrated good adaptability under varying operating conditions. The developed simulation environment constitutes a solid foundation for further research on nonlinear control, particularly on hybrid combinations of fuzzy, optimal, and predictive methods.
 
-\keywords inverted pendulum, PID controller, LQR controller, MPC controller, Takagi\allowbreak--\allowbreak Sugeno, predictive control, optimal control, disturbances, stabilization, nonlinear system, simulation
+% \keywords inverted pendulum, PID controller, LQR controller, MPC controller, Takagi\allowbreak--\allowbreak Sugeno, predictive control, optimal control, disturbances, stabilization, nonlinear system, simulation
 
 %--------------------------------------
 % Oświadczenie o autorstwie
@@ -95,9 +95,9 @@ The obtained results show that introducing optimal and predictive control signif
 \newpage
 \input{tex/srodowisko}
 \newpage
-\input{tex/sterowanie}
+% \input{tex/sterowanie}
 \newpage
-\input{tex/wyniki_eksperymentów}
+% \input{tex/wyniki_eksperymentów}
 
 %--------------------------------------------
 % Literatura

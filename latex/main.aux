@@ -75,30 +75,28 @@
 \newlabel{eq:x_dd_final}{{14}{13}{}{equation.14}{}}
 \newlabel{eq:theta_dd_final}{{15}{13}{}{equation.15}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.5\relax .\enspace  }Liniaryzacja modelu w~punkcie pracy}{13}{subsection.2.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3\relax .\enspace  }Środowisko}{15}{section.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Animacja wahadła na wózku}}{15}{figure.caption.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {3\relax .\enspace  }Środowisko symulacyjne i implementacja}{15}{section.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1\relax .\enspace  }Narzędzia programistyczne}{15}{subsection.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2\relax .\enspace  }Konfiguracja symulacji}{15}{subsection.3.2}\protected@file@percent }
+\newlabel{lst:rk4}{{1}{15}{Implementacja metody Rungego-Kutty 4. rzędu}{lstlisting.1}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {1}{\ignorespaces Implementacja metody Rungego-Kutty 4. rzędu}}{15}{lstlisting.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {3.1}{\ignorespaces Parametry fizyczne modelu przyjęte w symulacji}}{16}{table.caption.1}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
-\newlabel{fig:schemat_ukladu}{{3.1}{15}{Animacja wahadła na wózku}{figure.caption.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {4\relax .\enspace  }Metody sterowania}{16}{section.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1\relax .\enspace  }Regulator PID (dla kąta wahadła)}{16}{subsection.4.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2\relax .\enspace  }Regulator PD (dla pozycji wózka)}{16}{subsection.4.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3\relax .\enspace  }Regulator LQR (Linear-Quadratic Regulator)}{16}{subsection.4.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4\relax .\enspace  }Regulator złożony (Composite Controller)}{17}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {5\relax .\enspace  }Eksperymenty}{18}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1\relax .\enspace  }Opis przeprowadzonych eksperymentów}{18}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2\relax .\enspace  }Dobór parametrów regulatorów}{19}{subsection.5.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.1}{\ignorespaces Źle dostrojony regulator PID.}}{19}{figure.caption.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.2}{\ignorespaces Dostrojony regulator PID przy użyciu pidtune.}}{19}{figure.caption.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.3}{\ignorespaces Sygnały wyjściowe.}}{20}{figure.caption.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5.4}{\ignorespaces Sygnały wyjściowe z zakłóceniami.}}{20}{figure.caption.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3\relax .\enspace  }Porównanie jakości regulacji - wskaźniki błędów}{21}{subsection.5.3}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.1}{\ignorespaces Wartości wskaźników MSE i MAE dla kąta \(\varphi (t)\) - bez zakłóceń}}{21}{table.caption.6}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {5.2}{\ignorespaces Wartości wskaźników MSE i MAE dla kąta \(\varphi (t)\) - z zakłóceniem}}{21}{table.caption.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4\relax .\enspace  }Podsumowanie eksperymentów}{21}{subsection.5.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Bibliografia}{23}{section*.8}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Wykaz symboli i skrótów}{24}{section*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Spis rysunków}{24}{section*.9}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Spis tabel}{24}{section*.9}\protected@file@percent }
+\newlabel{tab:parametry_modelu}{{3.1}{16}{Parametry fizyczne modelu przyjęte w symulacji}{table.caption.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3\relax .\enspace  }Modelowanie zakłóceń}{16}{subsection.3.3}\protected@file@percent }
+\newlabel{lst:wind}{{2}{16}{Klasa generatora zakłóceń wiatru}{lstlisting.2}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {2}{\ignorespaces Klasa generatora zakłóceń wiatru}}{16}{lstlisting.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.1}{\ignorespaces Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru) działającego na wahadło w czasie symulacji.}}{17}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:wind_signal}{{3.1}{17}{Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru) działającego na wahadło w czasie symulacji}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4\relax .\enspace  }Wizualizacja i animacja}{17}{subsection.3.4}\protected@file@percent }
+\newlabel{lst:animation_logic}{{3}{18}{Logika aktualizacji klatki animacji}{lstlisting.3}{}}
+\@writefile{lol}{\contentsline {lstlisting}{\numberline {3}{\ignorespaces Logika aktualizacji klatki animacji}}{18}{lstlisting.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3.2}{\ignorespaces Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}}{18}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:animacja_screenshot}{{3.2}{18}{Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu}{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {section}{Bibliografia}{19}{section*.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Wykaz symboli i skrótów}{20}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Spis rysunków}{20}{section*.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Spis tabel}{20}{section*.5}\protected@file@percent }
 \abx@aux@read@bbl@mdfivesum{C49E25C0EC67BCDE4371FE7F088736C2}
 \abx@aux@defaultrefcontext{0}{art1}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{art2}{none/global//global/global/global}
@@ -109,4 +107,4 @@
 \abx@aux@defaultrefcontext{0}{mills2009}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{diwan2022}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{roose2017}{none/global//global/global/global}
-\gdef \@abspage@last{24}
+\gdef \@abspage@last{20}
