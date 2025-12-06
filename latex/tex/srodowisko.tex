@@ -17,16 +17,7 @@ W projekcie wykorzystano następujące biblioteki i narzędzia:
 
 \subsection{Konfiguracja symulacji}
 
-Symulator opiera się na numerycznym całkowaniu wyprowadzonych wcześniej nieliniowych równań dynamiki. Zaimplementowano procedurę całkowania metodą \textbf{Rungego-Kutty czwartego rzędu (RK4)}, co zapewnia wysoki kompromis pomiędzy dokładnością a szybkością obliczeń. Kluczowy fragment implementacji algorytmu przedstawiono na Listingu \ref{lst:rk4}.
-
-\begin{lstlisting}[language=Python, caption={Implementacja metody Rungego-Kutty 4. rzędu}, label={lst:rk4}, basicstyle=\ttfamily\footnotesize, breaklines=true]
-def rk4_step(f, x, u, pars, dt):
-    k1 = f(x, u, pars)
-    k2 = f(x + 0.5 * dt * k1, u, pars)
-    k3 = f(x + 0.5 * dt * k2, u, pars)
-    k4 = f(x + dt * k3, u, pars)
-    return x + (dt / 6.0) * (k1 + 2*k2 + 2*k3 + k4)
-\end{lstlisting}
+Symulator opiera się na numerycznym całkowaniu wyprowadzonych wcześniej nieliniowych równań dynamiki. Zaimplementowano procedurę całkowania metodą \textbf{Rungego-Kutty czwartego rzędu (RK4)}, co zapewnia wysoki kompromis pomiędzy dokładnością a szybkością obliczeń.
 
 Przyjęto stały krok symulacji oraz sterowania wynoszący \(\Delta t = 0{,}1\,\text{s}\). Jest to wartość, przy której dynamika wahadła jest odwzorowana z wystarczającą precyzją, a jednocześnie pozwala na efektywne działanie numerycznych algorytmów optymalizacji w czasie rzeczywistym.
 
@@ -64,24 +55,7 @@ Aby zweryfikować odporność układów sterowania, zaimplementowano generator z
     \item Generowany jest biały szum gaussowski o zadanej mocy.
     \item Sygnał jest wygładzany filtrem uśredniającym (splot z oknem prostokątnym), co pozwala uzyskać bardziej realistyczne, ciągłe w czasie przebiegi siły wiatru, zamiast nieskorelowanego szumu.
 \end{enumerate}
-W eksperymentach z zakłóceniami, siła $F_w$ jest dodawana bezpośrednio do równań dynamiki w każdym kroku całkowania. Przykładowy przebieg wygenerowanego sygnału zakłócającego przedstawiono na Rys. \ref{fig:wind_signal}, a sposób jego generacji w kodzie źródłowym na Listingu \ref{lst:wind}.
-
-\begin{lstlisting}[language=Python, caption={Klasa generatora zakłóceń wiatru}, label={lst:wind}, basicstyle=\ttfamily\footnotesize, breaklines=true]
-class Wind:
-    def __init__(self, t_end: float, seed=23341, Ts=0.1, power=1e-3, smooth=5):
-        rng = np.random.default_rng(seed)
-        self.tgrid = np.arange(0.0, t_end + Ts, Ts)
-        sigma = np.sqrt(power / Ts)
-        w = rng.normal(0.0, sigma, size=self.tgrid.shape)
-        if smooth and smooth > 1:
-            kernel = np.ones(smooth) / smooth
-            self.Fw = np.convolve(w, kernel, mode='same')
-        else:
-            self.Fw = w
-
-    def __call__(self, t: float) -> float:
-        return float(np.interp(t, self.tgrid, self.Fw))
-\end{lstlisting}
+W eksperymentach z zakłóceniami, siła $F_w$ jest dodawana bezpośrednio do równań dynamiki w każdym kroku całkowania. Przykładowy przebieg wygenerowanego sygnału zakłócającego przedstawiono na Rys. \ref{fig:wind_signal}.
 
 \begin{figure}[H]
     \centering
@@ -101,26 +75,7 @@ Graficzna reprezentacja obiektu (robot) zbudowana jest z prostych prymitywów ge
     \item \textbf{Wahadło}: obiekt liniowy, którego współrzędne końcowe wyznaczane są trigonometrycznie na podstawie kąta $\theta(t)$.
 \end{itemize}
 
-Kluczowym elementem implementacji jest funkcja aktualizująca \texttt{update}, wywoływana dla każdego kroku czasowego. Odpowiada ona za przeliczenie współrzędnych kinematycznych (Listing \ref{lst:animation_logic}) oraz przesunięcie okna widoku kamery tak, aby wózek znajdował się zawsze w centrum, co pozwala na obserwację ruchu na długim dystansie. Dodatkowo rysowany jest „ślad” (ang. \textit{trail}) przebytej drogi przez oś wózka, co ułatwia wizualną ocenę stabilności pozycji.
-
-\begin{lstlisting}[language=Python, caption={Logika aktualizacji klatki animacji}, label={lst:animation_logic}, basicstyle=\ttfamily\footnotesize, breaklines=true]
-    def pole_end(i):
-        cx = x[i]; cy = wheel_r + cart_h
-        # Kinematyka prosta wahadla
-        px = cx + pole_len * np.sin(th[i]) 
-        py = cy + pole_len * np.cos(th[i])
-        return cx, cy, px, py
-
-    def update(i):
-        cx, cy, px, py = pole_end(i)
-        # Aktualizacja pozycji obiektow graficznych
-        cart.set_x(cx - cart_w/2)
-        wheel1.center = (cx - cart_w/3, wheel_r)
-        pole_line.set_data([cx, px], [cy, py])
-        # Centrowanie kamery na wozku
-        ax.set_xlim(cx - pad, cx + pad)
-        return cart, wheel1, pole_line
-\end{lstlisting}
+Kluczowym elementem implementacji jest funkcja aktualizująca \texttt{update}, wywoływana dla każdego kroku czasowego. Odpowiada ona za przeliczenie współrzędnych kinematycznych oraz przesunięcie okna widoku kamery tak, aby wózek znajdował się zawsze w centrum, co pozwala na obserwację ruchu na długim dystansie. Dodatkowo rysowany jest „ślad” (ang. \textit{trail}) przebytej drogi przez oś wózka, co ułatwia wizualną ocenę stabilności pozycji.
 
 Wykorzystanie animacji pozwala na szybką, intuicyjną weryfikację poprawności modelu fizycznego oraz ocenę jakości regulacji w sposób trudny do uchwycenia na statycznych wykresach (np. nienaturalne drgania czy gwałtowne reakcje „szarpnięcia”).
 
