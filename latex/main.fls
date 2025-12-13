@@ -518,10 +518,6 @@ INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futb
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futb8t.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futb8t.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt1200.tfm
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\tex\latex\listings\lstlang1.sty
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\tex\latex\listings\lstlang1.sty
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\tex\latex\listings\lstlang1.sty
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ectt1000.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futmi.vf
 INPUT .\img\wind_signal.png
 INPUT .\img\wind_signal.png
@@ -530,7 +526,6 @@ INPUT .\img\wind_signal.png
 INPUT .\img\wind_signal.png
 INPUT .\img\wind_signal.png
 INPUT .\img\wind_signal.png
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\jknappen\ec\ecit1000.tfm
 INPUT .\img\animation.png
 INPUT .\img\animation.png
 INPUT .\img\animation.png
@@ -538,6 +533,16 @@ INPUT .\img\animation.png
 INPUT .\img\animation.png
 INPUT .\img\animation.png
 INPUT .\img\animation.png
+INPUT .\tex\badania_metodyka.tex
+INPUT .\tex\badania_metodyka.tex
+INPUT .\tex\badania_metodyka.tex
+INPUT .\tex\badania_metodyka.tex
+INPUT tex\badania_metodyka.tex
+INPUT .\tex\badania_wyniki.tex
+INPUT .\tex\badania_wyniki.tex
+INPUT .\tex\badania_wyniki.tex
+INPUT .\tex\badania_wyniki.tex
+INPUT tex\badania_wyniki.tex
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futrc8t.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futrc8t.vf
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futr8r.tfm
@@ -555,10 +560,6 @@ INPUT .\main.out
 INPUT .\main.out
 INPUT main.run.xml
 OUTPUT main.run.xml
-INPUT C:\Users\adams\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecit1000.pk
-INPUT C:\Users\adams\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ecit1000.pk
-INPUT C:\Users\adams\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1000.pk
-INPUT C:\Users\adams\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1000.pk
 INPUT C:\Users\adams\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1200.pk
 INPUT C:\Users\adams\AppData\Local\MiKTeX\fonts\pk\ljfour\jknappen\ec\dpi600\ectt1200.pk
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\type1\public\fourier\fourier-mex.pfb

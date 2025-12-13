@@ -1,0 +1,71 @@
+\section{Metodyka badań i plan eksperymentów}
+
+Rozdział ten definiuje scenariusze testowe, przyjęte miary oceny jakości sterowania oraz procedurę doboru nastaw regulatorów. Precyzyjne określenie warunków eksperymentu jest kluczowe dla zapewnienia powtarzalności badań oraz obiektywnego porównania testowanych algorytmów.
+
+\subsection{Plan eksperymentów}
+
+W~celu weryfikacji skuteczności strategii sterowania, przyjęto jednolity zestaw testów symulacyjnych. Każdy z~zaimplementowanych regulatorów (PID, LQR, Composite) poddany został badaniom w~następujących scenariuszach:
+
+\begin{enumerate}
+    \item \textbf{Eksperyment 1: Stabilizacja w~punkcie pracy (warunki nominalne).} \\
+    Symulacja odpowiedzi układu na~niezerowe warunki początkowe przy braku zakłóceń zewnętrznych.
+    \begin{itemize}
+        \item Początkowy kąt wychylenia wahadła: $\varphi(0) = 45^\circ$ ($\approx 0{,}785$ rad).
+        \item Początkowa pozycja wózka: $x(0) = 0$ m.
+        \item Zerowe prędkości początkowe: $\dot{\varphi}(0) = 0$, $\dot{x}(0) = 0$.
+    \end{itemize}
+    Celem jest sprawdzenie zdolności regulatora do sprowadzenia układu do pionu ($\varphi=0, x=0$) oraz ocena czasu regulacji i przeregulowań.
+
+    \item \textbf{Eksperyment 2: Odporność na~zakłócenia zewnętrzne.} \\
+    Symulacja z~tymi samymi warunkami początkowymi, przy czym na~wahadło oddziałuje losowa siła zakłócająca $F_w(t)$ (modelująca porywisty wiatr) generowana zgodnie z~procedurą opisaną w~Rozdziale 3.  Test ten pozwala ocenić krzepkość (ang. \textit{robustness}) układu zamkniętego.
+\end{enumerate}
+
+Wszystkie symulacje przeprowadzono z~krokiem czasowym $\Delta t = 0{,}01$ s w~czasie $T_{sim} = 5$ s. Ograniczenie sygnału sterującego ustawiono na $|u| \le 100$ N.
+
+\subsection{Wskaźniki jakości regulacji}
+
+Do~ilościowej oceny jakości sterowania wykorzystano następujące wskaźniki błędów, obliczane dla zdyskretyzowanych przebiegów kąta $\varphi[k]$ ($N$ próbek):
+
+\begin{itemize}
+    \item \textbf{MSE (Mean Squared Error)} -- Średni błąd kwadratowy, karający silniej duże odchyłki od wartości zadanej. Jest to miara powiązana z energią błędu regulacji.
+    \begin{equation}
+        \mathrm{MSE}_\varphi = \frac{1}{N}\sum_{k=1}^{N} \varphi[k]^2
+    \end{equation}
+    
+    \item \textbf{MAE (Mean Absolute Error)} -- Średni błąd bezwzględny, dający bardziej intuicyjną informację o przeciętnym odchyleniu wahadła od pionu w trakcie trwania symulacji.
+    \begin{equation}
+        \mathrm{MAE}_\varphi = \frac{1}{N}\sum_{k=1}^{N} |\varphi[k]|
+    \end{equation}
+\end{itemize}
+
+Dodatkowo analizie poddano charakterystyki jakościowe przebiegów czasowych, takie jak czas regulacji (czas, po którym błąd trwale mieści się w paśmie $\pm 2\%$) oraz maksymalne przeregulowanie.
+
+\subsection{Procedura doboru nastaw regulatorów}
+
+Dobór parametrów regulatorów jest krytycznym etapem projektowania, determinującym ostateczne osiągi układu. W~pracy zastosowano podejście hybrydowe, łączące metody automatyczne z~korektą ekspercką.
+
+\subsubsection{Strojenie regulatora PID}
+
+Dla klasycznego regulatora PID i~PD wykorzystano narzędzie \texttt{pidtune} dostępne w~środowisku MATLAB/Simulink. Procedura wyglądała następująco:
+\begin{enumerate}
+    \item Zlinearyzowany model obiektu podzielono na dwa tory: tor stabilizacji wahadła (szybka dynamika) i tor pozycji wózka (wolna dynamika).
+    \item Dla pętli stabilizacji kąta zdefiniowano wymagania dotyczące szybkości reakcji (szerokość pasma) oraz zapasu fazy (dla zapewnienia stabilności). Narzędzie \texttt{pidtune} wygenerowało wstępne nastawy $K_p, K_i, K_d$.
+    \item Uzyskane nastawy zostały zweryfikowane w modelu nieliniowym. W przypadku wystąpienia nasycenia sterowania lub zbyt agresywnych oscylacji, dokonano ręcznej korekty (zmniejszenie wzmocnienia $K_p$, zwiększenie stałej różniczkowania $K_d$ dla poprawy tłumienia).
+\end{enumerate}
+
+
+\subsubsection{Dobór wag regulatora LQR}
+
+W~przypadku regulatora LQR, problem projektowy sprowadza się do doboru macierzy wag $Q$ (koszt stanu) i $R$ (koszt sterowania) w funkcjanale jakości:
+\begin{equation}
+ J = \int_{0}^{\infty} (\mathbf{x}^T Q \mathbf{x} + u^T R u) dt
+\end{equation}
+
+Zastosowano metodę prób i błędów wg strategii Brysona, przyjmując początkowo macierze diagonalne, gdzie elementy na przekątnej odpowiadają odwrotnościom kwadratów dopuszczalnych maksymalnych wychyleń. 
+\begin{itemize}
+    \item Macierz $Q$ została dobrana tak, aby priorytetem była stabilizacja kąta $\varphi$ i prędkości kątowej $\dot{\varphi}$ (duże wagi dla $x_1, x_2$).
+    \item Waga przy pozycji wózka $x$ została dobrana mniejsza, aby pozwolić na swobodniejszy ruch wózka niezbędny do balansowania wahadłem.
+    \item Waga $R$ została dobrana eksperymentalnie tak, aby sygnał sterujący mieścił się w~realnym zakresie pracy silnika ($|u| < 100$), unikając ciągłego nasycenia siłownika (tzw. \textit{bang-bang}).
+\end{itemize}
+
+Ostatecznie przyjęte macierze wag zapewniły kompromis między szybkością zanikania błędów a~agresywnością sygnału sterującego.

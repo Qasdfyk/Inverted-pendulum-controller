@@ -2374,29 +2374,33 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">bibliografia.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">art1</bcf:citekey>
-    <bcf:citekey order="2" intorder="1">art2</bcf:citekey>
-    <bcf:citekey order="3" intorder="1">art3</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">jezierski2017</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">camacho2007</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">tatjewski_pl</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">mills2009</bcf:citekey>
-    <bcf:citekey order="7" intorder="2">diwan2022</bcf:citekey>
-    <bcf:citekey order="8" intorder="1">roose2017</bcf:citekey>
-    <bcf:citekey order="9" intorder="1">art1</bcf:citekey>
-    <bcf:citekey order="10" intorder="1">art2</bcf:citekey>
-    <bcf:citekey order="10" intorder="2">tatjewski_pl</bcf:citekey>
-    <bcf:citekey order="11" intorder="1">art3</bcf:citekey>
-    <bcf:citekey order="12" intorder="1">art1</bcf:citekey>
+    <bcf:citekey order="1" intorder="1">segway2018</bcf:citekey>
+    <bcf:citekey order="2" intorder="1">nasa2013</bcf:citekey>
+    <bcf:citekey order="3" intorder="1">crane2012</bcf:citekey>
+    <bcf:citekey order="4" intorder="1">moreno2023</bcf:citekey>
+    <bcf:citekey order="5" intorder="1">art1</bcf:citekey>
+    <bcf:citekey order="6" intorder="1">art2</bcf:citekey>
+    <bcf:citekey order="7" intorder="1">art3</bcf:citekey>
+    <bcf:citekey order="8" intorder="1">jezierski2017</bcf:citekey>
+    <bcf:citekey order="9" intorder="1">camacho2007</bcf:citekey>
+    <bcf:citekey order="10" intorder="1">tatjewski_pl</bcf:citekey>
+    <bcf:citekey order="11" intorder="1">mills2009</bcf:citekey>
+    <bcf:citekey order="11" intorder="2">diwan2022</bcf:citekey>
+    <bcf:citekey order="12" intorder="1">roose2017</bcf:citekey>
     <bcf:citekey order="13" intorder="1">art1</bcf:citekey>
-    <bcf:citekey order="14" intorder="1">art1</bcf:citekey>
-    <bcf:citekey order="15" intorder="1">art1</bcf:citekey>
+    <bcf:citekey order="14" intorder="1">art2</bcf:citekey>
+    <bcf:citekey order="14" intorder="2">tatjewski_pl</bcf:citekey>
+    <bcf:citekey order="15" intorder="1">art3</bcf:citekey>
     <bcf:citekey order="16" intorder="1">art1</bcf:citekey>
     <bcf:citekey order="17" intorder="1">art1</bcf:citekey>
     <bcf:citekey order="18" intorder="1">art1</bcf:citekey>
     <bcf:citekey order="19" intorder="1">art1</bcf:citekey>
     <bcf:citekey order="20" intorder="1">art1</bcf:citekey>
     <bcf:citekey order="21" intorder="1">art1</bcf:citekey>
+    <bcf:citekey order="22" intorder="1">art1</bcf:citekey>
+    <bcf:citekey order="23" intorder="1">art1</bcf:citekey>
+    <bcf:citekey order="24" intorder="1">art1</bcf:citekey>
+    <bcf:citekey order="25" intorder="1">art1</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

@@ -19,6 +19,156 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
+    \entry{segway2018}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=343bc4a5591ff78c043574cab76f2d43}{%
+           family={Azevedo\bibnamedelima Perdicoúlis},
+           familyi={A\bibinitperiod\bibinitdelim P\bibinitperiod},
+           given={T.\bibnamedelimi P.},
+           giveni={T\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=d8f41e094ee47ed585bc7c5af270621b}{%
+           family={Lopes\bibnamedelimb dos\bibnamedelima Santos},
+           familyi={L\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim S\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {EDP Sciences}%
+      }
+      \strng{namehash}{759f262c6182656dbac76d93da7834dd}
+      \strng{fullhash}{759f262c6182656dbac76d93da7834dd}
+      \strng{fullhashraw}{759f262c6182656dbac76d93da7834dd}
+      \strng{bibnamehash}{759f262c6182656dbac76d93da7834dd}
+      \strng{authorbibnamehash}{759f262c6182656dbac76d93da7834dd}
+      \strng{authornamehash}{759f262c6182656dbac76d93da7834dd}
+      \strng{authorfullhash}{759f262c6182656dbac76d93da7834dd}
+      \strng{authorfullhashraw}{759f262c6182656dbac76d93da7834dd}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{MATEC Web of Conferences}
+      \field{title}{The Segway as an Inverted Pendulum in Two-Wheels}
+      \field{volume}{211}
+      \field{year}{2018}
+      \field{pages}{15003}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1051/matecconf/201821115003
+      \endverb
+    \endentry
+    \entry{nasa2013}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=05d0ff2525a8784229ccfb1f926c1074}{%
+           family={VanZwieten},
+           familyi={V\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+        {{hash=eba00feea9f3e92cd3ade043e2f988ce}{%
+           family={Gilligan},
+           familyi={G\bibinitperiod},
+           given={E.},
+           giveni={E\bibinitperiod}}}%
+        {{hash=5d828c4eec3a879fdc8d963334e7eadf}{%
+           family={Wall},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {American Institute of Aeronautics}%
+        {Astronautics}%
+      }
+      \strng{namehash}{e24745798f4122d6eefb77e7a736f2f7}
+      \strng{fullhash}{f1ef3d971dc07c31a8985dfe371787d2}
+      \strng{fullhashraw}{f1ef3d971dc07c31a8985dfe371787d2}
+      \strng{bibnamehash}{f1ef3d971dc07c31a8985dfe371787d2}
+      \strng{authorbibnamehash}{f1ef3d971dc07c31a8985dfe371787d2}
+      \strng{authornamehash}{e24745798f4122d6eefb77e7a736f2f7}
+      \strng{authorfullhash}{f1ef3d971dc07c31a8985dfe371787d2}
+      \strng{authorfullhashraw}{f1ef3d971dc07c31a8985dfe371787d2}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{AIAA Guidance, Navigation, and Control Conference}
+      \field{title}{Demonstration of the Space Launch System Augmenting Adaptive Control Algorithm on Pole-Cart Platform}
+      \field{year}{2013}
+      \verb{doi}
+      \verb 10.2514/6.2013-4809
+      \endverb
+    \endentry
+    \entry{crane2012}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=35df6397d9379127a68d2ccdf94cbe60}{%
+           family={Ngo},
+           familyi={N\bibinitperiod},
+           given={Q.\bibnamedelimi H.},
+           giveni={Q\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=575b32c92fa7af333ba77a4e4053517f}{%
+           family={Hong},
+           familyi={H\bibinitperiod},
+           given={K.\bibnamedelimi S.},
+           giveni={K\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{fullhash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{fullhashraw}{25682bf4feea9471d618569ee3d4c918}
+      \strng{bibnamehash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{authorbibnamehash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{authornamehash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{authorfullhash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{authorfullhashraw}{25682bf4feea9471d618569ee3d4c918}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE/ASME Transactions on Mechatronics}
+      \field{number}{2}
+      \field{title}{Sliding-Mode Antisway Control of an Offshore Container Crane}
+      \field{volume}{17}
+      \field{year}{2012}
+      \field{pages}{201\bibrangedash 209}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1109/TMECH.2010.2100045
+      \endverb
+    \endentry
+    \entry{moreno2023}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=7b8d1426940ec20074fa1e3b3eb5f2e4}{%
+           family={Moreno},
+           familyi={M\bibinitperiod},
+           given={J.\bibnamedelimi C.},
+           giveni={J\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+        {{hash=3bf6febb2bdc0ddd428dd48589bc032d}{%
+           family={Clavijo},
+           familyi={C\bibinitperiod},
+           given={J.\bibnamedelimi A.},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod}}}%
+      }
+      \strng{namehash}{36dae6d0e10c956a367a5ae23f04d55e}
+      \strng{fullhash}{36dae6d0e10c956a367a5ae23f04d55e}
+      \strng{fullhashraw}{36dae6d0e10c956a367a5ae23f04d55e}
+      \strng{bibnamehash}{36dae6d0e10c956a367a5ae23f04d55e}
+      \strng{authorbibnamehash}{36dae6d0e10c956a367a5ae23f04d55e}
+      \strng{authornamehash}{36dae6d0e10c956a367a5ae23f04d55e}
+      \strng{authorfullhash}{36dae6d0e10c956a367a5ae23f04d55e}
+      \strng{authorfullhashraw}{36dae6d0e10c956a367a5ae23f04d55e}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Physics: Conference Series}
+      \field{title}{Modelling and design a self-balancing dual-wheeled robot with PID control}
+      \field{volume}{2469}
+      \field{year}{2023}
+      \field{pages}{012006}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1742-6596/2469/1/012006
+      \endverb
+    \endentry
     \entry{art1}{article}{}{}
       \name{author}{3}{}{%
         {{hash=49a2228798f6e682eb2778d9ed9cc076}{%
@@ -45,8 +195,8 @@
       \strng{authornamehash}{dad4897a5975a13f0b18fab9a1a9de56}
       \strng{authorfullhash}{d6abadc95a1b44ded543fd464079533f}
       \strng{authorfullhashraw}{d6abadc95a1b44ded543fd464079533f}
-      \field{sortinit}{1}
-      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{International Journal of Automation and Computing}
@@ -89,8 +239,8 @@
       \strng{authornamehash}{adec594d9ee38400facf563caf48218e}
       \strng{authorfullhash}{6a0007f6f7bd76f11081b095e21951de}
       \strng{authorfullhashraw}{6a0007f6f7bd76f11081b095e21951de}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{IOP Conference Series: Materials Science and Engineering}
@@ -125,8 +275,8 @@
       \strng{authornamehash}{d9e27f34e3bb5f2019f0a41e4050a25c}
       \strng{authorfullhash}{d9e27f34e3bb5f2019f0a41e4050a25c}
       \strng{authorfullhashraw}{d9e27f34e3bb5f2019f0a41e4050a25c}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Applied Science and Engineering}
@@ -199,8 +349,8 @@
       \strng{editornamehash}{526d6b03f08366e3a930f3592ad8e867}
       \strng{editorfullhash}{77a98b737523d9ecf7c93c7b79d53a2a}
       \strng{editorfullhashraw}{77a98b737523d9ecf7c93c7b79d53a2a}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Trends in Advanced Intelligent Control, Optimization and Automation}
@@ -242,8 +392,8 @@
       \strng{authornamehash}{5acefe3acf95863766150a121e12e231}
       \strng{authorfullhash}{5acefe3acf95863766150a121e12e231}
       \strng{authorfullhashraw}{5acefe3acf95863766150a121e12e231}
-      \field{sortinit}{5}
-      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{2}
@@ -272,8 +422,8 @@
       \strng{authornamehash}{991fe5a3b69195adf9f3ed4ba5623082}
       \strng{authorfullhash}{991fe5a3b69195adf9f3ed4ba5623082}
       \strng{authorfullhashraw}{991fe5a3b69195adf9f3ed4ba5623082}
-      \field{sortinit}{6}
-      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{title}{Sterowanie zaawansowane obiektów przemysłowych. Struktury i algorytmy. Wydanie drugie zmienione}
@@ -308,8 +458,8 @@
       \strng{authornamehash}{64a4958f807c0209187708313f7ea45c}
       \strng{authorfullhash}{e0d88cbe972f3c3792601a6931703b8a}
       \strng{authorfullhashraw}{e0d88cbe972f3c3792601a6931703b8a}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{booktitle}{Proceedings of the American Control Conference (ACC)}
@@ -342,8 +492,8 @@
       \strng{authornamehash}{83199436823047b53f9b3db9500f1999}
       \strng{authorfullhash}{83199436823047b53f9b3db9500f1999}
       \strng{authorfullhashraw}{83199436823047b53f9b3db9500f1999}
-      \field{sortinit}{7}
-      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Bulletin of the Polish Academy of Sciences: Technical Sciences}
@@ -383,8 +533,8 @@
       \strng{authornamehash}{8f149b78dcb5385d66c447dffb979ac0}
       \strng{authorfullhash}{8a994e6946c358d6ae9b96e408dfd621}
       \strng{authorfullhashraw}{8a994e6946c358d6ae9b96e408dfd621}
-      \field{sortinit}{8}
-      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{issn}{0045-7906}

@@ -25,14 +25,14 @@ odwzorowuje wiele złożonych zjawisk fizycznych i~konstrukcji technicznych,
 w~tym:
 \begin{itemize}
   \item stabilizację robotów dwukołowych (np. typu Segway) oraz robotów 
-  mobilnych balansujących na~jednej osi;
+  mobilnych balansujących na~jednej osi~\cite{segway2018};
   \item sterowanie rakietami nośnymi i~pociskami w~fazie startu, gdzie wektor 
   ciągu pełni rolę siły napędowej wózka, a~bezwładność korpusu odpowiada 
-  dynamice wahadła;
+  dynamice wahadła~\cite{nasa2013};
   \item sterowanie ruchem ramion manipulatorów i~suwnic, w~których kluczowe 
-  jest tłumienie oscylacji przenoszonego ładunku;
+  jest tłumienie oscylacji przenoszonego ładunku~\cite{crane2012};
   \item równoważenie platform i~pojazdów samobalansujących, wymagające 
-  ciągłej korekty siły napędowej względem położenia środka masy.
+  ciągłej korekty siły napędowej względem położenia środka masy~\cite{moreno2023}.
 \end{itemize}
 
 Ze~względu na~powyższe zastosowania, problem stabilizacji odwróconego wahadła 
@@ -41,7 +41,7 @@ dynamice. Badania symulacyjne na~tym obiekcie pozwalają na~wstępną walidację
 skuteczności algorytmów sterowania przed ich implementacją w~bardziej 
 złożonych lub kosztownych systemach. Z~tego powodu układ ten od~dziesięcioleci 
 stanowi punkt odniesienia w~rozwoju nowoczesnych metod regulacji --- 
-od~klasycznych regulatorów PID i~LQR, po~sterowanie predykcyjne (MPC), 
+od~klasycznych regulatorów PID (regulator proporcjonalno-całkująco-różniczkujący) i~LQR (liniowy regulator kwadratowy), po~sterowanie predykcyjne (MPC), 
 adaptacyjne i~rozmyte.
 
 Prostota modelu matematycznego w~połączeniu z~łatwością interpretacji wyników 
@@ -52,15 +52,24 @@ metod stabilizacji systemów nieliniowych.
 
 \subsection{Cel i~zakres pracy}
 
-Zasadniczym celem pracy jest realizacja środowiska symulacyjnego 
-oraz przeprowadzenie wielokryterialnej analizy porównawczej wybranych 
-algorytmów sterowania dla nieliniowego układu odwróconego wahadła na~wózku. 
-Praca koncentruje się na~zestawieniu klasycznych metod regulacji (PID, LQR) 
-z~zaawansowanymi technikami sterowania predykcyjnego (MPC) oraz rozmytym.
+Zasadniczym celem pracy jest zaprojektowanie i~realizacja autorskiego 
+środowiska symulacyjnego oraz przeprowadzenie w~nim wielokryterialnej 
+analizy porównawczej algorytmów sterowania dla nieliniowego układu 
+odwróconego wahadła.
 
-Główny nacisk położono na~praktyczną ocenę różnic w~działaniu poszczególnych 
-regulatorów, ze~szczególnym uwzględnieniem kompromisu między jakością 
-stabilizacji a~wydatkiem energetycznym i~złożonością obliczeniową.
+Większość dostępnych publikacji skupia się zazwyczaj tylko na~jednej grupie metod. 
+W~niniejszej pracy postanowiono porównać ze~sobą trzy zupełnie różne podejścia:
+\begin{itemize}
+  \item klasyczne (PID, kaskady),
+  \item optymalne i~predykcyjne (LQR, MPC),
+  \item inteligentne (sterowanie rozmyte).
+\end{itemize}
+
+Wyróżnikiem pracy jest to, że wszystkie te algorytmy zostały uruchomione 
+w~tym samym środowisku symulacyjnym. Dzięki temu możliwe było ich uczciwe 
+porównanie w~identycznych warunkach. Sprawdzono nie tylko, jak precyzyjnie 
+utrzymują wahadło w~pionie, ale także jak radzą sobie z~trudnymi zakłóceniami 
+(np. porywistym wiatrem) oraz ile energii zużywają podczas pracy.
 
 W~ramach projektu zaimplementowano i~poddano badaniom następujące struktury:
 \begin{enumerate}
@@ -152,9 +161,40 @@ sterowania rozmytego cennym źródłem wiedzy metodycznej są opracowania
 dotyczące modeli Takagi--Sugeno i~ich porównań z~podejściami 
 klasycznymi~\cite{roose2017}.
 
-Podsumowując, analiza literatury wskazuje na~ewolucję podejść sterowania: 
+Przeprowadzona analiza literatury wskazuje na~ewolucję podejść sterowania: 
 od~klasycznych paradygmatów PID i~LQR~\cite{art1}, przez ujęcia 
 predykcyjne~\cite{art2, tatjewski_pl}, aż po~zaawansowane metody 
-hybrydowe i~inteligentne~\cite{art3}. Niniejsza praca wpisuje się 
-w~ten nurt badawczy, zestawiając te różnorodne metody w~ramach 
-jednego projektu symulacyjnego.
+hybrydowe i~inteligentne~\cite{art3}.
+
+\subsection{Układ pracy}
+
+Układ pracy został podzielony na~rozdziały, których treść odpowiada 
+kolejnym etapom realizacji projektu.
+
+Rozdział drugi przedstawia szczegółowe wyprowadzenie modelu matematycznego 
+odwróconego wahadła na~wózku. Zawiera on opis fizyczny obiektu, 
+równania dynamiki sformułowane w~oparciu o~prawa mechaniki, a~także 
+linearyzację modelu niezbędną do~syntezy wybranych regulatorów.
+
+Rozdział trzeci poświęcony jest opisowi zrealizowanego środowiska
+symulacyjnego. Przedstawiono w~nim narzędzia programistyczne, metody 
+numeryczne wykorzystane do~rozwiązywania równań różniczkowych 
+oraz sposób modelowania zakłóceń zewnętrznych.
+
+Rozdział czwarty zawiera charakterystykę zaimplementowanych algorytmów 
+sterowania. Omówiono w~nim podstawy teoretyczne oraz szczegóły 
+implementacyjne regulatorów: klasycznego PID, optymalnego LQR, 
+predykcyjnego MPC oraz rozmytego Takagi--Sugeno.
+
+Rozdział piąty opisuje metodykę badań symulacyjnych. Zdefiniowano w~nim 
+scenariusze testowe, przyjęte wskaźniki jakości oraz procedurę strojenia 
+regulatorów, ze~szczególnym uwzględnieniem doboru wag macierzy LQR 
+oraz nastaw członu PID.
+
+Rozdział szósty prezentuje wyniki przeprowadzonych eksperymentów. 
+Zawiera on szczegółową analizę przebiegów czasowych, zestawienie tabelaryczne 
+błędów regulacji w~warunkach nominalnych i~zakłóconych, oraz dyskusję 
+porównawczą skuteczności badanych metod.
+
+Pracę kończy podsumowanie, zawierające wnioski końcowe oraz 
+kierunki dalszego rozwoju projektu.

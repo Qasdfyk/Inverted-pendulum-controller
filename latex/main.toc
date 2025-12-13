@@ -2,21 +2,32 @@
 \contentsline {section}{\numberline {1\relax .\enspace }Wstęp}{7}{section.1}%
 \contentsline {subsection}{\numberline {1.1\relax .\enspace }Cel i~zakres pracy}{8}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2\relax .\enspace }Przegląd literatury}{9}{subsection.1.2}%
-\contentsline {section}{\numberline {2\relax .\enspace }Model matematyczny układu}{10}{section.2}%
-\contentsline {subsection}{\numberline {2.1\relax .\enspace }Opis fizyczny i~założenia upraszczające}{10}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2\relax .\enspace }Analiza kinematyczna}{10}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3\relax .\enspace }Równania dynamiki układu}{11}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1\relax .\enspace }Bilans sił w~kierunku poziomym}{11}{subsubsection.2.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.2\relax .\enspace }Bilans momentów sił}{12}{subsubsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.4\relax .\enspace }Nieliniowy model w~przestrzeni stanów}{12}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5\relax .\enspace }Liniaryzacja modelu w~punkcie pracy}{13}{subsection.2.5}%
-\contentsline {subsection}{\numberline {2.6\relax .\enspace }Analiza zachowania układu w pętli otwartej}{14}{subsection.2.6}%
-\contentsline {section}{\numberline {3\relax .\enspace }Środowisko symulacyjne i implementacja}{15}{section.3}%
-\contentsline {subsection}{\numberline {3.1\relax .\enspace }Narzędzia programistyczne}{15}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2\relax .\enspace }Konfiguracja symulacji}{15}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3\relax .\enspace }Modelowanie zakłóceń}{16}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4\relax .\enspace }Wizualizacja i animacja}{17}{subsection.3.4}%
-\contentsline {section}{Bibliografia}{19}{section*.5}%
-\contentsline {section}{Wykaz symboli i skrótów}{20}{section*.6}%
-\contentsline {section}{Spis rysunków}{20}{section*.6}%
-\contentsline {section}{Spis tabel}{20}{section*.6}%
+\contentsline {subsection}{\numberline {1.3\relax .\enspace }Układ pracy}{10}{subsection.1.3}%
+\contentsline {section}{\numberline {2\relax .\enspace }Model matematyczny układu}{11}{section.2}%
+\contentsline {subsection}{\numberline {2.1\relax .\enspace }Opis fizyczny i~założenia upraszczające}{11}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2\relax .\enspace }Analiza kinematyczna}{11}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3\relax .\enspace }Równania dynamiki układu}{12}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1\relax .\enspace }Bilans sił w~kierunku poziomym}{12}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2\relax .\enspace }Bilans momentów sił}{13}{subsubsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.4\relax .\enspace }Nieliniowy model w~przestrzeni stanów}{13}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5\relax .\enspace }Linearyzacja modelu w~punkcie pracy}{14}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6\relax .\enspace }Analiza zachowania układu w pętli otwartej}{15}{subsection.2.6}%
+\contentsline {section}{\numberline {3\relax .\enspace }Środowisko symulacyjne i implementacja}{16}{section.3}%
+\contentsline {subsection}{\numberline {3.1\relax .\enspace }Narzędzia programistyczne}{16}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2\relax .\enspace }Konfiguracja symulacji}{16}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3\relax .\enspace }Modelowanie zakłóceń}{17}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4\relax .\enspace }Wizualizacja i animacja}{18}{subsection.3.4}%
+\contentsline {section}{\numberline {4\relax .\enspace }Metodyka badań i plan eksperymentów}{20}{section.4}%
+\contentsline {subsection}{\numberline {4.1\relax .\enspace }Plan eksperymentów}{20}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2\relax .\enspace }Wskaźniki jakości regulacji}{20}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3\relax .\enspace }Procedura doboru nastaw regulatorów}{21}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace }Strojenie regulatora PID}{21}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2\relax .\enspace }Dobór wag regulatora LQR}{21}{subsubsection.4.3.2}%
+\contentsline {section}{\numberline {5\relax .\enspace }Analiza wyników eksperymentalnych}{23}{section.5}%
+\contentsline {subsection}{\numberline {5.1\relax .\enspace }Charakterystyki czasowe układu}{23}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2\relax .\enspace }Analiza ilościowa -- wskaźniki błędów}{23}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3\relax .\enspace }Dyskusja i~wnioski}{23}{subsection.5.3}%
+\contentsline {section}{Bibliografia}{25}{section*.5}%
+\contentsline {section}{Wykaz symboli i skrótów}{27}{section*.6}%
+\contentsline {section}{Spis rysunków}{27}{section*.6}%
+\contentsline {section}{Spis tabel}{27}{section*.6}%
