@@ -1,0 +1,4 @@
+\babel@toc {polish}{}\relax 
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Symulacja odpowiedzi swobodnej układu (z uwzględnionym tłumieniem) na małe wychylenie początkowe. Układ opuszcza niestabilny punkt równowagi ($\theta \approx 0$) i stabilizuje się w pozycji wiszącej ($\theta = \pi $).}}{15}{figure.caption.1}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru) działającego na wahadło w czasie symulacji.}}{18}{figure.caption.3}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}}{19}{figure.caption.4}%

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  13 DEC 2025 13:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  13 DEC 2025 14:33
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -975,7 +975,10 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 
 \@quotelevel=\count489
 \@quotereset=\count490
-(main.aux)
+(main.aux
+Package babel Info: 'polish' activates 'polish' shorthands.
+(babel)             Reported on input line 10.
+)
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
@@ -1025,9 +1028,8 @@ Package biblatex Info: Automatic encoding selection.
 \openout3 = `main.bcf'.
 
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'main.bbl' not found.
-
-No file main.bbl.
+Package biblatex Info: ... file 'main.bbl' found.
+ (main.bbl)
 Package biblatex Info: Reference section=0 on input line 21.
 Package biblatex Info: Reference segment=0 on input line 21.
 Package caption Info: Begin \AtBeginDocument code.
@@ -1035,7 +1037,7 @@ Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: longtable package is loaded.
-(C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/caption\ltcaption.sty
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/caption\ltcaption.sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: scrextend package is loaded.
@@ -1090,6 +1092,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 Package hyperref Info: Link coloring ON on input line 21.
+ (main.out) (main.out)
 \@outlinefile=\write4
 \openout4 = `main.out'.
 
@@ -1129,14 +1132,12 @@ Package hyperref Info: Link coloring ON on input line 21.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-Package babel Info: 'polish' activates 'polish' shorthands.
-(babel)             Reported on input line 21.
-<eiti/header.png, id=3, 483.7272pt x 76.8471pt>
+<eiti/header.png, id=161, 483.7272pt x 76.8471pt>
 File: eiti/header.png Graphic file (type png)
 <use eiti/header.png>
 Package pdftex.def Info: eiti/header.png  used on input line 40.
 (pdftex.def)             Requested size: 438.17247pt x 69.61084pt.
-<eiti/title-inz.png, id=4, 483.7272pt x 105.39375pt>
+<eiti/title-inz.png, id=162, 483.7272pt x 105.39375pt>
 File: eiti/title-inz.png Graphic file (type png)
 <use eiti/title-inz.png>
 Package pdftex.def Info: eiti/title-inz.png  used on input line 40.
@@ -1154,11 +1155,35 @@ Package pdftex.def Info: eiti/title-inz.png  used on input line 40.
 
 [3]
 
-[4]
-No file main.toc.
-\tf@toc=\write5
-\openout5 = `main.toc'.
-
+[4] (main.toc
+LaTeX Font Info:    Trying to load font information for FML+futmi on input line 2.
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/fourier\fmlfutmi.fd
+File: fmlfutmi.fd 2004/10/30 Fontinst v1.926 font definitions for FML/futmi.
+)
+LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
+(Font)              scaled to size 11.03998pt on input line 2.
+LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
+(Font)              scaled to size 8.27998pt on input line 2.
+LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
+(Font)              scaled to size 6.43999pt on input line 2.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 2.
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 2.
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
+LaTeX Font Info:    Font shape `U/futm/m/n' will be
+(Font)              scaled to size 11.03998pt on input line 2.
+LaTeX Font Info:    Font shape `U/futm/m/n' will be
+(Font)              scaled to size 8.27998pt on input line 2.
+LaTeX Font Info:    Font shape `U/futm/m/n' will be
+(Font)              scaled to size 6.43999pt on input line 2.
 
 
 [5
@@ -1166,198 +1191,57 @@ No file main.toc.
 
 
 
-]
+])
+\tf@toc=\write5
+\openout5 = `main.toc'.
 
-[6
 
 
-] (tex/wstep.tex
-LaTeX Font Info:    Trying to load font information for FML+futmi on input line 27.
- (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/fourier\fmlfutmi.fd
-File: fmlfutmi.fd 2004/10/30 Fontinst v1.926 font definitions for FML/futmi.
-)
+Package babel Info: 'polish' activates 'polish' shorthands.
+(babel)             Reported on input line 84.
+[6] (tex/wstep.tex
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
 (Font)              scaled to size 13.24796pt on input line 27.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
 (Font)              scaled to size 9.19998pt on input line 27.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
 (Font)              scaled to size 7.35999pt on input line 27.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 27.
- (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msa.cfg
-File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 27.
- (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/microtype\mt-msb.cfg
-File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
 (Font)              scaled to size 13.24796pt on input line 27.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
 (Font)              scaled to size 9.19998pt on input line 27.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
 (Font)              scaled to size 7.35999pt on input line 27.
-
-
-LaTeX Warning: Citation 'segway2018' on page 7 undefined on input line 28.
-
-
-LaTeX Warning: Citation 'nasa2013' on page 7 undefined on input line 31.
-
-
-LaTeX Warning: Citation 'crane2012' on page 7 undefined on input line 33.
-
-
-LaTeX Warning: Citation 'moreno2023' on page 7 undefined on input line 35.
-
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[7]
-LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 11.03998pt on input line 109.
-LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 109.
-LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 6.43999pt on input line 109.
-LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 11.03998pt on input line 109.
-LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 8.27998pt on input line 109.
-LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 6.43999pt on input line 109.
+[7
 
 
-Package babel Info: 'polish' activates 'polish' shorthands.
-(babel)             Reported on input line 113.
+]
+
 [8]
 
-LaTeX Warning: Citation 'art1' on page 9 undefined on input line 120.
-
-
-LaTeX Warning: Citation 'art2' on page 9 undefined on input line 129.
-
-
-LaTeX Warning: Citation 'art3' on page 9 undefined on input line 137.
-
-
-LaTeX Warning: Citation 'jezierski2017' on page 9 undefined on input line 146.
-
-
-LaTeX Warning: Citation 'camacho2007' on page 9 undefined on input line 154.
-
-
-LaTeX Warning: Citation 'tatjewski_pl' on page 9 undefined on input line 155.
-
-
-LaTeX Warning: Citation 'mills2009' on page 9 undefined on input line 159.
-
-
-LaTeX Warning: Citation 'diwan2022' on page 9 undefined on input line 159.
-
-
-LaTeX Warning: Citation 'roose2017' on page 9 undefined on input line 162.
-
-
-
-[9]
-
-LaTeX Warning: Citation 'art1' on page 10 undefined on input line 165.
-
-
-LaTeX Warning: Citation 'art2' on page 10 undefined on input line 166.
-
-
-LaTeX Warning: Citation 'tatjewski_pl' on page 10 undefined on input line 166.
-
-
-LaTeX Warning: Citation 'art3' on page 10 undefined on input line 167.
-
-)
+[9])
 
 [10] (tex/matma.tex
 
-LaTeX Warning: Citation 'art1' on page 11 undefined on input line 9.
-
-
-LaTeX Warning: Citation 'art1' on page 11 undefined on input line 20.
-
-
-LaTeX Warning: Citation 'art1' on page 11 undefined on input line 31.
-
-
-LaTeX Warning: Citation 'art1' on page 11 undefined on input line 52.
-
-
-
 [11]
-
-LaTeX Warning: Reference `eq:pos_x' on page 12 undefined on input line 68.
-
-
-LaTeX Warning: Reference `eq:pos_y' on page 12 undefined on input line 68.
-
-
-LaTeX Warning: Reference `eq:acc_x' on page 12 undefined on input line 90.
-
-
-LaTeX Warning: Reference `eq:acc_y' on page 12 undefined on input line 90.
-
-
-LaTeX Warning: Citation 'art1' on page 12 undefined on input line 103.
-
-
-LaTeX Warning: Reference `eq:acc_x' on page 12 undefined on input line 113.
-
-
-LaTeX Warning: Reference `eq:force_balance_raw' on page 12 undefined on input line 113.
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
 [12]
-
-LaTeX Warning: Citation 'art1' on page 13 undefined on input line 131.
-
-
-LaTeX Warning: Reference `eq:acc_x' on page 13 undefined on input line 144.
-
-
-LaTeX Warning: Reference `eq:acc_y' on page 13 undefined on input line 145.
-
-
-LaTeX Warning: Reference `eq:torque_balance_raw' on page 13 undefined on input line 146.
-
-
-LaTeX Warning: Citation 'art1' on page 13 undefined on input line 154.
-
-
-LaTeX Warning: Reference `eq:dynamic_translation' on page 13 undefined on input line 162.
-
-
-LaTeX Warning: Reference `eq:dynamic_rotation' on page 13 undefined on input line 162.
-
-
-LaTeX Warning: Reference `eq:dynamic_rotation' on page 13 undefined on input line 167.
-
-
-LaTeX Warning: Reference `eq:dynamic_translation' on page 13 undefined on input line 171.
-
-
 Underfull \vbox (badness 1990) has occurred while \output is active []
 
 
 
 [13]
-
-LaTeX Warning: Citation 'art1' on page 14 undefined on input line 176.
+Overfull \hbox (46.77538pt too wide) detected at line 186
+[][][][]\T1/futs/m/n/12 (\FML/futmi/m/it/12 t\T1/futs/m/n/12 ) \FMS/futm/m/n/12 Å []\FML/futmi/m/it/12 :
+ []
 
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <12> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 188.
@@ -1366,21 +1250,9 @@ LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <9> not available
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <7> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 188.
 
-LaTeX Warning: Citation 'art1' on page 14 undefined on input line 214.
-
-
-LaTeX Warning: Citation 'art1' on page 14 undefined on input line 249.
-
-
-Underfull \vbox (badness 3907) has occurred while \output is active []
-
-
 
 [14]
-
-LaTeX Warning: Reference `fig:open_loop' on page 15 undefined on input line 255.
-
-<img/open_loop.png, id=108, 578.16pt x 289.08pt>
+<img/open_loop.png, id=348, 578.16pt x 289.08pt>
 File: img/open_loop.png Graphic file (type png)
 <use img/open_loop.png>
 Package pdftex.def Info: img/open_loop.png  used on input line 259.
@@ -1427,10 +1299,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 [16]
-
-LaTeX Warning: Reference `fig:wind_signal' on page 17 undefined on input line 97.
-
-<img/wind_signal.png, id=126, 462.528pt x 346.896pt>
+<img/wind_signal.png, id=363, 462.528pt x 346.896pt>
 File: img/wind_signal.png Graphic file (type png)
 <use img/wind_signal.png>
 Package pdftex.def Info: img/wind_signal.png  used on input line 101.
@@ -1438,10 +1307,7 @@ Package pdftex.def Info: img/wind_signal.png  used on input line 101.
 
 
 [17]
-
-LaTeX Warning: Reference `fig:animacja_screenshot' on page 18 undefined on input line 110.
-
-<img/animation.png, id=136, 563.10374pt x 245.41687pt>
+<img/animation.png, id=374, 563.10374pt x 245.41687pt>
 File: img/animation.png Graphic file (type png)
 <use img/animation.png>
 Package pdftex.def Info: img/animation.png  used on input line 141.
@@ -1454,19 +1320,6 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [18 <./img/wind_signal.png>])
 
 [19 <./img/animation.png>] (tex/sterowanie.tex
-
-LaTeX Warning: Citation 'art1' on page 20 undefined on input line 14.
-
-
-LaTeX Warning: Citation 'art3' on page 20 undefined on input line 14.
-
-
-LaTeX Warning: Citation 'moreno2023' on page 20 undefined on input line 23.
-
-
-LaTeX Warning: Citation 'art1' on page 20 undefined on input line 23.
-
-
 Overfull \hbox (47.12619pt too wide) in paragraph at lines 19--24
 \T1/futs/m/n/12 (-20) rÛw-no-le-g™ej, wy-ko-rzy-stu-j°cy kla-syczne sprz¶-ªe-nie zwrotne typu PD (Proporcjonalno-RÛªniczkuj°ce).
  []
@@ -1474,98 +1327,90 @@ Overfull \hbox (47.12619pt too wide) in paragraph at lines 19--24
 
 
 [20]
-
-LaTeX Warning: Citation 'art2' on page 21 undefined on input line 52.
-
-
-LaTeX Warning: Citation 'jezierski2017' on page 21 undefined on input line 72.
-
-
-LaTeX Warning: Citation 'art1' on page 21 undefined on input line 74.
-
-
-LaTeX Warning: Citation 'art3' on page 21 undefined on input line 75.
-
-
-Overfull \hbox (3.84526pt too wide) in paragraph at lines 70--76
-\T1/futs/m/n/12 (-20) stan-dar-dem w ste-ro-wa-niu opty-mal-nym sys-te-mÛw wie-lo-wy-mia-ro-wych MIMO [].
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
 [21]
-
-LaTeX Warning: Reference `eq:pd_x' on page 22 undefined on input line 106.
-
-
-LaTeX Warning: Citation 'art2' on page 22 undefined on input line 109.
-
-
-LaTeX Warning: Citation 'camacho2007' on page 22 undefined on input line 125.
-
-
-LaTeX Warning: Citation 'rawlings2017' on page 22 undefined on input line 125.
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
 [22]
-
-LaTeX Warning: Citation 'mills2009' on page 23 undefined on input line 151.
-
-
-LaTeX Warning: Citation 'jezierski2017' on page 23 undefined on input line 152.
+Underfull \vbox (badness 2245) has occurred while \output is active []
 
 
-Overfull \hbox (60.4458pt too wide) in paragraph at lines 169--174
+
+[23]
+Overfull \hbox (60.4458pt too wide) in paragraph at lines 183--188
 []\T1/futs/m/n/12 (-20) Jako wa-riant ba-daw-czy al-go-rytmu pre-dyk-cyj-nego za-im-ple-men-to-wano ste-row-nik \T1/cmtt/m/n/12 MPCControllerJ2
  []
 
 
 
-[23]
-
-LaTeX Warning: Citation 'art3' on page 24 undefined on input line 200.
-
-
-LaTeX Warning: Citation 'roose2017' on page 24 undefined on input line 200.
-
-
-Overfull \hbox (1.46375pt too wide) in paragraph at lines 225--227
+[24]
+Overfull \hbox (1.46375pt too wide) in paragraph at lines 244--246
 []\T1/futs/m/n/12 (-20) Zachowanie ™a-god-nej cha-rak-te-ry-styki LQR w po-bliªu punktu rÛw-no-wagi (ma™e wzmoc-
  []
 
 
-LaTeX Warning: Citation 'art3' on page 24 undefined on input line 233.
+
+[25])
+
+[26] (tex/eksperymenty.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-LaTeX Warning: Citation 'art3' on page 24 undefined on input line 236.
+
+[27])
+
+[28] (tex/badania_wyniki.tex)
+Underfull \vbox (badness 1072) has occurred while \output is active []
 
 
 
-[24])
+[29]
 
-[25]
+[30]
 
-! LaTeX Error: File `tex/badania_metodyka.tex' not found.
+[31
 
-Type X to quit or <RETURN> to proceed,
-or enter new name. (Default extension: tex)
 
-Enter file name: 
-c:/Users/adams/OneDrive/Pulpit/cartpole/latex/main.tex:100: Emergency stop.
-<read *> 
-         
-l.100 \input{tex/badania_metodyka}
-                                  ^^M
-*** (cannot \read from terminal in nonstop modes)
+]
 
- 
+[32] (main.lof)
+\tf@lof=\write6
+\openout6 = `main.lof'.
+
+ (main.lot)
+\tf@lot=\write7
+\openout7 = `main.lot'.
+
+
+
+[33] (main.aux)
+ ***********
+LaTeX2e <2025-06-01> patch level 1
+L3 programming layer <2025-10-09>
+ ***********
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 1275E60C7C34769A1DDC310F73B00514;7873.
+Package logreq Info: Writing requests to 'main.run.xml'.
+\openout1 = `main.run.xml'.
+
+ ) 
 Here is how much of TeX's memory you used:
- 32213 strings out of 468080
- 614327 string characters out of 5425772
- 1736774 words of memory out of 5000000
- 59912 multiletter control sequences out of 15000+600000
- 801007 words of font info for 458 fonts, out of 8000000 for 9000
+ 32481 strings out of 468080
+ 620006 string characters out of 5425772
+ 1738493 words of memory out of 5000000
+ 60060 multiletter control sequences out of 15000+600000
+ 812681 words of font info for 504 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 123i,13n,121p,1047b,1189s stack positions out of 10000i,1000n,20000p,200000b,200000s
-c:/Users/adams/OneDrive/Pulpit/cartpole/latex/main.tex:100:  ==> Fatal error occurred, no output PDF file produced!
+ 123i,13n,121p,1047b,2798s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
+Output written on main.pdf (33 pages, 860031 bytes).
+PDF statistics:
+ 629 PDF objects out of 1000 (max. 8388607)
+ 139 named destinations out of 1000 (max. 500000)
+ 103258 words of extra memory for PDF output out of 106986 (max. 10000000)
+

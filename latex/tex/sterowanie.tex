@@ -55,15 +55,19 @@ niestabilność w~stanach nieustalonych bez odpowiednich mechanizmów
 $\mathrm{anti\text{-}windup}$.
 
 \subsubsection{Dobór nastaw regulatora PD-PD}
-Dobór nastaw przeprowadzono metodą eksperymentalną, kierując się zasadą dekompozycji problemu. W~pierwszej kolejności nastrojono pętlę stabilizacji wahadła ($\theta$), traktując wózek jako swobodny, a~następnie pętlę pozycji ($x$) jako nadrzędną, o~znacznie wolniejszej dynamice.
-Kluczowym aspektem badań, który zostanie przeprowadzony w~dalszej części pracy, jest weryfikacja wpływu członów całkujących ($K_i$) na~uchyb ustalony oraz stabilność układu.
+Proces doboru nastaw dla regulatora PD-PD przebiegał w~sekwencji prób, mających na~celu empiryczne wyznaczenie wzmocnień zapewniających stabilną pracę układu.
 
-\begin{itemize}
-    \item \textbf{Eksperyment 1:} Porównanie odpowiedzi skokowej dla $K_{i,\theta} = 0$ oraz $K_{i,\theta} \neq 0$.
-    \item \textbf{Cel:} Sprawdzenie, czy wprowadzenie akcji całkującej eliminuje uchyb ustalony bez wprowadzania cykli granicznych.
-\end{itemize}
+Początkowo przyjęto losowe, niewielkie wartości wzmocnień, co skutkowało brakiem stabilizacji wahadła. Mimo poprawnej implementacji algorytmu, obiekt po~krótkim czasie przewracał się, co wskazywało na~zbyt małą energię sygnału sterującego w~stosunku do~dynamiki nieliniowej układu.
 
-TODO: Wstawić tutaj wykresy porównawcze z eksperymentu oraz tabelę jakości regulacji.
+\noindent \textit{TODO: Wstawić wykres (Screen 1) pokazujący szybkie przewrócenie się wahadła przy złych nastawach.}
+
+W~kolejnym kroku zastosowano metodę dekompozycji. Najpierw dobierano wzmocnienia pętli stabilizacji ($K_{p,\theta}, K_{d,\theta}$) dla utrzymania pionu (ignorując pozycję), a~następnie ostrożnie dodawano wzmocnienia pętli pozycji ($K_{p,x}, K_{d,x}$). Uzyskano stabilizację, jednak układ charakteryzował się powolnym powrotem do~punktu pracy i~znacznymi oscylacjami, co jest typowe dla strojenia ręcznego bez precyzyjnej optymalizacji.
+
+\noindent \textit{TODO: Wstawić wykres (Screen 2) ze strojenia ręcznego - stabilnie, ale słabo.}
+
+Ostatecznie wykorzystano zaimplementowany w~katalogu \texttt{/tuning} algorytm ewolucji różnicowej (\texttt{scipy.optimize.differential\_evolution}). Funkcja kosztu minimalizowała całkę kwadratu uchybu (ISE) oraz karę za~sterowanie. Wynikowe nastawy zapewniły agresywną, ale precyzyjną stabilizację z~szybkim tłumieniem zakłóceń.
+
+\noindent \textit{TODO: Wstawić wykres (Screen 3) z nastawami zoptymalizowanymi - idealne działanie.}
 
 \subsection{Układ hybrydowy PD-LQR}
 
@@ -109,14 +113,19 @@ zapewnia stabilność, a~regulator zewnętrzny dba o~uchyb w~stanie ustalonym
 \cite{art2}.
 
 \subsubsection{Dobór wag macierzy Q i R}
-Podstawowym wyzwaniem w~projektowaniu regulatora LQR jest odpowiedni dobór macierzy wag $\mathbf{Q}$ i~$R$, które determinują kompromis między szybkością redukcji uchybu a~energią sterowania. W~pracy przyjęto podejście polegające na~iteracyjnym zwiększaniu kar za~odchylenie kąta, przy zachowaniu stałej kary za~pozycję.
+Dobór wag dla regulatora LQR również charakteryzował się ewolucyjnym podejściem do~problemu optymalizacji wskaźnika jakości.
 
-\begin{itemize}
-    \item \textbf{Eksperyment 2:} Analiza wpływu stosunku $Q_{\theta}/R$ na~czas regulacji.
-    \item \textbf{Cel:} Wyznaczenie granicy stabilności dla bardzo agresywnych nastaw LQR.
-\end{itemize}
+W~pierwszej fazie przyjęcie jednostkowej macierzy diagonalnej $Q=I$ oraz $R=1$ okazało się niewystarczające. Mimo teoretycznej stabilności wynikającej z~rozwiązania równania CARE, wahadło wykonywało bardzo duże wychylenia, a~wózek wielokrotnie wyjeżdżał poza dopuszczalny zakres roboczy toru. Świadczyło to o~zbyt małej karze nałożonej na~uchyb kątowy.
 
-TODO: Dodać tabelę przedstawiającą czasy regulacji i przesterowania dla różnych zestawów macierzy Q.
+\noindent \textit{TODO: Wykres (Screen 1) dla $Q=I, R=1$ - inercyjna reakcja.}
+
+Następnie przeprowadzono strojenie ręczne metodą prób i~błędów (zgodnie z~regułą Brysona). Ręczne zwiększanie kar za~wychylenie kąta ($Q_{\theta}$) poprawiło sztywność wahadła. Udało się ustalić zestaw wag zapewniający stabilną pracę, choć czas regulacji był wciąż niezadowalający, a~reakcja na~zakłócenia powolna.
+
+\noindent \textit{TODO: Wykres (Screen 2) dla wag Brysona.}
+
+W~ostatnim etapie zastosowano optymalizację numeryczną. Algorytm genetyczny poszukiwał optymalnych elementów diagonalnych macierzy $Q$ oraz skalara $R$, minimalizując czas regulacji. Zoptymalizowane wagi (w szczególności wysoka kara $Q_{\theta} \approx 69.44$) znacznie przewyższyły jakością sterowania nastawy dobrane heurystycznie.
+
+\noindent \textit{TODO: Wykres (Screen 3) dla LQR po optymalizacji.}
 
 \subsection{Nieliniowe sterowanie predykcyjne (MPC)}
 
@@ -131,18 +140,18 @@ Zadanie optymalizacji, rozwiązywane numerycznie metodą SQP (Sequential
 Quadratic Programming) przy użyciu solwera \texttt{SLSQP}, zdefiniowane jest
 następująco:
 \begin{equation}
-    \min_{\Delta U} J = \sum_{k=1}^{N_p} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) + R \sum_{k=0}^{N_c-1} (\Delta u_k)^2,
+    \min_{\Delta U} J = \sum_{k=1}^{N_{\mathrm{p}}} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) + R \sum_{k=0}^{N_{\mathrm{c}}-1} (\Delta u_k)^2,
 \end{equation}
 przy ograniczeniach:
 \begin{align}
-    \hat{x}_{k+1} &= f(\hat{x}_k, u_k), \quad k=0,\dots,N_p-1 \\
+    \hat{x}_{k+1} &= f(\hat{x}_k, u_k), \quad k=0,\dots,N_{\mathrm{p}}-1 \\
     u_{\mathrm{min}} &\le u_k \le u_{\mathrm{max}}, \\
     u_k &= u_{k-1} + \Delta u_k.
 \end{align}
 Gdzie:
 \begin{itemize}
-    \item $N_p = 12$ -- horyzont predykcji,
-    \item $N_c = 4$ -- horyzont sterowania (blokowanie sterowania dla $k \ge N_c$),
+    \item $N_{\mathrm{p}} = 12$ -- horyzont predykcji,
+    \item $N_{\mathrm{c}} = 4$ -- horyzont sterowania (blokowanie sterowania dla $k \ge N_{\mathrm{c}}$),
     \item $f(\cdot)$ -- nieliniowy model dyskretny obiektu (całkowanie metodą
     Rungego-Kutt 4. rzędu),
     \item $Q = \text{diag}([158.4,\; 36.8,\; 43.4,\; 19.7])$ -- macierz kar stanu,
@@ -155,14 +164,19 @@ Kluczową zaletę MPC, podkreślaną w~pracach \cite{mills2009} oraz
 mieć miejsce w~przypadku LQR.
 
 \subsubsection{Dobór horyzontu i wag funkcji celu}
-Wydajność regulatora MPC jest ściśle powiązana z~długością horyzontu predykcji $N_p$ oraz horyzontu sterowania $N_c$. Zbyt krótki horyzont może prowadzić do~niestabilności (brak widoczności ,,przyszłych'' ograniczeń), natomiast zbyt długi drastycznie zwiększa koszt obliczeniowy.
+Dla regulatora MPC kluczowym wyzwaniem był dobór horyzontu predykcji oraz macierzy wag, determinujących zachowanie układu w~stanie nieustalonym.
 
-\begin{itemize}
-    \item \textbf{Eksperyment 3:} Wpływ długości horyzontu $N_p \in \{5, 10, 15, 20\}$ na~jakość sterowania.
-    \item \textbf{Cel:} Znalezienie minimalnego horyzontu zapewniającego stabilność przy ograniczonej mocy obliczeniowej.
-\end{itemize}
+Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N_{\mathrm{p}} < 5$) prowadziło do~niestabilności układu zamkniętego. Regulator ,,nie widział'', że rozpędzając wózek w~celu korekcji kąta, nie zdąży wyhamować przed upadkiem wahadła lub osiągnięciem końca toru.
 
-\noindent \textit{TODO: Wykres wpływu długości horyzontu na średni czas wykonania kroku symulacji.}
+\noindent \textit{TODO: Wykres niestabilnego MPC (krótki horyzont).}
+
+Zwiększenie horyzontu do $N_{\mathrm{p}}=10$ w~ramach korekty ręcznej ustabilizowało proces. Dodatkowa manipulacja wagami $Q$ pozwoliła na~uzyskanie poprawnego sterowania, jednak koszt obliczeniowy był wysoki, a~przebiegi wciąż wykazywały niepożądane przeregulowania.
+
+\noindent \textit{TODO: Wykres MPC strojonego ręcznie.}
+
+Automatyzacja procesu strojenia przy użyciu skryptu \texttt{tune\_mpc.py} pozwoliła na~znalezienie kompromisu między długością horyzontu a~wagami. Algorytm optymalizacyjny wskazał $N_{\mathrm{p}}=12$ jako optimum dla tego modelu dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń.
+
+\noindent \textit{TODO: Wykres zoptymalizowanego MPC - gładkie sterowanie.}
 
 \subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}
 
@@ -174,7 +188,7 @@ o~dodatkowy składnik karzący bezwzględną wartość sygnału sterującego
 
 Zmodyfikowana funkcja celu przyjmuje postać:
 \begin{equation}
-    J = \sum_{k=1}^{N_p} (x_k - x_{\mathrm{ref}})^T Q (x_k - x_{\mathrm{ref}}) \;+\; R_{\Delta} \sum_{k=0}^{N_c-1} (\Delta u_k)^2 \;+\; R_{\mathrm{abs}} \sum_{k=0}^{N_c-1} (u_k)^2.
+    J = \sum_{k=1}^{N_{\mathrm{p}}} (x_k - x_{\mathrm{ref}})^T Q (x_k - x_{\mathrm{ref}}) \;+\; R_{\Delta} \sum_{k=0}^{N_{\mathrm{c}}-1} (\Delta u_k)^2 \;+\; R_{\mathrm{abs}} \sum_{k=0}^{N_{\mathrm{c}}-1} (u_k)^2.
 \end{equation}
 Wprowadzenie parametru $R_{\mathrm{abs}}$ pozwala na~bezpośrednie minimalizowanie
 zużycia energii sterowania, co może być istotne w~zastosowaniach mobilnych
@@ -183,14 +197,19 @@ $q_x=120.0$ (elementy macierzy diagonalnej $Q$), kładąc większy
 nacisk na~precyzję pozycjonowania wózka w~porównaniu do~standardowego MPC.
 
 \subsubsection{Analiza wpływu kary za energię}
-Dodatkowy składnik funkcji kosztu $R_{\mathrm{abs}}$ ma na~celu minimalizację zużycia energii, co jest kluczowe w~systemach autonomicznych.
+W~przypadku wariantu MPC-J2 analizowano nieliniowy wpływ parametru $R_{\mathrm{abs}}$ na~zachowanie układu.
 
-\begin{itemize}
-    \item \textbf{Eksperyment 4:} Porównanie całkowitego zużycia energii $\int u^2 dt$ dla różnych wartości $R_{\mathrm{abs}}$.
-    \item \textbf{Cel:} Ilościowa ocena oszczędności energetycznych w~porównaniu do~klasycznego MPC.
-\end{itemize}
+Przyjęcie zbyt dużej wartości kary za~sterowanie bezwzględne ($R_{\mathrm{abs}}$) spowodowało, że regulator wykazywał tendencję do~pasywności. Wahadło przewracało się, ponieważ koszt energetyczny utrzymania go w~pionie przewyższał zysk wynikający z~małego błędu kąta w~funkcji celu.
 
-\noindent \textit{TODO: Wykres słupkowy zużycia energii w funkcji parametru R\_abs.}
+\noindent \textit{TODO: Wykres upadku wahadła przy zbyt dużym R\_abs.}
+
+Stopniowe, ręczne zmniejszanie parametru $R_{\mathrm{abs}}$ pozwoliło znaleźć punkt pracy, w~którym układ odzyskał stabilność przy zachowaniu relatywnej oszczędności energetycznej. Odpowiedź dynamiczna była jednak powolna i~zbyt asekuracyjna dla większych zakłóceń.
+
+\noindent \textit{TODO: Wykres energooszczędny (wolny).}
+
+Algorytm optymalizacyjny precyzyjnie dostroił $R_{\mathrm{abs}}$, minimalizując złożony wskaźnik kosztu (błąd + energia). Znaleziono ,,złoty środek'', w~którym układ stabilizuje się szybko, ale sterowanie pozbawione jest zbędnych oscylacji wysokoczęstotliwościowych, co przekłada się na~oszczędność energii.
+
+\noindent \textit{TODO: Wykres optymalny MPC-J2.}
 
 \subsection{Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}
 
@@ -227,23 +246,22 @@ Zastosowany mechanizm ,,Gain Scheduling'' pozwala na:
     \item Zwiększenie sztywności układu w~sytuacjach krytycznych (duże
     wzmocnienia zdefiniowane w~zmiennej \texttt{F\_rules} dla ,,Dużych
     błędów'').
-\end{enumerate}
+\end{enumerate} 
 Takie podejście pozwala na~rozszerzenie obszaru stabilności regulatora
 w~porównaniu do~klasycznego LQR, co potwierdzają wyniki badań w~pracy
 \cite{art3}.
 
 \subsubsection{Dobór reguł i funkcji przynależności}
-Struktura sterownika rozmytego została zaczerpnięta z~pracy \cite{art3}, jednak kluczowym etapem implementacji była adaptacja parametrów funkcji przynależności (trójkątnych) oraz macierzy reguł do~dynamiki konkretnego modelu wahadła.
+Strojenie rozmytego regulatora Fuzzy-LQR jest zadaniem złożonym ze względu na~dużą liczbę parametrów definiujących bazę reguł i~funkcje przynależności.
 
-Zastosowano podział przestrzeni błędów na~strefy:
-\begin{itemize}
-    \item \textit{Mały błąd}: Sterowanie łagodne, zbliżone do~LQR.
-    \item \textit{Duży błąd}: Sterowanie agresywne (Gain Scheduling), mające na~celu szybki powrót do~punktu pracy.
-\end{itemize}
+Błędne zdefiniowanie zbyt wąskich funkcji przynależności dla strefy ,,małego błędu'' skutkowało gwałtownym przełączaniem się regulatora na~agresywne reguły (chatter). Prowadziło to do~silnych drgań wokół punktu równowagi, co jest zjawiskiem niepożądanym w~rzeczywistych układach napędowych.
 
-\begin{itemize}
-    \item \textbf{Eksperyment 5:} Weryfikacja skuteczności przełączania reguł w~obecności silnych zakłóceń zewnętrznych.
-    \item \textbf{Cel:} Pokazanie przewagi Fuzzy-LQR nad klasycznym LQR w~sytuacjach krytycznych.
-\end{itemize}
+\noindent \textit{TODO: Wykres drgań (chatter) przy złych funkcjach przynależności.}
 
-\noindent \textit{TODO: Wykres trajektorii fazowej dla Fuzzy-LQR i LQR przy dużym wychyleniu początkowym.}
+Opierając się na~literaturze \cite{art3}, dobrano ręcznie szerokości trójkątnych funkcji przynależności tak, aby przejście między strefami było płynne. Układ uzyskał stabilność asymptotyczną, jednak nie wykorzystywał w~pełni potencjału szybkiej reakcji na~duże zakłócenia, działając zachowawczo.
+
+\noindent \textit{TODO: Wykres ręcznie dostrojonego Fuzzy-LQR.}
+
+Ostatecznie, dedykowany skrypt \texttt{tune\_fuzzy\_lqr.py} posłużył do~optymalizacji wag pojedynczych reguł oraz parametrów kształtu funkcji przynależności. Uzyskano nieliniową powierzchnię sterowania, która łączy zalety miękkiego sterowania LQR w~pobliżu zera z~maksymalną siłą reakcji przy dużych wychyleniach.
+
+\noindent \textit{TODO: Wykres optymalny Fuzzy-LQR (powierzchnia sterowania lub przebieg).}

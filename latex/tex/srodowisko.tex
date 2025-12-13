@@ -81,17 +81,17 @@ operacje:
 
 \textbf{1. Dyskretne próbkowanie szumu:}
 \begin{equation}
-    w_k \sim \mathcal{N}\!\left(0,\;\sigma^2\right),\qquad \sigma^2=\frac{P}{T_s},
+    w_k \sim \mathcal{N}\!\left(0,\;\sigma^2\right),\qquad \sigma^2=\frac{P}{T_{\mathrm{s}}},
 \end{equation}
-gdzie $P$ oznacza moc zakłócenia (parametr konfigurowalny), a $T_s = \Delta t$
+gdzie $P$ oznacza moc zakłócenia (parametr konfigurowalny), a $T_{\mathrm{s}} = \Delta t$
 to krok symulacji.
 
 \textbf{2. Wygładzanie (ruchoma średnia):}
 \begin{equation}
-    F_{w,k}=\frac{1}{N_s}\sum_{i=0}^{N_s-1} w_{k-i},
+    F_{\mathrm{w},k}=\frac{1}{N_{\mathrm{s}}}\sum_{i=0}^{N_{\mathrm{s}}-1} w_{k-i},
 \end{equation}
-gdzie $F_{w,k}$ to wypadkowa siła wiatru w~chwili $k$, a~$N_s$ to długość okna
-uśredniającego (przyjęto $N_s=10$). Takie podejście pozwala na~uzyskanie
+gdzie $F_{\mathrm{w},k}$ to wypadkowa siła wiatru w~chwili $k$, a~$N_{\mathrm{s}}$ to długość okna
+uśredniającego (przyjęto $N_{\mathrm{s}}=10$). Takie podejście pozwala na~uzyskanie
 ciągłego, wolnozmiennego sygnału lepiej odwzorowującego rzeczywiste podmuchy.
 Przykładowy przebieg wygenerowanego sygnału przedstawiono na~Rys.
 \ref{fig:wind_signal}.

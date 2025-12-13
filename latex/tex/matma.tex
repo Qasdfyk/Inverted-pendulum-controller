@@ -23,8 +23,8 @@ stosowanymi w~pracach badawczych~\cite{art1}:
     \item \(m\) --- masa wahadła (traktowana jako masa punktowa na~końcu pręta) [kg],
     \item \(l\) --- długość wahadła (odległość od~osi obrotu do~środka ciężkości) [m],
     \item \(g\) --- przyspieszenie ziemskie [m/s\textsuperscript{2}],
-    \item \(u(t)\) --- siła sterująca przyłożona do~wózka [N],
-    \item \(F_w(t)\) --- siła zakłócająca (wiatr) działająca poziomo na~masę wahadła [N].
+    \item \(F(t)\) --- siła sterująca przyłożona do~wózka [N],
+    \item \(F_{\mathrm{w}}(t)\) --- siła zakłócająca (wiatr) działająca poziomo na~masę wahadła [N].
 \end{itemize}
 
 W~celu sformułowania modelu analitycznego przyjęto następujące założenia 
@@ -48,19 +48,19 @@ Pozycja \(\theta = 0\) odpowiada niestabilnemu punktowi równowagi
 
 W~pierwszej kolejności zdefiniowano położenie środka ciężkości (COG) 
 masy wahadła \(m\) w~nieruchomym układzie odniesienia. Oznaczając 
-współrzędne środka masy jako \((x_G, y_G)\), można je wyrazić jako sumę 
+współrzędne środka masy jako \((x_{\mathrm{G}}, y_{\mathrm{G}})\), można je wyrazić jako sumę 
 przemieszczenia wózka oraz rzutu geometrycznego ramienia wahadła~\cite{art1}:
 
 \begin{equation}
-    x_G(t) = x(t) + l \sin\theta(t),
+    x_{\mathrm{G}}(t) = x(t) + l \sin\theta(t),
     \label{eq:pos_x}
 \end{equation}
 \begin{equation}
-    y_G(t) = l \cos\theta(t).
+    y_{\mathrm{G}}(t) = l \cos\theta(t).
     \label{eq:pos_y}
 \end{equation}
 
-Gdzie \(x_G\) to pozioma współrzędna masy wahadła, a~\(y_G\) to jej 
+Gdzie \(x_{\mathrm{G}}\) to pozioma współrzędna masy wahadła, a~\(y_{\mathrm{G}}\) to jej 
 współrzędna pionowa (odległość od~osi wózka).
 
 Aby zastosować drugą zasadę dynamiki Newtona dla masy \(m\), konieczne jest 
@@ -68,10 +68,10 @@ wyznaczenie jej prędkości oraz przyspieszeń całkowitych (bezwzględnych).
 Różniczkując równania (\ref{eq:pos_x}) i~(\ref{eq:pos_y}) względem czasu, 
 otrzymuje się składowe prędkości:
 \begin{equation}
-    \dot{x}_G = \dot{x} + l \cos\theta \cdot \dot{\theta},
+    \dot{x}_G(t) = \dot{x}(t) + l \cos\theta(t) \cdot \dot{\theta}(t),
 \end{equation}
 \begin{equation}
-    \dot{y}_G = -l \sin\theta \cdot \dot{\theta}.
+    \dot{y}_G(t) = -l \sin\theta(t) \cdot \dot{\theta}(t).
 \end{equation}
 
 Ponowne różniczkowanie pozwala wyznaczyć składowe przyspieszenia środka 
@@ -79,11 +79,11 @@ masy wahadła \(\ddot{x}_G\) oraz \(\ddot{y}_G\). Uwzględniają one zarówno
 przyspieszenie liniowe wózka, jak i~składowe ruchu obrotowego 
 (przyspieszenie styczne i~dośrodkowe):
 \begin{equation}
-    \ddot{x}_G = \ddot{x} + l \cos\theta \cdot \ddot{\theta} - l \sin\theta \cdot \dot{\theta}^2,
+    \ddot{x}_G(t) = \ddot{x}(t) + l \cos\theta(t) \cdot \ddot{\theta}(t) - l \sin\theta(t) \cdot \dot{\theta}^2(t),
     \label{eq:acc_x}
 \end{equation}
 \begin{equation}
-    \ddot{y}_G = -l \sin\theta \cdot \ddot{\theta} - l \cos\theta \cdot \dot{\theta}^2.
+    \ddot{y}_G(t) = -l \sin\theta(t) \cdot \ddot{\theta}(t) - l \cos\theta(t) \cdot \dot{\theta}^2(t).
     \label{eq:acc_y}
 \end{equation}
 
@@ -100,12 +100,12 @@ na~wahadło osobno, a~następnie składając je w~układ równań sprzężonych.
 Zgodnie z~drugą zasadą dynamiki Newtona, suma sił zewnętrznych działających 
 na~cały układ w~kierunku osi \(x\) musi równać się zmianie pędu układu. 
 Siłami zewnętrznymi są: siła sterująca \(u(t)\) przyłożona do~wózka oraz 
-siła zakłócająca \(F_w(t)\) przyłożona do~masy wahadła~\cite{art1}.
+siła zakłócająca \(F_{\mathrm{w}}(t)\) przyłożona do~masy wahadła~\cite{art1}.
 
 Równanie równowagi sił dla całego układu (masy \(M\) i~\(m\)) 
 przyjmuje postać:
 \begin{equation}
-    M \ddot{x} + m \ddot{x}_G = u + F_w.
+    M \ddot{x}(t) + m \ddot{x}_G(t) = u(t) + F_{\mathrm{w}}(t).
     \label{eq:force_balance_raw}
 \end{equation}
 
@@ -113,13 +113,13 @@ Podstawiając wyznaczone wcześniej przyspieszenie poziome środka masy
 wahadła (\ref{eq:acc_x}) do~równania (\ref{eq:force_balance_raw}), 
 otrzymujemy:
 \begin{equation}
-    M \ddot{x} + m \left( \ddot{x} + l \cos\theta \cdot \ddot{\theta} - l \sin\theta \cdot \dot{\theta}^2 \right) = u + F_w.
+    M \ddot{x} + m \left( \ddot{x} + l \cos\theta \cdot \ddot{\theta} - l \sin\theta \cdot \dot{\theta}^2 \right) = u + F_{\mathrm{w}}.
 \end{equation}
 
 Po~uporządkowaniu wyrazów i~wyciągnięciu \(\ddot{x}\) przed nawias, 
 otrzymujemy pierwsze równanie różniczkowe opisujące ruch postępowy układu:
 \begin{equation}
-    (M + m)\ddot{x} + m l \cos\theta \cdot \ddot{\theta} - m l \sin\theta \cdot \dot{\theta}^2 = u + F_w.
+    (M + m)\ddot{x}(t) + m l \cos\theta(t) \cdot \ddot{\theta}(t) - m l \sin\theta(t) \cdot \dot{\theta}^2(t) = u(t) + F_{\mathrm{w}}(t).
     \label{eq:dynamic_translation}
 \end{equation}
 
@@ -131,21 +131,21 @@ siły bezwładności masy wahadła, siła ciężkości oraz siła zakłócająca
 Zgodnie z~analizą przedstawioną w~pracy~\cite{art1}, równanie momentów 
 przyjmuje postać:
 \begin{equation}
-    (m \ddot{x}_G) l \cos\theta - (m \ddot{y}_G) l \sin\theta = (mg) l \sin\theta + (F_w) l \cos\theta.
+    m \ddot{x}_G(t) l \cos\theta(t) - m \ddot{y}_G(t) l \sin\theta(t) = m g l \sin\theta(t) + F_{\mathrm{w}}(t) l \cos\theta(t).
     \label{eq:torque_balance_raw}
 \end{equation}
 
 W~równaniu tym lewa strona reprezentuje moment wynikający z~sił 
 bezwładności, natomiast prawa strona uwzględnia momenty od~sił 
-zewnętrznych (grawitacji i~wiatru). Należy zauważyć, że siła wiatru \(F_w\) 
+zewnętrznych (grawitacji i~wiatru). Należy zauważyć, że siła wiatru \(F_{\mathrm{w}}(t)\) 
 działa poziomo, stąd jej ramię siły względem punktu obrotu wynosi 
-\(l \cos\theta\).
+\(l \cos\theta(t)\).
 
 Podstawiając wyrażenia na~przyspieszenia \(\ddot{x}_G\) (\ref{eq:acc_x}) 
 oraz \(\ddot{y}_G\) (\ref{eq:acc_y}) do~równania momentów 
 (\ref{eq:torque_balance_raw}), otrzymujemy rozbudowaną postać równania:
 \begin{equation}
-    m l \cos\theta \left( \ddot{x} + l \cos\theta \ddot{\theta} - l \sin\theta \dot{\theta}^2 \right) - m l \sin\theta \left( -l \sin\theta \ddot{\theta} - l \cos\theta \dot{\theta}^2 \right) = m g l \sin\theta + F_w l \cos\theta.
+    m l \cos\theta \left( \ddot{x} + l \cos\theta \ddot{\theta} - l \sin\theta \dot{\theta}^2 \right) - m l \sin\theta \left( -l \sin\theta \ddot{\theta} - l \cos\theta \dot{\theta}^2 \right) = m g l \sin\theta + F_{\mathrm{w}} l \cos\theta.
 \end{equation}
 
 Po~wymnożeniu nawiasów składniki zawierające \(\dot{\theta}^2\) 
@@ -153,7 +153,7 @@ wzajemnie się redukują. Wykorzystując jedynkę trygonometryczną
 \(\cos^2\theta + \sin^2\theta = 1\) oraz dzieląc całe równanie przez \(l\), 
 otrzymujemy ostateczne drugie równanie dynamiki~\cite{art1}:
 \begin{equation}
-    m \cos\theta \cdot \ddot{x} + m l \cdot \ddot{\theta} = m g \sin\theta + F_w \cos\theta.
+    m \cos\theta(t) \cdot \ddot{x}(t) + m l \cdot \ddot{\theta}(t) = m g \sin\theta(t) + F_{\mathrm{w}}(t) \cos\theta(t).
     \label{eq:dynamic_rotation}
 \end{equation}
 
@@ -166,22 +166,22 @@ jawnych postaci przyspieszeń \(\ddot{x}\) i~\(\ddot{\theta}\).
 
 Wyznaczając \(\ddot{x}\) z~równania (\ref{eq:dynamic_rotation}):
 \begin{equation}
-    \ddot{x} = \frac{1}{m \cos\theta} \left( m g \sin\theta + F_w \cos\theta - m l \ddot{\theta} \right),
+    \ddot{x} = \frac{1}{m \cos\theta} \left( m g \sin\theta + F_{\mathrm{w}} \cos\theta - m l \ddot{\theta} \right),
 \end{equation}
 i~podstawiając do~równania (\ref{eq:dynamic_translation}), a~następnie 
 wykonując przekształcenia algebraiczne, otrzymujemy jawne wzory 
 na~przyspieszenia.
 
 Ostateczne równania ruchu, uwzględniające wpływ siły sterującej \(u\) 
-oraz zakłócenia \(F_w\), przyjmują postać~\cite{art1}:
+oraz zakłócenia \(F_{\mathrm{w}}\), przyjmują postać~\cite{art1}:
 
 \begin{equation}
-    \ddot{x} = \frac{u + m l \sin\theta \cdot \dot{\theta}^2 - m g \sin\theta \cos\theta + F_w \sin^2\theta}{M + m - m \cos^2\theta},
+    \ddot{x}(t) = \frac{u(t) + m l \sin\theta(t) \cdot \dot{\theta}^2(t) - m g \sin\theta(t) \cos\theta(t) + F_{\mathrm{w}}(t) \sin^2\theta(t)}{M + m - m \cos^2\theta(t)},
     \label{eq:x_dd_final}
 \end{equation}
 
 \begin{equation}
-    \ddot{\theta} = \frac{(M + m) g \sin\theta - u \cos\theta - m l \sin\theta \cos\theta \cdot \dot{\theta}^2 - \frac{M}{m} F_w \cos\theta + F_w \cos\theta}{l (M + m - m \cos^2\theta)}.
+    \ddot{\theta}(t) = \frac{(M + m) g \sin\theta(t) - u(t) \cos\theta(t) - m l \sin\theta(t) \cos\theta(t) \cdot \dot{\theta}^2(t) - \frac{M}{m} F_{\mathrm{w}}(t) \cos\theta(t) + F_{\mathrm{w}}(t) \cos\theta(t)}{l (M + m - m \cos^2\theta(t))}.
     \label{eq:theta_dd_final}
 \end{equation}
 
@@ -196,9 +196,9 @@ różniczkowych pierwszego rzędu:
     =
     \begin{bmatrix}
     x_2 \\
-    \frac{(M + m) g \sin x_1 - u \cos x_1 - m l (\sin x_1 \cos x_1) x_2^2 - F_w \left(\frac{M}{m} \cos x_1 - \cos x_1\right)}{l ( M + m - m \cos^2 x_1 )} \\
+    \frac{(M + m) g \sin x_1 - u \cos x_1 - m l (\sin x_1 \cos x_1) x_2^2 - F_{\mathrm{w}} \left(\frac{M}{m} \cos x_1 - \cos x_1\right)}{l ( M + m - m \cos^2 x_1 )} \\
     x_4 \\
-    \frac{u + m l (\sin x_1) x_2^2 - m g \sin x_1 \cos x_1 + F_w \sin^2 x_1}{M + m - m \cos^2 x_1}
+    \frac{u + m l (\sin x_1) x_2^2 - m g \sin x_1 \cos x_1 + F_{\mathrm{w}} \sin^2 x_1}{M + m - m \cos^2 x_1}
     \end{bmatrix}.
 \end{equation}
 
@@ -210,7 +210,7 @@ chwiejnej (\(\theta=0\)). Dla małych wychyleń zastosowano przybliżenia
 \(\sin\theta \approx \theta\), \(\cos\theta \approx 1\), a~wyrazy wyższego 
 rzędu (\(\dot{\theta}^2\), \(\sin^2\theta\)) pominięto.
 
-Liniowy model układu w~postaci \(\dot{\mathbf{x}} = A \mathbf{x} + B u + B_{dist} F_w\) 
+Liniowy model układu w~postaci \(\dot{\mathbf{x}} = A \mathbf{x} + B u + B_{\mathrm{dist}} F_{\mathrm{w}}\) 
 opisują macierze wyznaczone zgodnie z~literaturą~\cite{art1}:
 
 \begin{equation}
@@ -223,7 +223,7 @@ opisują macierze wyznaczone zgodnie z~literaturą~\cite{art1}:
     \end{bmatrix}.
 \end{equation}
 
-Macierz sterowania \(B\) oraz macierz zakłóceń \(B_{dist}\) przyjmują postać:
+Macierz sterowania \(B\) oraz macierz zakłóceń \(B_{\mathrm{dist}}\) przyjmują postać:
 \begin{equation}
     B =
     \begin{bmatrix}
@@ -233,7 +233,7 @@ Macierz sterowania \(B\) oraz macierz zakłóceń \(B_{dist}\) przyjmują posta�
     \frac{1}{M}
     \end{bmatrix},
     \quad
-    B_{dist} =
+    B_{\mathrm{dist}} =
     \begin{bmatrix}
     0 \\[4pt]
     -\frac{1}{m l} \\[4pt]
@@ -244,7 +244,7 @@ Macierz sterowania \(B\) oraz macierz zakłóceń \(B_{dist}\) przyjmują posta�
 
 Warto zauważyć, że w~modelu zlinearyzowanym wpływ wiatru na~przyspieszenie 
     kątowe wahadła jest odwrotnie proporcjonalny do~masy \(m\) (element \(-\frac{1}{ml}\) 
-    w~macierzy \(B_{dist}\)), podczas gdy w~równaniu przyspieszenia wózka 
+    w~macierzy \(B_{\mathrm{dist}}\)), podczas gdy w~równaniu przyspieszenia wózka 
     efekt ten zanika dla małych kątów (element zerowy). Jest to zgodne 
     z~wynikami prezentowanymi w~pracy źródłowej~\cite{art1}.
 
