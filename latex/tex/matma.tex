@@ -113,7 +113,7 @@ Podstawiając wyznaczone wcześniej przyspieszenie poziome środka masy
 wahadła (\ref{eq:acc_x}) do~równania (\ref{eq:force_balance_raw}), 
 otrzymujemy:
 \begin{equation}
-    M \ddot{x} + m \left( \ddot{x} + l \cos\theta \cdot \ddot{\theta} - l \sin\theta \cdot \dot{\theta}^2 \right) = u + F_{\mathrm{w}}.
+    M \ddot{x}(t) + m \left( \ddot{x}(t) + l \cos\theta(t) \cdot \ddot{\theta}(t) - l \sin\theta(t) \cdot \dot{\theta}^2(t) \right) = u(t) + F_{\mathrm{w}}(t).
 \end{equation}
 
 Po~uporządkowaniu wyrazów i~wyciągnięciu \(\ddot{x}\) przed nawias, 
@@ -145,7 +145,10 @@ Podstawiając wyrażenia na~przyspieszenia \(\ddot{x}_G\) (\ref{eq:acc_x})
 oraz \(\ddot{y}_G\) (\ref{eq:acc_y}) do~równania momentów 
 (\ref{eq:torque_balance_raw}), otrzymujemy rozbudowaną postać równania:
 \begin{equation}
-    m l \cos\theta \left( \ddot{x} + l \cos\theta \ddot{\theta} - l \sin\theta \dot{\theta}^2 \right) - m l \sin\theta \left( -l \sin\theta \ddot{\theta} - l \cos\theta \dot{\theta}^2 \right) = m g l \sin\theta + F_{\mathrm{w}} l \cos\theta.
+\begin{split}
+    m l \cos\theta(t) \left( \ddot{x}(t) + l \cos\theta(t) \ddot{\theta}(t) - l \sin\theta(t) \dot{\theta}^2(t) \right) \\
+    - m l \sin\theta(t) \left( -l \sin\theta(t) \ddot{\theta}(t) - l \cos\theta(t) \dot{\theta}^2(t) \right) = m g l \sin\theta(t) + F_{\mathrm{w}}(t) l \cos\theta(t).
+\end{split}
 \end{equation}
 
 Po~wymnożeniu nawiasów składniki zawierające \(\dot{\theta}^2\) 
@@ -166,7 +169,7 @@ jawnych postaci przyspieszeń \(\ddot{x}\) i~\(\ddot{\theta}\).
 
 Wyznaczając \(\ddot{x}\) z~równania (\ref{eq:dynamic_rotation}):
 \begin{equation}
-    \ddot{x} = \frac{1}{m \cos\theta} \left( m g \sin\theta + F_{\mathrm{w}} \cos\theta - m l \ddot{\theta} \right),
+    \ddot{x}(t) = \frac{1}{m \cos\theta(t)} \left( m g \sin\theta(t) + F_{\mathrm{w}}(t) \cos\theta(t) - m l \ddot{\theta}(t) \right),
 \end{equation}
 i~podstawiając do~równania (\ref{eq:dynamic_translation}), a~następnie 
 wykonując przekształcenia algebraiczne, otrzymujemy jawne wzory 
