@@ -1,25 +1,43 @@
 \section{Środowisko symulacyjne i implementacja}
 
-W celu przeprowadzenia badań i weryfikacji działania algorytmów sterowania, przygotowano autorskie środowisko symulacyjne zrealizowane w języku \textbf{Python 3}. Wybór tego języka podyktowany był jego powszechnością w zastosowaniach naukowych, dostępnością bibliotek do obliczeń numerycznych i optymalizacji, a także łatwością prototypowania złożonych struktur sterowania.
+W~celu przeprowadzenia badań i~weryfikacji działania algorytmów sterowania,
+przygotowano autorskie środowisko symulacyjne zrealizowane w~języku
+\textbf{Python 3}. Wybór tego języka podyktowany był jego powszechnością
+w~zastosowaniach naukowych, dostępnością bibliotek do~obliczeń numerycznych
+i~optymalizacji, a~także łatwością prototypowania złożonych struktur sterowania.
 
 \subsection{Narzędzia programistyczne}
 
 W projekcie wykorzystano następujące biblioteki i narzędzia:
 \begin{itemize}
-    \item \textbf{NumPy} -- podstawowa biblioteka do obliczeń macierzowych i operacji na wielowymiarowych tablicach danych, wykorzystywana do implementacji równań stanu oraz przechowywania przebiegów symulacji.
-    \item \textbf{SciPy} -- pakiet naukowy dostarczający zaawansowanych algorytmów numerycznych. W pracy użyto modułów:
+    \item \textbf{NumPy} -- podstawowa biblioteka do~obliczeń macierzowych
+    i~operacji na~wielowymiarowych tablicach danych, wykorzystywana
+    do~implementacji równań stanu oraz przechowywania przebiegów symulacji.
+    \item \textbf{SciPy} -- pakiet naukowy dostarczający zaawansowanych
+    algorytmów numerycznych. W pracy użyto modułów:
     \begin{itemize}
-        \item \texttt{scipy.linalg} -- do rozwiązywania algebraicznego równania Riccatiego (ARE) w algorytmie LQR.
-        \item \texttt{scipy.optimize} -- zawierającego solwer \texttt{minimize} (metoda SLSQP), wykorzystywany do rozwiązywania zadań optymalizacji nieliniowej z ograniczeniami w regulatorze MPC.
+        \item \texttt{scipy.linalg} -- do rozwiązywania algebraicznego równania
+        Riccatiego (ARE) w algorytmie LQR.
+        \item \texttt{scipy.optimize} -- zawierającego solwer \texttt{minimize}
+        (metoda SLSQP), wykorzystywany do~rozwiązywania zadań optymalizacji
+        nieliniowej z~ograniczeniami w~regulatorze MPC.
     \end{itemize}
-    \item \textbf{Matplotlib} -- biblioteka służąca do wizualizacji wyników w postaci wykresów przebiegów czasowych oraz do generowania animacji ruchu wahadła.
+    \item \textbf{Matplotlib} -- biblioteka służąca do wizualizacji wyników
+    w postaci wykresów przebiegów czasowych oraz do generowania animacji ruchu
+    wahadła.
 \end{itemize}
 
 \subsection{Konfiguracja symulacji}
 
-Symulator opiera się na numerycznym całkowaniu wyprowadzonych wcześniej nieliniowych równań dynamiki. Zaimplementowano procedurę całkowania metodą \textbf{Rungego-Kutty czwartego rzędu (RK4)}, co zapewnia wysoki kompromis pomiędzy dokładnością a szybkością obliczeń.
+Symulator opiera się na numerycznym całkowaniu wyprowadzonych wcześniej
+nieliniowych równań dynamiki. Zaimplementowano procedurę całkowania metodą
+\textbf{Rungego-Kutty czwartego rzędu (RK4)}, co zapewnia wysoki kompromis
+pomiędzy dokładnością a szybkością obliczeń.
 
-Przyjęto stały krok symulacji oraz sterowania wynoszący \(\Delta t = 0{,}1\,\text{s}\). Jest to wartość, przy której dynamika wahadła jest odwzorowana z wystarczającą precyzją, a jednocześnie pozwala na efektywne działanie numerycznych algorytmów optymalizacji w czasie rzeczywistym.
+Przyjęto stały krok symulacji oraz sterowania wynoszący
+\(\Delta t = 0{,}1\,\text{s}\). Jest to wartość, przy której dynamika wahadła
+jest odwzorowana z~wystarczającą precyzją, a~jednocześnie pozwala na~efektywne
+działanie numerycznych algorytmów optymalizacji w~czasie rzeczywistym.
 
 \begin{table}[H]
 	\centering
@@ -29,59 +47,99 @@ Przyjęto stały krok symulacji oraz sterowania wynoszący \(\Delta t = 0{,}1\,\
 	\begin{tabular}{|l|c|c|c|}
 		\hline
 		\textbf{Parametr} & \textbf{Symbol} & \textbf{Wartość} & \textbf{Jednostka} \\ \hline
-		Masa wózka & $M$ & $2{,}4$ & $\text{kg}$ \\ \hline
+		Masa wózka & $M$ & $2{,}40$ & $\text{kg}$ \\ \hline
 		Masa wahadła & $m$ & $0{,}23$ & $\text{kg}$ \\ \hline
 		Długość wahadła & $l$ & $0{,}36$ & $\text{m}$ \\ \hline
 		Przyspieszenie ziemskie & $g$ & $9{,}81$ & $\text{m/s}^2$ \\ \hline
-        Ograniczenie sterowania & $u_{max}$ & $100{,}0$ & $\text{N}$ \\ \hline
+        Ograniczenie sterowania & $F_\mathrm{max}$ & $100{,}00$ & $\text{N}$ \\ \hline
 	\end{tabular}
 \end{table}
 
-Symulacje przeprowadzane są dla zadania stabilizacji układu w pionie (tzw. punkt pracy), startując z niezerowych warunków początkowych lub wymuszając zmianę pozycji wózka.
+Symulacje przeprowadzane są dla zadania stabilizacji układu w pionie (tzw. punkt
+pracy), startując z niezerowych warunków początkowych lub wymuszając zmianę
+pozycji wózka.
 
 \textbf{Warunki początkowe (domyślne):}
 \[
-\mathbf{x}_0 = [\theta, \dot{\theta}, x, \dot{x}]^T = [0{,}05\,\text{rad}, 0, 0, 0]^T
+\mathbf{x}_0 = [\theta, \dot{\theta}, x, \dot{x}]^T = [0{,}05, 0, 0, 0]^T
 \]
-Oznacza to niewielkie (ok. $2{,}86^\circ$) początkowe wychylenie wahadła, które regulator musi zniwelować.
+Oznacza to niewielkie (ok. $2{,}86^\circ$) początkowe wychylenie wahadła, które
+regulator musi zniwelować.
 
 \textbf{Wartości zadane:}
-Celem układu jest osiągnięcie stanu $\mathbf{x}_{ref} = [0, 0, x_{ref}, 0]^T$, gdzie $x_{ref}$ (np. $0{,}1$ m) jest zadaną nową pozycją wózka, przy jednoczesnym utrzymaniu pionowej pozycji wahadła ($\theta = 0$).
+Celem układu jest osiągnięcie stanu
+$\mathbf{x}_\mathrm{ref} = [0, 0, x_\mathrm{ref}, 0]^T$, gdzie
+$x_\mathrm{ref}$ (np. $0{,}10$ m) jest zadaną nową pozycją wózka, przy
+jednoczesnym utrzymaniu pionowej pozycji wahadła ($\theta = 0$).
 
 \subsection{Modelowanie zakłóceń}
 
-Aby zweryfikować odporność układów sterowania, zaimplementowano generator zakłóceń symulujący podmuchy wiatru działające na wahadło. Model zakłócenia $F_w(t)$ oparty jest na procesie stochastycznym:
-\begin{enumerate}
-    \item Generowany jest biały szum gaussowski o zadanej mocy.
-    \item Sygnał jest wygładzany filtrem uśredniającym (splot z oknem prostokątnym), co pozwala uzyskać bardziej realistyczne, ciągłe w czasie przebiegi siły wiatru, zamiast nieskorelowanego szumu.
-\end{enumerate}
-W eksperymentach z zakłóceniami, siła $F_w$ jest dodawana bezpośrednio do równań dynamiki w każdym kroku całkowania. Przykładowy przebieg wygenerowanego sygnału zakłócającego przedstawiono na Rys. \ref{fig:wind_signal}.
+Aby zweryfikować odporność układów sterowania, zaimplementowano generator
+zakłóceń symulujący podmuchy wiatru działające na~wahadło. Generator ten działa
+w~sposób dyskretny, realizując w~każdym kroku symulacji $k$ następujące
+operacje:
+
+\textbf{1. Dyskretne próbkowanie szumu:}
+\begin{equation}
+    w_k \sim \mathcal{N}\!\left(0,\;\sigma^2\right),\qquad \sigma^2=\frac{P}{T_s},
+\end{equation}
+gdzie $P$ oznacza moc zakłócenia (parametr konfigurowalny), a $T_s = \Delta t$
+to krok symulacji.
+
+\textbf{2. Wygładzanie (ruchoma średnia):}
+\begin{equation}
+    F_{w,k}=\frac{1}{N_s}\sum_{i=0}^{N_s-1} w_{k-i},
+\end{equation}
+gdzie $F_{w,k}$ to wypadkowa siła wiatru w~chwili $k$, a~$N_s$ to długość okna
+uśredniającego (przyjęto $N_s=10$). Takie podejście pozwala na~uzyskanie
+ciągłego, wolnozmiennego sygnału lepiej odwzorowującego rzeczywiste podmuchy.
+Przykładowy przebieg wygenerowanego sygnału przedstawiono na~Rys.
+\ref{fig:wind_signal}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{img/wind_signal.png}
-    \caption{Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru) działającego na wahadło w czasie symulacji.}
+    \caption{Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru)
+    działającego na wahadło w czasie symulacji.}
     \label{fig:wind_signal}
 \end{figure}
 
 \subsection{Wizualizacja i animacja}
 
-Oprócz standardowych wykresów zmiennych stanu i sterowania, środowisko wyposażono w moduł wizualizacji dynamicznej (Rys. \ref{fig:animacja_screenshot}). Implementacja animacji oparta jest na bibliotece \texttt{Matplotlib} i klasie \texttt{FuncAnimation}, która pozwala na cykliczne odświeżanie obiektów graficznych zgodnie z taktowaniem symulacji.
+Oprócz standardowych wykresów zmiennych stanu i sterowania, środowisko wyposażono
+w moduł wizualizacji dynamicznej (Rys. \ref{fig:animacja_screenshot}).
+Implementacja animacji oparta jest na bibliotece \texttt{Matplotlib} i klasie
+\texttt{FuncAnimation}, która pozwala na cykliczne odświeżanie obiektów
+graficznych zgodnie z taktowaniem symulacji.
 
-Graficzna reprezentacja obiektu (robot) zbudowana jest z prostych prymitywów geometrycznych:
+Graficzna reprezentacja obiektu (robot) zbudowana jest z~prostych prymitywów
+geometrycznych:
 \begin{itemize}
-    \item \textbf{Wózek}: obiekt typu \texttt{Rectangle}, którego pozycja pozioma aktualizowana jest w każdej klatce na podstawie zmiennej stanu $x(t)$.
-    \item \textbf{Koła}: obiekty \texttt{Circle}, poruszające się wraz z wózkiem.
-    \item \textbf{Wahadło}: obiekt liniowy, którego współrzędne końcowe wyznaczane są trigonometrycznie na podstawie kąta $\theta(t)$.
+    \item \textbf{Wózek}: obiekt typu \texttt{Rectangle}, którego pozycja
+    pozioma aktualizowana jest w każdej klatce na podstawie zmiennej stanu
+    $x(t)$.
+    \item \textbf{Koła}: obiekty \texttt{Circle}, poruszające się wraz z
+    wózkiem.
+    \item \textbf{Wahadło}: obiekt liniowy, którego współrzędne końcowe
+    wyznaczane są trigonometrycznie na podstawie kąta $\theta(t)$.
 \end{itemize}
 
-Kluczowym elementem implementacji jest funkcja aktualizująca \texttt{update}, wywoływana dla każdego kroku czasowego. Odpowiada ona za przeliczenie współrzędnych kinematycznych oraz przesunięcie okna widoku kamery tak, aby wózek znajdował się zawsze w centrum, co pozwala na obserwację ruchu na długim dystansie. Dodatkowo rysowany jest „ślad” (ang. \textit{trail}) przebytej drogi przez oś wózka, co ułatwia wizualną ocenę stabilności pozycji.
+Kluczowym elementem implementacji jest funkcja aktualizująca \texttt{update},
+wywoływana dla każdego kroku czasowego. Odpowiada ona za~przeliczenie
+współrzędnych kinematycznych oraz przesunięcie okna widoku kamery tak, aby wózek
+znajdował się zawsze w~centrum, co pozwala na~obserwację ruchu na~długim
+dystansie. Dodatkowo rysowany jest „ślad” (ang. \textit{trail}) przebytej
+drogi przez oś wózka, co ułatwia wizualną ocenę stabilności pozycji.
 
-Wykorzystanie animacji pozwala na szybką, intuicyjną weryfikację poprawności modelu fizycznego oraz ocenę jakości regulacji w sposób trudny do uchwycenia na statycznych wykresach (np. nienaturalne drgania czy gwałtowne reakcje „szarpnięcia”).
+Wykorzystanie animacji pozwala na szybką, intuicyjną weryfikację poprawności
+modelu fizycznego oraz ocenę jakości regulacji w sposób trudny do uchwycenia na
+statycznych wykresach (np. nienaturalne drgania czy gwałtowne reakcje
+„szarpnięcia”).
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\textwidth]{img/animation.png} 
-    \caption{Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}
+    \includegraphics[width=0.7\textwidth]{img/animation.png}
+    \caption{Zrzut ekranu z animacji realizowanej w środowisku Python
+    (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}
     \label{fig:animacja_screenshot}
 \end{figure}

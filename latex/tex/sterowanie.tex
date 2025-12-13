@@ -1,59 +1,249 @@
-\section{Metody sterowania}
-\subsection{Regulator PID (dla kąta wahadła)}
-Regulator PID ma transmitancję:
-\[
-    C_{\text{PID}}(s) = K_p + \frac{K_i}{s} + K_d\,s.
-\]
-Dobór parametrów \(K_p, K_i, K_d\) wykonano w MATLAB-ie za pomocą funkcji \texttt{pidtune}, działającej na modeli typu \(\mathrm{TF}\) dla toru prostego (kąt \(\varphi\) w zamknięciu sprzężenia zwrotnego). Regulator ma za zadanie stabilizować kąt wahadła do zera, przy zerowym odchyleniu wózka.  
-W postaci dyskretnej implementacja wygląda tak:
-\[
-    u[k] = K_p\,e[k] + K_i \sum_{j=0}^k e[j]\,\Delta t + K_d \frac{e[k]-e[k-1]}{\Delta t}, 
-    \quad e[k] = -\,\varphi[k].
-\]
-Regulator PID w kodzie znajduje się w pliku \texttt{controllers/pid\_controller.m}. Układ zamknięty jest tworzony jako obiekt \(\mathrm{ss}\bigl(\mathrm{feedback}(C_{\text{PID}} \cdot P_{\text{pend}},\,1)\bigr)\).
+\section{Algorytmy sterowania}
 
-\subsection{Regulator PD (dla pozycji wózka)}
-Aby uzyskać lepszą regulację położenia \(x\), można użyć regulatora PD:
-\[
-    C_{\text{PD}}(s) = K_p + K_d\,s.
-\]
-Dobór nastaw wykonany jest również z wykorzystaniem \texttt{pidtune}, lecz z opcją \texttt{'PD'}. Torem wejścia jest sygnał sterujący \(u\), a wyjściem - pozycja \(x\). Model względny utworzono z liniowego modelu stanu, wyciągając transmitancję od \(u \to x\).
+W~niniejszym rozdziale przedstawiono szczegółowy opis algorytmów sterowania
+zaimplementowanych i~przeanalizowanych w~ramach pracy. Kod sterowników został
+zrealizowany w~języku Python w~postaci klas dziedziczących wspólną strukturę,
+co zapewnia modularność i~łatwą wymienność w~pętli symulacyjnej. Każdy
+regulator wyznacza sygnał sterujący $u(t)$ (siłę przyłożoną do wózka)
+na~podstawie aktualnego wektora stanu
+$x(t) = [\theta, \dot{\theta}, x, \dot{x}]^T$ oraz wartości zadanych
+$x_{\mathrm{ref}}$.
 
-\subsection{Regulator LQR (Linear-Quadratic Regulator)}
-Regulator LQR minimalizuje funkcję kosztu:
-\[
-    J = \int_{0}^{\infty} \Bigl(\mathbf{x}^\mathsf{T} Q \,\mathbf{x} + u^\mathsf{T} R \,u\Bigr)\,dt,
-\]
-gdzie \(Q = Q^\mathsf{T} \succeq 0\) oraz \(R = R^\mathsf{T} \succ 0\). Rozwiązanie problemu LQR daje wzmocnienie \(K\) takie, że:
-\[
-    u(t) = -\,K\,\mathbf{x}(t).
-\]
-W MATLAB-ie nastawy otrzymuje się poprzez wywołanie funkcji \texttt{lqr(A,B,Q,R)}, a zamknięty układ jest definiowany jako  
-\(\mathrm{ss}\bigl(A - B K,\,B,\,C,\,D\bigr)\). Regulacja LQR stabilizuje całość wektora stanu, a w szczególności kąt \(\varphi\).
+W~literaturze problem sterowania wahadłem odwróconym jest szeroko omawiany
+jako klasyczny problem testowy dla metod sterowania liniowego i~nieliniowego
+\cite{art1, art3}. Poniżej opisano teoretyczne podstawy oraz szczegóły
+implementacyjne zbadanych struktur sterowania.
 
-\subsection{Regulator złożony (Composite Controller)}
-Koncepcja regulatora złożonego polega na połączeniu dwóch oddzielnych pętli:
+\subsection{Równoległy regulator PD-PD}
+
+Pierwszym zaimplementowanym układem jest regulator o~strukturze kaskadowej lub
+równoległej, wykorzystujący klasyczne sprzężenie zwrotne typu PD
+(Proporcjonalno-Różniczkujące). W~literaturze podejście to jest często
+stosowane jako punkt odniesienia dla bardziej zaawansowanych metod
+\cite{moreno2023, art1}.
+
+W~klasie \texttt{PDPDController} zastosowano strukturę równoległą, w~której
+całkowity sygnał sterujący jest sumą reakcji na~błąd kąta oraz błąd pozycji.
+Jest to podejście intuicyjne, dekomponujące problem na~dwa podzadania:
+stabilizację wahadła w~pozycji pionowej oraz doprowadzenie wózka do~zadanej
+pozycji.
+
+Prawo sterowania wyraża się wzorem:
+\begin{equation}
+    u(t) = \mathrm{sat}_{u_{\mathrm{max}}} \left( u_{\theta}(t) + u_{x}(t) \right),
+\end{equation}
+gdzie funkcja nasycenia $\mathrm{sat}(\cdot)$ wynika z~ograniczeń fizycznych
+Definiując uchyby regulacji jako $e_{\theta}(t) = \theta_{\mathrm{ref}} - \theta(t)$ oraz $e_x(t) = x_{\mathrm{ref}} - x(t)$, prawo sterowania dla poszczególnych pętli można zapisać w~ogólnej postaci regulatora PID:
+\begin{align}
+    u_{\theta}(t) &= K_{p,\theta} e_{\theta}(t) + K_{i,\theta} \int_0^t e_{\theta}(\tau)\,d\tau + K_{d,\theta} \frac{d e_{\theta}(t)}{dt}, \label{eq:pd_theta} \\
+    u_{x}(t) &= K_{p,x} e_x(t) + K_{i,x} \int_0^t e_x(\tau)\,d\tau + K_{d,x} \frac{d e_x(t)}{dt}. \label{eq:pd_x}
+\end{align}
+W~powyższych równaniach przyjęto upraszczające założenie, że docelowe
+prędkości ($\dot{\theta}_{\mathrm{ref}}, \dot{x}_{\mathrm{ref}}$) wynoszą zero.
+
+W~implementacji programowej (plik \texttt{pd\_pd.py}) przyjęto następujące
+nastawy dobrane eksperymentalnie:
 \begin{itemize}
-    \item Pętla LQR, pracująca na wektorze stanu \(\mathbf{x} = [x, \dot{x}, \varphi, \dot{\varphi}]^\mathsf{T}\), w celu stabilizacji kąta \(\varphi\).
-    \item Pętla PID/PD, pracująca wyłącznie na torze położenia \(x\), w celu stabilizacji położenia wózka wokół zera.
+    \item Tor stabilizacji kąta: $K_{p,\theta} = -95.0$, $K_{d,\theta} = -14.0$.
+    Ujemne znaki wynikają z~przyjętej konwencji układu współrzędnych i~zwrotu siły.
+    \item Tor pozycji: $K_{p,x} = -16.0$, $K_{d,x} = -14.0$.
 \end{itemize}
-Sygnały sterujące sumują się:
-\[
-    u_{\text{composite}}(t) \;=\; u_{\text{LQR}}(t) + u_{\text{pos}}(t),
-\]
-gdzie
-\[
-    u_{\text{LQR}}(t) = -K_{\text{lqr}}\,\mathbf{x}(t), 
-    \quad
-    u_{\text{pos}}(t) = K_p^x\,e_x + K_i^x \int_{0}^{t} e_x(\tau)\,d\tau + K_d^x \frac{d e_x}{dt}, 
-    \quad e_x = -\,x(t).
-\]
-Implementacja znajduje się w pliku \texttt{controllers/composite\_controller.m}. W kodzie symulacyjnym obliczenia wykonuje się w pętli dyskretnej:
+Mimo iż klasa umożliwia włączenie członu całkującego (PID), w~badaniach
+\cite{art2} często wskazuje się, że dla obiektów tej klasy człon różniczkujący
+(PD) jest kluczowy dla tłumienia oscylacji, a~całkowanie może wprowadzać
+niestabilność w~stanach nieustalonych bez odpowiednich mechanizmów
+$\mathrm{anti\text{-}windup}$.
+
+\subsubsection{Dobór nastaw regulatora PD-PD}
+Dobór nastaw przeprowadzono metodą eksperymentalną, kierując się zasadą dekompozycji problemu. W~pierwszej kolejności nastrojono pętlę stabilizacji wahadła ($\theta$), traktując wózek jako swobodny, a~następnie pętlę pozycji ($x$) jako nadrzędną, o~znacznie wolniejszej dynamice.
+Kluczowym aspektem badań, który zostanie przeprowadzony w~dalszej części pracy, jest weryfikacja wpływu członów całkujących ($K_i$) na~uchyb ustalony oraz stabilność układu.
+
+\begin{itemize}
+    \item \textbf{Eksperyment 1:} Porównanie odpowiedzi skokowej dla $K_{i,\theta} = 0$ oraz $K_{i,\theta} \neq 0$.
+    \item \textbf{Cel:} Sprawdzenie, czy wprowadzenie akcji całkującej eliminuje uchyb ustalony bez wprowadzania cykli granicznych.
+\end{itemize}
+
+TODO: Wstawić tutaj wykresy porównawcze z eksperymentu oraz tabelę jakości regulacji.
+
+\subsection{Układ hybrydowy PD-LQR}
+
+Kolejnym analizowanym algorytmem jest regulator liniowo-kwadratowy (LQR),
+będący standardem w~sterowaniu optymalnym systemów wielowymiarowych MIMO
+\cite{jezierski2017}. Klasa \texttt{PDLQRController} implementuje sterowanie
+oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PD dla uchybu
+pozycji, co tworzy strukturę hybrydową opisaną m.in. w~\cite{art1} oraz
+\cite{art3} (w~kontekście porównawczym).
+
+Problem LQR polega na~znalezieniu prawa sterowania
+$u(t) = -K x(t)$, które minimalizuje wskaźnik jakości:
+\begin{equation}
+    J = \int_{0}^{\infty} \left( x(t)^T Q x(t) + u(t)^T R u(t) \right) dt,
+\end{equation}
+gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą
+sterowania. Optymalna macierz wzmocnień $K$ wyznaczana jest poprzez
+rozwiązanie algebraicznego równania Riccatiego (CARE):
+\begin{equation}
+    A^T P + P A - P B R^{-1} B^T P + Q = 0,
+\end{equation}
+skąd $K = R^{-1} B^T P$. Macierze $A$
+i~$B$ pochodzą z~linearyzacji modelu wahadła wokół punktu równowagi
+górnej ($\theta = 0$).
+
+W~zaimplementowanym rozwiązaniu (plik \texttt{pd\_lqr.py}), sygnał sterujący
+składa się z~dwóch komponentów:
+\begin{equation}
+    u(t) = u_{\mathrm{LQR}}(t) + u_{\mathrm{PD,pos}}(t).
+\end{equation}
+Składnik LQR realizuje stabilizację wokół punktu pracy:
+\begin{equation}
+    u_{\mathrm{LQR}}(t) = -K \cdot (x(t) - x_{\mathrm{ref}}).
+\end{equation}
+Zastosowane wagi optymale to:
+\begin{equation}
+    Q = \text{diag}([69.44,\; 76.98,\; 17.70,\; 14.17]), \quad R = 8.028.
+\end{equation}
+Dodatkowy człon PD na~pętli pozycji (zrealizowany analogicznie do wzoru
+\ref{eq:pd_x}) ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
+$x_{\mathrm{ref}}$, co jest częstą praktyką w~aplikacjach praktycznych, gdzie LQR
+zapewnia stabilność, a~regulator zewnętrzny dba o~uchyb w~stanie ustalonym
+\cite{art2}.
+
+\subsubsection{Dobór wag macierzy Q i R}
+Podstawowym wyzwaniem w~projektowaniu regulatora LQR jest odpowiedni dobór macierzy wag $\mathbf{Q}$ i~$R$, które determinują kompromis między szybkością redukcji uchybu a~energią sterowania. W~pracy przyjęto podejście polegające na~iteracyjnym zwiększaniu kar za~odchylenie kąta, przy zachowaniu stałej kary za~pozycję.
+
+\begin{itemize}
+    \item \textbf{Eksperyment 2:} Analiza wpływu stosunku $Q_{\theta}/R$ na~czas regulacji.
+    \item \textbf{Cel:} Wyznaczenie granicy stabilności dla bardzo agresywnych nastaw LQR.
+\end{itemize}
+
+TODO: Dodać tabelę przedstawiającą czasy regulacji i przesterowania dla różnych zestawów macierzy Q.
+
+\subsection{Nieliniowe sterowanie predykcyjne (MPC)}
+
+Algorytm MPC (Model Predictive Control) stanowi zaawansowaną metodę sterowania,
+która w~odróżnieniu od~LQR, uwzględnia wprost ograniczenia sygnału sterującego
+oraz nieliniową dynamikę obiektu \cite{camacho2007, rawlings2017}.
+Zaimplementowany w~klasie \texttt{MPCController} (plik \texttt{mpc.py})
+algorytm rozwiązuje w~każdym kroku symulacji problem optymalizacji dynamicznej
+nieliniowej (NMPC).
+
+Zadanie optymalizacji, rozwiązywane numerycznie metodą SQP (Sequential
+Quadratic Programming) przy użyciu solwera \texttt{SLSQP}, zdefiniowane jest
+następująco:
+\begin{equation}
+    \min_{\Delta U} J = \sum_{k=1}^{N_p} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) + R \sum_{k=0}^{N_c-1} (\Delta u_k)^2,
+\end{equation}
+przy ograniczeniach:
+\begin{align}
+    \hat{x}_{k+1} &= f(\hat{x}_k, u_k), \quad k=0,\dots,N_p-1 \\
+    u_{\mathrm{min}} &\le u_k \le u_{\mathrm{max}}, \\
+    u_k &= u_{k-1} + \Delta u_k.
+\end{align}
+Gdzie:
+\begin{itemize}
+    \item $N_p = 12$ -- horyzont predykcji,
+    \item $N_c = 4$ -- horyzont sterowania (blokowanie sterowania dla $k \ge N_c$),
+    \item $f(\cdot)$ -- nieliniowy model dyskretny obiektu (całkowanie metodą
+    Rungego-Kutt 4. rzędu),
+    \item $Q = \text{diag}([158.4,\; 36.8,\; 43.4,\; 19.7])$ -- macierz kar stanu,
+    \item $R = 0.086$ -- współczynnik kary za~zmianę sterowania ($\Delta u$).
+\end{itemize}
+Kluczową zaletę MPC, podkreślaną w~pracach \cite{mills2009} oraz
+\cite{jezierski2017}, jest możliwość bezpośredniego uwzględnienia ograniczeń
+(saturacji) już na~etapie wyliczania sterowania, co zapobiega zjawisku
+,,obcinania'' sygnału sterującego i~pogorszenia jakości regulacji, co może
+mieć miejsce w~przypadku LQR.
+
+\subsubsection{Dobór horyzontu i wag funkcji celu}
+Wydajność regulatora MPC jest ściśle powiązana z~długością horyzontu predykcji $N_p$ oraz horyzontu sterowania $N_c$. Zbyt krótki horyzont może prowadzić do~niestabilności (brak widoczności ,,przyszłych'' ograniczeń), natomiast zbyt długi drastycznie zwiększa koszt obliczeniowy.
+
+\begin{itemize}
+    \item \textbf{Eksperyment 3:} Wpływ długości horyzontu $N_p \in \{5, 10, 15, 20\}$ na~jakość sterowania.
+    \item \textbf{Cel:} Znalezienie minimalnego horyzontu zapewniającego stabilność przy ograniczonej mocy obliczeniowej.
+\end{itemize}
+
+\noindent \textit{TODO: Wykres wpływu długości horyzontu na średni czas wykonania kroku symulacji.}
+
+\subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}
+
+Jako wariant badawczy algorytmu predykcyjnego zaimplementowano sterownik
+\texttt{MPCControllerJ2} (plik \texttt{mpc\_J2.py}). Jego struktura jest
+zbliżona do~podstawowego MPC, jednak funkcja kosztu została rozbudowana
+o~dodatkowy składnik karzący bezwzględną wartość sygnału sterującego
+(energię), a~nie tylko jego przyrosty.
+
+Zmodyfikowana funkcja celu przyjmuje postać:
+\begin{equation}
+    J = \sum_{k=1}^{N_p} (x_k - x_{\mathrm{ref}})^T Q (x_k - x_{\mathrm{ref}}) \;+\; R_{\Delta} \sum_{k=0}^{N_c-1} (\Delta u_k)^2 \;+\; R_{\mathrm{abs}} \sum_{k=0}^{N_c-1} (u_k)^2.
+\end{equation}
+Wprowadzenie parametru $R_{\mathrm{abs}}$ pozwala na~bezpośrednie minimalizowanie
+zużycia energii sterowania, co może być istotne w~zastosowaniach mobilnych
+zasilanych bateryjnie. W~badaniach przyjęto wagi: $q_{\theta}=80.0$,
+$q_x=120.0$ (elementy macierzy diagonalnej $Q$), kładąc większy
+nacisk na~precyzję pozycjonowania wózka w~porównaniu do~standardowego MPC.
+
+\subsubsection{Analiza wpływu kary za energię}
+Dodatkowy składnik funkcji kosztu $R_{\mathrm{abs}}$ ma na~celu minimalizację zużycia energii, co jest kluczowe w~systemach autonomicznych.
+
+\begin{itemize}
+    \item \textbf{Eksperyment 4:} Porównanie całkowitego zużycia energii $\int u^2 dt$ dla różnych wartości $R_{\mathrm{abs}}$.
+    \item \textbf{Cel:} Ilościowa ocena oszczędności energetycznych w~porównaniu do~klasycznego MPC.
+\end{itemize}
+
+\noindent \textit{TODO: Wykres słupkowy zużycia energii w funkcji parametru R\_abs.}
+
+\subsection{Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}
+
+Ostatnim zbadanym układem jest sterownik hybrydowy \texttt{TSFuzzyController}
+(plik \texttt{fuzzy\_lqr.py}), łączący liniowy regulator LQR z~systemem
+wnioskowania rozmytego typu Takagi-Sugeno (T-S). Koncepcja ta, opisana szerzej
+w~\cite{art3} oraz \cite{roose2017}, ma na~celu adaptację wzmocnień regulatora
+w~zależności od~punktu pracy, co pozwala na~agresywniejszą reakcję w~przypadku
+dużych odchyleń od~pionu.
+
+Sygnał sterujący jest sumą:
+\begin{equation}
+    u(t) = u_{\mathrm{LQR}}(t) + u_{\mathrm{Fuzzy}}(t).
+\end{equation}
+Część rozmyta $u_{\mathrm{Fuzzy}}(t)$ wykorzystuje bazę reguł postaci:
+\begin{quote}
+    JEŚLI $e_\theta$ jest $A_i$ ORAZ $\dot{\theta}$ jest $B_i$ ... TO $u_i = f_i(x)$,
+\end{quote}
+gdzie $f_i(x)$ jest liniową funkcją stanu (lokalny regulator
+liniowy). Zastosowano funkcje przynależności trójkątne dla zmiennych stanu,
+dzieląc przestrzeń na~obszary ,,Mały błąd'' i~,,Duży błąd''.
+Baza wiedzy składa się z~16 reguł ($2^4$ kombinacji dla 4 zmiennych stanu).
+Wyjście sterownika obliczane jest jako średnia ważona:
+\begin{equation}
+    u_{\mathrm{Fuzzy}} = G \cdot \frac{\sum_{i=1}^{16} w_i(x) \cdot u_i}{\sum_{i=1}^{16} w_i(x)},
+\end{equation}
+gdzie $w_i$ to stopień aktywacji $i$-tej reguły, a~$G = 0.9$ to globalne
+wzmocnienie skalujące.
+
+Zastosowany mechanizm ,,Gain Scheduling'' pozwala na:
 \begin{enumerate}
-    \item Od aktualnego stanu \(\mathbf{x}[k]\) obliczamy \(u_{\text{LQR}}[k] = -K_{\text{lqr}}\,\mathbf{x}[k]\).
-    \item Na podstawie odchylenia \(e_x[k] = -\,x[k]\) obliczamy \(u_{\text{pos}}[k]\) zgodnie z równaniem PD lub PID.
-    \item Suma \(u[k] = u_{\text{LQR}}[k] + u_{\text{pos}}[k]\) jest podawana do układu stanu:
-    \[
-        \mathbf{x}[k+1] = \mathbf{x}[k] + \Delta t \Bigl(A \,\mathbf{x}[k] + B\,u[k]\Bigr).
-    \]
+    \item Zachowanie łagodnej charakterystyki LQR w~pobliżu punktu równowagi
+    (małe wzmocnienia w~regułach dla ,,Małych błędów'').
+    \item Zwiększenie sztywności układu w~sytuacjach krytycznych (duże
+    wzmocnienia zdefiniowane w~zmiennej \texttt{F\_rules} dla ,,Dużych
+    błędów'').
 \end{enumerate}
+Takie podejście pozwala na~rozszerzenie obszaru stabilności regulatora
+w~porównaniu do~klasycznego LQR, co potwierdzają wyniki badań w~pracy
+\cite{art3}.
+
+\subsubsection{Dobór reguł i funkcji przynależności}
+Struktura sterownika rozmytego została zaczerpnięta z~pracy \cite{art3}, jednak kluczowym etapem implementacji była adaptacja parametrów funkcji przynależności (trójkątnych) oraz macierzy reguł do~dynamiki konkretnego modelu wahadła.
+
+Zastosowano podział przestrzeni błędów na~strefy:
+\begin{itemize}
+    \item \textit{Mały błąd}: Sterowanie łagodne, zbliżone do~LQR.
+    \item \textit{Duży błąd}: Sterowanie agresywne (Gain Scheduling), mające na~celu szybki powrót do~punktu pracy.
+\end{itemize}
+
+\begin{itemize}
+    \item \textbf{Eksperyment 5:} Weryfikacja skuteczności przełączania reguł w~obecności silnych zakłóceń zewnętrznych.
+    \item \textbf{Cel:} Pokazanie przewagi Fuzzy-LQR nad klasycznym LQR w~sytuacjach krytycznych.
+\end{itemize}
+
+\noindent \textit{TODO: Wykres trajektorii fazowej dla Fuzzy-LQR i LQR przy dużym wychyleniu początkowym.}

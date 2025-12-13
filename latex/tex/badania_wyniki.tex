@@ -1,28 +1,51 @@
 \section{Analiza wyników eksperymentalnych}
 
-W~niniejszym rozdziale przedstawiono wyniki symulacji przeprowadzonych zgodnie z~planem opisanym w~Rozdziale 5. Analizie poddano przebiegi zmiennych stanu, sygnały sterujące oraz wyznaczone wskaźniki jakości.
+W~niniejszym rozdziale przedstawiono wyniki symulacji przeprowadzonych zgodnie
+z~planem opisanym w~Rozdziale 5. Analizie poddano przebiegi zmiennych stanu,
+sygnały sterujące oraz wyznaczone wskaźniki jakości.
 
 \subsection{Charakterystyki czasowe układu}
 
-Widać wyraźnie, że w~momencie wystąpienia silnego podmuchu, regulatory reagują odmiennie. Regulator PID reaguje gwałtownie, starając się natychmiast skompensować błąd, co prowadzi do większych oscylacji wtórnych. LQR zachowuje większy margines stabilności, tłumiąc zakłócenie wolniej, ale z~mniejszą amplitudą drgań.
+Widać wyraźnie, że w~momencie wystąpienia silnego podmuchu, regulatory reagują
+odmiennie. Regulator PID reaguje gwałtownie, starając się natychmiast
+skompensować błąd, co prowadzi do większych oscylacji wtórnych. LQR zachowuje
+większy margines stabilności, tłumiąc zakłócenie wolniej, ale z~mniejszą
+amplitudą drgań.
 
 \subsection{Analiza ilościowa -- wskaźniki błędów}
 
+W~warunkach idealnych, regulator PID osiągnął najniższe wartości błędów, co
+potwierdza obserwacje z~wykresów o~jego szybkiej odpowiedzi. LQR, ze względu na
+„ostrożniejsze” sterowanie wynikające z macierzy wag $R$, uzyskał wynik gorszy
+w sensie całki błędu, ale zużył przy tym mniej energii (co jest cechą pożądaną
+w układach rzeczywistych).
 
-W~warunkach idealnych, regulator PID osiągnął najniższe wartości błędów, co potwierdza obserwacje z~wykresów o~jego szybkiej odpowiedzi. LQR, ze względu na „ostrożniejsze” sterowanie wynikające z macierzy wag $R$, uzyskał wynik gorszy w sensie całki błędu, ale zużył przy tym mniej energii (co jest cechą pożądaną w układach rzeczywistych).
-
-
-
-Wprowadzenie zakłóceń spowodowało wzrost błędów dla wszystkich regulatorów. Warto jednak zauważyć, że względny wzrost błędu MAE dla regulatora PID był znaczący (z $0.0126$ na $0.0402$, wzrost ponad 3-krotny), podczas gdy dla LQR wzrost był procentowo mniejszy. Świadczy to o lepszych właściwościach robustnych (odpornościowych) regulatora LQR. Układ Composite (PID+LQR) w tej konfiguracji wypadł najsłabiej, co sugeruje, że proste sumowanie sygnałów sterujących z dwóch niezależnych pętli może prowadzić do interferencji i pogorszenia jakości sterowania.
+Wprowadzenie zakłóceń spowodowało wzrost błędów dla wszystkich regulatorów.
+Warto jednak zauważyć, że względny wzrost błędu MAE dla regulatora PID był
+znaczący (z $0.0126$ na $0.0402$, wzrost ponad 3-krotny), podczas gdy dla LQR
+wzrost był procentowo mniejszy. Świadczy to o lepszych właściwościach
+robustnych (odpornościowych) regulatora LQR. Układ Composite (PID+LQR) w tej
+konfiguracji wypadł najsłabiej, co sugeruje, że proste sumowanie sygnałów
+sterujących z dwóch niezależnych pętli może prowadzić do interferencji
+i pogorszenia jakości sterowania.
 
 \subsection{Dyskusja i~wnioski}
 
 Przeprowadzone eksperymenty pozwoliły na sformułowanie następujących wniosków:
 
 \begin{itemize}
-    \item Regulator \textbf{PID} jest doskonałym wyborem w~warunkach deterministycznych, gdy model obiektu jest dobrze znany, a~zakłócenia są niewielkie. Zapewnia on najszybszą stabilizację punktową.
-    \item Regulator \textbf{LQR} wykazuje przewagę w~sytuacjach rzeczywistych, charakteryzujących się obecnością szumów i~zakłóceń. Jego odpowiedź jest bardziej przewidywalna i~mniej oscylacyjna, co zmniejsza ryzyko uszkodzenia mechanicznego wykonawczego.
-    \item \textbf{Układ złożony (Composite)} wymaga bardziej zaawansowanej metody strojenia niż niezależna synteza podsystemów. W~obecnej formie nie przyniósł on korzyści względem regulatorów monolitycznych.
+    \item Regulator \textbf{PID} jest doskonałym wyborem w~warunkach
+    deterministycznych, gdy model obiektu jest dobrze znany, a~zakłócenia są
+    niewielkie. Zapewnia on najszybszą stabilizację punktową.
+    \item Regulator \textbf{LQR} wykazuje przewagę w~sytuacjach rzeczywistych,
+    charakteryzujących się obecnością szumów i~zakłóceń. Jego odpowiedź jest
+    bardziej przewidywalna i~mniej oscylacyjna, co zmniejsza ryzyko uszkodzenia
+    mechanicznego wykonawczego.
+    \item \textbf{Układ złożony (Composite)} wymaga bardziej zaawansowanej
+    metody strojenia niż niezależna synteza podsystemów. W~obecnej formie nie
+    przyniósł on korzyści względem regulatorów monolitycznych.
 \end{itemize}
 
-Ostatecznie, wybór między PID a LQR zależy od priorytetów projektowych: jeśli kluczowa jest precyzja śledzenia -- PID; jeśli priorytetem jest energooszczędność i odporność -- LQR.
+Ostatecznie, wybór między PID a LQR zależy od priorytetów projektowych: jeśli
+kluczowa jest precyzja śledzenia -- PID; jeśli priorytetem jest energooszczędność
+i odporność -- LQR.
