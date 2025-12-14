@@ -16,12 +16,13 @@ Composite) poddany został badaniom w~następujących scenariuszach:
     Symulacja odpowiedzi układu na~niezerowe warunki początkowe przy braku
     zakłóceń zewnętrznych.
     \begin{itemize}
-        \item Początkowy kąt wychylenia wahadła: $\varphi(0) = 45^\circ$ ($\approx 0{,}785$ rad).
+        \item Początkowy kąt wychylenia wahadła: $\varphi(0) = 0{,}05$ rad ($\approx 2{,}87^\circ$).
         \item Początkowa pozycja wózka: $x(0) = 0$ m.
         \item Zerowe prędkości początkowe: $\dot{\varphi}(0) = 0$, $\dot{x}(0) = 0$.
     \end{itemize}
     Celem jest sprawdzenie zdolności regulatora do sprowadzenia układu do pionu
-    ($\varphi=0, x=0$) oraz ocena czasu regulacji i przeregulowań.
+    ($\varphi=0, x=0$) oraz ocena czasu regulacji i przeregulowań dla małych wychyleń
+    od punktu równowagi.
 
     \item \textbf{Eksperyment 2: Odporność na~zakłócenia zewnętrzne.} \\
     Symulacja z~tymi samymi warunkami początkowymi, przy czym na~wahadło
@@ -31,8 +32,20 @@ Composite) poddany został badaniom w~następujących scenariuszach:
 \end{enumerate}
 
 Wszystkie symulacje przeprowadzono z~krokiem czasowym $\Delta t = 0{,}01$ s
-w~czasie $T_{\mathrm{sim}} = 5$ s. Ograniczenie sygnału sterującego ustawiono na
-$|u| \le 100$ N.
+w~czasie $T_{\mathrm{sim}} = 10$ s (dla testów MPC i~pełnego ustalenia).
+Ograniczenie sygnału sterującego ustawiono na $|u| \le 100$ N.
+
+\subsection{Badane algorytmy}
+
+W~ramach eksperymentów przetestowano następujące regulatory (w~wersjach po
+optymalizacji nastaw):
+\begin{enumerate}
+    \item \textbf{PD-PD} -- Kaskadowy układ dwóch regulatorów PD.
+    \item \textbf{PD-LQR} -- Hybryda: PD dla wózka, LQR dla wahadła.
+    \item \textbf{MPC} -- Klasyczny predykcyjny regulator liniowy.
+    \item \textbf{MPC-J2} -- MPC z funkcją kosztu $J_2$ (uwzględniającą kwadrat sygnału sterującego wprost).
+    \item \textbf{Fuzzy-LQR} -- Regulator rozmyty Takagi-Sugeno wspomagany lokalnym LQR.
+\end{enumerate}
 
 \subsection{Wskaźniki jakości regulacji}
 

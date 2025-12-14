@@ -11,3 +11,5 @@
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Zoptymalizowany regulator MPC ($N_p=12$) - szybka i gładka stabilizacja.}}{30}{figure.caption.12}%
 \contentsline {figure}{\numberline {4.8}{\ignorespaces Optymalny kompromis między jakością regulacji a energią w MPC-J2.}}{31}{figure.caption.13}%
 \contentsline {figure}{\numberline {4.9}{\ignorespaces Efektywne sterowanie Fuzzy-LQR po optymalizacji bazy reguł.}}{33}{figure.caption.14}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Porównanie odpowiedzi skokowej regulatorów (Warunki nominalne).}}{36}{figure.caption.15}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Porównanie odpowiedzi regulatorów przy zakłóceniu wiatrem.}}{37}{figure.caption.16}%

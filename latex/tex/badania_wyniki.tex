@@ -2,50 +2,89 @@
 
 W~niniejszym rozdziale przedstawiono wyniki symulacji przeprowadzonych zgodnie
 z~planem opisanym w~Rozdziale 5. Analizie poddano przebiegi zmiennych stanu,
-sygnały sterujące oraz wyznaczone wskaźniki jakości.
+sygnały sterujące oraz wyznaczone wskaźniki jakości dla wszystkich badanych
+regulatorów: PD-PD, PD-LQR, MPC, MPC-J2 oraz Fuzzy-LQR.
 
-\subsection{Charakterystyki czasowe układu}
+\subsection{Eksperyment 1: Stabilizacja w~warunkach nominalnych}
 
-Widać wyraźnie, że w~momencie wystąpienia silnego podmuchu, regulatory reagują
-odmiennie. Regulator PID reaguje gwałtownie, starając się natychmiast
-skompensować błąd, co prowadzi do większych oscylacji wtórnych. LQR zachowuje
-większy margines stabilności, tłumiąc zakłócenie wolniej, ale z~mniejszą
-amplitudą drgań.
+Pierwszy test polegał na~stabilizacji wahadła z~początkowego wychylenia
+$\varphi(0) = 45^\circ$. Na~Rysunku \ref{fig:combined_nominal} przedstawiono
+porównanie przebiegów kąta wychylenia $\theta$ dla wszystkich regulatorów.
 
-\subsection{Analiza ilościowa -- wskaźniki błędów}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_nominal.png}
+    \caption{Porównanie odpowiedzi skokowej regulatorów (Warunki nominalne).}
+    \label{fig:combined_nominal}
+\end{figure}
 
-W~warunkach idealnych, regulator PID osiągnął najniższe wartości błędów, co
-potwierdza obserwacje z~wykresów o~jego szybkiej odpowiedzi. LQR, ze względu na
-„ostrożniejsze” sterowanie wynikające z macierzy wag $R$, uzyskał wynik gorszy
-w sensie całki błędu, ale zużył przy tym mniej energii (co jest cechą pożądaną
-w układach rzeczywistych).
+Z~przebiegów czasowych wynika, że regulator \textbf{PD-LQR} osiągnął stabilizację
+zdecydowanie najszybciej, co znajduje odzwierciedlenie w~bardzo niskiej wartości
+błędu średniokwadratowego (MSE). Regulatory \textbf{MPC} oraz \textbf{MPC-J2}
+również poprawnie ustabilizowały obiekt, jednak z~widocznym czasem regulacji.
+Regulator \textbf{PD-PD} wykazał poprawne działanie, choć z~większym uchybem
+w~stanie przejściowym. Regulator \textbf{Fuzzy-LQR} w~badanej konfiguracji nie
+poradził sobie z~tak dużym wychyleniem początkowym, wpadając w~niestabilność
+(znaczące oscylacje).
 
-Wprowadzenie zakłóceń spowodowało wzrost błędów dla wszystkich regulatorów.
-Warto jednak zauważyć, że względny wzrost błędu MAE dla regulatora PID był
-znaczący (z $0.0126$ na $0.0402$, wzrost ponad 3-krotny), podczas gdy dla LQR
-wzrost był procentowo mniejszy. Świadczy to o lepszych właściwościach
-robustnych (odpornościowych) regulatora LQR. Układ Composite (PID+LQR) w tej
-konfiguracji wypadł najsłabiej, co sugeruje, że proste sumowanie sygnałów
-sterujących z dwóch niezależnych pętli może prowadzić do interferencji
-i pogorszenia jakości sterowania.
+\subsection{Eksperyment 2: Odporność na~wiatr}
 
-\subsection{Dyskusja i~wnioski}
+W~drugim scenariuszu dołączono losowe zakłócenie (wiatr). Rysunek
+\ref{fig:combined_wind} ukazuje reakcję układów na te trudniejsze warunki.
 
-Przeprowadzone eksperymenty pozwoliły na sformułowanie następujących wniosków:
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind.png}
+    \caption{Porównanie odpowiedzi regulatorów przy zakłóceniu wiatrem.}
+    \label{fig:combined_wind}
+\end{figure}
+
+Ponownie \textbf{PD-LQR} wykazał się największą sztywnością i~najmniejszą
+podatnością na zakłócenia. Regulatory predykcyjne (MPC) również zachowały
+stabilność, choć widoczny jest wpływ zakłóceń na ich przebiegi.
+
+\subsection{Analiza ilościowa -- zestawienie wskaźników}
+
+W~Tabeli \ref{tab:wyniki} zestawiono wartości wskaźników jakości MSE (dla kąta)
+oraz całkowitej energii sterowania ($E_{L2}$) dla obu eksperymentów.
+
+\begin{table}[h!]
+    \centering
+    \caption{Zestawienie wskaźników jakości dla badanych regulatorów}
+    \label{tab:wyniki}
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        \multirow{2}{*}{\textbf{Regulator}} & \multicolumn{2}{c|}{\textbf{Nominal (Bez wiatru)}} & \multicolumn{2}{c|}{\textbf{Wiatr}} \\ \cline{2-5} 
+         & $\mathbf{MSE}_\theta$ & $E_{u, L2}$ & $\mathbf{MSE}_\theta$ & $E_{u, L2}$ \\ \hline
+        PD-PD      & 0.0000    & 0.85       & 0.0006      & 15.39      \\ \hline
+        PD-LQR     & 0.0001    & \textbf{0.54} & 0.0007      & 13.50      \\ \hline
+        MPC        & 0.0001    & 0.56       & \textbf{0.0006} & \textbf{12.56} \\ \hline
+        MPC-J2     & 0.0001    & 0.59       & 5.8563      & 15895.41   \\ \hline
+        Fuzzy-LQR  & 0.0001    & 1.57       & 2090.0418   & 80542.54   \\ \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Dyskusja wynikiów}
 
 \begin{itemize}
-    \item Regulator \textbf{PID} jest doskonałym wyborem w~warunkach
-    deterministycznych, gdy model obiektu jest dobrze znany, a~zakłócenia są
-    niewielkie. Zapewnia on najszybszą stabilizację punktową.
-    \item Regulator \textbf{LQR} wykazuje przewagę w~sytuacjach rzeczywistych,
-    charakteryzujących się obecnością szumów i~zakłóceń. Jego odpowiedź jest
-    bardziej przewidywalna i~mniej oscylacyjna, co zmniejsza ryzyko uszkodzenia
-    mechanicznego wykonawczego.
-    \item \textbf{Układ złożony (Composite)} wymaga bardziej zaawansowanej
-    metody strojenia niż niezależna synteza podsystemów. W~obecnej formie nie
-    przyniósł on korzyści względem regulatorów monolitycznych.
+    \item \textbf{PD-LQR}: Potwierdził swoją dominację w warunkach nominalnych, zużywając
+    najmniej energii ($E_{u, L2}=0.54$). Jest to rozwiązanie najbardziej ekonomiczne
+    dla małych wymuszeń.
+    \item \textbf{MPC}: Wykazał się największą odpornością na wiatr, uzyskując najniższy
+    błąd MSE (0.0006) oraz najmniejszą energię sterowania w trudnych warunkach (12.56).
+    Pokazuje to wyższość sterowania predykcyjnego nad reaktywnym LQR w obecności
+    zakłóceń, które mona kompensować w horyzoncie predykcji.
+    \item \textbf{MPC-J2}: O ile w warunkach nominalnych działał poprawnie, to
+    przy silnym wietrze uległ destabilizacji (błąd MSE > 5, ogromna energia).
+    Sugeruje to, że funkcja kosztu $J_2$ (bezpośrednie karanie kwadratu sterowania)
+    może prowadzić do zbyt ,,pasywnego'' zachowania, które nie wystarcza do
+    skontrowania silnych podmuchów.
+    \item \textbf{Fuzzy-LQR}: Podobnie jak J2, nie poradził sobie z zakłóceniami,
+    wpadając w silne oscylacje (MSE > 2000). Hybrydowa struktura wymagałaby
+    bardziej agresywnego strojenia reguł dla dużych uchybów.
 \end{itemize}
 
-Ostatecznie, wybór między PID a LQR zależy od priorytetów projektowych: jeśli
-kluczowa jest precyzja śledzenia -- PID; jeśli priorytetem jest energooszczędność
-i odporność -- LQR.
+Ostatecznie, \textbf{MPC} (klasyczny) okazał się najlepszym regulatorem pod względem
+robustness (odporności), minimalizując wpływ wiatru przy najmniejszym nakładzie
+energetycznym. \textbf{PD-LQR} pozostaje świetną, prostszą alternatywą o bardzo
+zbliżonych osiągach.

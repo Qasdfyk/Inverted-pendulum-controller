@@ -30,12 +30,14 @@
 \contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór reguł i funkcji przynależności}{32}{subsubsection.4.5.1}%
 \contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{34}{section.5}%
 \contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{34}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2\relax .\enspace }Wskaźniki jakości regulacji}{34}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.2\relax .\enspace }Badane algorytmy}{34}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3\relax .\enspace }Wskaźniki jakości regulacji}{35}{subsection.5.3}%
 \contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników eksperymentalnych}{36}{section.6}%
-\contentsline {subsection}{\numberline {6.1\relax .\enspace }Charakterystyki czasowe układu}{36}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza ilościowa -- wskaźniki błędów}{36}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3\relax .\enspace }Dyskusja i~wnioski}{36}{subsection.6.3}%
-\contentsline {section}{Bibliografia}{39}{section*.15}%
-\contentsline {section}{Wykaz symboli i skrótów}{41}{section*.16}%
-\contentsline {section}{Spis rysunków}{41}{section*.16}%
-\contentsline {section}{Spis tabel}{42}{section*.16}%
+\contentsline {subsection}{\numberline {6.1\relax .\enspace }Eksperyment 1: Stabilizacja w~warunkach nominalnych}{36}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2\relax .\enspace }Eksperyment 2: Odporność na~wiatr}{37}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3\relax .\enspace }Analiza ilościowa -- zestawienie wskaźników}{37}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4\relax .\enspace }Dyskusja wynikiów}{38}{subsection.6.4}%
+\contentsline {section}{Bibliografia}{39}{section*.18}%
+\contentsline {section}{Wykaz symboli i skrótów}{41}{section*.19}%
+\contentsline {section}{Spis rysunków}{41}{section*.19}%
+\contentsline {section}{Spis tabel}{42}{section*.19}%
