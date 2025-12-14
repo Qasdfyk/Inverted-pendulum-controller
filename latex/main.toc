@@ -19,23 +19,23 @@
 \contentsline {subsection}{\numberline {3.4\relax .\enspace }Wizualizacja i animacja}{18}{subsection.3.4}%
 \contentsline {section}{\numberline {4\relax .\enspace }Algorytmy sterowania}{20}{section.4}%
 \contentsline {subsection}{\numberline {4.1\relax .\enspace }Równoległy regulator PD-PD}{20}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1\relax .\enspace }Dobór nastaw regulatora PD-PD}{21}{subsubsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PD-LQR}{21}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace }Dobór wag macierzy Q i R}{22}{subsubsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{23}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace }Dobór horyzontu i wag funkcji celu}{23}{subsubsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}{24}{subsection.4.4}%
-\contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace }Analiza wpływu kary za energię}{24}{subsubsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.5\relax .\enspace }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{25}{subsection.4.5}%
-\contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór reguł i funkcji przynależności}{25}{subsubsection.4.5.1}%
-\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{27}{section.5}%
-\contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{27}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2\relax .\enspace }Wskaźniki jakości regulacji}{27}{subsection.5.2}%
-\contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników eksperymentalnych}{29}{section.6}%
-\contentsline {subsection}{\numberline {6.1\relax .\enspace }Charakterystyki czasowe układu}{29}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza ilościowa -- wskaźniki błędów}{29}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3\relax .\enspace }Dyskusja i~wnioski}{29}{subsection.6.3}%
-\contentsline {section}{Bibliografia}{31}{section*.5}%
-\contentsline {section}{Wykaz symboli i skrótów}{33}{section*.6}%
-\contentsline {section}{Spis rysunków}{33}{section*.6}%
-\contentsline {section}{Spis tabel}{33}{section*.6}%
+\contentsline {subsubsection}{\numberline {4.1.1\relax .\enspace }Proces doboru nastaw oraz analiza PID}{21}{subsubsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PD-LQR}{24}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace }Dobór wag macierzy Q i R}{25}{subsubsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{28}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace }Dobór horyzontu i wag funkcji celu}{29}{subsubsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}{30}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace }Analiza wpływu kary za energię}{31}{subsubsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.5\relax .\enspace }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{32}{subsection.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór reguł i funkcji przynależności}{32}{subsubsection.4.5.1}%
+\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{34}{section.5}%
+\contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{34}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2\relax .\enspace }Wskaźniki jakości regulacji}{34}{subsection.5.2}%
+\contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników eksperymentalnych}{36}{section.6}%
+\contentsline {subsection}{\numberline {6.1\relax .\enspace }Charakterystyki czasowe układu}{36}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza ilościowa -- wskaźniki błędów}{36}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3\relax .\enspace }Dyskusja i~wnioski}{36}{subsection.6.3}%
+\contentsline {section}{Bibliografia}{39}{section*.15}%
+\contentsline {section}{Wykaz symboli i skrótów}{41}{section*.16}%
+\contentsline {section}{Spis rysunków}{41}{section*.16}%
+\contentsline {section}{Spis tabel}{42}{section*.16}%

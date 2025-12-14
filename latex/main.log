@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  13 DEC 2025 15:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  14 DEC 2025 19:53
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1324,58 +1324,149 @@ Overfull \hbox (47.12619pt too wide) in paragraph at lines 19--24
 
 
 [20]
+<images/tuning/pid_1_integral_bad.png, id=404, 1011.78pt x 867.24pt>
+File: images/tuning/pid_1_integral_bad.png Graphic file (type png)
+<use images/tuning/pid_1_integral_bad.png>
+Package pdftex.def Info: images/tuning/pid_1_integral_bad.png  used on input line 96.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
 [21]
+<images/tuning/pdpd_2_manual.png, id=414, 1011.78pt x 867.24pt>
+File: images/tuning/pdpd_2_manual.png Graphic file (type png)
+<use images/tuning/pdpd_2_manual.png>
+Package pdftex.def Info: images/tuning/pdpd_2_manual.png  used on input line 103.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[22]
-Underfull \vbox (badness 2245) has occurred while \output is active []
+[22 <./images/tuning/pid_1_integral_bad.png>]
+<images/tuning/pdpd_3_opt.png, id=420, 1011.78pt x 867.24pt>
+File: images/tuning/pdpd_3_opt.png Graphic file (type png)
+<use images/tuning/pdpd_3_opt.png>
+Package pdftex.def Info: images/tuning/pdpd_3_opt.png  used on input line 110.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[23]
-Overfull \hbox (60.4458pt too wide) in paragraph at lines 183--188
+[23 <./images/tuning/pdpd_2_manual.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[24 <./images/tuning/pdpd_3_opt.png>]
+<images/tuning/pdlqr_1_bad.png, id=437, 1011.78pt x 867.24pt>
+File: images/tuning/pdlqr_1_bad.png Graphic file (type png)
+<use images/tuning/pdlqr_1_bad.png>
+Package pdftex.def Info: images/tuning/pdlqr_1_bad.png  used on input line 170.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[25]
+<images/tuning/pdlqr_2_manual.png, id=447, 1011.78pt x 867.24pt>
+File: images/tuning/pdlqr_2_manual.png Graphic file (type png)
+<use images/tuning/pdlqr_2_manual.png>
+Package pdftex.def Info: images/tuning/pdlqr_2_manual.png  used on input line 182.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[26 <./images/tuning/pdlqr_1_bad.png>]
+<images/tuning/pdlqr_3_opt.png, id=454, 1011.78pt x 867.24pt>
+File: images/tuning/pdlqr_3_opt.png Graphic file (type png)
+<use images/tuning/pdlqr_3_opt.png>
+Package pdftex.def Info: images/tuning/pdlqr_3_opt.png  used on input line 195.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[27 <./images/tuning/pdlqr_2_manual.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[28 <./images/tuning/pdlqr_3_opt.png>]
+<images/tuning/mpc_3_opt.png, id=473, 1011.78pt x 867.24pt>
+File: images/tuning/mpc_3_opt.png Graphic file (type png)
+<use images/tuning/mpc_3_opt.png>
+Package pdftex.def Info: images/tuning/mpc_3_opt.png  used on input line 264.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+
+
+[29]
+Overfull \hbox (60.4458pt too wide) in paragraph at lines 271--276
 []\T1/futs/m/n/12 (-20) Jako wa-riant ba-daw-czy al-go-rytmu pre-dyk-cyj-nego za-im-ple-men-to-wano ste-row-nik \T1/cmtt/m/n/12 MPCControllerJ2
  []
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[24]
-Overfull \hbox (1.46375pt too wide) in paragraph at lines 244--246
+
+
+[30 <./images/tuning/mpc_3_opt.png>]
+<images/tuning/mpcJ2_3_opt.png, id=488, 1011.78pt x 867.24pt>
+File: images/tuning/mpcJ2_3_opt.png Graphic file (type png)
+<use images/tuning/mpcJ2_3_opt.png>
+Package pdftex.def Info: images/tuning/mpcJ2_3_opt.png  used on input line 308.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[31 <./images/tuning/mpcJ2_3_opt.png>]
+Overfull \hbox (1.46375pt too wide) in paragraph at lines 343--345
 []\T1/futs/m/n/12 (-20) Zachowanie ªa-god-nej cha-rak-te-ry-styki LQR w po-bli»u punktu rów-no-wagi (maªe wzmoc-
  []
 
 
 
-[25])
+[32]
+<images/tuning/fuzzy_3_opt.png, id=508, 1011.78pt x 867.24pt>
+File: images/tuning/fuzzy_3_opt.png Graphic file (type png)
+<use images/tuning/fuzzy_3_opt.png>
+Package pdftex.def Info: images/tuning/fuzzy_3_opt.png  used on input line 373.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+)
 
-[26] (tex/eksperymenty.tex
+[33 <./images/tuning/fuzzy_3_opt.png>] (tex/eksperymenty.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[27])
+[34])
 
-[28] (tex/badania_wyniki.tex)
+[35] (tex/badania_wyniki.tex)
 Underfull \vbox (badness 1072) has occurred while \output is active []
 
 
 
-[29]
+[36]
 
-[30]
+[37]
 
-[31
+[38
 
 
 ]
 
-[32] (main.lof)
+[39]
+
+[40] (main.lof)
 \tf@lof=\write6
 \openout6 = `main.lof'.
 
@@ -1384,30 +1475,35 @@ Underfull \vbox (badness 1072) has occurred while \output is active []
 \openout7 = `main.lot'.
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-[33] (main.aux)
+
+
+[41]
+
+[42] (main.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-10-09>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 1275E60C7C34769A1DDC310F73B00514;7873.
+(rerunfilecheck)             Checksum: 6140891B36BDED7FBAC84EB556C01516;7920.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 32483 strings out of 468080
- 620060 string characters out of 5425772
- 1738493 words of memory out of 5000000
- 60062 multiletter control sequences out of 15000+600000
- 812681 words of font info for 504 fonts, out of 8000000 for 9000
+ 32601 strings out of 468080
+ 623017 string characters out of 5425772
+ 1739489 words of memory out of 5000000
+ 60134 multiletter control sequences out of 15000+600000
+ 815498 words of font info for 525 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,17n,121p,1047b,2798s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (33 pages, 860016 bytes).
+Output written on main.pdf (42 pages, 1502695 bytes).
 PDF statistics:
- 629 PDF objects out of 1000 (max. 8388607)
- 139 named destinations out of 1000 (max. 500000)
- 103258 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 718 PDF objects out of 1000 (max. 8388607)
+ 159 named destinations out of 1000 (max. 500000)
+ 103303 words of extra memory for PDF output out of 106986 (max. 10000000)
 

@@ -2,3 +2,12 @@
 \contentsline {figure}{\numberline {2.1}{\ignorespaces Symulacja odpowiedzi swobodnej układu (z uwzględnionym tłumieniem) na małe wychylenie początkowe. Układ opuszcza niestabilny punkt równowagi ($\theta \approx 0$) i stabilizuje się w pozycji wiszącej ($\theta = \pi $).}}{15}{figure.caption.1}%
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru) działającego na wahadło w czasie symulacji.}}{18}{figure.caption.3}%
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}}{19}{figure.caption.4}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Destabilizujący wpływ członu całkującego (PID) - widoczne narastające oscylacje i utrata stabilności.}}{22}{figure.caption.6}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Stabilna, lecz oscylacyjna praca regulatora PD-PD przy strojeniu ręcznym.}}{23}{figure.caption.7}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Przebiegi czasowe dla zoptymalizowanych nastaw regulatora PD-PD (algorytm Differential Evolution).}}{24}{figure.caption.8}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Próba sterowania LQR z wagami jednostkowymi ($Q=I, R=1$). Widoczna duża bezwładność układu.}}{26}{figure.caption.9}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Wyniki strojenia ręcznego LQR metodą Brysona.}}{27}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Optymalne przebiegi regulatora PD-LQR po zastosowaniu algorytmu genetycznego.}}{28}{figure.caption.11}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Zoptymalizowany regulator MPC ($N_p=12$) - szybka i gładka stabilizacja.}}{30}{figure.caption.12}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Optymalny kompromis między jakością regulacji a energią w MPC-J2.}}{31}{figure.caption.13}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Efektywne sterowanie Fuzzy-LQR po optymalizacji bazy reguł.}}{33}{figure.caption.14}%

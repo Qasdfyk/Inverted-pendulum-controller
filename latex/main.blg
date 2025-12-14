@@ -1,16 +1,16 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'main.blg'
-[104] biber-MSWIN64:342> INFO - === 
-[140] Biber.pm:421> INFO - Reading 'main.bcf'
-[257] Biber.pm:1002> INFO - Found 14 citekeys in bib section 0
-[273] Biber.pm:4487> INFO - Processing section 0
-[285] Biber.pm:4678> INFO - Looking for bibtex file 'bibliografia.bib' for section 0
-[335] bibtex.pm:1713> INFO - LaTeX decoding ...
-[351] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliografia.bib'
-[478] UCollate.pm:68> INFO - Overriding locale 'pl-PL' defaults 'variable = shifted' with 'variable = non-ignorable'
-[478] UCollate.pm:68> INFO - Overriding locale 'pl-PL' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[479] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'pl-PL'
-[488] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[498] bbl.pm:779> INFO - Output to main.bbl
-[498] Biber.pm:132> WARN - ISBN '978-0-9759377-3-4' in entry 'rawlings2017' is invalid - run biber with '--validate_datamodel' for details.
-[498] Biber.pm:134> INFO - WARNINGS: 1
+[266] biber-MSWIN64:342> INFO - === 
+[369] Biber.pm:421> INFO - Reading 'main.bcf'
+[509] Biber.pm:1002> INFO - Found 14 citekeys in bib section 0
+[538] Biber.pm:4487> INFO - Processing section 0
+[563] Biber.pm:4678> INFO - Looking for bibtex file 'bibliografia.bib' for section 0
+[620] bibtex.pm:1713> INFO - LaTeX decoding ...
+[648] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliografia.bib'
+[868] UCollate.pm:68> INFO - Overriding locale 'pl-PL' defaults 'variable = shifted' with 'variable = non-ignorable'
+[868] UCollate.pm:68> INFO - Overriding locale 'pl-PL' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[868] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'pl-PL'
+[879] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[891] bbl.pm:779> INFO - Output to main.bbl
+[892] Biber.pm:132> WARN - ISBN '978-0-9759377-3-4' in entry 'rawlings2017' is invalid - run biber with '--validate_datamodel' for details.
+[892] Biber.pm:134> INFO - WARNINGS: 1
