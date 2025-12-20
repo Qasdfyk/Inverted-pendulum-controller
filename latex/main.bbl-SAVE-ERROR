@@ -19,7 +19,7 @@
 
 \refsection{0}
   \datalist[entry]{none/global//global/global/global}
-    \entry{segway2018}{article}{}{}
+    \entry{Segway2018}{article}{}{}
       \name{author}{2}{}{%
         {{hash=343bc4a5591ff78c043574cab76f2d43}{%
            family={Azevedo\bibnamedelima Perdicoúlis},
@@ -57,7 +57,7 @@
       \verb 10.1051/matecconf/201821115003
       \endverb
     \endentry
-    \entry{nasa2013}{inproceedings}{}{}
+    \entry{NASA2013}{inproceedings}{}{}
       \name{author}{3}{}{%
         {{hash=05d0ff2525a8784229ccfb1f926c1074}{%
            family={VanZwieten},
@@ -98,7 +98,7 @@
       \verb 10.2514/6.2013-4809
       \endverb
     \endentry
-    \entry{crane2012}{article}{}{}
+    \entry{Crane2012}{article}{}{}
       \name{author}{2}{}{%
         {{hash=35df6397d9379127a68d2ccdf94cbe60}{%
            family={Ngo},
@@ -134,7 +134,7 @@
       \verb 10.1109/TMECH.2010.2100045
       \endverb
     \endentry
-    \entry{moreno2023}{article}{}{}
+    \entry{Moreno2023}{article}{}{}
       \name{author}{2}{}{%
         {{hash=7b8d1426940ec20074fa1e3b3eb5f2e4}{%
            family={Moreno},
@@ -169,7 +169,7 @@
       \verb 10.1088/1742-6596/2469/1/012006
       \endverb
     \endentry
-    \entry{art1}{article}{}{}
+    \entry{Prasad2014}{article}{}{}
       \name{author}{3}{}{%
         {{hash=49a2228798f6e682eb2778d9ed9cc076}{%
            family={Prasad},
@@ -210,7 +210,7 @@
       \verb 10.1007/s11633-014-0818-1
       \endverb
     \endentry
-    \entry{art2}{article}{}{}
+    \entry{Varghese2017}{article}{}{}
       \name{author}{3}{}{%
         {{hash=ff5432ddf2577fe43cd5151b8ae8b003}{%
            family={Varghese},
@@ -254,7 +254,7 @@
       \verb 10.1088/1757-899X/263/5/052007
       \endverb
     \endentry
-    \entry{art3}{article}{}{}
+    \entry{Nguyen2024}{article}{}{}
       \name{author}{2}{}{%
         {{hash=69b0e7bbe19a874a9b242bfff9e36065}{%
            family={Nguyen},
@@ -291,7 +291,7 @@
       \verb 10.6180/jase.202405_27(5).0006
       \endverb
     \endentry
-    \entry{jezierski2017}{incollection}{}{}
+    \entry{Jezierski2017}{incollection}{}{}
       \name{author}{3}{}{%
         {{hash=fe12aa0e97b1d2643adee70bc67f8577}{%
            family={Jezierski},
@@ -365,7 +365,7 @@
       \verb 10.1007/978-3-319-60699-6_8
       \endverb
     \endentry
-    \entry{camacho2007}{book}{}{}
+    \entry{Camacho2007}{book}{}{}
       \name{author}{2}{}{%
         {{hash=15ba64c29210ce6f6ade73c5d69ac3ae}{%
            family={Camacho},
@@ -403,7 +403,7 @@
       \verb 10.1007/978-1-84628-615-5
       \endverb
     \endentry
-    \entry{tatjewski_pl}{book}{}{}
+    \entry{Tatjewski2016}{book}{}{}
       \name{author}{1}{}{%
         {{hash=991fe5a3b69195adf9f3ed4ba5623082}{%
            family={Tatjewski},
@@ -429,7 +429,7 @@
       \field{title}{Sterowanie zaawansowane obiektów przemysłowych. Struktury i algorytmy. Wydanie drugie zmienione}
       \field{year}{2016}
     \endentry
-    \entry{mills2009}{inproceedings}{}{}
+    \entry{Mills2009}{inproceedings}{}{}
       \name{author}{3}{}{%
         {{hash=c1521c94eee5b63801ad97b18546e8f2}{%
            family={Mills},
@@ -471,7 +471,7 @@
       \verb 10.1109/ACC.2009.5160600
       \endverb
     \endentry
-    \entry{diwan2022}{article}{}{}
+    \entry{Diwan2022}{article}{}{}
       \name{author}{2}{}{%
         {{hash=b3c23b3e256566146cbbe3af4b37263d}{%
            family={Diwan},
@@ -507,7 +507,7 @@
       \verb 10.24425/bpasts.2022.140696
       \endverb
     \endentry
-    \entry{roose2017}{article}{}{}
+    \entry{Roose2017}{article}{}{}
       \name{author}{3}{}{%
         {{hash=9f45a6ed7825227f1bc6cc5f130777f5}{%
            family={Roose},
@@ -548,7 +548,7 @@
       \verb 10.1016/j.compeleceng.2017.05.016
       \endverb
     \endentry
-    \entry{rawlings2017}{book}{}{}
+    \entry{Rawlings2017}{book}{}{}
       \name{author}{3}{}{%
         {{hash=a28ab6b1da316879310a82410e4e8dc4}{%
            family={Rawlings},

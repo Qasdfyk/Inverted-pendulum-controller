@@ -6,7 +6,7 @@ Precyzyjne odwzorowanie dynamiki procesu jest fundamentalnym etapem
 projektowania układu sterowania, gdyż jakość modelu bezpośrednio wpływa 
 na~skuteczność algorytmów predykcyjnych (MPC) oraz optymalnych (LQR). 
 Wyprowadzenie oparto na~prawach mechaniki klasycznej oraz analizie sił 
-i~momentów przedstawionej w~literaturze przedmiotu~\cite{art1}.
+i~momentów przedstawionej w~literaturze przedmiotu~\cite{Prasad2014}.
 
 \subsection{Opis fizyczny i~założenia upraszczające}
 
@@ -17,7 +17,7 @@ z~wózka poruszającego się wzdłuż poziomej osi oraz pręta z~masą skupioną
 zamocowanego przegubowo do~wózka.
 
 Przyjęto następujące parametry fizyczne modelu, zgodne z~oznaczeniami 
-stosowanymi w~pracach badawczych~\cite{art1}:
+stosowanymi w~pracach badawczych~\cite{Prasad2014}:
 \begin{itemize}
     \item \(M\) --- masa wózka [kg],
     \item \(m\) --- masa wahadła (traktowana jako masa punktowa na~końcu pręta) [kg],
@@ -28,7 +28,7 @@ stosowanymi w~pracach badawczych~\cite{art1}:
 \end{itemize}
 
 W~celu sformułowania modelu analitycznego przyjęto następujące założenia 
-upraszczające~\cite{art1}:
+upraszczające~\cite{Prasad2014}:
 \begin{enumerate}
     \item Pręt wahadła jest nieważki i~sztywny.
     \item Tarcie w~łożyskach kół wózka oraz w~przegubie wahadła jest pomijalnie małe.
@@ -49,7 +49,7 @@ Pozycja \(\theta = 0\) odpowiada niestabilnemu punktowi równowagi
 W~pierwszej kolejności zdefiniowano położenie środka ciężkości (COG) 
 masy wahadła \(m\) w~nieruchomym układzie odniesienia. Oznaczając 
 współrzędne środka masy jako \((x_{\mathrm{G}}, y_{\mathrm{G}})\), można je wyrazić jako sumę 
-przemieszczenia wózka oraz rzutu geometrycznego ramienia wahadła~\cite{art1}:
+przemieszczenia wózka oraz rzutu geometrycznego ramienia wahadła~\cite{Prasad2014}:
 
 \begin{equation}
     x_{\mathrm{G}}(t) = x(t) + l \sin\theta(t),
@@ -100,7 +100,7 @@ na~wahadło osobno, a~następnie składając je w~układ równań sprzężonych.
 Zgodnie z~drugą zasadą dynamiki Newtona, suma sił zewnętrznych działających 
 na~cały układ w~kierunku osi \(x\) musi równać się zmianie pędu układu. 
 Siłami zewnętrznymi są: siła sterująca \(u(t)\) przyłożona do~wózka oraz 
-siła zakłócająca \(F_{\mathrm{w}}(t)\) przyłożona do~masy wahadła~\cite{art1}.
+siła zakłócająca \(F_{\mathrm{w}}(t)\) przyłożona do~masy wahadła~\cite{Prasad2014}.
 
 Równanie równowagi sił dla całego układu (masy \(M\) i~\(m\)) 
 przyjmuje postać:
@@ -128,7 +128,7 @@ Ruch obrotowy wahadła opisano poprzez sumę momentów sił względem punktu
 zawieszenia (przegubu na~wózku). Siłami generującymi moment obrotowy są 
 siły bezwładności masy wahadła, siła ciężkości oraz siła zakłócająca.
 
-Zgodnie z~analizą przedstawioną w~pracy~\cite{art1}, równanie momentów 
+Zgodnie z~analizą przedstawioną w~pracy~\cite{Prasad2014}, równanie momentów 
 przyjmuje postać:
 \begin{equation}
     m \ddot{x}_G(t) l \cos\theta(t) - m \ddot{y}_G(t) l \sin\theta(t) = m g l \sin\theta(t) + F_{\mathrm{w}}(t) l \cos\theta(t).
@@ -154,7 +154,7 @@ oraz \(\ddot{y}_G\) (\ref{eq:acc_y}) do~równania momentów
 Po~wymnożeniu nawiasów składniki zawierające \(\dot{\theta}^2\) 
 wzajemnie się redukują. Wykorzystując jedynkę trygonometryczną 
 \(\cos^2\theta + \sin^2\theta = 1\) oraz dzieląc całe równanie przez \(l\), 
-otrzymujemy ostateczne drugie równanie dynamiki~\cite{art1}:
+otrzymujemy ostateczne drugie równanie dynamiki~\cite{Prasad2014}:
 \begin{equation}
     m \cos\theta(t) \cdot \ddot{x}(t) + m l \cdot \ddot{\theta}(t) = m g \sin\theta(t) + F_{\mathrm{w}}(t) \cos\theta(t).
     \label{eq:dynamic_rotation}
@@ -176,7 +176,7 @@ wykonując przekształcenia algebraiczne, otrzymujemy jawne wzory
 na~przyspieszenia.
 
 Ostateczne równania ruchu, uwzględniające wpływ siły sterującej \(u\) 
-oraz zakłócenia \(F_{\mathrm{w}}\), przyjmują postać~\cite{art1}:
+oraz zakłócenia \(F_{\mathrm{w}}\), przyjmują postać~\cite{Prasad2014}:
 
 \begin{equation}
     \ddot{x}(t) = \frac{u(t) + m l \sin\theta(t) \cdot \dot{\theta}^2(t) - m g \sin\theta(t) \cos\theta(t) + F_{\mathrm{w}}(t) \sin^2\theta(t)}{M + m - m \cos^2\theta(t)},
@@ -214,7 +214,7 @@ chwiejnej (\(\theta=0\)). Dla małych wychyleń zastosowano przybliżenia
 rzędu (\(\dot{\theta}^2\), \(\sin^2\theta\)) pominięto.
 
 Liniowy model układu w~postaci \(\dot{\mathbf{x}} = A \mathbf{x} + B u + B_{\mathrm{dist}} F_{\mathrm{w}}\) 
-opisują macierze wyznaczone zgodnie z~literaturą~\cite{art1}:
+opisują macierze wyznaczone zgodnie z~literaturą~\cite{Prasad2014}:
 
 \begin{equation}
     A =
@@ -249,7 +249,7 @@ Warto zauważyć, że w~modelu zlinearyzowanym wpływ wiatru na~przyspieszenie
     kątowe wahadła jest odwrotnie proporcjonalny do~masy \(m\) (element \(-\frac{1}{ml}\) 
     w~macierzy \(B_{\mathrm{dist}}\)), podczas gdy w~równaniu przyspieszenia wózka 
     efekt ten zanika dla małych kątów (element zerowy). Jest to zgodne 
-    z~wynikami prezentowanymi w~pracy źródłowej~\cite{art1}.
+    z~wynikami prezentowanymi w~pracy źródłowej~\cite{Prasad2014}.
 
 \subsection{Analiza zachowania układu w pętli otwartej}
 

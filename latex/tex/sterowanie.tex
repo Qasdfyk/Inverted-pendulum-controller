@@ -11,7 +11,7 @@ $x_{\mathrm{ref}}$.
 
 W~literaturze problem sterowania wahadłem odwróconym jest szeroko omawiany
 jako klasyczny problem testowy dla metod sterowania liniowego i~nieliniowego
-\cite{art1, art3}. Poniżej opisano teoretyczne podstawy oraz szczegóły
+\cite{Prasad2014, Nguyen2024}. Poniżej opisano teoretyczne podstawy oraz szczegóły
 implementacyjne zbadanych struktur sterowania.
 
 \subsection{Równoległy regulator PD-PD}
@@ -20,7 +20,7 @@ Pierwszym zaimplementowanym układem jest regulator o~strukturze kaskadowej lub
 równoległej, wykorzystujący klasyczne sprzężenie zwrotne typu PD
 (Proporcjonalno-Różniczkujące). W~literaturze podejście to jest często
 stosowane jako punkt odniesienia dla bardziej zaawansowanych metod
-\cite{moreno2023, art1}.
+\cite{Moreno2023, Prasad2014}.
 
 W~klasie \texttt{PDPDController} zastosowano strukturę równoległą, w~której
 całkowity sygnał sterujący jest sumą reakcji na~błąd kąta oraz błąd pozycji.
@@ -49,7 +49,7 @@ nastawy dobrane eksperymentalnie:
     \item Tor pozycji: $K_{p,x} = -16.0$, $K_{d,x} = -14.0$.
 \end{itemize}
 Mimo iż klasa umożliwia włączenie członu całkującego (PID), w~badaniach
-\cite{art2} często wskazuje się, że dla obiektów tej klasy człon różniczkujący
+\cite{Varghese2017} często wskazuje się, że dla obiektów tej klasy człon różniczkujący
 (PD) jest kluczowy dla tłumienia oscylacji, a~całkowanie może wprowadzać
 niestabilność w~stanach nieustalonych bez odpowiednich mechanizmów
 $\mathrm{anti\text{-}windup}$.
@@ -76,7 +76,7 @@ na populacji 10 osobników przez 20 generacji, co pozwoliło uniknąć minimów
 lokalnych i~znaleźć optymalny zestaw wzmocnień (\ref{fig:pdpd_opt}).
 
 \paragraph{Analiza porównawcza struktur PD i PID}
-W~literaturze przedmiotu \cite{art2, art3} często podkreśla się, że dla
+W~literaturze przedmiotu \cite{Varghese2017, Nguyen2024} często podkreśla się, że dla
 obiektów niestabilnych statycznie, takich jak wahadło odwrócone, kluczowa jest
 szybka reakcja na~zmiany kąta, którą zapewnia człon różniczkujący (D).
 Włączenie członu całkującego (I), tworzącego regulator PID, wprowadza dodatkowe
@@ -116,10 +116,10 @@ i~szybkie sterowanie.
 
 Kolejnym analizowanym algorytmem jest regulator liniowo-kwadratowy (LQR),
 będący standardem w~sterowaniu optymalnym systemów wielowymiarowych MIMO
-\cite{jezierski2017}. Klasa \texttt{PDLQRController} implementuje sterowanie
+\cite{Jezierski2017}. Klasa \texttt{PDLQRController} implementuje sterowanie
 oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PD dla uchybu
-pozycji, co tworzy strukturę hybrydową opisaną m.in. w~\cite{art1} oraz
-\cite{art3} (w~kontekście porównawczym).
+pozycji, co tworzy strukturę hybrydową opisaną m.in. w~\cite{Prasad2014} oraz
+\cite{Nguyen2024} (w~kontekście porównawczym).
 
 Problem LQR polega na~znalezieniu prawa sterowania
 $u(t) = -K x(t)$, które minimalizuje wskaźnik jakości:
@@ -153,7 +153,7 @@ Dodatkowy człon PD na~pętli pozycji (zrealizowany analogicznie do wzoru
 \ref{eq:pd_x}) ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
 $x_{\mathrm{ref}}$, co jest częstą praktyką w~aplikacjach praktycznych, gdzie LQR
 zapewnia stabilność, a~regulator zewnętrzny dba o~uchyb w~stanie ustalonym
-\cite{art2}.
+\cite{Varghese2017}.
 
 \subsubsection{Dobór wag macierzy Q i R}
 Dobór wag dla regulatora LQR również charakteryzował się ewolucyjnym podejściem
@@ -201,7 +201,7 @@ dobrane heurystycznie.
 
 Algorytm MPC (Model Predictive Control) stanowi zaawansowaną metodę sterowania,
 która w~odróżnieniu od~LQR, uwzględnia wprost ograniczenia sygnału sterującego
-oraz nieliniową dynamikę obiektu \cite{camacho2007, rawlings2017}.
+oraz nieliniową dynamikę obiektu \cite{Camacho2007, Rawlings2017}.
 Zaimplementowany w~klasie \texttt{MPCController} (plik \texttt{mpc.py})
 algorytm rozwiązuje w~każdym kroku symulacji problem optymalizacji dynamicznej
 nieliniowej (NMPC).
@@ -227,8 +227,8 @@ Gdzie:
     \item $Q = \text{diag}([158.4,\; 36.8,\; 43.4,\; 19.7])$ -- macierz kar stanu,
     \item $R = 0.086$ -- współczynnik kary za~zmianę sterowania ($\Delta u$).
 \end{itemize}
-Kluczową zaletę MPC, podkreślaną w~pracach \cite{mills2009} oraz
-\cite{jezierski2017}, jest możliwość bezpośredniego uwzględnienia ograniczeń
+Kluczową zaletę MPC, podkreślaną w~pracach \cite{Mills2009} oraz
+\cite{Jezierski2017}, jest możliwość bezpośredniego uwzględnienia ograniczeń
 (saturacji) już na~etapie wyliczania sterowania, co zapobiega zjawisku
 nasycenia elementu wykonawczego, które mogłoby mieć miejsce w~przypadku LQR.
 
@@ -315,7 +315,7 @@ wysokoczęstotliwościowych, co przekłada się na~oszczędność energii.
 Ostatnim zbadanym układem jest sterownik hybrydowy \texttt{TSFuzzyController}
 (plik \texttt{fuzzy\_lqr.py}), łączący liniowy regulator LQR z~systemem
 wnioskowania rozmytego typu Takagi-Sugeno (T-S). Koncepcja ta, opisana szerzej
-w~\cite{art3} oraz \cite{roose2017}, ma na~celu adaptację wzmocnień regulatora
+w~\cite{Nguyen2024} oraz \cite{Roose2017}, ma na~celu adaptację wzmocnień regulatora
 w~zależności od~punktu pracy, co pozwala na~agresywniejszą reakcję w~przypadku
 dużych odchyleń od~pionu.
 
@@ -348,7 +348,7 @@ Zastosowany mechanizm ,,Gain Scheduling'' pozwala na:
 \end{enumerate} 
 Takie podejście pozwala na~rozszerzenie obszaru stabilności regulatora
 w~porównaniu do~klasycznego LQR, co potwierdzają wyniki badań w~pracy
-\cite{art3}.
+\cite{Nguyen2024}.
 
 \subsubsection{Dobór reguł i funkcji przynależności}
 Strojenie rozmytego regulatora Fuzzy-LQR jest zadaniem złożonym ze względu na~dużą
@@ -358,7 +358,7 @@ Błędne zdefiniowanie zbyt wąskich funkcji przynależności dla strefy ,,małe
 skutkowało gwałtownym przełączaniem się regulatora na~agresywne reguły (chatter).
 Prowadziło to do~silnych drgań wokół punktu równowagi, co jest zjawiskiem
 niepożądanym w~rzeczywistych układach napędowych.
-Opierając się na~literaturze \cite{art3}, dobrano ręcznie szerokości trójkątnych
+Opierając się na~literaturze \cite{Nguyen2024}, dobrano ręcznie szerokości trójkątnych
 funkcji przynależności tak, aby przejście między strefami było płynne. Układ uzyskał
 stabilność asymptotyczną, jednak nie wykorzystywał w~pełni potencjału szybkiej
 reakcji na~duże zakłócenia, działając zachowawczo.

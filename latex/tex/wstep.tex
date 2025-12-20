@@ -25,14 +25,14 @@ odwzorowuje wiele złożonych zjawisk fizycznych i~konstrukcji technicznych,
 w~tym:
 \begin{itemize}
   \item stabilizację robotów dwukołowych (np. typu Segway) oraz robotów 
-  mobilnych balansujących na~jednej osi~\cite{segway2018};
+  mobilnych balansujących na~jednej osi~\cite{Segway2018};
   \item sterowanie rakietami nośnymi i~pociskami w~fazie startu, gdzie wektor 
   ciągu pełni rolę siły napędowej wózka, a~bezwładność korpusu odpowiada 
-  dynamice wahadła~\cite{nasa2013};
+  dynamice wahadła~\cite{NASA2013};
   \item sterowanie ruchem ramion manipulatorów i~suwnic, w~których kluczowe 
-  jest tłumienie oscylacji przenoszonego ładunku~\cite{crane2012};
+  jest tłumienie oscylacji przenoszonego ładunku~\cite{Crane2012};
   \item równoważenie platform i~pojazdów samobalansujących, wymagające 
-  ciągłej korekty siły napędowej względem położenia środka masy~\cite{moreno2023}.
+  ciągłej korekty siły napędowej względem położenia środka masy~\cite{Moreno2023}.
 \end{itemize}
 
 Ze~względu na~powyższe zastosowania, problem stabilizacji odwróconego wahadła 
@@ -140,7 +140,7 @@ stron badanych metod.
 W~literaturze przedmiotu odwrócone wahadło na~wózku traktowane jest 
 powszechnie jako wzorcowy układ testowy (ang. \textit{testbed}) 
 dla weryfikacji algorytmów sterowania układami niestabilnymi. 
-W~pracy~\cite{art1} przedstawiono kompletny model nieliniowy obiektu, 
+W~pracy~\cite{Prasad2014} przedstawiono kompletny model nieliniowy obiektu, 
 uwzględniający zakłócenia stochastyczne, na~podstawie którego 
 przeprowadzono analizę porównawczą regulatorów PID, LQR oraz ich 
 konfiguracji hybrydowych. Wyniki te wskazują, że włączenie komponentu 
@@ -149,7 +149,7 @@ do~klasycznej regulacji PID, szczególnie w~zakresie stabilizacji
 kątowej wahadła.
 
 Rozszerzenie zakresu badań o~sterowanie predykcyjne (MPC) zaprezentowano 
-w~pozycji~\cite{art2}. Autorzy stworzyli jednorodne środowisko symulacyjne, 
+w~pozycji~\cite{Varghese2017}. Autorzy stworzyli jednorodne środowisko symulacyjne, 
 zestawiając przebiegi zmiennych stanu dla metod PID, LQR oraz MPC. 
 Uzyskane rezultaty potwierdziły przewagę rozwiązań opartych na~modelu 
 (LQR, MPC) nad klasycznym PID w~kontekście jakości regulacji, 
@@ -157,7 +157,7 @@ podkreślając jednocześnie kluczową zaletę MPC --- możliwość bezpośredni
 uwzględniania ograniczeń fizycznych nałożonych na~wielkości sterujące.
 
 Współczesne prace badawcze coraz częściej integrują metody optymalne 
-z~metodami sztucznej inteligencji. Artykuł~\cite{art3} opisuje rozwiązanie 
+z~metodami sztucznej inteligencji. Artykuł~\cite{Nguyen2024} opisuje rozwiązanie 
 hybrydowe, łączące regulator LQR z~modelem rozmytym Takagi--Sugeno 
 (z~kompensacją PDC) oraz obserwatorem stanu. Podejście to pozwala 
 na~przyspieszenie zbieżności błędu regulacji do~zera oraz poprawę 
@@ -166,7 +166,7 @@ i~niepewności parametrycznej modelu.
 
 Istotnym uzupełnieniem badań symulacyjnych są weryfikacje eksperymentalne, 
 szeroko reprezentowane w~krajowej literaturze naukowej. 
-Zespół Jezierski i~in.~\cite{jezierski2017} przeprowadził porównanie 
+Zespół Jezierski i~in.~\cite{Jezierski2017} przeprowadził porównanie 
 algorytmów LQR i~MPC na~rzeczywistym stanowisku laboratoryjnym. 
 Wykazano, że o~ile regulator LQR skutecznie utrzymuje punkt pracy 
 i~tłumi zakłócenia, to sterowanie predykcyjne zapewnia łagodniejsze 
@@ -174,20 +174,20 @@ sterowanie i~lepsze właściwości śledzenia trajektorii, co ma kluczowe
 znaczenie w~aplikacjach robotycznych.
 
 Z~punktu widzenia podstaw teoretycznych, fundamentem dla implementacji 
-sterowania predykcyjnego są prace monograficzne Camacho i~Bordonsa~\cite{camacho2007} 
-oraz Tatjewskiego~\cite{tatjewski_pl}. Omawiają one szczegółowo zagadnienia 
+sterowania predykcyjnego są prace monograficzne Camacho i~Bordonsa~\cite{Camacho2007} 
+oraz Tatjewskiego~\cite{Tatjewski2016}. Omawiają one szczegółowo zagadnienia 
 doboru funkcji kosztu, horyzontów predykcji, a~także stabilności układu 
 zamkniętego. Aspekty wdrożeniowe, w~tym efektywność numeryczna 
 algorytmów optymalizacji na~platformach wbudowanych, poruszane są 
-w~nowszych publikacjach~\cite{mills2009, diwan2022}. Natomiast w~obszarze 
+w~nowszych publikacjach~\cite{Mills2009, Diwan2022}. Natomiast w~obszarze 
 sterowania rozmytego cennym źródłem wiedzy metodycznej są opracowania 
 dotyczące modeli Takagi--Sugeno i~ich porównań z~podejściami 
-klasycznymi~\cite{roose2017}.
+klasycznymi~\cite{Roose2017}.
 
 Przeprowadzona analiza literatury wskazuje na~ewolucję podejść sterowania: 
-od~klasycznych paradygmatów PID i~LQR~\cite{art1}, przez ujęcia 
-predykcyjne~\cite{art2, tatjewski_pl}, aż po~zaawansowane metody 
-hybrydowe i~inteligentne~\cite{art3}.
+od~klasycznych paradygmatów PID i~LQR~\cite{Prasad2014}, przez ujęcia 
+predykcyjne~\cite{Varghese2017, Tatjewski2016}, aż po~zaawansowane metody 
+hybrydowe i~inteligentne~\cite{Nguyen2024}.
 
 \subsection{Układ pracy}
 
