@@ -294,14 +294,8 @@ def main():
                 if val is None: val = 999.9 # Handle NaNs if any
                 
                 # Formatting
-                if 'mse' in key:
-                     val_str = f"{val:.5f}"
-                elif 'energy' in key:
-                     val_str = f"{val:.2f}"
-                elif 'ts' in key:
-                     val_str = f"{val:.2f}"
-                else:
-                     val_str = f"{val:.4f}"
+                # Formatting - consistent 5 decimal places for "elegant" look
+                val_str = f"{val:.5f}"
                      
                 row_str += f" & {val_str}"
             print(row_str + r" \\ \hline")
