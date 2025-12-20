@@ -507,6 +507,47 @@
       \verb 10.24425/bpasts.2022.140696
       \endverb
     \endentry
+    \entry{Roose2017}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=9f45a6ed7825227f1bc6cc5f130777f5}{%
+           family={Roose},
+           familyi={R\bibinitperiod},
+           given={Alain\bibnamedelima I.},
+           giveni={A\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=bc00c4079008ce0b08d1fcac8902d0b1}{%
+           family={Smiley},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=1d82336057ab6f18d554e82fea0f0430}{%
+           family={Ali},
+           familyi={A\bibinitperiod},
+           given={A.\bibnamedelimi Y.},
+           giveni={A\bibinitperiod\bibinitdelim Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{8f149b78dcb5385d66c447dffb979ac0}
+      \strng{fullhash}{8a994e6946c358d6ae9b96e408dfd621}
+      \strng{fullhashraw}{8a994e6946c358d6ae9b96e408dfd621}
+      \strng{bibnamehash}{8a994e6946c358d6ae9b96e408dfd621}
+      \strng{authorbibnamehash}{8a994e6946c358d6ae9b96e408dfd621}
+      \strng{authornamehash}{8f149b78dcb5385d66c447dffb979ac0}
+      \strng{authorfullhash}{8a994e6946c358d6ae9b96e408dfd621}
+      \strng{authorfullhashraw}{8a994e6946c358d6ae9b96e408dfd621}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{issn}{0045-7906}
+      \field{journaltitle}{Computers \& Electrical Engineering}
+      \field{title}{Fuzzy-logic control of an inverted pendulum on a cart}
+      \field{volume}{63}
+      \field{year}{2017}
+      \field{pages}{260\bibrangedash 272}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1016/j.compeleceng.2017.05.016
+      \endverb
+    \endentry
     \entry{Rawlings2017}{book}{}{}
       \name{author}{3}{}{%
         {{hash=a28ab6b1da316879310a82410e4e8dc4}{%
@@ -550,7 +591,6 @@
       \field{year}{2017}
     \endentry
   \enddatalist
-  \missing{Roose2017}
 \endrefsection
 \endinput
 

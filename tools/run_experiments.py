@@ -72,6 +72,8 @@ def calculate_metrics(t, x, u, x_ref, dt):
     # Max deviation in OPPOSITE direction? Or just max amplitude?
     # Let's simple record max absolute value after initial period?
     # For now, let's skip conventional overshoot for regulation from IC.
+    metrics['max_theta'] = np.max(np.abs(theta))
+    metrics['max_x'] = np.max(np.abs(pos))
     
     return metrics
 
@@ -114,7 +116,7 @@ def run_single_experiment(ctrl, name, wind_enabled=False):
     
     # Position
     axes[1].plot(t, X[:, 2], label=r'$x$')
-    axes[1].plot(t, np.ones_like(t)*x_ref[2], 'k--', alpha=0.5, label=r'$x_{ref}$')
+    axes[1].plot(t, np.ones_like(t)*x0[2], 'k--', alpha=0.5, label=r'$x_{0}$') # Fix ref plotting if needed
     axes[1].set_ylabel(r'$x$ [m]')
     axes[1].grid(True)
     axes[1].legend()
@@ -188,37 +190,150 @@ def main():
         json.dump(results, f, indent=4)
     print(f"Results saved to {RESULTS_FILE}")
 
-    # --- Combined Plot (Nominal) ---
-    fig_nom, ax_nom = plt.subplots(figsize=(12, 8))
-    for name, (t, X, U) in trajectories_nom.items():
-        ax_nom.plot(t, X[:, 0], label=name)
-    
-    ax_nom.plot(t, np.zeros_like(t), 'k--', alpha=0.3, linewidth=2)
-    ax_nom.set_title("Porównanie odpowiedzi skokowej (Warunki nominalne)")
-    ax_nom.set_ylabel(r'Kąt $\theta$ [rad]')
-    ax_nom.set_xlabel('Czas [s]')
-    ax_nom.grid(True)
-    ax_nom.legend()
-    plt.tight_layout()
-    plt.savefig(os.path.join(SAVE_DIR, "combined_nominal.png"))
-    plt.close(fig_nom)
-    
-    # --- Combined Plot (Wind) ---
-    fig_wind, ax_wind = plt.subplots(figsize=(12, 8))
-    for name, (t, X, U) in trajectories_wind.items():
-        ax_wind.plot(t, X[:, 0], label=name)
+    # Define Controller Groups
+    group_classical = ['PD-PD', 'PD-LQR']
+    group_advanced = ['MPC', 'MPC-J2', 'Fuzzy-LQR']
+
+    # Helper function for grouped plots
+    def plot_group(group_names, trajectories, title_suffix, filename_suffix, scenario_title, signal_type='theta'):
+        fig, ax = plt.subplots(figsize=(12, 8))
         
-    ax_wind.plot(t, np.zeros_like(t), 'k--', alpha=0.3, linewidth=2)
-    ax_wind.set_title("Porównanie odpowiedzi przy zakłóceniach (Wiatr)")
-    ax_wind.set_ylabel(r'Kąt $\theta$ [rad]')
-    ax_wind.set_xlabel('Czas [s]')
-    ax_wind.grid(True)
-    ax_wind.legend()
-    plt.tight_layout()
-    plt.savefig(os.path.join(SAVE_DIR, "combined_wind.png"))
-    plt.close(fig_wind)
+        for name in group_names:
+            if name in trajectories:
+                t, X, U = trajectories[name]
+                tf = t[:-1] # For control signal
+                
+                if signal_type == 'theta':
+                    ax.plot(t, X[:, 0], label=name, linewidth=3)
+                    ylabel = r'Kąt $\theta$ [rad]'
+                    # Reference
+                    t_ref = t
+                    ref_val = np.zeros_like(t_ref)
+                    plot_ref = True
+                elif signal_type == 'x':
+                    ax.plot(t, X[:, 2], label=name, linewidth=3)
+                    ylabel = r'Pozycja $x$ [m]'
+                    # Reference x=0 (or whatever ref is, assumed 0 here based on context)
+                    # Actually x_ref is usually 0 unless specified otherwise in SIM["x_ref"]
+                    # We can just plot 0
+                    t_ref = t
+                    ref_val = np.zeros_like(t_ref) # Assuming ref is 0 for simplicity or use SIM["x_ref"][2]
+                    plot_ref = True
+                elif signal_type == 'u':
+                    ax.plot(tf, U, label=name, linewidth=3)
+                    ylabel = r'Sterowanie $u$ [N]'
+                    plot_ref = False
+        
+        if plot_ref:
+             ax.plot(t_ref, ref_val, 'k--', alpha=0.3, linewidth=2, label='Referencja')
+
+        ax.set_title(f"Porównanie: {scenario_title}")
+        ax.set_ylabel(ylabel)
+        ax.set_xlabel('Czas [s]')
+        ax.grid(True)
+        ax.legend()
+        plt.tight_layout()
+        plt.savefig(os.path.join(SAVE_DIR, f"combined_{filename_suffix}.png"))
+        plt.close(fig)
+
+    # --- Generate Plots ---
+    # Nominal
+    # Theta
+    plot_group(group_classical, trajectories_nom, "Klasyczne", "nominal_classical", "Kąt (Nominal)", 'theta')
+    plot_group(group_advanced, trajectories_nom, "Zaawansowane", "nominal_advanced", "Kąt (Nominal)", 'theta')
+    # Position
+    plot_group(group_classical, trajectories_nom, "Klasyczne", "nominal_pos_classical", "Pozycja (Nominal)", 'x')
+    plot_group(group_advanced, trajectories_nom, "Zaawansowane", "nominal_pos_advanced", "Pozycja (Nominal)", 'x')
+    # Control
+    plot_group(group_classical, trajectories_nom, "Klasyczne", "nominal_control_classical", "Sterowanie (Nominal)", 'u')
+    plot_group(group_advanced, trajectories_nom, "Zaawansowane", "nominal_control_advanced", "Sterowanie (Nominal)", 'u')
     
-    print("Combined plots saved.")
+    # Wind
+    # Theta
+    plot_group(group_classical, trajectories_wind, "Klasyczne", "wind_classical", "Kąt (Wiatr)", 'theta')
+    plot_group(group_advanced, trajectories_wind, "Zaawansowane", "wind_advanced", "Kąt (Wiatr)", 'theta')
+    # Position
+    plot_group(group_classical, trajectories_wind, "Klasyczne", "wind_pos_classical", "Pozycja (Wiatr)", 'x')
+    plot_group(group_advanced, trajectories_wind, "Zaawansowane", "wind_pos_advanced", "Pozycja (Wiatr)", 'x')
+    # Control
+    plot_group(group_classical, trajectories_wind, "Klasyczne", "wind_control_classical", "Sterowanie (Wiatr)", 'u')
+    plot_group(group_advanced, trajectories_wind, "Zaawansowane", "wind_control_advanced", "Sterowanie (Wiatr)", 'u')
+    
+    # --- Generate Transposed Tables ---
+    
+    def print_transposed_table(scenario_suffix, title, caption, label, metrics_map):
+        """
+        metrics_map: dict of {InputKey: DisplayName}
+        """
+        print(f"\n\n=== LATEX TABLE: {title} ===")
+        print(r"\begin{table}[h!]")
+        print(r"    \centering")
+        print(f"    \\caption{{{caption}}}")
+        print(f"    \\label{{{label}}}")
+        
+        # Determine columns string: |l|c|c|...|
+        cols_str = "|l|" + "c|" * len(controllers)
+        print(f"    \\begin{{tabular}}{{{cols_str}}}")
+        print(r"        \hline")
+        
+        # Header Row
+        headers = ["Wskaźnik"] + list(controllers.keys())
+        print(f"        \\textbf{{{headers[0]}}} & " + " & ".join([f"\\textbf{{{h}}}" for h in headers[1:]]) + r" \\ \hline")
+        
+        # Data Rows
+        for key, display_name in metrics_map.items():
+            if key == "SEPARATOR":
+                print(r"        \hline")
+                # print(r"        \multicolumn{" + str(len(controllers)+1) + r"}{|c|}{\textit{" + display_name + r"}} \\ \hline")
+                continue
+
+            row_str = f"        {display_name}"
+            for name in controllers.keys():
+                m = results[f"{name}_{scenario_suffix}"]
+                val = m.get(key, 0.0)
+                if val is None: val = 999.9 # Handle NaNs if any
+                
+                # Formatting
+                if 'mse' in key:
+                     val_str = f"{val:.5f}"
+                elif 'energy' in key:
+                     val_str = f"{val:.2f}"
+                elif 'ts' in key:
+                     val_str = f"{val:.2f}"
+                else:
+                     val_str = f"{val:.4f}"
+                     
+                row_str += f" & {val_str}"
+            print(row_str + r" \\ \hline")
+            
+        print(r"    \end{tabular}")
+        print(r"\end{table}")
+
+    # Nominal Table Metrics
+    metrics_nom = {
+        'mse_theta': r'$MSE_\theta$',
+        'iae_theta': r'$IAE_\theta$',
+        'ts_theta': r'$T_{s, \theta}$ [s]',
+        'SEPARATOR': 'Pozycja',
+        'mse_x': r'$MSE_x$',
+        'ts_x': r'$T_{s, x}$ [s]',
+        'energy_l2': r'$E_{u}$'
+    }
+    print_transposed_table("Nominal", "NOMINAL", "Wskaźniki jakości (Kąt i Pozycja) - warunki nominalne", "tab:results_nominal", metrics_nom)
+
+    # Wind Table Metrics
+    metrics_wind = {
+        'mse_theta': r'$MSE_\theta$',
+        'iae_theta': r'$IAE_\theta$',
+        'max_theta': r'$Max |\theta|$ [rad]',
+        'SEPARATOR': 'Pozycja',
+        'mse_x': r'$MSE_x$',
+        'max_x': r'$Max |x|$ [m]',
+        'energy_l2': r'$E_{u}$'
+    }
+    print_transposed_table("Wind", "WIND", "Wskaźniki jakości (Kąt i Pozycja) - zakłócenia wiatrem", "tab:results_wind", metrics_wind)
+    
+    print("\nCombined plots and tables generated.")
 
 if __name__ == "__main__":
     main()
