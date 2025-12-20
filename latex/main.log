@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  14 DEC 2025 20:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  20 DEC 2025 19:22
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1132,12 +1132,12 @@ Package hyperref Info: Link coloring ON on input line 21.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<eiti/header.png, id=169, 483.7272pt x 76.8471pt>
+<eiti/header.png, id=165, 483.7272pt x 76.8471pt>
 File: eiti/header.png Graphic file (type png)
 <use eiti/header.png>
 Package pdftex.def Info: eiti/header.png  used on input line 40.
 (pdftex.def)             Requested size: 438.17247pt x 69.61084pt.
-<eiti/title-inz.png, id=170, 483.7272pt x 105.39375pt>
+<eiti/title-inz.png, id=166, 483.7272pt x 105.39375pt>
 File: eiti/title-inz.png Graphic file (type png)
 <use eiti/title-inz.png>
 Package pdftex.def Info: eiti/title-inz.png  used on input line 40.
@@ -1213,6 +1213,19 @@ LaTeX Font Info:    Font shape `U/futm/m/n' will be
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
 (Font)              scaled to size 7.35999pt on input line 27.
 
+
+LaTeX Warning: Citation 'segway2018' on page 7 undefined on input line 28.
+
+
+LaTeX Warning: Citation 'nasa2013' on page 7 undefined on input line 31.
+
+
+LaTeX Warning: Citation 'crane2012' on page 7 undefined on input line 33.
+
+
+LaTeX Warning: Citation 'moreno2023' on page 7 undefined on input line 35.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -1221,21 +1234,106 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 ]
+Package microtype Info: Loading generic protrusion settings for font family
+(microtype)             `cmtt' (encoding: T1).
+(microtype)             For optimal results, create family-specific settings.
+(microtype)             See the microtype manual for details.
+
+Underfull \vbox (badness 5533) has occurred while \output is active []
+
+
 
 [8]
 
-[9])
+LaTeX Warning: Citation 'art1' on page 9 undefined on input line 143.
 
-[10] (tex/matma.tex
 
-[11]
+LaTeX Warning: Citation 'art2' on page 9 undefined on input line 152.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[9]
+
+LaTeX Warning: Citation 'art3' on page 10 undefined on input line 160.
+
+
+LaTeX Warning: Citation 'jezierski2017' on page 10 undefined on input line 169.
+
+
+LaTeX Warning: Citation 'camacho2007' on page 10 undefined on input line 177.
+
+
+LaTeX Warning: Citation 'tatjewski_pl' on page 10 undefined on input line 178.
+
+
+LaTeX Warning: Citation 'mills2009' on page 10 undefined on input line 182.
+
+
+LaTeX Warning: Citation 'diwan2022' on page 10 undefined on input line 182.
+
+
+LaTeX Warning: Citation 'roose2017' on page 10 undefined on input line 185.
+
+
+LaTeX Warning: Citation 'art1' on page 10 undefined on input line 188.
+
+
+LaTeX Warning: Citation 'art2' on page 10 undefined on input line 189.
+
+
+LaTeX Warning: Citation 'tatjewski_pl' on page 10 undefined on input line 189.
+
+
+LaTeX Warning: Citation 'art3' on page 10 undefined on input line 190.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[10])
+
+[11] (tex/matma.tex
+
+LaTeX Warning: Citation 'art1' on page 12 undefined on input line 9.
+
+
+LaTeX Warning: Citation 'art1' on page 12 undefined on input line 20.
+
+
+LaTeX Warning: Citation 'art1' on page 12 undefined on input line 31.
+
+
+LaTeX Warning: Citation 'art1' on page 12 undefined on input line 52.
 
 
 
 [12]
 
+LaTeX Warning: Citation 'art1' on page 13 undefined on input line 103.
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
 [13]
+
+LaTeX Warning: Citation 'art1' on page 14 undefined on input line 131.
+
+
+LaTeX Warning: Citation 'art1' on page 14 undefined on input line 157.
+
+
+
+[14]
+
+LaTeX Warning: Citation 'art1' on page 15 undefined on input line 179.
+
+
 Overfull \hbox (46.77538pt too wide) detected at line 189
 [][][][]\T1/futs/m/n/12 (\FML/futmi/m/it/12 t\T1/futs/m/n/12 ) \FMS/futm/m/n/12 Å []\FML/futmi/m/it/12 :
  []
@@ -1247,9 +1345,15 @@ LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <9> not available
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <7> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 191.
 
+LaTeX Warning: Citation 'art1' on page 15 undefined on input line 217.
 
-[14]
-<img/open_loop.png, id=358, 578.16pt x 289.08pt>
+
+LaTeX Warning: Citation 'art1' on page 15 undefined on input line 252.
+
+
+
+[15]
+<img/open_loop.png, id=318, 578.16pt x 289.08pt>
 File: img/open_loop.png Graphic file (type png)
 <use img/open_loop.png>
 Package pdftex.def Info: img/open_loop.png  used on input line 262.
@@ -1274,17 +1378,13 @@ LaTeX Font Info:    Font shape `U/futm/m/n' will be
 (Font)              scaled to size 5.51999pt on input line 263.
 )
 
-[15 <./img/open_loop.png>] (tex/srodowisko.tex
+[16 <./img/open_loop.png>] (tex/srodowisko.tex
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 13.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <10> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 13.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <8> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 13.
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `cmtt' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
 
 Overfull \hbox (21.98425pt too wide) in paragraph at lines 32--36
 \T1/futs/m/n/12 (-20) nio-wych rÛw-na´ dy-na-miki. Za-im-ple-men-to-wano pro-ce-dur¶ ca™-ko-wa-nia me-tod° \T1/futs/b/n/12 (-20) Rungego-Kutty
@@ -1295,16 +1395,16 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[16]
-<img/wind_signal.png, id=373, 462.528pt x 346.896pt>
+[17]
+<img/wind_signal.png, id=332, 462.528pt x 346.896pt>
 File: img/wind_signal.png Graphic file (type png)
 <use img/wind_signal.png>
 Package pdftex.def Info: img/wind_signal.png  used on input line 101.
 (pdftex.def)             Requested size: 350.5393pt x 262.91852pt.
 
 
-[17]
-<img/animation.png, id=384, 563.10374pt x 245.41687pt>
+[18]
+<img/animation.png, id=343, 563.10374pt x 245.41687pt>
 File: img/animation.png Graphic file (type png)
 <use img/animation.png>
 Package pdftex.def Info: img/animation.png  used on input line 141.
@@ -1314,17 +1414,39 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[18 <./img/wind_signal.png>])
+[19 <./img/wind_signal.png>])
 
-[19 <./img/animation.png>] (tex/sterowanie.tex
+[20 <./img/animation.png>] (tex/sterowanie.tex
+
+LaTeX Warning: Citation 'art1' on page 21 undefined on input line 14.
+
+
+LaTeX Warning: Citation 'art3' on page 21 undefined on input line 14.
+
+
+LaTeX Warning: Citation 'moreno2023' on page 21 undefined on input line 23.
+
+
+LaTeX Warning: Citation 'art1' on page 21 undefined on input line 23.
+
+
 Overfull \hbox (47.12619pt too wide) in paragraph at lines 19--24
 \T1/futs/m/n/12 (-20) rÛw-no-le-g™ej, wy-ko-rzy-stu-j°cy kla-syczne sprz¶-ªe-nie zwrotne typu PD (Proporcjonalno-RÛªniczkuj°ce).
  []
 
 
 
-[20]
-<images/tuning/pid_1_integral_bad.png, id=414, 1011.78pt x 867.24pt>
+[21]
+
+LaTeX Warning: Citation 'art2' on page 22 undefined on input line 52.
+
+
+LaTeX Warning: Citation 'art2' on page 22 undefined on input line 79.
+
+
+LaTeX Warning: Citation 'art3' on page 22 undefined on input line 79.
+
+<images/tuning/pid_1_integral_bad.png, id=366, 1011.78pt x 867.24pt>
 File: images/tuning/pid_1_integral_bad.png Graphic file (type png)
 <use images/tuning/pid_1_integral_bad.png>
 Package pdftex.def Info: images/tuning/pid_1_integral_bad.png  used on input line 96.
@@ -1334,8 +1456,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[21]
-<images/tuning/pdpd_2_manual.png, id=424, 1011.78pt x 867.24pt>
+[22]
+<images/tuning/pdpd_2_manual.png, id=376, 1011.78pt x 867.24pt>
 File: images/tuning/pdpd_2_manual.png Graphic file (type png)
 <use images/tuning/pdpd_2_manual.png>
 Package pdftex.def Info: images/tuning/pdpd_2_manual.png  used on input line 103.
@@ -1345,8 +1467,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[22 <./images/tuning/pid_1_integral_bad.png>]
-<images/tuning/pdpd_3_opt.png, id=430, 1011.78pt x 867.24pt>
+[23 <./images/tuning/pid_1_integral_bad.png>]
+<images/tuning/pdpd_3_opt.png, id=382, 1011.78pt x 867.24pt>
 File: images/tuning/pdpd_3_opt.png Graphic file (type png)
 <use images/tuning/pdpd_3_opt.png>
 Package pdftex.def Info: images/tuning/pdpd_3_opt.png  used on input line 110.
@@ -1356,13 +1478,31 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[23 <./images/tuning/pdpd_2_manual.png>]
+[24 <./images/tuning/pdpd_2_manual.png>]
+
+LaTeX Warning: Citation 'jezierski2017' on page 25 undefined on input line 119.
+
+
+LaTeX Warning: Citation 'art1' on page 25 undefined on input line 121.
+
+
+LaTeX Warning: Citation 'art3' on page 25 undefined on input line 122.
+
+
+Overfull \hbox (3.84526pt too wide) in paragraph at lines 117--123
+\T1/futs/m/n/12 (-20) stan-dar-dem w ste-ro-wa-niu opty-mal-nym sys-te-mÛw wie-lo-wy-mia-ro-wych MIMO [].
+ []
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[24 <./images/tuning/pdpd_3_opt.png>]
-<images/tuning/pdlqr_1_bad.png, id=447, 1011.78pt x 867.24pt>
+[25 <./images/tuning/pdpd_3_opt.png>]
+
+LaTeX Warning: Citation 'art2' on page 26 undefined on input line 156.
+
+<images/tuning/pdlqr_1_bad.png, id=396, 1011.78pt x 867.24pt>
 File: images/tuning/pdlqr_1_bad.png Graphic file (type png)
 <use images/tuning/pdlqr_1_bad.png>
 Package pdftex.def Info: images/tuning/pdlqr_1_bad.png  used on input line 170.
@@ -1372,8 +1512,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[25]
-<images/tuning/pdlqr_2_manual.png, id=457, 1011.78pt x 867.24pt>
+[26]
+<images/tuning/pdlqr_2_manual.png, id=405, 1011.78pt x 867.24pt>
 File: images/tuning/pdlqr_2_manual.png Graphic file (type png)
 <use images/tuning/pdlqr_2_manual.png>
 Package pdftex.def Info: images/tuning/pdlqr_2_manual.png  used on input line 182.
@@ -1383,8 +1523,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[26 <./images/tuning/pdlqr_1_bad.png>]
-<images/tuning/pdlqr_3_opt.png, id=464, 1011.78pt x 867.24pt>
+[27 <./images/tuning/pdlqr_1_bad.png>]
+<images/tuning/pdlqr_3_opt.png, id=412, 1011.78pt x 867.24pt>
 File: images/tuning/pdlqr_3_opt.png Graphic file (type png)
 <use images/tuning/pdlqr_3_opt.png>
 Package pdftex.def Info: images/tuning/pdlqr_3_opt.png  used on input line 195.
@@ -1394,20 +1534,33 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[27 <./images/tuning/pdlqr_2_manual.png>]
+[28 <./images/tuning/pdlqr_2_manual.png>]
+
+LaTeX Warning: Citation 'camacho2007' on page 29 undefined on input line 204.
+
+
+LaTeX Warning: Citation 'rawlings2017' on page 29 undefined on input line 204.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[28 <./images/tuning/pdlqr_3_opt.png>]
-<images/tuning/mpc_3_opt.png, id=483, 1011.78pt x 867.24pt>
+[29 <./images/tuning/pdlqr_3_opt.png>]
+
+LaTeX Warning: Citation 'mills2009' on page 30 undefined on input line 230.
+
+
+LaTeX Warning: Citation 'jezierski2017' on page 30 undefined on input line 231.
+
+<images/tuning/mpc_3_opt.png, id=426, 1011.78pt x 867.24pt>
 File: images/tuning/mpc_3_opt.png Graphic file (type png)
 <use images/tuning/mpc_3_opt.png>
 Package pdftex.def Info: images/tuning/mpc_3_opt.png  used on input line 264.
 (pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
 
 
-[29]
+[30]
 Overfull \hbox (60.4458pt too wide) in paragraph at lines 271--276
 []\T1/futs/m/n/12 (-20) Jako wa-riant ba-daw-czy al-go-rytmu pre-dyk-cyj-nego za-im-ple-men-to-wano ste-row-nik \T1/cmtt/m/n/12 MPCControllerJ2
  []
@@ -1417,43 +1570,56 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[30 <./images/tuning/mpc_3_opt.png>]
-<images/tuning/mpcJ2_3_opt.png, id=498, 1011.78pt x 867.24pt>
+[31 <./images/tuning/mpc_3_opt.png>]
+<images/tuning/mpcJ2_3_opt.png, id=442, 1011.78pt x 867.24pt>
 File: images/tuning/mpcJ2_3_opt.png Graphic file (type png)
 <use images/tuning/mpcJ2_3_opt.png>
 Package pdftex.def Info: images/tuning/mpcJ2_3_opt.png  used on input line 308.
 (pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
 
+
+LaTeX Warning: Citation 'art3' on page 32 undefined on input line 318.
+
+
+LaTeX Warning: Citation 'roose2017' on page 32 undefined on input line 318.
+
+
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[31 <./images/tuning/mpcJ2_3_opt.png>]
+[32 <./images/tuning/mpcJ2_3_opt.png>]
 Overfull \hbox (1.46375pt too wide) in paragraph at lines 343--345
 []\T1/futs/m/n/12 (-20) Zachowanie ™a-god-nej cha-rak-te-ry-styki LQR w po-bliªu punktu rÛw-no-wagi (ma™e wzmoc-
  []
 
 
+LaTeX Warning: Citation 'art3' on page 33 undefined on input line 351.
 
-[32]
-<images/tuning/fuzzy_3_opt.png, id=518, 1011.78pt x 867.24pt>
+
+LaTeX Warning: Citation 'art3' on page 33 undefined on input line 361.
+
+
+
+[33]
+<images/tuning/fuzzy_3_opt.png, id=457, 1011.78pt x 867.24pt>
 File: images/tuning/fuzzy_3_opt.png Graphic file (type png)
 <use images/tuning/fuzzy_3_opt.png>
 Package pdftex.def Info: images/tuning/fuzzy_3_opt.png  used on input line 373.
 (pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
 )
 
-[33 <./images/tuning/fuzzy_3_opt.png>] (tex/eksperymenty.tex
+[34 <./images/tuning/fuzzy_3_opt.png>] (tex/eksperymenty.tex
 
-[34])
+[35])
 
-[35] (tex/badania_wyniki.tex
-<images/experiments/combined_nominal.png, id=543, 867.24pt x 578.16pt>
+[36] (tex/badania_wyniki.tex
+<images/experiments/combined_nominal.png, id=482, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal.png Graphic file (type png)
 <use images/experiments/combined_nominal.png>
 Package pdftex.def Info: images/experiments/combined_nominal.png  used on input line 16.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_wind.png, id=545, 867.24pt x 578.16pt>
+<images/experiments/combined_wind.png, id=484, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind.png Graphic file (type png)
 <use images/experiments/combined_wind.png>
 Package pdftex.def Info: images/experiments/combined_wind.png  used on input line 37.
@@ -1463,18 +1629,20 @@ Underfull \vbox (badness 3646) has occurred while \output is active []
 
 
 
-[36 <./images/experiments/combined_nominal.png>]
+[37 <./images/experiments/combined_nominal.png>]
 
-[37 <./images/experiments/combined_wind.png>])
+[38 <./images/experiments/combined_wind.png>])
 
-[38]
+[39]
 
-[39
+[40
 
 
 ]
 
-[40] (main.lof)
+LaTeX Warning: Empty bibliography on input line 108.
+
+(main.lof)
 \tf@lof=\write6
 \openout6 = `main.lof'.
 
@@ -1491,24 +1659,33 @@ Underfull \vbox (badness 3646) has occurred while \output is active []
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-10-09>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 50A8930699C0ACA07E73FC0ED69D2933;8432.
+(rerunfilecheck)             Checksum: 1C0AA6317953737786CF6B5DD9C1241C;8326.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                main
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 32638 strings out of 468080
- 623924 string characters out of 5425772
- 1739774 words of memory out of 5000000
- 60153 multiletter control sequences out of 15000+600000
- 816046 words of font info for 531 fonts, out of 8000000 for 9000
+ 32456 strings out of 468080
+ 620015 string characters out of 5425772
+ 1739284 words of memory out of 5000000
+ 60071 multiletter control sequences out of 15000+600000
+ 802606 words of font info for 467 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,17n,121p,1047b,2800s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (42 pages, 1752545 bytes).
+Output written on main.pdf (42 pages, 1727621 bytes).
 PDF statistics:
- 748 PDF objects out of 1000 (max. 8388607)
- 169 named destinations out of 1000 (max. 500000)
- 103329 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 650 PDF objects out of 1000 (max. 8388607)
+ 154 named destinations out of 1000 (max. 500000)
+ 97177 words of extra memory for PDF output out of 106986 (max. 10000000)
 
