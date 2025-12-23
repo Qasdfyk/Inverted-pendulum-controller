@@ -8,7 +8,7 @@
 \contentsline {subsection}{\numberline {2.2\relax .\enspace }Analiza kinematyczna}{13}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3\relax .\enspace }Równania dynamiki układu}{14}{subsection.2.3}%
 \contentsline {subsubsection}{\numberline {2.3.1\relax .\enspace }Bilans sił w~kierunku poziomym}{14}{subsubsection.2.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.2\relax .\enspace }Bilans momentów sił}{14}{subsubsection.2.3.2}%
+\contentsline {subsubsection}{\numberline {2.3.2\relax .\enspace }Bilans momentów sił}{15}{subsubsection.2.3.2}%
 \contentsline {subsection}{\numberline {2.4\relax .\enspace }Nieliniowy model w~przestrzeni stanów}{15}{subsection.2.4}%
 \contentsline {subsection}{\numberline {2.5\relax .\enspace }Linearyzacja modelu w~punkcie pracy}{16}{subsection.2.5}%
 \contentsline {subsection}{\numberline {2.6\relax .\enspace }Analiza zachowania układu w pętli otwartej}{16}{subsection.2.6}%

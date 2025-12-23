@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  23 DEC 2025 11:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  23 DEC 2025 11:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1238,28 +1238,34 @@ Package microtype Info: Loading generic protrusion settings for font family
 [10])
 
 [11] (tex/matma.tex
-<images/diagrams/model.png, id=312, 335.00156pt x 264.99pt>
+<images/diagrams/model.png, id=312, 668.4975pt x 530.73282pt>
 File: images/diagrams/model.png Graphic file (type png)
 <use images/diagrams/model.png>
 Package pdftex.def Info: images/diagrams/model.png  used on input line 41.
-(pdftex.def)             Requested size: 350.5393pt x 277.27728pt.
+(pdftex.def)             Requested size: 416.2625pt x 330.48434pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
 [12]
+Underfull \vbox (badness 4713) has occurred while \output is active []
+
+
 
 [13 <./images/diagrams/model.png>]
-Underfull \vbox (badness 1789) has occurred while \output is active []
-
-
 
 [14]
 Overfull \hbox (46.77538pt too wide) detected at line 195
 [][][][]\T1/futs/m/n/12 (\FML/futmi/m/it/12 t\T1/futs/m/n/12 ) \FMS/futm/m/n/12 Å []\FML/futmi/m/it/12 :
  []
 
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[15]
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <12> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 197.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <9> not available
@@ -1268,12 +1274,12 @@ LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <7> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 197.
 
 
-[15]
-<img/open_loop.png, id=377, 578.16pt x 289.08pt>
+[16]
+<img/open_loop.png, id=384, 867.24pt x 505.89pt>
 File: img/open_loop.png Graphic file (type png)
 <use img/open_loop.png>
 Package pdftex.def Info: img/open_loop.png  used on input line 268.
-(pdftex.def)             Requested size: 350.5393pt x 175.26666pt.
+(pdftex.def)             Requested size: 350.5393pt x 204.48291pt.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
 (Font)              scaled to size 10.07397pt on input line 269.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
@@ -1292,9 +1298,7 @@ LaTeX Font Info:    Font shape `U/futm/m/n' will be
 (Font)              scaled to size 7.63599pt on input line 269.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
 (Font)              scaled to size 5.51999pt on input line 269.
-
-
-[16])
+)
 
 [17 <./img/open_loop.png>] (tex/srodowisko.tex
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <14.4> not available
@@ -1318,21 +1322,21 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 File: img/wind_signal.png Graphic file (type png)
 <use img/wind_signal.png>
 Package pdftex.def Info: img/wind_signal.png  used on input line 101.
-(pdftex.def)             Requested size: 350.5393pt x 262.91852pt.
+(pdftex.def)             Requested size: 416.2625pt x 312.2141pt.
 
 
 [19]
-<img/animation.png, id=409, 563.10374pt x 245.41687pt>
-File: img/animation.png Graphic file (type png)
-<use img/animation.png>
-Package pdftex.def Info: img/animation.png  used on input line 141.
-(pdftex.def)             Requested size: 306.71939pt x 133.67651pt.
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[20 <./img/wind_signal.png>])
+[20 <./img/wind_signal.png>]
+<img/animation.png, id=415, 563.10374pt x 245.41687pt>
+File: img/animation.png Graphic file (type png)
+<use img/animation.png>
+Package pdftex.def Info: img/animation.png  used on input line 141.
+(pdftex.def)             Requested size: 416.2625pt x 181.4184pt.
+)
 
 [21 <./img/animation.png>] (tex/sterowanie.tex
 Overfull \hbox (47.12619pt too wide) in paragraph at lines 19--24
@@ -1611,13 +1615,13 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 Here is how much of TeX's memory you used:
  32749 strings out of 468080
  627779 string characters out of 5425772
- 1739570 words of memory out of 5000000
+ 1740570 words of memory out of 5000000
  60231 multiletter control sequences out of 15000+600000
  816320 words of font info for 534 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,17n,121p,1047b,2806s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (52 pages, 2105751 bytes).
+Output written on main.pdf (52 pages, 2251308 bytes).
 PDF statistics:
  866 PDF objects out of 1000 (max. 8388607)
  198 named destinations out of 1000 (max. 500000)

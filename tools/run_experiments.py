@@ -148,8 +148,8 @@ def main():
     
     # 2. PD-LQR
     controllers['PD-LQR'] = PDLQRController(PLANT, dt,
-                                            pid_gains={"Kp": -4.5, "Ki": 0.0, "Kd": -3},
-                                            lqr_gains={"Q": [69.44, 76.98, 17.70, 14.17], "R": 8.0280})
+                                                pid_gains = {"Kp": -1.5, "Ki": 0.0, "Kd": -5.0},
+                                                lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0})
     
     # 3. MPC
     controllers['MPC'] = MPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,

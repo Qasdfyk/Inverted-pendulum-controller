@@ -133,9 +133,8 @@ def generate_pd_lqr():
     
     # 3. Optimized
     ctrl_opt = PDLQRController(PLANT, dt,
-                               pid_gains={"Kp": -4.5, "Ki": 0.0, "Kd": -3},
-                               # Optimized values from previous tasks
-                               lqr_gains={"Q": [69.44, 76.98, 17.70, 14.17], "R": 8.0280})
+                                    pid_gains = {"Kp": -1.5, "Ki": 0.0, "Kd": -5.0},
+                                    lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0})
     run_simulation(ctrl_opt, "PD-LQR", "pdlqr_3_opt", "Optimized")
 
 def generate_mpc():
@@ -184,7 +183,7 @@ def generate_mpc_j2():
     # Optimization found that for this task, r_abs should be very small or zero to maximize performance,
     # OR it found a specific balance. Let's strictly use the "Optimized" values we claim.
     # If the file says 0.0, we use 0.0.
-    ctrl_opt = MPCControllerJ2(PLANT, dt, N=15, Nu=5, umin=-u_sat, umax=u_sat,
+    ctrl_opt = MPCControllerJ2(PLANT, dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
                                q_theta=80.0, q_x=120.0, q_thd=5.0, q_xd=5.0,
                                r=0.0001, r_abs=0.0) 
     run_simulation(ctrl_opt, "MPC-J2", "mpcJ2_3_opt", "Optimized")
