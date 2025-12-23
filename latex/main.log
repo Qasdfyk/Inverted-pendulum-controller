@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  23 DEC 2025 09:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  23 DEC 2025 11:19
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -978,6 +978,10 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 (main.aux
 Package babel Info: 'polish' activates 'polish' shorthands.
 (babel)             Reported on input line 10.
+
+
+LaTeX Warning: Label `fig:open_loop' multiply defined.
+
 )
 \openout1 = `main.aux'.
 
@@ -1198,7 +1202,7 @@ LaTeX Font Info:    Font shape `U/futm/m/n' will be
 
 
 Package babel Info: 'polish' activates 'polish' shorthands.
-(babel)             Reported on input line 84.
+(babel)             Reported on input line 112.
 [6] (tex/wstep.tex
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
 (Font)              scaled to size 13.24796pt on input line 27.
@@ -1226,71 +1230,73 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 
-Underfull \vbox (badness 5533) has occurred while \output is active []
-
-
 
 [8]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 
 [9]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 
 [10])
 
 [11] (tex/matma.tex
+<images/diagrams/model.png, id=312, 335.00156pt x 264.99pt>
+File: images/diagrams/model.png Graphic file (type png)
+<use images/diagrams/model.png>
+Package pdftex.def Info: images/diagrams/model.png  used on input line 41.
+(pdftex.def)             Requested size: 350.5393pt x 277.27728pt.
 
-[12]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[13]
+[12]
+
+[13 <./images/diagrams/model.png>]
+Underfull \vbox (badness 1789) has occurred while \output is active []
+
+
 
 [14]
-Overfull \hbox (46.77538pt too wide) detected at line 189
+Overfull \hbox (46.77538pt too wide) detected at line 195
 [][][][]\T1/futs/m/n/12 (\FML/futmi/m/it/12 t\T1/futs/m/n/12 ) \FMS/futm/m/n/12 Å []\FML/futmi/m/it/12 :
  []
 
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <12> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 191.
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 197.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <9> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 191.
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 197.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <7> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 191.
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 197.
 
 
 [15]
-<img/open_loop.png, id=373, 578.16pt x 289.08pt>
+<img/open_loop.png, id=377, 578.16pt x 289.08pt>
 File: img/open_loop.png Graphic file (type png)
 <use img/open_loop.png>
-Package pdftex.def Info: img/open_loop.png  used on input line 262.
+Package pdftex.def Info: img/open_loop.png  used on input line 268.
 (pdftex.def)             Requested size: 350.5393pt x 175.26666pt.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 263.
+(Font)              scaled to size 10.07397pt on input line 269.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 7.63599pt on input line 263.
+(Font)              scaled to size 7.63599pt on input line 269.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 5.51999pt on input line 263.
+(Font)              scaled to size 5.51999pt on input line 269.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 263.
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 269.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <8.3> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 263.
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 269.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <6> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 263.
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 269.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 263.
+(Font)              scaled to size 10.07397pt on input line 269.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 7.63599pt on input line 263.
+(Font)              scaled to size 7.63599pt on input line 269.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 5.51999pt on input line 263.
-)
+(Font)              scaled to size 5.51999pt on input line 269.
 
-[16 <./img/open_loop.png>] (tex/srodowisko.tex
+
+[16])
+
+[17 <./img/open_loop.png>] (tex/srodowisko.tex
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <14.4> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 13.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <10> not available
@@ -1307,16 +1313,16 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[17]
-<img/wind_signal.png, id=387, 462.528pt x 346.896pt>
+[18]
+<img/wind_signal.png, id=397, 462.528pt x 346.896pt>
 File: img/wind_signal.png Graphic file (type png)
 <use img/wind_signal.png>
 Package pdftex.def Info: img/wind_signal.png  used on input line 101.
 (pdftex.def)             Requested size: 350.5393pt x 262.91852pt.
 
 
-[18]
-<img/animation.png, id=398, 563.10374pt x 245.41687pt>
+[19]
+<img/animation.png, id=409, 563.10374pt x 245.41687pt>
 File: img/animation.png Graphic file (type png)
 <use img/animation.png>
 Package pdftex.def Info: img/animation.png  used on input line 141.
@@ -1326,17 +1332,17 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[19 <./img/wind_signal.png>])
+[20 <./img/wind_signal.png>])
 
-[20 <./img/animation.png>] (tex/sterowanie.tex
+[21 <./img/animation.png>] (tex/sterowanie.tex
 Overfull \hbox (47.12619pt too wide) in paragraph at lines 19--24
 \T1/futs/m/n/12 (-20) rÛw-no-le-g™ej, wy-ko-rzy-stu-j°cy kla-syczne sprz¶-ªe-nie zwrotne typu PD (Proporcjonalno-RÛªniczkuj°ce).
  []
 
 
 
-[21]
-<images/tuning/pid_1_integral_bad.png, id=428, 1011.78pt x 867.24pt>
+[22]
+<images/tuning/pid_1_integral_bad.png, id=438, 1011.78pt x 867.24pt>
 File: images/tuning/pid_1_integral_bad.png Graphic file (type png)
 <use images/tuning/pid_1_integral_bad.png>
 Package pdftex.def Info: images/tuning/pid_1_integral_bad.png  used on input line 96.
@@ -1346,8 +1352,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[22]
-<images/tuning/pdpd_2_manual.png, id=438, 1011.78pt x 867.24pt>
+[23]
+<images/tuning/pdpd_2_manual.png, id=448, 1011.78pt x 867.24pt>
 File: images/tuning/pdpd_2_manual.png Graphic file (type png)
 <use images/tuning/pdpd_2_manual.png>
 Package pdftex.def Info: images/tuning/pdpd_2_manual.png  used on input line 103.
@@ -1357,8 +1363,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[23 <./images/tuning/pid_1_integral_bad.png>]
-<images/tuning/pdpd_3_opt.png, id=444, 1011.78pt x 867.24pt>
+[24 <./images/tuning/pid_1_integral_bad.png>]
+<images/tuning/pdpd_3_opt.png, id=454, 1011.78pt x 867.24pt>
 File: images/tuning/pdpd_3_opt.png Graphic file (type png)
 <use images/tuning/pdpd_3_opt.png>
 Package pdftex.def Info: images/tuning/pdpd_3_opt.png  used on input line 110.
@@ -1368,13 +1374,13 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[24 <./images/tuning/pdpd_2_manual.png>]
+[25 <./images/tuning/pdpd_2_manual.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[25 <./images/tuning/pdpd_3_opt.png>]
-<images/tuning/pdlqr_1_bad.png, id=462, 1011.78pt x 867.24pt>
+[26 <./images/tuning/pdpd_3_opt.png>]
+<images/tuning/pdlqr_1_bad.png, id=472, 1011.78pt x 867.24pt>
 File: images/tuning/pdlqr_1_bad.png Graphic file (type png)
 <use images/tuning/pdlqr_1_bad.png>
 Package pdftex.def Info: images/tuning/pdlqr_1_bad.png  used on input line 170.
@@ -1384,8 +1390,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[26]
-<images/tuning/pdlqr_2_manual.png, id=471, 1011.78pt x 867.24pt>
+[27]
+<images/tuning/pdlqr_2_manual.png, id=481, 1011.78pt x 867.24pt>
 File: images/tuning/pdlqr_2_manual.png Graphic file (type png)
 <use images/tuning/pdlqr_2_manual.png>
 Package pdftex.def Info: images/tuning/pdlqr_2_manual.png  used on input line 182.
@@ -1395,8 +1401,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[27 <./images/tuning/pdlqr_1_bad.png>]
-<images/tuning/pdlqr_3_opt.png, id=478, 1011.78pt x 867.24pt>
+[28 <./images/tuning/pdlqr_1_bad.png>]
+<images/tuning/pdlqr_3_opt.png, id=488, 1011.78pt x 867.24pt>
 File: images/tuning/pdlqr_3_opt.png Graphic file (type png)
 <use images/tuning/pdlqr_3_opt.png>
 Package pdftex.def Info: images/tuning/pdlqr_3_opt.png  used on input line 195.
@@ -1406,20 +1412,20 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[28 <./images/tuning/pdlqr_2_manual.png>]
+[29 <./images/tuning/pdlqr_2_manual.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[29 <./images/tuning/pdlqr_3_opt.png>]
-<images/tuning/mpc_3_opt.png, id=497, 1011.78pt x 867.24pt>
+[30 <./images/tuning/pdlqr_3_opt.png>]
+<images/tuning/mpc_3_opt.png, id=507, 1011.78pt x 867.24pt>
 File: images/tuning/mpc_3_opt.png Graphic file (type png)
 <use images/tuning/mpc_3_opt.png>
 Package pdftex.def Info: images/tuning/mpc_3_opt.png  used on input line 264.
 (pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
 
 
-[30]
+[31]
 Overfull \hbox (60.4458pt too wide) in paragraph at lines 271--276
 []\T1/futs/m/n/12 (-20) Jako wa-riant ba-daw-czy al-go-rytmu pre-dyk-cyj-nego za-im-ple-men-to-wano ste-row-nik \T1/cmtt/m/n/12 MPCControllerJ2
  []
@@ -1429,8 +1435,8 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[31 <./images/tuning/mpc_3_opt.png>]
-<images/tuning/mpcJ2_3_opt.png, id=513, 1011.78pt x 867.24pt>
+[32 <./images/tuning/mpc_3_opt.png>]
+<images/tuning/mpcJ2_3_opt.png, id=523, 1011.78pt x 867.24pt>
 File: images/tuning/mpcJ2_3_opt.png Graphic file (type png)
 <use images/tuning/mpcJ2_3_opt.png>
 Package pdftex.def Info: images/tuning/mpcJ2_3_opt.png  used on input line 308.
@@ -1440,39 +1446,39 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[32 <./images/tuning/mpcJ2_3_opt.png>]
+[33 <./images/tuning/mpcJ2_3_opt.png>]
 Overfull \hbox (1.46375pt too wide) in paragraph at lines 343--345
 []\T1/futs/m/n/12 (-20) Zachowanie ™a-god-nej cha-rak-te-ry-styki LQR w po-bliªu punktu rÛw-no-wagi (ma™e wzmoc-
  []
 
 
 
-[33]
-<images/tuning/fuzzy_3_opt.png, id=532, 1011.78pt x 867.24pt>
+[34]
+<images/tuning/fuzzy_3_opt.png, id=542, 1011.78pt x 867.24pt>
 File: images/tuning/fuzzy_3_opt.png Graphic file (type png)
 <use images/tuning/fuzzy_3_opt.png>
 Package pdftex.def Info: images/tuning/fuzzy_3_opt.png  used on input line 373.
 (pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
 )
 
-[34 <./images/tuning/fuzzy_3_opt.png>] (tex/eksperymenty.tex
+[35 <./images/tuning/fuzzy_3_opt.png>] (tex/eksperymenty.tex
 
-[35]
+[36]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[36])
+[37])
 
-[37] (tex/badania_wyniki.tex
+[38] (tex/badania_wyniki.tex
 
-[38]
-<images/experiments/combined_nominal_classical.png, id=579, 867.24pt x 578.16pt>
+[39]
+<images/experiments/combined_nominal_classical.png, id=589, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_classical.png Graphic file (type png)
 <use images/experiments/combined_nominal_classical.png>
 Package pdftex.def Info: images/experiments/combined_nominal_classical.png  used on input line 62.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_nominal_pos_classical.png, id=580, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_pos_classical.png, id=590, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_pos_classical.png Graphic file (type png)
 <use images/experiments/combined_nominal_pos_classical.png>
 Package pdftex.def Info: images/experiments/combined_nominal_pos_classical.png  used on input line 69.
@@ -1481,7 +1487,7 @@ Package pdftex.def Info: images/experiments/combined_nominal_pos_classical.png  
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/experiments/combined_nominal_control_classical.png, id=581, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_control_classical.png, id=591, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_control_classical.png Graphic file (type png)
 <use images/experiments/combined_nominal_control_classical.png>
 Package pdftex.def Info: images/experiments/combined_nominal_control_classical.png  used on input line 76.
@@ -1491,18 +1497,18 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[39 <./images/experiments/combined_nominal_classical.png>]
+[40 <./images/experiments/combined_nominal_classical.png>]
 Underfull \vbox (badness 6300) has occurred while \output is active []
 
 
 
-[40 <./images/experiments/combined_nominal_pos_classical.png> <./images/experiments/combined_nominal_control_classical.png>]
-<images/experiments/combined_nominal_advanced.png, id=602, 867.24pt x 578.16pt>
+[41 <./images/experiments/combined_nominal_pos_classical.png> <./images/experiments/combined_nominal_control_classical.png>]
+<images/experiments/combined_nominal_advanced.png, id=612, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_advanced.png Graphic file (type png)
 <use images/experiments/combined_nominal_advanced.png>
 Package pdftex.def Info: images/experiments/combined_nominal_advanced.png  used on input line 115.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_nominal_pos_advanced.png, id=603, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_pos_advanced.png, id=613, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_pos_advanced.png Graphic file (type png)
 <use images/experiments/combined_nominal_pos_advanced.png>
 Package pdftex.def Info: images/experiments/combined_nominal_pos_advanced.png  used on input line 122.
@@ -1511,7 +1517,7 @@ Package pdftex.def Info: images/experiments/combined_nominal_pos_advanced.png  u
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/experiments/combined_nominal_control_advanced.png, id=604, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_control_advanced.png, id=614, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_control_advanced.png Graphic file (type png)
 <use images/experiments/combined_nominal_control_advanced.png>
 Package pdftex.def Info: images/experiments/combined_nominal_control_advanced.png  used on input line 129.
@@ -1521,19 +1527,19 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[41 <./images/experiments/combined_nominal_advanced.png>]
+[42 <./images/experiments/combined_nominal_advanced.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[42 <./images/experiments/combined_nominal_pos_advanced.png> <./images/experiments/combined_nominal_control_advanced.png>]
+[43 <./images/experiments/combined_nominal_pos_advanced.png> <./images/experiments/combined_nominal_control_advanced.png>]
 
-LaTeX Warning: Reference `fig:wind_classical' on page 43 undefined on input line 148.
+LaTeX Warning: Reference `fig:wind_classical' on page 44 undefined on input line 148.
 
 
-LaTeX Warning: Reference `fig:wind_advanced' on page 43 undefined on input line 156.
+LaTeX Warning: Reference `fig:wind_advanced' on page 44 undefined on input line 156.
 
-<images/experiments/combined_wind_pos_classical.png, id=618, 867.24pt x 578.16pt>
+<images/experiments/combined_wind_pos_classical.png, id=629, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind_pos_classical.png Graphic file (type png)
 <use images/experiments/combined_wind_pos_classical.png>
 Package pdftex.def Info: images/experiments/combined_wind_pos_classical.png  used on input line 183.
@@ -1541,7 +1547,7 @@ Package pdftex.def Info: images/experiments/combined_wind_pos_classical.png  use
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/experiments/combined_wind_pos_advanced.png, id=619, 867.24pt x 578.16pt>
+<images/experiments/combined_wind_pos_advanced.png, id=630, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind_pos_advanced.png Graphic file (type png)
 <use images/experiments/combined_wind_pos_advanced.png>
 Package pdftex.def Info: images/experiments/combined_wind_pos_advanced.png  used on input line 190.
@@ -1554,25 +1560,27 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[43]
+[44]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[44 <./images/experiments/combined_wind_pos_classical.png> <./images/experiments/combined_wind_pos_advanced.png>]
+[45 <./images/experiments/combined_wind_pos_classical.png> <./images/experiments/combined_wind_pos_advanced.png>]
 
-[45])
+[46])
 
-[46]
+[47]
 
-[47
+[48
 
 
 ]
 
-[48] (main.lof
+[49]
 
-[49])
+[50] (main.lof
+
+[51])
 \tf@lof=\write6
 \openout6 = `main.lof'.
 
@@ -1582,7 +1590,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[50] (main.aux)
+[52] (main.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-10-09>
@@ -1591,24 +1599,27 @@ L3 programming layer <2025-10-09>
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: There were multiply-defined labels.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 65F4AE44807B45FD57284B599EEF93BE;8809.
+(rerunfilecheck)             Checksum: C9912D4037198C2E472095CD92DB596C;8809.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 32738 strings out of 468080
- 627518 string characters out of 5425772
- 1740530 words of memory out of 5000000
- 60224 multiletter control sequences out of 15000+600000
+ 32749 strings out of 468080
+ 627779 string characters out of 5425772
+ 1739570 words of memory out of 5000000
+ 60231 multiletter control sequences out of 15000+600000
  816320 words of font info for 534 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,17n,121p,1047b,2806s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (50 pages, 2066492 bytes).
+Output written on main.pdf (52 pages, 2105751 bytes).
 PDF statistics:
- 850 PDF objects out of 1000 (max. 8388607)
- 194 named destinations out of 1000 (max. 500000)
- 103375 words of extra memory for PDF output out of 106986 (max. 10000000)
+ 866 PDF objects out of 1000 (max. 8388607)
+ 198 named destinations out of 1000 (max. 500000)
+ 103380 words of extra memory for PDF output out of 106986 (max. 10000000)
 

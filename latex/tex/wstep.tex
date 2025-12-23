@@ -57,9 +57,6 @@ Zasadniczym celem pracy jest zaprojektowanie i~realizacja autorskiego
 analizy porównawczej algorytmów sterowania dla nieliniowego układu 
 odwróconego wahadła.
 
-Aby zrealizować ten cel, zdefiniowano zestaw wymagań funkcjonalnych 
-i~niefunkcjonalnych, które musi spełniać opracowany system:
-
 Aby zrealizować ten cel, zdefiniowano szereg wymagań funkcjonalnych 
 i~niefunkcjonalnych stawianych opracowywanemu systemowi. W~warstwie 
 funkcjonalnej środowisko musi wiernie odwzorowywać dynamikę układu wózka 
@@ -85,13 +82,13 @@ W~niniejszej pracy postanowiono porównać ze~sobą trzy zupełnie różne podej
 \begin{itemize}
   \item klasyczne (PID, kaskady),
   \item optymalne i~predykcyjne (LQR, MPC),
-  \item inteligentne (sterowanie rozmyte).
+  \item sterowanie rozmyte (Fuzzy).
 \end{itemize}
 
-Wyróżnikiem pracy jest to, że wszystkie te algorytmy zostały uruchomione 
+Wszystkie te algorytmy zostały uruchomione 
 w~tym samym środowisku symulacyjnym. Dzięki temu możliwe było ich uczciwe 
 porównanie w~identycznych warunkach. Sprawdzono nie tylko, jak precyzyjnie 
-utrzymują wahadło w~pionie, ale także jak radzą sobie z~trudnymi zakłóceniami 
+utrzymują wahadło w~pionie, ale także jak radzą sobie z~zakłóceniami 
 (np. porywistym wiatrem) oraz ile energii zużywają podczas pracy.
 
 W~ramach projektu zaimplementowano i~poddano badaniom następujące struktury:
@@ -130,7 +127,7 @@ ilościowych. Jakość stabilizacji weryfikowana jest w~oparciu o~metryki całko
 błędu (ISE, IAE) dla kąta wychylenia oraz pozycji wózka. Równolegle ocenie 
 poddano ekonomię sterowania, wyznaczając koszt energetyczny poprzez normy 
 \(L_1\) i~\(L_2\) sygnału sterującego. Całość uzupełnia analiza odporności 
-układu na~zakłócenia (szumy, siły zewnętrzne), wyrażona m.in. wskaźnikiem SNR. 
+układu na~zakłócenia (szumy, siły zewnętrzne). 
 Tak dobrane kryteria pozwalają na~wszechstronne wskazanie mocnych i~słabych 
 stron badanych metod.
 

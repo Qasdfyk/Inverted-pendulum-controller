@@ -1,21 +1,22 @@
 \babel@toc {polish}{}\relax 
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Symulacja odpowiedzi swobodnej układu (z uwzględnionym tłumieniem) na małe wychylenie początkowe. Układ opuszcza niestabilny punkt równowagi ($\theta \approx 0$) i stabilizuje się w pozycji wiszącej ($\theta = \pi $).}}{16}{figure.caption.1}%
-\contentsline {figure}{\numberline {3.1}{\ignorespaces Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru) działającego na wahadło w czasie symulacji.}}{19}{figure.caption.3}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}}{20}{figure.caption.4}%
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Destabilizujący wpływ członu całkującego (PID) - widoczne narastające oscylacje i utrata stabilności.}}{23}{figure.caption.6}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Stabilna, lecz oscylacyjna praca regulatora PD-PD przy strojeniu ręcznym.}}{24}{figure.caption.7}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Przebiegi czasowe dla zoptymalizowanych nastaw regulatora PD-PD (algorytm Differential Evolution).}}{25}{figure.caption.8}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Próba sterowania LQR z wagami jednostkowymi ($Q=I, R=1$). Widoczna duża bezwładność układu.}}{27}{figure.caption.9}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Wyniki strojenia ręcznego LQR metodą Brysona.}}{28}{figure.caption.10}%
-\contentsline {figure}{\numberline {4.6}{\ignorespaces Optymalne przebiegi regulatora PD-LQR po zastosowaniu algorytmu genetycznego.}}{29}{figure.caption.11}%
-\contentsline {figure}{\numberline {4.7}{\ignorespaces Zoptymalizowany regulator MPC ($N_p=12$) - szybka i gładka stabilizacja.}}{31}{figure.caption.12}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Optymalny kompromis między jakością regulacji a energią w MPC-J2.}}{32}{figure.caption.13}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Efektywne sterowanie Fuzzy-LQR po optymalizacji bazy reguł.}}{34}{figure.caption.14}%
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne).}}{39}{figure.caption.15}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}}{40}{figure.caption.16}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}}{40}{figure.caption.17}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{41}{figure.caption.18}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{42}{figure.caption.19}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{42}{figure.caption.20}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Dryf pozycji $x$ pod wpływem wiatru -- regulatory klasyczne.}}{44}{figure.caption.21}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem wiatru -- regulatory zaawansowane.}}{44}{figure.caption.22}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Źródło: \blx@tocontentsinit {0}\cite {Prasad2014}. Schemat układu odwróconego wahadła na wózku.}}{13}{figure.caption.1}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Symulacja odpowiedzi swobodnej układu (z uwzględnionym tłumieniem) na małe wychylenie początkowe. Układ opuszcza niestabilny punkt równowagi ($\theta \approx 0$) i stabilizuje się w pozycji wiszącej ($\theta = \pi $).}}{17}{figure.caption.2}%
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru) działającego na wahadło w czasie symulacji.}}{20}{figure.caption.4}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}}{21}{figure.caption.5}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Destabilizujący wpływ członu całkującego (PID) - widoczne narastające oscylacje i utrata stabilności.}}{24}{figure.caption.7}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Stabilna, lecz oscylacyjna praca regulatora PD-PD przy strojeniu ręcznym.}}{25}{figure.caption.8}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Przebiegi czasowe dla zoptymalizowanych nastaw regulatora PD-PD (algorytm Differential Evolution).}}{26}{figure.caption.9}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Próba sterowania LQR z wagami jednostkowymi ($Q=I, R=1$). Widoczna duża bezwładność układu.}}{28}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Wyniki strojenia ręcznego LQR metodą Brysona.}}{29}{figure.caption.11}%
+\contentsline {figure}{\numberline {4.6}{\ignorespaces Optymalne przebiegi regulatora PD-LQR po zastosowaniu algorytmu genetycznego.}}{30}{figure.caption.12}%
+\contentsline {figure}{\numberline {4.7}{\ignorespaces Zoptymalizowany regulator MPC ($N_p=12$) - szybka i gładka stabilizacja.}}{32}{figure.caption.13}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Optymalny kompromis między jakością regulacji a energią w MPC-J2.}}{33}{figure.caption.14}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Efektywne sterowanie Fuzzy-LQR po optymalizacji bazy reguł.}}{35}{figure.caption.15}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne).}}{40}{figure.caption.16}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}}{41}{figure.caption.17}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}}{41}{figure.caption.18}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{42}{figure.caption.19}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{43}{figure.caption.20}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{43}{figure.caption.21}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Dryf pozycji $x$ pod wpływem wiatru -- regulatory klasyczne.}}{45}{figure.caption.22}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem wiatru -- regulatory zaawansowane.}}{45}{figure.caption.23}%
