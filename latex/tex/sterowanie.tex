@@ -147,7 +147,7 @@ Składnik LQR realizuje stabilizację wokół punktu pracy:
 \end{equation}
 Zastosowane wagi optymale to:
 \begin{equation}
-    Q = \text{diag}([69.44,\; 76.98,\; 17.70,\; 14.17]), \quad R = 8.028.
+    Q = \text{diag}([1.0,\; 1.0,\; 500.0,\; 250.0]), \quad R = 1.0.
 \end{equation}
 Dodatkowy człon PD na~pętli pozycji (zrealizowany analogicznie do wzoru
 \ref{eq:pd_x}) ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
@@ -186,9 +186,9 @@ czas regulacji był wciąż niezadowalający, a~reakcja na~zakłócenia powolna.
 
 W~ostatnim etapie zastosowano optymalizację numeryczną. Algorytm genetyczny
 poszukiwał optymalnych elementów diagonalnych macierzy $Q$ oraz skalara $R$,
-minimalizując czas regulacji. Zoptymalizowane wagi (w szczególności wysoka kara
-$Q_{\theta} \approx 69.44$) znacznie przewyższyły jakością sterowania nastawy
-dobrane heurystycznie.
+    minimalizując czas regulacji. Zoptymalizowane wagi (w szczególności wysoka kara
+    $Q_{x} = 500$) sprawiają, że regulator bardzo agresywnie pilnuje pozycji wózka,
+    co pośrednio wymusza stabilne trzymanie wahadła (wymagane do kontroli pozycji).
 
 \begin{figure}[H]
     \centering

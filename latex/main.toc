@@ -37,8 +37,8 @@
 \contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{39}{subsubsection.6.1.1}%
 \contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{40}{subsubsection.6.1.2}%
 \contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{42}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3\relax .\enspace }Szczegółowe zestawienie ilościowe}{46}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4\relax .\enspace }Dyskusja i wnioski końcowe}{46}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.3\relax .\enspace }Szczegółowe zestawienie ilościowe}{44}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4\relax .\enspace }Dyskusja i wnioski końcowe}{44}{subsection.6.4}%
 \contentsline {section}{Bibliografia}{49}{section*.29}%
 \contentsline {section}{Wykaz symboli i skrótów}{51}{section*.30}%
 \contentsline {section}{Spis rysunków}{52}{section*.30}%

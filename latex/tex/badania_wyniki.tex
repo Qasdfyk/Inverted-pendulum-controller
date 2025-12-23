@@ -32,30 +32,22 @@ warunki początkowe. Symulacja rozpoczynała się od wychylenia wahadła o kąt 
 
 Na Rysunkach \ref{fig:nom_classical}, \ref{fig:nom_pos_classical} oraz
 \ref{fig:nom_control_classical} przedstawiono zbiorcze zestawienie przebiegów czasowych dla
+Na Rysunkach \ref{fig:nom_classical}, \ref{fig:nom_pos_classical} oraz
+\ref{fig:nom_control_classical} przedstawiono zbiorcze zestawienie przebiegów czasowych dla
 grupy regulatorów klasycznych. Analizując wykres kąta wychylenia $\theta$
-(Rys. \ref{fig:nom_classical}), można zaobserwować wyraźne różnice w filozofii działania obu
-układów. Regulator PD-LQR, korzystający z pełnego sprzężenia od wektora stanu i macierzy
-wzmocnień wyznaczonej metodą optymalizacji LQR, charakteryzuje się bardzo pożądanym,
-aperiodycznym przebiegiem dochodzenia do równowagi. Krzywa ma charakter łagodny, pozbawiony
-zbędnych oscylacji, co świadczy o wysokim zapasie stabilności i doskonałym tłumieniu.
+(Rys. \ref{fig:nom_classical}), można zaobserwować, że oba regulary radzą sobie ze stabilizacją,
+jednak robią to w różnym stylu.
 
-Zupełnie inaczej zachowuje się regulator kaskadowy PD-PD. Jego odpowiedź, choć stabilna,
-obarczona jest znacznie dłuższym czasem ustalania się. Widoczne są charakterystyczne oscylacje
-resztkowe, wynikające z braku bezpośredniego uwzględnienia sprzężeń między dynamiką kątową a
-liniową w procesie doboru nastaw. Te oscylacje kątowe mają swoje bezpośrednie przełożenie na
-pozycję wózka, co doskonale widać na Rysunku \ref{fig:nom_pos_classical}. W przypadku
-regulatora PD-LQR, wózek wykonuje jeden zdecydowany ruch kompensacyjny, po czym płynnie
-i monotonicznie wraca w okolice punktu zerowego. Cały proces stabilizacji pozycji zamyka się
-w czasie około 3 sekund. Tymczasem wózek sterowany regulatorem PD-PD "błądzi" wokół zera
-znacznie dłużej, wykonując szereg korekt przód-tył, będących odpowiedzią na oscylacje wahadła.
-
-Potwierdzeniem wyższej efektywności podejścia LQR jest analiza sygnału sterującego
-(Rys. \ref{fig:nom_control_classical}). Regulator hybrydowy generuje sygnał o mniejszej
-amplitudzie szczytowej i znacznie łagodniejszym przebiegu. Wymaga on zatem mniejszej siły
-(a co za tym idzie momentu napędowego silnika) do osiągnięcia lepszego efektu końcowego. Jest to
-dowód na to, że regulator. LQR, minimalizując wskaźnik kwadratowy, w sposób naturalny dąży do
-oszczędzania energii sterowania ($E_u \approx 0.54$), podczas gdy "sztywny" regulator PD-PD
-zużywa jej niemal dwukrotnie więcej ($E_u \approx 0.85$) na walkę z własnymi oscylacjami.
+Zoptymalizowany regulator PD-LQR, wykorzystujący duże wzmocnienia dla błędu pozycji ($Q_x=500$),
+charakteryzuje się niezwykle szybkim czasem regulacji ($T_s \approx 0.2$ s). Jest to wynik
+zdecydowanie lepszy od regulatora PD-PD ($T_s \approx 0.3$ s). PD-LQR działa agresywnie,
+co widać na wykresie pozycji (Rys. \ref{fig:nom_pos_classical}) -- wózek wykonuje szybki ruch
+korekcyjny, niemal natychmiast ustalając pozycję w pobliżu zera. Cena za tę dynamikę jest jednak
+widoczna w zużyciu energii. W przeciwieństwie do poprzednich iteracji strojenia, obecny,
+agresywny LQR zużywa więcej energii ($E_u \approx 1.48$) niż "miękki" regulator PD-PD
+($E_u \approx 0.85$), który pozwala sobie na dłuższe i łagodniejsze dochodzenie do równowagi.
+Mamy więc do czynienia z zamianą ról: PD-PD stał się rozwiązaniem bardziej ekonomicznym w
+stanie przejściowym, podczas gdy PD-LQR przejął rolę wyczynowego sprintera.
 
 \begin{figure}[h!]
     \centering
@@ -103,8 +95,8 @@ wolniejszy niż w przypadku Fuzzy-LQR, ale za to niezwykle płynny (Rys. \ref{fi
 Co najważniejsze, ruch wózka jest w pełni kontrolowany i pozbawiony gwałtownych przyspieszeń.
 MPC jako jedyny regulator potrafi w sposób jawny uwzględnić ograniczenia fizyczne napędu, co
 czyni go rozwiązaniem najbezpieczniejszym dla mechaniki układu. Zużycie energii na poziomie
-$E_u \approx 0.56$ jest zbliżone do optymalnego LQR, co potwierdza wysoką efektywność
-algorytmów predykcyjnych.
+$E_u \approx 0.56$ jest ponad dwukrotnie niższe od obecnego LQR ($1.48$) oraz niższe od PD-PD,
+co czyni MPC bezapelacyjnym liderem ekonomii w warunkach nominalnych.
 
 Wariant MPC-J2, mimo zastosowania innej funkcji kosztu, zachowuje się bardzo podobnie do
 klasycznego MPC w warunkach nominalnych. Różnice między nimi ujawnią się dopiero w teście
@@ -145,32 +137,29 @@ przeciwdziałający wiatrowi. Oznacza to, że skuteczna walka z wychyleniem kąt
 prowadzi do przemieszczania się wózka (dryfu). Sztuka polega na znalezieniu równowagi - jak
 bardzo pozwolić wózkowi uciec, by utrzymać wahadło w pionie.
 
-W grupie klasycznej (Rys. \ref{fig:wind_classical} i \ref{fig:wind_pos_classical}) oba
-regulatory radzą sobie poprawnie, choć widoczne są ograniczenia ich struktur. PD-PD dopuszcza
-do powstawania większych oscylacji kątowych ($MSE_\theta \approx 6.0 \cdot 10^{-4}$), co jest
-efektem słumiennego reagowania członu różniczkującego na szum. PD-LQR, dzięki lepszemu
-tłumieniu, utrzymuje wahadło stabilniej, jednak odbywa się to kosztem większego dryfu pozycji
-($Max |x| \approx 0.35$ m wobec $0.26$ m dla PD-PD).
+W grupie klasycznej (Rys. \ref{fig:wind_classical} i \ref{fig:wind_pos_classical}) nastąpiła
+istotna zmiana w stosunku do wcześniejszych analiz. Nowe strojenie PD-LQR, nastawione na
+karę za zmianę pozycji, przyniosło spektakularne efekty. LQR nie tylko lepiej stabilizuje
+kąt ($Max |\theta| \approx 0.060$ vs $0.068$ rad dla PD-PD), ale przede wszystkim drastycznie
+redukuje dryf pozycji ($Max |x| \approx 0.22$ m vs $0.26$ m). Co najbardziej zaskakujące,
+robi to zużywając MNIEJ energii ($E_u \approx 11.7$) niż regulator PD-PD ($15.4$).
+Wynika to z faktu, że optymalny regulator tłumi zakłócenie w zarodku, nie pozwalając na
+rozhustanie się układu, podczas gdy PD-PD walczy ze skutkami oscylacji, które sam dopuścił.
 
-Prawdziwa przepaść jakościowa widoczna jest jednak w grupie zaawansowanej
-(Rys. \ref{fig:wind_advanced} i \ref{fig:wind_pos_advanced}). Tutaj bezdyskusyjnym zwycięzcą
-w kategorii precyzji stabilizacji okazał się regulator Fuzzy-LQR. Dzięki nieliniowej strukturze
-bazy reguł, regulator ten potrafi dynamicznie zmieniać swoje wzmocnienia. Dla małych wychyleń
-działa łagodnie, ale każda nagła zmiana kąta czy prędkości kątowej wywołana podmuchem wiatru
-spotyka się z natychmiastową, silną kontrreakcją. Efekt jest spektakularny: wahadło jest
-trzymane niemal "na sztywno" w pionie, co skutkuje najmniejszym błędem średniokwadratowym
-($MSE_\theta \approx 3.0 \cdot 10^{-4}$) oraz, co ciekawe, najmniejszym dryfem pozycji
-($Max |x| \approx 0.24$ m). Ponieważ wahadło nie wychyla się mocno, wózek nie musi wykonywać
-długich rajdów ratunkowych. Ceną za ten wyczyn jest jednak gigantyczne zużycie energii
-($E_u \approx 85.9$), wielokrotnie wyższe od konkurencji. Regulator ciągle "szarpie" wózkiem,
-co w rzeczywistym układzie mogłoby prowadzić do przegrzania napędu.
+W grupie zaawansowanej (Rys. \ref{fig:wind_advanced} i \ref{fig:wind_pos_advanced})
+regulator Fuzzy-LQR pozostaje bezkonkurencyjny w dziedzinie precyzji kątowej
+($Max |\theta| \approx 0.05$ rad -- praktycznie brak wychylenia), jednak cena energetyczna
+pozostaje zaporowa ($E_u \approx 85.9$). Jest to sterownik typu "nieustępliwy" -- używa
+każdej dostępnej mocy, by zniwelować błąd.
 
 Zupełnie inną strategię w obliczu wiatru przyjmuje MPC. Ograniczony funkcją kosztu, która karze
 duże sterowania, MPC zachowuje się bardziej pasywnie. Pozwala on wahadłu na pewne, kontrolowane
-wychylenia pod wiatr, "płynąc" z zakłóceniem. Skutkuje to większym dryfem wózka
+wychylenia pod wiatr, "płynąc" z zakłóceniem. Skutkuje to największym dryfem wózka w zestawieniu
 ($Max |x| \approx 0.40$ m), który jest po prostu spychany przez wiatr, ale za to zużycie
-energii jest absolutnie minimalne ($E_u \approx 12.6$). Jest to strategia "ekonomiczna" -
-przetrwać zakłócenie przy minimalnym wysiłku.
+energii jest niskie ($E_u \approx 12.6$). Warto zauważyć, że w tych konkretnych warunkach
+PD-LQR okazał się lepszy od MPC zarówno pod względem trzymania pozycji, jak i zużycia energii,
+co dowodzi, że dobrze nastrojony regulator liniowy może konkurować z predykcyjnym, o ile nie
+występują nasycenia sterowania.
 
 Warto odnotować całkowitą porażkę wariantu MPC-J2 w tym teście. Jego funkcja kosztu, karząca
 bezpośrednio wartość sterowania ($u$), a nie jej zmianę ($\Delta u$), okazała się zbyt
@@ -273,9 +262,10 @@ Nie można również pominąć prostego regulatora PD-LQR. Mimo że ustępuje on
 zaawansowanym w skrajnych sytuacjach, oferuje on bardzo korzystny stosunek jakości do złożoności
 obliczeniowej. Jak wykazali Varghese i in. \cite{Varghese2017}, LQR pozostaje solidnym standardem
 przemysłowym, zapewniającym wystarczającą stabilność dla szerokiej klasy obiektów przy
-minimalnym narzucie implementacyjnym. W naszych testach PD-LQR stanowił doskonały
-"złoty środek", będąc znacznie lepszym od prostego PD-PD (zgodnie z wynikami Prasad et al.
-\cite{Prasad2014}), a jednocześnie tańszym obliczeniowo od MPC.
+minimalnym narzucie implementacyjnym. W naszych testach PD-LQR, po odpowiednim doborze wag
+($Q_x = 500$), okazał się rozwiązaniem niezwykle uniwersalnym -- w warunkach wietrznych
+pokonał konkurencję klasyczną i nawiązał równorzędną walkę z MPC pod względem energetycznym,
+oferując znacznie lepsze trzymanie pozycji.
 
 Podsumowując, projektant systemu sterowania musi świadomie balansować między sztywnością
 regulacji (Fuzzy) a jej kosztem (MPC). Niniejsza praca dowodzi, że w zależności od definicji
