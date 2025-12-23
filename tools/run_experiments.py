@@ -156,7 +156,7 @@ def main():
                                        Q=np.diag([158.39, 36.80, 43.41, 19.71]), R=0.08592)
     
     # 4. MPC-J2
-    controllers['MPC-J2'] = MPCControllerJ2(PLANT, dt, N=15, Nu=5, umin=-u_sat, umax=u_sat,
+    controllers['MPC-J2'] = MPCControllerJ2(PLANT, dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
                                             q_theta=80.0, q_x=120.0, q_thd=5.0, q_xd=5.0,
                                             r=0.0001, r_abs=0.0) # Optimized
     

@@ -90,11 +90,11 @@ if __name__ == "__main__":
     dt, T = SIM["dt"], SIM["T"]
     x0, x_ref, u_sat = SIM["x0"], SIM["x_ref"], SIM["u_sat"]
     plant = PLANT
-    wind = None
-    # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
+    #wind = None
+    wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
 
     ctrl = MPCControllerJ2(
-        pars=plant, dt=dt, N=15, Nu=5, umin=-u_sat, umax=u_sat,
+        pars=plant, dt=dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
         q_theta=80.0, q_x=120.0, q_thd=5.0, q_xd=5.0,
         r=0.0001, r_abs=0.0
     )
