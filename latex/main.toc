@@ -32,11 +32,11 @@
 \contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{35}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2\relax .\enspace }Badane algorytmy}{35}{subsection.5.2}%
 \contentsline {subsection}{\numberline {5.3\relax .\enspace }Wskaźniki jakości regulacji}{36}{subsection.5.3}%
-\contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników eksperymentalnych}{38}{section.6}%
-\contentsline {subsection}{\numberline {6.1\relax .\enspace }Eksperyment 1: Stabilizacja w warunkach nominalnych}{38}{subsection.6.1}%
+\contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników}{38}{section.6}%
+\contentsline {subsection}{\numberline {6.1\relax .\enspace }Stabilizacja w warunkach nominalnych}{38}{subsection.6.1}%
 \contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{38}{subsubsection.6.1.1}%
 \contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{39}{subsubsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.2\relax .\enspace }Eksperyment 2: Analiza odporności na zakłócenia}{41}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{41}{subsection.6.2}%
 \contentsline {subsection}{\numberline {6.3\relax .\enspace }Szczegółowe zestawienie ilościowe}{45}{subsection.6.3}%
 \contentsline {subsection}{\numberline {6.4\relax .\enspace }Dyskusja i wnioski końcowe}{45}{subsection.6.4}%
 \contentsline {section}{Bibliografia}{47}{section*.28}%
