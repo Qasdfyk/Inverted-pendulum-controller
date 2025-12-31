@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  31 DEC 2025 16:01
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  31 DEC 2025 16:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -978,10 +978,6 @@ Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 (main.aux
 Package babel Info: 'polish' activates 'polish' shorthands.
 (babel)             Reported on input line 10.
-
-
-LaTeX Warning: Label `fig:open_loop' multiply defined.
-
 )
 \openout1 = `main.aux'.
 
@@ -1476,24 +1472,24 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [39] (tex/badania_wyniki.tex
 
 [40]
-<images/experiments/combined_nominal_classical.png, id=602, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_classical.png, id=599, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_classical.png Graphic file (type png)
 <use images/experiments/combined_nominal_classical.png>
-Package pdftex.def Info: images/experiments/combined_nominal_classical.png  used on input line 54.
+Package pdftex.def Info: images/experiments/combined_nominal_classical.png  used on input line 52.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_nominal_pos_classical.png, id=603, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_pos_classical.png, id=600, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_pos_classical.png Graphic file (type png)
 <use images/experiments/combined_nominal_pos_classical.png>
-Package pdftex.def Info: images/experiments/combined_nominal_pos_classical.png  used on input line 61.
+Package pdftex.def Info: images/experiments/combined_nominal_pos_classical.png  used on input line 59.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/experiments/combined_nominal_control_classical.png, id=604, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_control_classical.png, id=601, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_control_classical.png Graphic file (type png)
 <use images/experiments/combined_nominal_control_classical.png>
-Package pdftex.def Info: images/experiments/combined_nominal_control_classical.png  used on input line 68.
+Package pdftex.def Info: images/experiments/combined_nominal_control_classical.png  used on input line 66.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1506,24 +1502,24 @@ Underfull \vbox (badness 6300) has occurred while \output is active []
 
 
 [42 <./images/experiments/combined_nominal_pos_classical.png> <./images/experiments/combined_nominal_control_classical.png>]
-<images/experiments/combined_nominal_advanced.png, id=625, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_advanced.png, id=622, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_advanced.png Graphic file (type png)
 <use images/experiments/combined_nominal_advanced.png>
-Package pdftex.def Info: images/experiments/combined_nominal_advanced.png  used on input line 107.
+Package pdftex.def Info: images/experiments/combined_nominal_advanced.png  used on input line 105.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_nominal_pos_advanced.png, id=626, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_pos_advanced.png, id=623, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_pos_advanced.png Graphic file (type png)
 <use images/experiments/combined_nominal_pos_advanced.png>
-Package pdftex.def Info: images/experiments/combined_nominal_pos_advanced.png  used on input line 114.
+Package pdftex.def Info: images/experiments/combined_nominal_pos_advanced.png  used on input line 112.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/experiments/combined_nominal_control_advanced.png, id=627, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_control_advanced.png, id=624, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_control_advanced.png Graphic file (type png)
 <use images/experiments/combined_nominal_control_advanced.png>
-Package pdftex.def Info: images/experiments/combined_nominal_control_advanced.png  used on input line 121.
+Package pdftex.def Info: images/experiments/combined_nominal_control_advanced.png  used on input line 119.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1531,29 +1527,30 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 [43 <./images/experiments/combined_nominal_advanced.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Warning: Reference `fig:wind_classical' on page 44 undefined on input line 138.
+
+
+Underfull \vbox (badness 6300) has occurred while \output is active []
 
 
 
 [44 <./images/experiments/combined_nominal_pos_advanced.png> <./images/experiments/combined_nominal_control_advanced.png>]
 
-LaTeX Warning: Reference `fig:wind_classical' on page 45 undefined on input line 140.
+LaTeX Warning: Reference `fig:wind_advanced' on page 45 undefined on input line 147.
 
-
-LaTeX Warning: Reference `fig:wind_advanced' on page 45 undefined on input line 149.
-
-<images/experiments/combined_wind_pos_classical.png, id=642, 867.24pt x 578.16pt>
+<images/experiments/combined_wind_pos_classical.png, id=639, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind_pos_classical.png Graphic file (type png)
 <use images/experiments/combined_wind_pos_classical.png>
-Package pdftex.def Info: images/experiments/combined_wind_pos_classical.png  used on input line 172.
+Package pdftex.def Info: images/experiments/combined_wind_pos_classical.png  used on input line 170.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/experiments/combined_wind_pos_advanced.png, id=643, 867.24pt x 578.16pt>
+<images/experiments/combined_wind_pos_advanced.png, id=640, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind_pos_advanced.png Graphic file (type png)
 <use images/experiments/combined_wind_pos_advanced.png>
-Package pdftex.def Info: images/experiments/combined_wind_pos_advanced.png  used on input line 179.
+Package pdftex.def Info: images/experiments/combined_wind_pos_advanced.png  used on input line 177.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
@@ -1572,10 +1569,10 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 [46 <./images/experiments/combined_wind_pos_classical.png> <./images/experiments/combined_wind_pos_advanced.png>]
-<images/experiments/combined_nominal_mpc_j2_study.png, id=658, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_mpc_j2_study.png, id=655, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_mpc_j2_study.png Graphic file (type png)
 <use images/experiments/combined_nominal_mpc_j2_study.png>
-Package pdftex.def Info: images/experiments/combined_nominal_mpc_j2_study.png  used on input line 244.
+Package pdftex.def Info: images/experiments/combined_nominal_mpc_j2_study.png  used on input line 242.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
 
 
@@ -1620,9 +1617,6 @@ L3 programming layer <2025-10-09>
 
 LaTeX Warning: There were undefined references.
 
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: 4A62FF3760B30D0FC30E3119F373538B;9251.
 Package logreq Info: Writing requests to 'main.run.xml'.
@@ -1631,16 +1625,16 @@ Package logreq Info: Writing requests to 'main.run.xml'.
  ) 
 Here is how much of TeX's memory you used:
  32764 strings out of 468080
- 628306 string characters out of 5425772
- 1741789 words of memory out of 5000000
+ 628310 string characters out of 5425772
+ 1741856 words of memory out of 5000000
  60241 multiletter control sequences out of 15000+600000
  816320 words of font info for 534 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,17n,121p,1047b,2806s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (54 pages, 2342379 bytes).
+Output written on main.pdf (54 pages, 2341932 bytes).
 PDF statistics:
- 891 PDF objects out of 1000 (max. 8388607)
+ 888 PDF objects out of 1000 (max. 8388607)
  203 named destinations out of 1000 (max. 500000)
  103393 words of extra memory for PDF output out of 106986 (max. 10000000)
 

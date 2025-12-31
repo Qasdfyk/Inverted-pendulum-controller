@@ -86,7 +86,7 @@ i~nieliniowej prowadzi do znacznego pogorszenia zapasu stabilności.
 Przeprowadzone badania symulacyjne potwierdziły te wnioski. Próba dodania akcji
 całkującej ($K_i \neq 0$) skutkowała zjawiskiem \textit{integral wind-up} --
 akumulacją błędu w~fazie rozruchu, co powodowało przeregulowania wykraczające
-poza obszar przyciągania stabilnego punktu równowagi. Jak widać na rysunku
+poza obszar przyciągania stabilnego punktu równowagi. Jak widać na~rysunku
 \ref{fig:pid_bad}, regulator PID wpada w~niegasnące oscylacje lub doprowadza
 do przewrócenia wahadła, podczas gdy ,,czysty'' regulator PD zapewnia sztywne
 i~szybkie sterowanie.
@@ -145,7 +145,7 @@ Składnik LQR realizuje stabilizację wokół punktu pracy:
 \begin{equation}
     u_{\mathrm{LQR}}(t) = -K \cdot (x(t) - x_{\mathrm{ref}}).
 \end{equation}
-Zastosowane wagi optymale to:
+Zastosowane wagi optymalne to:
 \begin{equation}
     Q = \text{diag}([1.0,\; 1.0,\; 500.0,\; 250.0]), \quad R = 1.0.
 \end{equation}

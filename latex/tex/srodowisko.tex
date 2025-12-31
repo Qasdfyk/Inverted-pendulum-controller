@@ -8,7 +8,7 @@ i~optymalizacji, a~także łatwością prototypowania złożonych struktur stero
 
 \subsection{Narzędzia programistyczne}
 
-W projekcie wykorzystano następujące biblioteki i narzędzia:
+W~projekcie wykorzystano następujące biblioteki i narzędzia:
 \begin{itemize}
     \item \textbf{NumPy} -- podstawowa biblioteka do~obliczeń macierzowych
     i~operacji na~wielowymiarowych tablicach danych, wykorzystywana
@@ -16,20 +16,20 @@ W projekcie wykorzystano następujące biblioteki i narzędzia:
     \item \textbf{SciPy} -- pakiet naukowy dostarczający zaawansowanych
     algorytmów numerycznych. W pracy użyto modułów:
     \begin{itemize}
-        \item \texttt{scipy.linalg} -- do rozwiązywania algebraicznego równania
+        \item \texttt{scipy.linalg} -- do~rozwiązywania algebraicznego równania
         Riccatiego (ARE) w algorytmie LQR.
         \item \texttt{scipy.optimize} -- zawierającego solwer \texttt{minimize}
         (metoda SLSQP), wykorzystywany do~rozwiązywania zadań optymalizacji
         nieliniowej z~ograniczeniami w~regulatorze MPC.
     \end{itemize}
-    \item \textbf{Matplotlib} -- biblioteka służąca do wizualizacji wyników
+    \item \textbf{Matplotlib} -- biblioteka służąca do~wizualizacji wyników
     w postaci wykresów przebiegów czasowych oraz do generowania animacji ruchu
     wahadła.
 \end{itemize}
 
 \subsection{Konfiguracja symulacji}
 
-Symulator opiera się na numerycznym całkowaniu wyprowadzonych wcześniej
+Symulator opiera~się na~numerycznym całkowaniu wyprowadzonych wcześniej
 nieliniowych równań dynamiki. Zaimplementowano procedurę całkowania metodą
 \textbf{Rungego-Kutty czwartego rzędu (RK4)}, co zapewnia wysoki kompromis
 pomiędzy dokładnością a szybkością obliczeń.
@@ -41,7 +41,7 @@ działanie numerycznych algorytmów optymalizacji w~czasie rzeczywistym.
 
 \begin{table}[H]
 	\centering
-	\caption{Parametry fizyczne modelu przyjęte w symulacji}
+	\caption{Parametry fizyczne modelu przyjęte w~symulacji}
 	\label{tab:parametry_modelu}
 	\renewcommand{\arraystretch}{1.2}
 	\begin{tabular}{|l|c|c|c|}
@@ -55,7 +55,7 @@ działanie numerycznych algorytmów optymalizacji w~czasie rzeczywistym.
 	\end{tabular}
 \end{table}
 
-Symulacje przeprowadzane są dla zadania stabilizacji układu w pionie (tzw. punkt
+Symulacje przeprowadzane~są dla zadania stabilizacji układu w~pionie (tzw. punkt
 pracy), startując z niezerowych warunków początkowych lub wymuszając zmianę
 pozycji wózka.
 
