@@ -18,6 +18,19 @@
 \graphicspath{{img/}}             % Katalog z obrazkami.
 \addbibresource{bibliografia.bib} % Plik .bib z bibliografią
 
+% Pakiety do diagramów blokowych
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows.meta, positioning, calc, fit, backgrounds}
+
+% Style dla diagramów blokowych
+\tikzstyle{block} = [draw, fill=blue!10, rectangle, minimum height=2.5em, minimum width=4em, rounded corners=2pt]
+\tikzstyle{bigblock} = [draw, fill=blue!10, rectangle, minimum height=3em, minimum width=6em, rounded corners=2pt]
+\tikzstyle{sum} = [draw, fill=white, circle, minimum size=1.5em, inner sep=0pt]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+\tikzstyle{arrow} = [-{Stealth[length=2mm]}, thick]
+\tikzstyle{line} = [thick]
+
 \begin{document}
 
 %--------------------------------------
@@ -128,6 +141,8 @@ quality, outperforming the classical PID approach.
 \input{tex/eksperymenty}
 \newpage
 \input{tex/badania_wyniki}
+\newpage
+\input{tex/podsumowanie}
 
 %--------------------------------------------
 % Literatura

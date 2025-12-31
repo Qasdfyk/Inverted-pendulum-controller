@@ -26,7 +26,62 @@ W~klasie \texttt{PDPDController} zastosowano strukturę równoległą, w~której
 całkowity sygnał sterujący jest sumą reakcji na~błąd kąta oraz błąd pozycji.
 Jest to podejście intuicyjne, dekomponujące problem na~dwa podzadania:
 stabilizację wahadła w~pozycji pionowej oraz doprowadzenie wózka do~zadanej
-pozycji.
+pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[auto, node distance=1.5cm, >=Stealth]
+        % Wejścia (po lewej)
+        \node [input] (in_theta) {};
+        \node [below=1.2cm of in_theta, input] (in_x) {};
+        
+        % Sumy błędów
+        \node [sum, right=0.8cm of in_theta] (sum_theta) {\tiny $+$};
+        \node [sum, right=0.8cm of in_x] (sum_x) {\tiny $+$};
+        
+        % Regulatory PD
+        \node [block, right=0.8cm of sum_theta] (pd_theta) {$\mathrm{PD}_\theta$};
+        \node [block, right=0.8cm of sum_x] (pd_x) {$\mathrm{PD}_x$};
+        
+        % Suma sterowania (między nimi)
+        \node [sum, right=1.8cm of pd_theta, yshift=-0.6cm] (sum_u) {\tiny $+$};
+        
+        % Saturacja i obiekt
+        \node [block, right=0.7cm of sum_u, minimum width=2.5em] (sat) {sat};
+        \node [bigblock, right=0.8cm of sat] (plant) {Wahadło};
+        
+        % Wyjście
+        \node [output, right=1.2cm of plant] (out) {};
+        
+        % --- Połączenia ---
+        % Wejścia do sum
+        \draw [arrow] (in_theta) -- node[above, font=\scriptsize] {$\theta_{\mathrm{ref}}$} (sum_theta);
+        \draw [arrow] (in_x) -- node[above, font=\scriptsize] {$x_{\mathrm{ref}}$} (sum_x);
+        
+        % Sumy do PD
+        \draw [arrow] (sum_theta) -- (pd_theta);
+        \draw [arrow] (sum_x) -- (pd_x);
+        
+        % PD do sumy sterowania (rozdzielone wejścia: góra i dół)
+        \draw [arrow] (pd_theta.east) -| (sum_u.north);
+        \draw [arrow] (pd_x.east) -| (sum_u.south);
+        
+        % Suma -> sat -> plant -> wyjście
+        \draw [arrow] (sum_u) -- (sat);
+        \draw [arrow] (sat) -- node[above, font=\scriptsize] {$u$} (plant);
+        \draw [arrow] (plant) -- node[above, font=\scriptsize] {$\theta,x$} (out);
+        
+        % Sprzężenie zwrotne (na dole) - ciągła linia
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-1.8) -| (sum_x.south);
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,+1.8) -| (sum_theta.north);
+        
+        % Znak minus na sumach
+        \node [below=3pt of sum_theta.south, font=\tiny] {$-$};
+        \node [below=3pt of sum_x.south, font=\tiny] {$-$};
+    \end{tikzpicture}
+    \caption{Schemat blokowy regulatora PD-PD o~strukturze równoległej.}
+    \label{fig:diagram_pdpd}
+\end{figure}
 
 Prawo sterowania wyraża się wzorem:
 \begin{equation}
@@ -119,7 +174,72 @@ będący standardem w~sterowaniu optymalnym systemów wielowymiarowych MIMO
 \cite{Jezierski2017}. Klasa \texttt{PDLQRController} implementuje sterowanie
 oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PD dla uchybu
 pozycji, co tworzy strukturę hybrydową opisaną m.in. w~\cite{Prasad2014} oraz
-\cite{Nguyen2024} (w~kontekście porównawczym).
+\cite{Nguyen2024} (w~kontekście porównawczym). Schemat blokowy tego układu 
+przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[auto, node distance=1.4cm, >=Stealth]
+        % Wejście
+        \node [input] (in) {};
+        
+        % Suma błędu LQR
+        \node [sum, right=0.8cm of in] (sum_lqr) {\tiny $+$};
+        
+        % Blok LQR
+        \node [block, right=0.8cm of sum_lqr] (lqr) {LQR $(-K)$};
+        
+        % Suma sterowania
+        \node [sum, right=1.2cm of lqr] (sum_u) {\tiny $+$};
+        
+        % Saturacja i obiekt
+        \node [block, right=0.7cm of sum_u, minimum width=2.5em] (sat) {sat};
+        \node [bigblock, right=0.8cm of sat] (plant) {Wahadło};
+        
+        % Wyjście
+        \node [output, right=1.2cm of plant] (out) {};
+        
+        % PD pozycji (poniżej)
+        \node [sum, below=1.4cm of sum_lqr] (sum_pd) {\tiny $+$};
+        \node [block, right=0.8cm of sum_pd] (pd_pos) {$\mathrm{PD}_x$};
+        
+        % --- Połączenia ---
+        % Wejście LQR
+        \draw [arrow] (in) -- node[above, font=\scriptsize] {$x_{\mathrm{ref}}$} (sum_lqr);
+        \draw [arrow] (sum_lqr) -- (lqr);
+        \draw [arrow] (lqr) -- node[above, font=\scriptsize] {$u_{\mathrm{LQR}}$} (sum_u);
+        
+        % PD -> suma sterowania
+        \draw [arrow] (pd_pos.east) -| (sum_u.south);
+        
+        % Reszta toru
+        \draw [arrow] (sum_u) -- (sat);
+        \draw [arrow] (sat) -- node[above, font=\scriptsize] {$u$} (plant);
+        \draw [arrow] (plant) -- node[above, font=\scriptsize] {$x$} (out);
+        
+        % Wejście referencyjne PD
+        \node [input, left=0.8cm of sum_pd] (in_pd) {};
+        \draw [arrow] (in_pd) -- node[above, font=\scriptsize] {$x_{\mathrm{ref}}$} (sum_pd);
+        \draw [arrow] (sum_pd) -- (pd_pos);
+        
+        % Sprzężenie zwrotne LQR (na dole) - ciągła strzałka
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-2.4) -| (sum_lqr.south);
+        \node [below=3pt of sum_lqr.south, font=\tiny] {$-$};
+        
+        % Sprzężenie zwrotne PD (x) - od głównej linii sprzężenia
+        \coordinate (fb_junction) at ($(sum_lqr.south) + (0,-0.7)$);
+        \draw [arrow] (fb_junction) -- ++(-1.2,0) |- (sum_pd.south);
+        \node [below=3pt of sum_pd.south, font=\tiny] {$-$};
+        
+        % Ramka LQR
+        \begin{scope}[on background layer]
+            \node [draw, dashed, rounded corners, fill=green!5, 
+                   fit=(sum_lqr) (lqr), inner sep=6pt] {};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Schemat blokowy hybrydowego regulatora PD-LQR.}
+    \label{fig:diagram_pdlqr}
+\end{figure}
 
 Problem LQR polega na~znalezieniu prawa sterowania
 $u(t) = -K x(t)$, które minimalizuje wskaźnik jakości:
@@ -172,8 +292,11 @@ nałożonej na~uchyb kątowy.
     \label{fig:lqr_bad}
 \end{figure}
 
-Następnie przeprowadzono strojenie ręczne metodą prób i~błędów (zgodnie z~regułą
-Brysona). Ręczne zwiększanie kar za~wychylenie kąta ($Q_{\theta}$) poprawiło
+Następnie przeprowadzono strojenie ręczne metodą prób i~błędów, inspirując się
+regułą Brysona. Reguła ta postuluje, że elementy diagonalne macierzy $Q$ i~$R$ 
+powinny być odwrotnie proporcjonalne do~kwadratów maksymalnych dopuszczalnych 
+wartości odpowiednich zmiennych stanu i~sterowania, tj. $Q_{ii} = 1/x_{i,\max}^2$
+oraz $R = 1/u_{\max}^2$. Ręczne zwiększanie kar za~wychylenie kąta ($Q_{\theta}$) poprawiło
 sztywność wahadła. Udało się ustalić zestaw wag zapewniający stabilną pracę, choć
 czas regulacji był wciąż niezadowalający, a~reakcja na~zakłócenia powolna.
 
@@ -204,10 +327,64 @@ która w~odróżnieniu od~LQR, uwzględnia wprost ograniczenia sygnału sterują
 oraz nieliniową dynamikę obiektu \cite{Camacho2007, Rawlings2017}.
 Zaimplementowany w~klasie \texttt{MPCController} (plik \texttt{mpc.py})
 algorytm rozwiązuje w~każdym kroku symulacji problem optymalizacji dynamicznej
-nieliniowej (NMPC).
+nieliniowej (NMPC). Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:diagram_mpc}.
 
-Zadanie optymalizacji, rozwiązywane numerycznie metodą SQP (Sequential
-Quadratic Programming) przy użyciu solwera \texttt{SLSQP}, zdefiniowane jest
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[auto, node distance=1.4cm, >=Stealth]
+        % Wejście
+        \node [input] (in) {};
+        
+        % Optymalizator MPC
+        \node [draw, fill=orange!15, rectangle, minimum height=3em, minimum width=5em, 
+               right=1cm of in, rounded corners=3pt, align=center, font=\small] (opt) {
+            Optymalizator\\[-2pt]
+            \scriptsize $\min J(\Delta U)$
+        };
+        
+        % Obiekt
+        \node [bigblock, right=1.5cm of opt] (plant) {Wahadło};
+        
+        % Wyjście
+        \node [output, right=1.2cm of plant] (out) {};
+        
+        % Model predykcyjny (poniżej optymalizatora)
+        \node [draw, fill=yellow!20, rectangle, minimum height=2em, minimum width=4em,
+               below=1cm of opt, rounded corners=2pt, font=\small] (model) {Model $f(x,u)$};
+        
+        % --- Połączenia ---
+        % Wejście -> Optymalizator
+        \draw [arrow] (in) -- node[above, font=\scriptsize] {$x_{\mathrm{ref}}$} (opt);
+        
+        % Optymalizator -> Obiekt
+        \draw [arrow] (opt) -- node[above, font=\scriptsize] {$u^*_0$} (plant);
+        
+        % Obiekt -> Wyjście
+        \draw [arrow] (plant) -- node[above, font=\scriptsize] {$x$} (out);
+        
+        % Sprzężenie zwrotne - ciągła strzałka
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-1.8) -| node[pos=0.25, right, font=\scriptsize] {$x(t)$} ($(opt.south) + (0.6,0)$);
+        
+        % Predykcja: Optymalizator <-> Model (dwukierunkowe, obok siebie)
+        \draw [arrow, dashed] ($(opt.south) + (-0.3,0)$) -- ($(model.north) + (-0.3,0)$);
+        \draw [arrow, dashed] ($(model.north) + (0.3,0)$) -- node[right, font=\scriptsize] {$\hat{x}$} ($(opt.south) + (0.3,0)$);
+        
+        % Ramka MPC
+        \begin{scope}[on background layer]
+            \node [draw, dashed, rounded corners, fill=blue!5, 
+                   fit=(opt) (model), inner sep=8pt, 
+                   label={[font=\scriptsize]below:Regulator MPC}] {};
+        \end{scope}
+    \end{tikzpicture}
+    \caption{Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym.}
+    \label{fig:diagram_mpc}
+\end{figure}
+
+Zadanie optymalizacji rozwiązywane jest numerycznie metodą SQP (Sequential
+Quadratic Programming) przy użyciu solwera \texttt{SLSQP} z~biblioteki 
+\texttt{scipy.optimize}. Wybór tego solwera podyktowany był jego dostępnością 
+w~standardowej dystrybucji Pythona oraz zdolnością do~obsługi ograniczeń 
+nierównościowych (wymaganych dla saturacji sterowania). Zadanie zdefiniowane jest
 następująco:
 \begin{equation}
     \min_{\Delta U} J = \sum_{k=1}^{N_{\mathrm{p}}} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) + R \sum_{k=0}^{N_{\mathrm{c}}-1} (\Delta u_k)^2,
@@ -221,7 +398,11 @@ przy ograniczeniach:
 Gdzie:
 \begin{itemize}
     \item $N_{\mathrm{p}} = 12$ -- horyzont predykcji,
-    \item $N_{\mathrm{c}} = 4$ -- horyzont sterowania (blokowanie sterowania dla $k \ge N_{\mathrm{c}}$),
+    \item $N_{\mathrm{c}} = 4$ -- horyzont sterowania. Dla kroków $k \ge N_{\mathrm{c}}$ 
+    stosowane jest tzw.~\textit{blokowanie sterowania}, co oznacza, że przyrosty 
+    sterowania $\Delta u_k = 0$ i~sygnał sterujący pozostaje stały: $u_k = u_{N_{\mathrm{c}}-1}$. 
+    Technika ta redukuje liczbę zmiennych decyzyjnych z~$N_{\mathrm{p}}$ do~$N_{\mathrm{c}}$, 
+    przyspieszając obliczenia przy zachowaniu długiego horyzontu predykcji,
     \item $f(\cdot)$ -- nieliniowy model dyskretny obiektu (całkowanie metodą
     Rungego-Kutt 4. rzędu),
     \item $Q = \text{diag}([158.4,\; 36.8,\; 43.4,\; 19.7])$ -- macierz kar stanu,
@@ -322,7 +503,59 @@ Ostatnim zbadanym układem jest sterownik hybrydowy \texttt{TSFuzzyController}
 wnioskowania rozmytego typu Takagi-Sugeno (T-S). Koncepcja ta, opisana szerzej
 w~\cite{Nguyen2024} oraz \cite{Roose2017}, ma na~celu adaptację wzmocnień regulatora
 w~zależności od~punktu pracy, co pozwala na~agresywniejszą reakcję w~przypadku
-dużych odchyleń od~pionu.
+dużych odchyleń od~pionu. Strukturę regulatora przedstawiono na~Rys.~\ref{fig:diagram_fuzzy}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[auto, node distance=1.4cm, >=Stealth]
+        % Wejście
+        \node [input] (in) {};
+        
+        % Suma błędu
+        \node [sum, right=0.8cm of in] (sum_e) {\tiny $+$};
+        
+        % Blok LQR (góra)
+        \node [block, right=1.8cm of sum_e, yshift=0.7cm] (lqr) {LQR $(-K)$};
+        
+        % Blok Fuzzy (dół)
+        \node [draw, fill=purple!15, rectangle, minimum height=2.2em, minimum width=4em,
+               right=1.8cm of sum_e, yshift=-0.7cm, rounded corners=3pt, font=\small] (fuzzy) {Fuzzy T-S};
+        
+        % Suma sterowania
+        \node [sum, right=1.5cm of lqr, yshift=-0.7cm] (sum_u) {\tiny $+$};
+        
+        % Saturacja i obiekt
+        \node [block, right=0.7cm of sum_u, minimum width=2.5em] (sat) {sat};
+        \node [bigblock, right=0.8cm of sat] (plant) {Wahadło};
+        
+        % Wyjście
+        \node [output, right=1.2cm of plant] (out) {};
+        
+        % --- Połączenia ---
+        % Wejście -> Suma błędu
+        \draw [arrow] (in) -- node[above, font=\scriptsize] {$x_{\mathrm{ref}}$} (sum_e);
+        
+        % Suma błędu -> rozgałęzienie do LQR i Fuzzy
+        \draw [line] (sum_e.east) -- ++(0.5,0) coordinate (branch);
+        \draw [arrow] (branch) |- (lqr.west);
+        \draw [arrow] (branch) |- (fuzzy.west);
+        
+        % LQR i Fuzzy -> Suma sterowania
+        \draw [arrow] (lqr.east) -| (sum_u.north);
+        \draw [arrow] (fuzzy.east) -| (sum_u.south);
+        
+        % Reszta toru
+        \draw [arrow] (sum_u) -- (sat);
+        \draw [arrow] (sat) -- node[above, font=\scriptsize] {$u$} (plant);
+        \draw [arrow] (plant) -- node[above, font=\scriptsize] {$x$} (out);
+        
+        % Sprzężenie zwrotne - ciągła strzałka
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-1.8) -| (sum_e.south);
+        \node [below=3pt of sum_e.south, font=\tiny] {$-$};
+    \end{tikzpicture}
+    \caption{Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową.}
+    \label{fig:diagram_fuzzy}
+\end{figure}
 
 Sygnał sterujący jest sumą:
 \begin{equation}

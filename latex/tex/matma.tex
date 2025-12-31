@@ -211,6 +211,54 @@ różniczkowych pierwszego rzędu:
     \end{bmatrix}.
 \end{equation}
 
+Schemat blokowy modelu w~przestrzeni stanów, ilustrujący przepływ sygnałów 
+sterowania i~zakłóceń, przedstawiono na~Rys.~\ref{fig:diagram_model}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[auto, node distance=1.4cm, >=Stealth]
+        % Wejścia (po lewej)
+        \node [input] (u_in) {};
+        \node [below=1.2cm of u_in, input] (fw_in) {};
+        
+        % Macierze B
+        \node [block, right=0.8cm of u_in, minimum width=2em] (B) {$B$};
+        \node [block, right=0.8cm of fw_in, minimum width=2em] (Bd) {$B_d$};
+        
+        % Suma
+        \node [sum, right=1cm of B, yshift=-0.6cm] (sum1) {\tiny $+$};
+        
+        % Integrator
+        \node [draw, fill=yellow!20, rectangle, minimum height=2em, minimum width=2.5em,
+               right=1cm of sum1, rounded corners=2pt, font=\large] (int) {$\int$};
+        
+        % Wyjście
+        \node [output, right=1.5cm of int] (output) {};
+        
+        % Macierz A (sprzężenie zwrotne - poniżej)
+        \node [block, below=1.2cm of sum1, xshift=0.6cm, minimum width=2em] (A) {$A$};
+        
+        % --- Połączenia ---
+        % Wejścia -> Macierze B
+        \draw [arrow] (u_in) -- node[above, font=\scriptsize] {$u$} (B);
+        \draw [arrow] (fw_in) -- node[above, font=\scriptsize] {$F_w$} (Bd);
+        
+        % Macierze B -> Suma
+        \draw [arrow] (B.east) -| (sum1.north);
+        \draw [arrow] (Bd.east) -| (sum1.west);
+        
+        % Suma -> Integrator -> Wyjście
+        \draw [arrow] (sum1) -- node[above, font=\scriptsize] {$\dot{x}$} (int);
+        \draw [arrow] (int) -- node[above, font=\scriptsize] {$x(t)$} (output);
+        
+        % Sprzężenie przez A (na dole) - ciągła linia z pętlą
+        \draw [line] ($(int.east) + (0.4,0)$) -- ++(0,-1.7) -| (A.east);
+        \draw [arrow] (A.west) -| (sum1.south);
+    \end{tikzpicture}
+    \caption{Schemat blokowy nieliniowego modelu wahadła w~przestrzeni stanów.}
+    \label{fig:diagram_model}
+\end{figure}
+
 \subsection{Linearyzacja modelu w~punkcie pracy}
 
 W~celu zastosowania algorytmów sterowania liniowego (PID, LQR), 
@@ -256,6 +304,43 @@ Warto zauważyć, że w~modelu zlinearyzowanym wpływ wiatru na~przyspieszenie
     w~macierzy \(B_{\mathrm{dist}}\)), podczas gdy w~równaniu przyspieszenia wózka 
     efekt ten zanika dla małych kątów (element zerowy). Jest to zgodne 
     z~wynikami prezentowanymi w~pracy źródłowej~\cite{Prasad2014}.
+
+\subsubsection{Analiza wartości własnych układu otwartego}
+
+Aby formalnie potwierdzić niestabilność układu w~górnym punkcie równowagi, 
+wyznaczono wartości własne macierzy stanu \(A\). Dla przyjętych parametrów 
+fizycznych (\(M = 2{,}4\) kg, \(m = 0{,}23\) kg, \(l = 0{,}36\) m, \(g = 9{,}81\) m/s\textsuperscript{2}) 
+wielomian charakterystyczny \(\det(\lambda I - A) = 0\) przyjmuje postać:
+\begin{equation}
+    \lambda^4 - \frac{(M+m)g}{Ml}\lambda^2 = 0.
+\end{equation}
+Rozwiązując powyższe równanie, otrzymujemy cztery wartości własne:
+\begin{equation}
+    \lambda_{1,2} = 0, \quad \lambda_3 \approx -5{,}49, \quad \lambda_4 \approx +5{,}49.
+\end{equation}
+Obecność dodatniej wartości własnej \(\lambda_4 > 0\) potwierdza, że układ 
+w~pętli otwartej jest \textbf{niestabilny} --- każde, nawet minimalne odchylenie 
+od~pionu będzie narastać eksponencjalnie w~czasie. Dwie zerowe wartości własne 
+odpowiadają ruchowi wózka po torze (brak tłumienia, brak siły przywracającej).
+
+\subsubsection{Sterowność i~obserwowalność}
+
+Warunkiem koniecznym stosowalności regulatora LQR jest pełna sterowność 
+pary \((A, B)\). Macierz sterowności Kalmana zdefiniowana jest jako:
+\begin{equation}
+    \mathcal{C} = \begin{bmatrix} B & AB & A^2 B & A^3 B \end{bmatrix}.
+\end{equation}
+Dla rozpatrywanego układu wyznaczono \(\mathrm{rank}(\mathcal{C}) = 4\), 
+co oznacza \textbf{pełną sterowność} --- istnieje sygnał sterujący \(u(t)\), 
+który pozwala przeprowadzić układ z~dowolnego stanu początkowego do~dowolnego 
+stanu końcowego w~skończonym czasie.
+
+Analogicznie, macierz obserwowalności (przy założeniu pomiaru kąta \(\theta\) 
+i~pozycji \(x\), tj. \(C = [1, 0, 0, 0; 0, 0, 1, 0]\)) ma pełny rząd, 
+co potwierdza \textbf{pełną obserwowalność} układu. Oznacza to, że na~podstawie 
+pomiarów wyjściowych możliwe jest jednoznaczne odtworzenie pełnego wektora stanu, 
+co jest istotne dla praktycznej implementacji regulatorów opartych na~sprzężeniu 
+zwrotnym od~stanu.
 
 \subsection{Analiza zachowania układu w pętli otwartej}
 

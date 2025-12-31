@@ -1,0 +1,102 @@
+\section{Podsumowanie}
+
+Niniejsza praca miała na~celu zaprojektowanie autorskiego środowiska symulacyjnego
+oraz przeprowadzenie wielokryterialnej analizy porównawczej algorytmów sterowania
+dla nieliniowego układu odwróconego wahadła na~wózku. Zrealizowano wszystkie
+założone cele badawcze: zaimplementowano pięć różnych strategii sterowania
+(PD-PD, PD-LQR, MPC, MPC-J2, Fuzzy-LQR), przeprowadzono ich optymalizację
+parametryczną oraz zweryfikowano skuteczność w~warunkach nominalnych
+i~przy obecności zakłóceń zewnętrznych.
+
+\subsection{Wnioski końcowe}
+
+Przeprowadzone badania symulacyjne, w~zestawieniu z~literaturą przedmiotu, pozwalają na
+sformułowanie szeregu istotnych wniosków:
+
+\begin{enumerate}
+    \item \textbf{Brak uniwersalnego regulatora.} Wyniki jednoznacznie potwierdzają,
+    że nie istnieje jeden regulator dominujący we~wszystkich aspektach sterowania.
+    Mamy do~czynienia z~fundamentalnym kompromisem inżynierskim między jakością
+    regulacji a~kosztami eksploatacyjnymi.
+    
+    \item \textbf{Najwyższa precyzja: Fuzzy-LQR.} Jeżeli priorytetem jest bezwzględne
+    utrzymanie punktu pracy (np. w~robotyce precyzyjnej), najlepsze wyniki osiągnął
+    system rozmyty Fuzzy-LQR. Sterownik ten potrafił niemal całkowicie zniwelować
+    wpływ losowych zakłóceń, utrzymując wahadło w~pionie z~maksymalnym wychyleniem
+    zaledwie $0{,}05$ rad. Jest to jednak rozwiązanie bardzo kosztowne energetycznie
+    ($E_u \approx 86$ --- ponad 7-krotnie więcej niż MPC).
+    
+    \item \textbf{Najlepsza ekonomia: MPC.} Sterowanie predykcyjne okazało się
+    najbardziej ekonomicznym rozwiązaniem w~warunkach nominalnych ($E_u \approx 0{,}56$).
+    MPC charakteryzuje się płynnym, przewidywalnym sterowaniem oraz jawnym
+    uwzględnianiem ograniczeń fizycznych napędu, co czyni go rozwiązaniem
+    najbezpieczniejszym dla mechaniki układu.
+    
+    \item \textbf{Uniwersalność PD-LQR.} Regulator hybrydowy PD-LQR, po~odpowiednim
+    doborze wag ($Q_x = 500$), okazał się rozwiązaniem bardzo uniwersalnym.
+    W~warunkach wietrznych osiągnął lepsze wyniki niż MPC pod~względem trzymania
+    pozycji i~zużycia energii, przy znacznie niższej złożoności obliczeniowej.
+    
+    \item \textbf{Wrażliwość na~funkcję kosztu.} Analiza wariantu MPC-J2 wykazała,
+    że dobór funkcji kosztu ma krytyczny wpływ na~odporność układu. Zbyt restrykcyjna
+    kara za~energię sterowania może prowadzić do~utraty stabilności w~obecności
+    silnych zakłóceń.
+\end{enumerate}
+
+\subsection{Ograniczenia pracy}
+
+Przeprowadzone badania mają charakter symulacyjny i~wiążą się z~pewnymi
+ograniczeniami, które należy uwzględnić przy interpretacji wyników:
+
+\begin{itemize}
+    \item \textbf{Idealne warunki pomiarowe.} W~symulacjach założono, że pełny
+    wektor stanu jest dostępny bezpośrednio, bez szumów pomiarowych i~opóźnień.
+    W~rzeczywistych układach konieczne byłoby zastosowanie obserwatora stanu
+    (np.~filtra Kalmana), co mogłoby wpłynąć na~jakość regulacji.
+    
+    \item \textbf{Brak dynamiki aktuatora.} Model nie uwzględnia bezwładności
+    i~ograniczeń dynamicznych silnika napędzającego wózek. W~systemach rzeczywistych
+    mogłyby wystąpić dodatkowe opóźnienia i~ograniczenia szybkości narastania siły.
+    
+    \item \textbf{Uproszczony model zakłóceń.} Przyjęty model wiatru (filtrowany
+    szum gaussowski) jest uproszczeniem rzeczywistych warunków środowiskowych,
+    które mogą charakteryzować się bardziej złożoną strukturą czasowo-przestrzenną.
+    
+    \item \textbf{Brak weryfikacji eksperymentalnej.} Wyniki nie zostały
+    zweryfikowane na~rzeczywistym stanowisku laboratoryjnym, co uniemożliwia
+    ocenę wpływu niedokładności modelu i~nieuwzględnionych zjawisk fizycznych.
+\end{itemize}
+
+\subsection{Kierunki dalszych badań}
+
+Na~podstawie przeprowadzonych analiz można wskazać następujące kierunki
+rozwoju projektu:
+
+\begin{enumerate}
+    \item \textbf{Implementacja algorytmu swing-up.} Rozszerzenie funkcjonalności
+    o~fazę wprowadzania wahadła z~pozycji dolnej do~górnej, co pozwoliłoby
+    na~pełną automatyzację procesu stabilizacji.
+    
+    \item \textbf{Adaptacyjne sterowanie MPC.} Implementacja mechanizmów adaptacji
+    online, pozwalających na~automatyczne dostrajanie wag funkcji kosztu
+    w~zależności od~aktualnych warunków pracy.
+    
+    \item \textbf{Uwzględnienie szumów pomiarowych.} Rozbudowa modelu o~realistyczne
+    szumy czujników oraz implementacja estymatora stanu (filtr Kalmana lub EKF),
+    co przybliżyłoby symulacje do~warunków rzeczywistych.
+    
+    \item \textbf{Implementacja sprzętowa.} Weryfikacja algorytmów na~rzeczywistym
+    stanowisku laboratoryjnym z~wykorzystaniem platformy mikroprocesorowej
+    (np.~STM32, Raspberry Pi), co pozwoliłoby na~ocenę wydajności obliczeniowej
+    i~praktycznej stosowalności poszczególnych metod.
+    
+    \item \textbf{Porównanie z~metodami uczenia maszynowego.} Zestawienie
+    klasycznych metod sterowania z~podejściami opartymi na~uczeniu ze~wzmocnieniem
+    (Reinforcement Learning), które zyskują coraz większą popularność
+    w~sterowaniu systemami nieliniowymi.
+\end{enumerate}
+
+Opracowane środowisko symulacyjne stanowi solidną bazę do~dalszych badań
+nad sterowaniem nieliniowym i~może być wykorzystane zarówno w~celach
+dydaktycznych, jak i~badawczych.
+

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  31 DEC 2025 16:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  31 DEC 2025 18:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -965,7 +965,242 @@ Package babel Info: Making " an active character on input line 101.
 \c@definition=\count486
 \c@axiom=\count487
 \c@assumption=\count488
-
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/pgf/frontendlayer\tikz.sty (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgf.sty (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfrcs.sty (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-common.tex
+\pgfutil@everybye=\toks44
+\pgfutil@tempdima=\dimen197
+\pgfutil@tempdimb=\dimen198
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfutil-latex.def
+\pgfutil@abb=\box76
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfrcs.code.tex (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf\pgf.revision.tex)
+Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
+))
+Package: pgf 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/pgf/basiclayer\pgfcore.sty (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/pgf/systemlayer\pgfsys.sty (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys.code.tex
+Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks45
+\pgfkeys@temptoks=\toks46
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeyslibraryfiltered.code.tex
+\pgfkeys@tmptoks=\toks47
+))
+\pgf@x=\dimen199
+\pgf@y=\dimen256
+\pgf@xa=\dimen257
+\pgf@ya=\dimen258
+\pgf@xb=\dimen259
+\pgf@yb=\dimen260
+\pgf@xc=\dimen261
+\pgf@yc=\dimen262
+\pgf@xd=\dimen263
+\pgf@yd=\dimen264
+\w@pgf@writea=\write4
+\r@pgf@reada=\read4
+\c@pgf@counta=\count489
+\c@pgf@countb=\count490
+\c@pgf@countc=\count491
+\c@pgf@countd=\count492
+\t@pgf@toka=\toks48
+\t@pgf@tokb=\toks49
+\t@pgf@tokc=\toks50
+\pgf@sys@id@count=\count493
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgf.cfg
+File: pgf.cfg 2025-08-29 v3.1.11a (3.1.11a)
+)
+Driver file for pgf: pgfsys-pdftex.def
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
+))) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfsyssoftpath@smallbuffer@items=\count494
+\pgfsyssoftpath@bigbuffer@items=\count495
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/systemlayer\pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcore.code.tex
+Package: pgfcore 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code.tex (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathutil.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathparser.code.tex
+\pgfmath@dimen=\dimen265
+\pgfmath@count=\count496
+\pgfmath@box=\box77
+\pgfmath@toks=\toks51
+\pgfmath@stack@operand=\toks52
+\pgfmath@stack@operation=\toks53
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.basic.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.trigonometric.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.random.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.comparison.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.base.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.round.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.misc.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfunctions.integerarithmetics.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathcalc.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count497
+)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfint.code.tex) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@picminx=\dimen266
+\pgf@picmaxx=\dimen267
+\pgf@picminy=\dimen268
+\pgf@picmaxy=\dimen269
+\pgf@pathminx=\dimen270
+\pgf@pathmaxx=\dimen271
+\pgf@pathminy=\dimen272
+\pgf@pathmaxy=\dimen273
+\pgf@xx=\dimen274
+\pgf@xy=\dimen275
+\pgf@yx=\dimen276
+\pgf@yy=\dimen277
+\pgf@zx=\dimen278
+\pgf@zy=\dimen279
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@path@lastx=\dimen280
+\pgf@path@lasty=\dimen281
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@shorten@end@additional=\dimen282
+\pgf@shorten@start@additional=\dimen283
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfpic=\box78
+\pgf@hbox=\box79
+\pgf@layerbox@main=\box80
+\pgf@picture@serial@count=\count498
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgflinewidth=\dimen284
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@pt@x=\dimen285
+\pgf@pt@y=\dimen286
+\pgf@pt@temp=\dimen287
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfarrowsep=\dimen288
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@max=\dimen289
+\pgf@sys@shading@range@num=\count499
+\pgf@shadingcount=\count500
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfexternal@startupbox=\box81
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/basiclayer\pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfnodeparttextbox=\box82
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@nodesepstart=\dimen290
+\pgf@nodesepend=\dimen291
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/pgf/compatibility\pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2025-08-29 v3.1.11a (3.1.11a)
+)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgffor.sty (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/pgf/utilities\pgfkeys.sty (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgfkeys.code.tex)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/pgf/math\pgfmath.sty (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/math\pgfmath.code.tex)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/utilities\pgffor.code.tex
+Package: pgffor 2025-08-29 v3.1.11a (3.1.11a)
+\pgffor@iter=\dimen292
+\pgffor@skip=\dimen293
+\pgffor@stack=\toks54
+\pgffor@toks=\toks55
+)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz\tikz.code.tex
+Package: tikz 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@plot@mark@count=\count501
+\pgfplotmarksize=\dimen294
+)
+\tikz@lastx=\dimen295
+\tikz@lasty=\dimen296
+\tikz@lastxsaved=\dimen297
+\tikz@lastysaved=\dimen298
+\tikz@lastmovetox=\dimen299
+\tikz@lastmovetoy=\dimen300
+\tikzleveldistance=\dimen301
+\tikzsiblingdistance=\dimen302
+\tikz@figbox=\box83
+\tikz@figbox@bg=\box84
+\tikz@tempbox=\box85
+\tikz@tempbox@bg=\box86
+\tikztreelevel=\count502
+\tikznumberofchildren=\count503
+\tikznumberofcurrentchild=\count504
+\tikz@fig@count=\count505
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/modules\pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfmatrixcurrentrow=\count506
+\pgfmatrixcurrentcolumn=\count507
+\pgf@matrix@numberofcolumns=\count508
+)
+\tikz@expandcount=\count509
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+))) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryshapes.code.tex
+File: tikzlibraryshapes.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryshapes.geometric.code.tex
+File: tikzlibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\pgflibraryshapes.geometric.code.tex
+File: pgflibraryshapes.geometric.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryshapes.misc.code.tex
+File: tikzlibraryshapes.misc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\pgflibraryshapes.misc.code.tex
+File: pgflibraryshapes.misc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryshapes.symbols.code.tex
+File: tikzlibraryshapes.symbols.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\pgflibraryshapes.symbols.code.tex
+File: pgflibraryshapes.symbols.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryshapes.arrows.code.tex
+File: tikzlibraryshapes.arrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\pgflibraryshapes.arrows.code.tex
+File: pgflibraryshapes.arrows.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryshapes.callouts.code.tex (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\pgflibraryshapes.callouts.code.tex)) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryshapes.multipart.code.tex
+File: tikzlibraryshapes.multipart.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+ (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries/shapes\pgflibraryshapes.multipart.code.tex
+File: pgflibraryshapes.multipart.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfnodepartlowerbox=\box87
+\pgfnodeparttwobox=\box88
+\pgfnodepartthreebox=\box89
+\pgfnodepartfourbox=\box90
+\pgfnodeparttwentybox=\box91
+\pgfnodepartnineteenbox=\box92
+\pgfnodeparteighteenbox=\box93
+\pgfnodepartseventeenbox=\box94
+\pgfnodepartsixteenbox=\box95
+\pgfnodepartfifteenbox=\box96
+\pgfnodepartfourteenbox=\box97
+\pgfnodepartthirteenbox=\box98
+\pgfnodeparttwelvebox=\box99
+\pgfnodepartelevenbox=\box100
+\pgfnodeparttenbox=\box101
+\pgfnodepartninebox=\box102
+\pgfnodeparteightbox=\box103
+\pgfnodepartsevenbox=\box104
+\pgfnodepartsixbox=\box105
+\pgfnodepartfivebox=\box106
+))) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/libraries\pgflibraryarrows.meta.code.tex
+File: pgflibraryarrows.meta.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgfarrowinset=\dimen303
+\pgfarrowlength=\dimen304
+\pgfarrowwidth=\dimen305
+\pgfarrowlinewidth=\dimen306
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibraryfit.code.tex
+File: tikzlibraryfit.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/generic/pgf/frontendlayer/tikz/libraries\tikzlibrarybackgrounds.code.tex
+File: tikzlibrarybackgrounds.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+\pgf@layerbox@background=\box107
+\pgf@layerboxsaved@background=\box108
+)
 
 Package biblatex Warning: Load 'inputenc' before biblatex.
 
@@ -973,50 +1208,50 @@ Package biblatex Warning: Load 'inputenc' before biblatex.
 Package biblatex Warning: 'babel/polyglossia' detected but 'csquotes' missing.
 (biblatex)                Loading 'csquotes' recommended.
 
-\@quotelevel=\count489
-\@quotereset=\count490
+\@quotelevel=\count510
+\@quotereset=\count511
 (main.aux
 Package babel Info: 'polish' activates 'polish' shorthands.
 (babel)             Reported on input line 10.
 )
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for FML/futm/m/it on input line 21.
-LaTeX Font Info:    Trying to load font information for FML+futm on input line 21.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for FML/futm/m/it on input line 34.
+LaTeX Font Info:    Trying to load font information for FML+futm on input line 34.
  (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/fourier\fmlfutm.fd
 File: fmlfutm.fd 2004/10/30 Fontinst v1.926 font definitions for FML/futm.
 )
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for FMS/futm/m/n on input line 21.
-LaTeX Font Info:    Trying to load font information for FMS+futm on input line 21.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for FMS/futm/m/n on input line 34.
+LaTeX Font Info:    Trying to load font information for FMS+futm on input line 34.
  (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/fourier\fmsfutm.fd
 File: fmsfutm.fd 2004/10/30 Fontinst v1.926 font definitions for FMS/futm.
 )
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for FMX/futm/m/n on input line 21.
-LaTeX Font Info:    Trying to load font information for FMX+futm on input line 21.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for FMX/futm/m/n on input line 34.
+LaTeX Font Info:    Trying to load font information for FMX+futm on input line 34.
  (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/fourier\fmxfutm.fd
 File: fmxfutm.fd futm-extension
 )
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 21.
-LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
 Package biblatex Info: Trying to load language 'polish'...
 Package biblatex Info: ... file 'polish.lbx' found.
  (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/biblatex/lbx\polish.lbx
@@ -1030,8 +1265,8 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'main.bbl' found.
  (main.bbl)
-Package biblatex Info: Reference section=0 on input line 21.
-Package biblatex Info: Reference segment=0 on input line 21.
+Package biblatex Info: Reference section=0 on input line 34.
+Package biblatex Info: Reference segment=0 on input line 34.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: hyperref package is loaded.
@@ -1041,42 +1276,42 @@ Package caption Info: longtable package is loaded.
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: scrextend package is loaded.
-\caption@addmargin@hsize=\dimen197
-\caption@addmargin@linewidth=\dimen198
+\caption@addmargin@hsize=\dimen307
+\caption@addmargin@linewidth=\dimen308
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Redeclaring math accent \widehat on input line 21.
-LaTeX Font Info:    Redeclaring math accent \widetilde on input line 21.
+LaTeX Font Info:    Redeclaring math accent \widehat on input line 34.
+LaTeX Font Info:    Redeclaring math accent \widetilde on input line 34.
  (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count491
-\scratchdimen=\dimen199
-\scratchbox=\box76
-\nofMPsegments=\count492
-\nofMParguments=\count493
-\everyMPshowfont=\toks44
-\MPscratchCnt=\count494
-\MPscratchDim=\dimen256
-\MPnumerator=\count495
-\makeMPintoPDFobject=\count496
-\everyMPtoPDFconversion=\toks45
+\scratchcounter=\count512
+\scratchdimen=\dimen309
+\scratchbox=\box109
+\nofMPsegments=\count513
+\nofMParguments=\count514
+\everyMPshowfont=\toks56
+\MPscratchCnt=\count515
+\MPscratchDim=\dimen310
+\MPnumerator=\count516
+\makeMPintoPDFobject=\count517
+\everyMPtoPDFconversion=\toks57
 ) (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
  (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-\c@lstlisting=\count497
+\c@lstlisting=\count518
  (C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/translations/dicts\translations-basic-dictionary-polish.trsl
 File: translations-basic-dictionary-polish.trsl (polish translation file `translations-basic-dictionary')
 )
-Package translations Info: loading dictionary `translations-basic-dictionary' for `polish'. on input line 21.
-LaTeX Info: Redefining \microtypecontext on input line 21.
-Package microtype Info: Applying patch `item' on input line 21.
-Package microtype Info: Applying patch `toc' on input line 21.
-Package microtype Info: Applying patch `eqnum' on input line 21.
-Package microtype Info: Applying patch `footnote' on input line 21.
-Package microtype Info: Applying patch `verbatim' on input line 21.
-LaTeX Info: Redefining \microtypesetup on input line 21.
+Package translations Info: loading dictionary `translations-basic-dictionary' for `polish'. on input line 34.
+LaTeX Info: Redefining \microtypecontext on input line 34.
+Package microtype Info: Applying patch `item' on input line 34.
+Package microtype Info: Applying patch `toc' on input line 34.
+Package microtype Info: Applying patch `eqnum' on input line 34.
+Package microtype Info: Applying patch `footnote' on input line 34.
+Package microtype Info: Applying patch `verbatim' on input line 34.
+LaTeX Info: Redefining \microtypesetup on input line 34.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
@@ -1091,10 +1326,10 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `futs' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-Package hyperref Info: Link coloring ON on input line 21.
+Package hyperref Info: Link coloring ON on input line 34.
  (main.out) (main.out)
-\@outlinefile=\write4
-\openout4 = `main.out'.
+\@outlinefile=\write5
+\openout5 = `main.out'.
 
 
 *geometry* driver: auto-detecting
@@ -1132,15 +1367,15 @@ Package hyperref Info: Link coloring ON on input line 21.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<eiti/header.png, id=181, 483.7272pt x 76.8471pt>
+<eiti/header.png, id=208, 483.7272pt x 76.8471pt>
 File: eiti/header.png Graphic file (type png)
 <use eiti/header.png>
-Package pdftex.def Info: eiti/header.png  used on input line 40.
+Package pdftex.def Info: eiti/header.png  used on input line 53.
 (pdftex.def)             Requested size: 438.17247pt x 69.61084pt.
-<eiti/title-inz.png, id=182, 483.7272pt x 105.39375pt>
+<eiti/title-inz.png, id=209, 483.7272pt x 105.39375pt>
 File: eiti/title-inz.png Graphic file (type png)
 <use eiti/title-inz.png>
-Package pdftex.def Info: eiti/title-inz.png  used on input line 40.
+Package pdftex.def Info: eiti/title-inz.png  used on input line 53.
 (pdftex.def)             Requested size: 438.17247pt x 95.4694pt.
 
 
@@ -1192,13 +1427,13 @@ LaTeX Font Info:    Font shape `U/futm/m/n' will be
 
 
 ])
-\tf@toc=\write5
-\openout5 = `main.toc'.
+\tf@toc=\write6
+\openout6 = `main.toc'.
 
 
 
 Package babel Info: 'polish' activates 'polish' shorthands.
-(babel)             Reported on input line 112.
+(babel)             Reported on input line 125.
 [6] (tex/wstep.tex
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
 (Font)              scaled to size 13.24796pt on input line 27.
@@ -1234,7 +1469,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 [10])
 
 [11] (tex/matma.tex
-<images/diagrams/model.png, id=317, 668.4975pt x 530.73282pt>
+<images/diagrams/model.png, id=350, 668.4975pt x 530.73282pt>
 File: images/diagrams/model.png Graphic file (type png)
 <use images/diagrams/model.png>
 Package pdftex.def Info: images/diagrams/model.png  used on input line 41.
@@ -1268,373 +1503,33 @@ LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <9> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 197.
 LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <7> not available
 (Font)              Font shape `T1/futs/b/n' tried instead on input line 197.
+LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
+(Font)              scaled to size 5.51999pt on input line 229.
+LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <6> not available
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 229.
+LaTeX Font Info:    Font shape `U/futm/m/n' will be
+(Font)              scaled to size 5.51999pt on input line 229.
+LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <14.4> not available
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 233.
+LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <10> not available
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 233.
+LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <8> not available
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 233.
+LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
+(Font)              scaled to size 6.25598pt on input line 243.
+LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <6.8> not available
+(Font)              Font shape `T1/futs/b/n' tried instead on input line 243.
+LaTeX Font Info:    Font shape `U/futm/m/n' will be
+(Font)              scaled to size 6.25598pt on input line 243.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 
 
 [16]
-<img/open_loop.png, id=389, 867.24pt x 505.89pt>
-File: img/open_loop.png Graphic file (type png)
-<use img/open_loop.png>
-Package pdftex.def Info: img/open_loop.png  used on input line 268.
-(pdftex.def)             Requested size: 350.5393pt x 204.48291pt.
-LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 269.
-LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 7.63599pt on input line 269.
-LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 5.51999pt on input line 269.
-LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <10.95> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 269.
-LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <8.3> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 269.
-LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <6> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 269.
-LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 269.
-LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 7.63599pt on input line 269.
-LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 5.51999pt on input line 269.
-)
-
-[17 <./img/open_loop.png>] (tex/srodowisko.tex
-LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <14.4> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 13.
-LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <10> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 13.
-LaTeX Font Info:    Font shape `T1/futs/bx/n' in size <8> not available
-(Font)              Font shape `T1/futs/b/n' tried instead on input line 13.
-
-Overfull \hbox (21.98425pt too wide) in paragraph at lines 32--36
-\T1/futs/m/n/12 (-20) nio-wych rów-na« dy-na-miki. Za-im-ple-men-to-wano pro-ce-dur¦ caª-ko-wa-nia me-tod¡ \T1/futs/b/n/12 (-20) Rungego-Kutty
- []
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[18]
-<img/wind_signal.png, id=402, 462.528pt x 346.896pt>
-File: img/wind_signal.png Graphic file (type png)
-<use img/wind_signal.png>
-Package pdftex.def Info: img/wind_signal.png  used on input line 101.
-(pdftex.def)             Requested size: 416.2625pt x 312.2141pt.
-
-
-[19]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[20 <./img/wind_signal.png>]
-<img/animation.png, id=420, 563.10374pt x 245.41687pt>
-File: img/animation.png Graphic file (type png)
-<use img/animation.png>
-Package pdftex.def Info: img/animation.png  used on input line 141.
-(pdftex.def)             Requested size: 416.2625pt x 181.4184pt.
-)
-
-[21 <./img/animation.png>] (tex/sterowanie.tex
-Overfull \hbox (47.12619pt too wide) in paragraph at lines 19--24
-\T1/futs/m/n/12 (-20) rów-no-le-gªej, wy-ko-rzy-stu-j¡cy kla-syczne sprz¦-»e-nie zwrotne typu PD (Proporcjonalno-Ró»niczkuj¡ce).
- []
-
-
-
-[22]
-<images/tuning/pid_1_integral_bad.png, id=443, 1011.78pt x 867.24pt>
-File: images/tuning/pid_1_integral_bad.png Graphic file (type png)
-<use images/tuning/pid_1_integral_bad.png>
-Package pdftex.def Info: images/tuning/pid_1_integral_bad.png  used on input line 96.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[23]
-<images/tuning/pdpd_2_manual.png, id=453, 1011.78pt x 867.24pt>
-File: images/tuning/pdpd_2_manual.png Graphic file (type png)
-<use images/tuning/pdpd_2_manual.png>
-Package pdftex.def Info: images/tuning/pdpd_2_manual.png  used on input line 103.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[24 <./images/tuning/pid_1_integral_bad.png>]
-<images/tuning/pdpd_3_opt.png, id=459, 1011.78pt x 867.24pt>
-File: images/tuning/pdpd_3_opt.png Graphic file (type png)
-<use images/tuning/pdpd_3_opt.png>
-Package pdftex.def Info: images/tuning/pdpd_3_opt.png  used on input line 110.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[25 <./images/tuning/pdpd_2_manual.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[26 <./images/tuning/pdpd_3_opt.png>]
-<images/tuning/pdlqr_1_bad.png, id=477, 1011.78pt x 867.24pt>
-File: images/tuning/pdlqr_1_bad.png Graphic file (type png)
-<use images/tuning/pdlqr_1_bad.png>
-Package pdftex.def Info: images/tuning/pdlqr_1_bad.png  used on input line 170.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[27]
-<images/tuning/pdlqr_2_manual.png, id=486, 1011.78pt x 867.24pt>
-File: images/tuning/pdlqr_2_manual.png Graphic file (type png)
-<use images/tuning/pdlqr_2_manual.png>
-Package pdftex.def Info: images/tuning/pdlqr_2_manual.png  used on input line 182.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[28 <./images/tuning/pdlqr_1_bad.png>]
-<images/tuning/pdlqr_3_opt.png, id=493, 1011.78pt x 867.24pt>
-File: images/tuning/pdlqr_3_opt.png Graphic file (type png)
-<use images/tuning/pdlqr_3_opt.png>
-Package pdftex.def Info: images/tuning/pdlqr_3_opt.png  used on input line 195.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[29 <./images/tuning/pdlqr_2_manual.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[30 <./images/tuning/pdlqr_3_opt.png>]
-<images/tuning/mpc_3_opt.png, id=512, 1011.78pt x 867.24pt>
-File: images/tuning/mpc_3_opt.png Graphic file (type png)
-<use images/tuning/mpc_3_opt.png>
-Package pdftex.def Info: images/tuning/mpc_3_opt.png  used on input line 264.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-
-
-[31]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[32 <./images/tuning/mpc_3_opt.png>]
-<images/tuning/mpcJ2_3_opt.png, id=530, 1011.78pt x 867.24pt>
-File: images/tuning/mpcJ2_3_opt.png Graphic file (type png)
-<use images/tuning/mpcJ2_3_opt.png>
-Package pdftex.def Info: images/tuning/mpcJ2_3_opt.png  used on input line 313.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[33]
-
-[34 <./images/tuning/mpcJ2_3_opt.png>]
-Overfull \hbox (1.46375pt too wide) in paragraph at lines 348--350
-[]\T1/futs/m/n/12 (-20) Zachowanie ªa-god-nej cha-rak-te-ry-styki LQR w po-bli»u punktu rów-no-wagi (maªe wzmoc-
- []
-
-<images/tuning/fuzzy_3_opt.png, id=546, 1011.78pt x 867.24pt>
-File: images/tuning/fuzzy_3_opt.png Graphic file (type png)
-<use images/tuning/fuzzy_3_opt.png>
-Package pdftex.def Info: images/tuning/fuzzy_3_opt.png  used on input line 378.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-)
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[35]
-
-[36 <./images/tuning/fuzzy_3_opt.png>] (tex/eksperymenty.tex
-
-[37]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[38])
-
-[39] (tex/badania_wyniki.tex
-
-[40]
-<images/experiments/combined_nominal_classical.png, id=599, 867.24pt x 578.16pt>
-File: images/experiments/combined_nominal_classical.png Graphic file (type png)
-<use images/experiments/combined_nominal_classical.png>
-Package pdftex.def Info: images/experiments/combined_nominal_classical.png  used on input line 52.
-(pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_nominal_pos_classical.png, id=600, 867.24pt x 578.16pt>
-File: images/experiments/combined_nominal_pos_classical.png Graphic file (type png)
-<use images/experiments/combined_nominal_pos_classical.png>
-Package pdftex.def Info: images/experiments/combined_nominal_pos_classical.png  used on input line 59.
-(pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<images/experiments/combined_nominal_control_classical.png, id=601, 867.24pt x 578.16pt>
-File: images/experiments/combined_nominal_control_classical.png Graphic file (type png)
-<use images/experiments/combined_nominal_control_classical.png>
-Package pdftex.def Info: images/experiments/combined_nominal_control_classical.png  used on input line 66.
-(pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[41 <./images/experiments/combined_nominal_classical.png>]
-Underfull \vbox (badness 6300) has occurred while \output is active []
-
-
-
-[42 <./images/experiments/combined_nominal_pos_classical.png> <./images/experiments/combined_nominal_control_classical.png>]
-<images/experiments/combined_nominal_advanced.png, id=622, 867.24pt x 578.16pt>
-File: images/experiments/combined_nominal_advanced.png Graphic file (type png)
-<use images/experiments/combined_nominal_advanced.png>
-Package pdftex.def Info: images/experiments/combined_nominal_advanced.png  used on input line 105.
-(pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_nominal_pos_advanced.png, id=623, 867.24pt x 578.16pt>
-File: images/experiments/combined_nominal_pos_advanced.png Graphic file (type png)
-<use images/experiments/combined_nominal_pos_advanced.png>
-Package pdftex.def Info: images/experiments/combined_nominal_pos_advanced.png  used on input line 112.
-(pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<images/experiments/combined_nominal_control_advanced.png, id=624, 867.24pt x 578.16pt>
-File: images/experiments/combined_nominal_control_advanced.png Graphic file (type png)
-<use images/experiments/combined_nominal_control_advanced.png>
-Package pdftex.def Info: images/experiments/combined_nominal_control_advanced.png  used on input line 119.
-(pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[43 <./images/experiments/combined_nominal_advanced.png>]
-
-LaTeX Warning: Reference `fig:wind_classical' on page 44 undefined on input line 138.
-
-
-Underfull \vbox (badness 6300) has occurred while \output is active []
-
-
-
-[44 <./images/experiments/combined_nominal_pos_advanced.png> <./images/experiments/combined_nominal_control_advanced.png>]
-
-LaTeX Warning: Reference `fig:wind_advanced' on page 45 undefined on input line 147.
-
-<images/experiments/combined_wind_pos_classical.png, id=639, 867.24pt x 578.16pt>
-File: images/experiments/combined_wind_pos_classical.png Graphic file (type png)
-<use images/experiments/combined_wind_pos_classical.png>
-Package pdftex.def Info: images/experiments/combined_wind_pos_classical.png  used on input line 170.
-(pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<images/experiments/combined_wind_pos_advanced.png, id=640, 867.24pt x 578.16pt>
-File: images/experiments/combined_wind_pos_advanced.png Graphic file (type png)
-<use images/experiments/combined_wind_pos_advanced.png>
-Package pdftex.def Info: images/experiments/combined_wind_pos_advanced.png  used on input line 177.
-(pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-
-[45]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[46 <./images/experiments/combined_wind_pos_classical.png> <./images/experiments/combined_wind_pos_advanced.png>]
-<images/experiments/combined_nominal_mpc_j2_study.png, id=655, 867.24pt x 578.16pt>
-File: images/experiments/combined_nominal_mpc_j2_study.png Graphic file (type png)
-<use images/experiments/combined_nominal_mpc_j2_study.png>
-Package pdftex.def Info: images/experiments/combined_nominal_mpc_j2_study.png  used on input line 242.
-(pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \vbox (badness 1661) has occurred while \output is active []
-
-
-
-[47]
-
-[48 <./images/experiments/combined_nominal_mpc_j2_study.png>])
-
-[49]
-
-[50
-
-
-]
-
-[51]
-
-[52] (main.lof
-
-[53])
-\tf@lof=\write6
-\openout6 = `main.lof'.
-
- (main.lot)
-\tf@lot=\write7
-\openout7 = `main.lot'.
-
-
-
-[54] (main.aux)
- ***********
-LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-10-09>
- ***********
-
-
-LaTeX Warning: There were undefined references.
-
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 4A62FF3760B30D0FC30E3119F373538B;9251.
-Package logreq Info: Writing requests to 'main.run.xml'.
-\openout1 = `main.run.xml'.
-
- ) 
-Here is how much of TeX's memory you used:
- 32764 strings out of 468080
- 628310 string characters out of 5425772
- 1741856 words of memory out of 5000000
- 60241 multiletter control sequences out of 15000+600000
- 816320 words of font info for 534 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 123i,17n,121p,1047b,2806s stack positions out of 10000i,1000n,20000p,200000b,200000s
- <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (54 pages, 2341932 bytes).
-PDF statistics:
- 888 PDF objects out of 1000 (max. 8388607)
- 203 named destinations out of 1000 (max. 500000)
- 103393 words of extra memory for PDF output out of 106986 (max. 10000000)
-
+[17]
+<img/open_loop.png, id=432, 867.24p

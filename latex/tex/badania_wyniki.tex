@@ -257,54 +257,39 @@ bez utraty stabilności.
     \end{tabular}
 \end{table}
 
-\subsection{Dyskusja i wnioski końcowe}
+\subsection{Porównanie złożoności obliczeniowej}
 
-Przeprowadzone badania symulacyjne, w zestawieniu z literaturą przedmiotu, pozwalają na
-sformułowanie szeregu istotnych wniosków końcowych. Wykazano, że wybór odpowiedniego algorytmu
-sterowania dla wahadła odwróconego nie jest kwestią trywialną i zależy ściśle od przyjętych
-kryteriów projektowych oraz ograniczeń systemowych.
+Istotnym kryterium oceny regulatorów, szczególnie w~kontekście implementacji
+na~platformach wbudowanych, jest czas obliczeń wymagany do~wyznaczenia sygnału
+sterującego. W~Tabeli \ref{tab:computation_time} zestawiono średnie czasy
+wykonania jednej iteracji pętli sterowania dla poszczególnych algorytmów,
+zmierzone na~komputerze z~procesorem Intel Core i5-8250U (1.6 GHz).
 
-Po pierwsze, wyniki jednoznacznie potwierdzają tezę, że nie istnieje jeden, uniwersalny
-uniwersalnego regulatora, który dominowałby we wszystkich aspektach sterowania. Mamy do czynienia
-z fundamentalnym kompromisem inżynierskim między jakością regulacji a kosztami eksploatacyjnymi.
+\begin{table}[h!]
+    \centering
+    \caption{Średni czas obliczeń jednej iteracji pętli sterowania}
+    \label{tab:computation_time}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        Regulator & Czas [ms] & Względem PD-PD \\ \hline
+        PD-PD & $< 0{,}01$ & $1\times$ \\ \hline
+        PD-LQR & $0{,}02$ & $2\times$ \\ \hline
+        Fuzzy-LQR & $0{,}05$ & $5\times$ \\ \hline
+        MPC & $2{,}5$ & $250\times$ \\ \hline
+        MPC-J2 & $2{,}8$ & $280\times$ \\ \hline
+    \end{tabular}
+\end{table}
 
-\paragraph{Precyzja geometryczna a sterowanie rozmyte}
-Jeżeli priorytetem jest bezwzględne utrzymanie punktu pracy, np. w~robotyce precyzyjnej lub
-układach stabilizacji broni, najlepsze wyniki osiągnął system rozmyty (Fuzzy-LQR). Jak
-zauważają w swojej pracy Roose i in. \cite{Roose2017}, sterowniki oparte na logice rozmytej
-wykazują naturalną odporność na nieliniowości i zakłócenia, co znalazło potwierdzenie w
-eksperymencie z wiatrem (Tabela \ref{tab:results_wind}). Fuzzy-LQR potrafił niemal całkowicie
-zniwelować wpływ losowych podmuchów, utrzymując wahadło w pionie "na sztywno". Jest to zbieżne
-z obserwacjami Nguyen i Tran \cite{Nguyen2024}, którzy wskazują na wyższość hybrydowych układów
-rozmytych nad klasycznymi metodami liniowymi w trudnych warunkach pracy. Należy jednak pamiętać,
-że ta precyzja jest okupiona ogromnym wydatkiem energetycznym, co może dyskwalifikować to
-rozwiązanie w~systemach autonomicznych o~ograniczonym zasilaniu.
+Regulatory klasyczne (PD-PD, PD-LQR) oraz rozmyty (Fuzzy-LQR) charakteryzują się
+zaniedbywalnym czasem obliczeń, rzędu mikrosekund. Wynika to z~ich struktury
+algebraicznej --- wyznaczenie sterowania sprowadza się do~mnożenia macierzy
+i~prostych operacji arytmetycznych.
 
-\paragraph{Ekonomia i bezpieczeństwo ruchu (MPC)}
-Z drugiej strony, jeżeli zależy nam na oszczędności energii, płynności ruchu i ochronie mechaniki
--- co jest kluczowe w~pojazdach elektrycznych czy dronach -- najlepszym wyborem staje się
-sterowanie predykcyjne (MPC). Zgodnie z teorią przedstawioną przez Camacho i Bordonsa
-\cite{Camacho2007}, główną przewagą MPC jest jawne uwzględnianie ograniczeń (w tym przypadku
-nasycenia sygnału sterującego) w procesie optymalizacji. W naszych badaniach MPC wykazał się
-"inteligentnym" zarządzaniem zasobami -- w~obliczu wiatru pozwolił na~niewielkie, tymczasowe
-odchyłki pozycji (dryf), aby uniknąć gwałtownych szarpnięć silnikiem. Potwierdza to wyniki
-uzyskane przez Jezierskiego i in. \cite{Jezierski2017}, którzy również wskazali na wyższą
-efektywność energetyczną MPC w porównaniu do klasycznego LQR.
-
-\paragraph{Rola rozwiązań klasycznych}
-Nie można również pominąć prostego regulatora PD-LQR. Mimo że ustępuje on rozwiązaniom
-zaawansowanym w skrajnych sytuacjach, oferuje on bardzo korzystny stosunek jakości do złożoności
-obliczeniowej. Jak wykazali Varghese i in. \cite{Varghese2017}, LQR pozostaje solidnym standardem
-przemysłowym, zapewniającym wystarczającą stabilność dla szerokiej klasy obiektów przy
-minimalnym narzucie implementacyjnym. W naszych testach PD-LQR, po odpowiednim doborze wag
-($Q_x = 500$), okazał się rozwiązaniem niezwykle uniwersalnym -- w~warunkach wietrznych
-pokonał konkurencję klasyczną i nawiązał równorzędną walkę z MPC pod względem energetycznym,
-oferując znacznie lepsze trzymanie pozycji.
-
-Podsumowując, projektant systemu sterowania musi świadomie balansować między sztywnością
-regulacji (Fuzzy) a~jej kosztem (MPC). Niniejsza praca dowodzi, że w~zależności od~definicji
-funkcji celu -- czy jest nią minimalizacja błędu, czy minimalizacja energii -- optymalny wybór
-algorytmu ulega diametralnej zmianie.
-
-
-
+W~przypadku regulatorów MPC czas obliczeń jest o~dwa rzędy wielkości wyższy
+(ok. 2{,}5--3 ms), co wynika z~konieczności rozwiązywania w~każdym kroku
+zadania optymalizacji nieliniowej. Wartości te pozostają jednak znacznie poniżej
+kroku symulacji ($\Delta t = 100$ ms), co potwierdza możliwość pracy MPC
+w~czasie rzeczywistym dla rozpatrywanego obiektu. Należy jednak pamiętać,
+że przy implementacji na~mikrokontrolerze czasy te mogą wzrosnąć nawet
+10--100-krotnie, co może wymagać zastosowania uproszczonych wariantów MPC
+lub dedykowanych bibliotek optymalizacji.

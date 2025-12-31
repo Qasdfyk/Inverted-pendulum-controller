@@ -5,6 +5,53 @@ przygotowano autorskie środowisko symulacyjne zrealizowane w~języku
 \textbf{Python 3}. Wybór tego języka podyktowany był jego powszechnością
 w~zastosowaniach naukowych, dostępnością bibliotek do~obliczeń numerycznych
 i~optymalizacji, a~także łatwością prototypowania złożonych struktur sterowania.
+Ogólną architekturę środowiska przedstawiono na~Rys.~\ref{fig:diagram_env}.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[auto, node distance=1.4cm, >=Stealth,
+        module/.style={draw, fill=blue!10, rectangle, minimum height=2.2em, 
+                       minimum width=6.5em, rounded corners=3pt, align=center, font=\small}]
+        
+        % Górny rząd
+        \node [module, fill=orange!15] (controller) {Regulator};
+        \node [module, left=2cm of controller, fill=yellow!20] (model) {Model $f(x,u)$};
+        \node [module, left=2cm of model, fill=green!15] (params) {Parametry};
+        
+        % Środkowy rząd
+        \node [module, below=1.3cm of controller, fill=blue!15] (integrator) {Integrator RK4};
+        \node [module, below=1.3cm of model, fill=red!10] (disturbance) {Zakłócenia $F_w$};
+        
+        % Dolny rząd
+        \node [module, below=1.3cm of integrator, fill=purple!10] (logger) {Logger};
+        \node [module, left=2cm of logger, fill=gray!15] (viz) {Wizualizacja};
+        
+        % Połączenia główne (góra)
+        \draw [arrow] (params) -- (model);
+        \draw [arrow] (model) -- (controller);
+        
+        % Regulator -> Integrator
+        \draw [arrow] (controller) -- node[right, font=\scriptsize] {$u$} (integrator);
+        
+        % Zakłócenia -> Model
+        \draw [arrow, dashed] (disturbance) -- (model);
+        
+        % Integrator -> Logger
+        \draw [arrow] (integrator) -- node[right, font=\scriptsize] {$x(t)$} (logger);
+        
+        % Logger -> Wizualizacja  
+        \draw [arrow] (logger) -- (viz);
+        
+        % Integrator -> Model (stan)
+        \draw [arrow] (integrator.west) -- ++(-0.5,0) |- node[pos=0.25, left, font=\scriptsize] {$x$} (model.south);
+        
+        % Sprzężenie zwrotne do regulatora (po prawej stronie - ciągła linia)
+        \draw [arrow] (integrator.east) -- ++(0.6,0) |- node[pos=0.25, right, font=\scriptsize] {$x(t)$} (controller.east);
+        
+    \end{tikzpicture}
+    \caption{Architektura środowiska symulacyjnego.}
+    \label{fig:diagram_env}
+\end{figure}
 
 \subsection{Narzędzia programistyczne}
 
@@ -31,13 +78,23 @@ W~projekcie wykorzystano następujące biblioteki i narzędzia:
 
 Symulator opiera~się na~numerycznym całkowaniu wyprowadzonych wcześniej
 nieliniowych równań dynamiki. Zaimplementowano procedurę całkowania metodą
-\textbf{Rungego-Kutty czwartego rzędu (RK4)}, co zapewnia wysoki kompromis
-pomiędzy dokładnością a szybkością obliczeń.
+\textbf{Rungego-Kutty czwartego rzędu (RK4)}. Wybór tej metody podyktowany 
+był kilkoma czynnikami: w~odróżnieniu od~prostszej metody Eulera, RK4 
+charakteryzuje się błędem lokalnym rzędu $\mathcal{O}(\Delta t^5)$, 
+co zapewnia wysoką dokładność przy umiarkowanym koszcie obliczeniowym. 
+Jednocześnie, w~przeciwieństwie do~metod adaptacyjnych (np. \texttt{ode45}), 
+stały krok czasowy gwarantuje deterministyczne taktowanie pętli sterowania, 
+co jest istotne przy porównywaniu regulatorów.
 
 Przyjęto stały krok symulacji oraz sterowania wynoszący
-\(\Delta t = 0{,}1\,\text{s}\). Jest to wartość, przy której dynamika wahadła
-jest odwzorowana z~wystarczającą precyzją, a~jednocześnie pozwala na~efektywne
-działanie numerycznych algorytmów optymalizacji w~czasie rzeczywistym.
+\(\Delta t = 0{,}1\,\text{s}\). Wartość tę dobrano na~podstawie analizy 
+dynamiki układu: dominująca stała czasowa niestabilnego modu wahadła 
+wynosi $\tau \approx 1/\lambda_4 \approx 0{,}18$ s (gdzie $\lambda_4 \approx 5{,}49$ 
+to dodatnia wartość własna macierzy stanu). Krok $\Delta t = 0{,}1$ s 
+jest zatem wystarczająco mały, aby poprawnie odwzorować dynamikę układu 
+(spełniony warunek $\Delta t < \tau$), a~jednocześnie pozwala na~efektywne
+działanie numerycznych algorytmów optymalizacji MPC w~czasie zbliżonym 
+do~rzeczywistego.
 
 \begin{table}[H]
 	\centering
@@ -83,8 +140,12 @@ operacje:
 \begin{equation}
     w_k \sim \mathcal{N}\!\left(0,\;\sigma^2\right),\qquad \sigma^2=\frac{P}{T_{\mathrm{s}}},
 \end{equation}
-gdzie $P$ oznacza moc zakłócenia (parametr konfigurowalny), a $T_{\mathrm{s}} = \Delta t$
-to krok symulacji.
+gdzie $P$ oznacza moc zakłócenia, a~$T_{\mathrm{s}} = \Delta t$
+to krok symulacji. W~przeprowadzonych eksperymentach przyjęto $P = 5{,}0$ W, 
+co odpowiada wartości skutecznej siły wiatru rzędu $\pm 2{,}2$ N. 
+Wartość ta została dobrana tak, aby zakłócenia stanowiły istotne wyzwanie 
+dla układu sterowania, lecz nie przekraczały możliwości kompensacyjnych 
+badanych regulatorów.
 
 \textbf{2. Wygładzanie (ruchoma średnia):}
 \begin{equation}
