@@ -155,10 +155,13 @@ def main():
     controllers['MPC'] = MPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
                                        Q=np.diag([158.39, 36.80, 43.41, 19.71]), R=0.08592)
     
-    # 4. MPC-J2
-    controllers['MPC-J2'] = MPCControllerJ2(PLANT, dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
+    # 4. MPC-J2 Variants
+    controllers['MPC-J2 (r=0)'] = MPCControllerJ2(PLANT, dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
                                             q_theta=80.0, q_x=120.0, q_thd=5.0, q_xd=5.0,
-                                            r=0.0001, r_abs=0.0) # Optimized
+                                            r=0.0001, r_abs=0.0)
+    controllers['MPC-J2 (r=1e-4)'] = MPCControllerJ2(PLANT, dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
+                                            q_theta=80.0, q_x=120.0, q_thd=5.0, q_xd=5.0,
+                                            r=0.0001, r_abs=0.0001)
     
     # 5. Fuzzy-LQR
     K_lqr = lqr_from_plant(PLANT)
@@ -192,7 +195,8 @@ def main():
 
     # Define Controller Groups
     group_classical = ['PD-PD', 'PD-LQR']
-    group_advanced = ['MPC', 'MPC-J2', 'Fuzzy-LQR']
+    group_advanced = ['MPC', 'MPC-J2 (r=0)', 'MPC-J2 (r=1e-4)', 'Fuzzy-LQR']
+    group_mpc_study = ['MPC-J2 (r=0)', 'MPC-J2 (r=1e-4)']
 
     # Helper function for grouped plots
     def plot_group(group_names, trajectories, title_suffix, filename_suffix, scenario_title, signal_type='theta'):
@@ -258,6 +262,14 @@ def main():
     # Control
     plot_group(group_classical, trajectories_wind, "Klasyczne", "wind_control_classical", "Sterowanie (Wiatr)", 'u')
     plot_group(group_advanced, trajectories_wind, "Zaawansowane", "wind_control_advanced", "Sterowanie (Wiatr)", 'u')
+    
+    # --- MPC Study Plots ---
+    # Nominal
+    plot_group(group_mpc_study, trajectories_nom, "MPC-J2 Study", "nominal_mpc_j2_study", "MPC-J2 r_abs (Nominal)", 'u')
+    plot_group(group_mpc_study, trajectories_nom, "MPC-J2 Study", "nominal_mpc_j2_study_theta", "MPC-J2 r_abs (Nominal)", 'theta')
+    # Wind
+    plot_group(group_mpc_study, trajectories_wind, "MPC-J2 Study", "wind_mpc_j2_study", "MPC-J2 r_abs (Wiatr)", 'u')
+    plot_group(group_mpc_study, trajectories_wind, "MPC-J2 Study", "wind_mpc_j2_study_theta", "MPC-J2 r_abs (Wiatr)", 'theta')
     
     # --- Generate Transposed Tables ---
     

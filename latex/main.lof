@@ -10,13 +10,14 @@
 \contentsline {figure}{\numberline {4.5}{\ignorespaces Wyniki strojenia ręcznego LQR metodą Brysona.}}{29}{figure.caption.11}%
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Optymalne przebiegi regulatora PD-LQR po zastosowaniu algorytmu genetycznego.}}{30}{figure.caption.12}%
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Zoptymalizowany regulator MPC ($N_p=12$) - szybka i gładka stabilizacja.}}{32}{figure.caption.13}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Optymalny kompromis między jakością regulacji a energią w MPC-J2.}}{33}{figure.caption.14}%
-\contentsline {figure}{\numberline {4.9}{\ignorespaces Efektywne sterowanie Fuzzy-LQR po optymalizacji bazy reguł.}}{35}{figure.caption.15}%
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne).}}{40}{figure.caption.16}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}}{41}{figure.caption.17}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}}{41}{figure.caption.18}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{42}{figure.caption.19}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{43}{figure.caption.20}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{43}{figure.caption.21}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Dryf pozycji $x$ pod wpływem wiatru -- regulatory klasyczne.}}{45}{figure.caption.22}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem wiatru -- regulatory zaawansowane.}}{45}{figure.caption.23}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Optymalny kompromis między jakością regulacji a energią w MPC-J2.}}{34}{figure.caption.14}%
+\contentsline {figure}{\numberline {4.9}{\ignorespaces Efektywne sterowanie Fuzzy-LQR po optymalizacji bazy reguł.}}{36}{figure.caption.15}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne).}}{41}{figure.caption.16}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}}{42}{figure.caption.17}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}}{42}{figure.caption.18}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{43}{figure.caption.19}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{44}{figure.caption.20}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{44}{figure.caption.21}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Dryf pozycji $x$ pod wpływem wiatru -- regulatory klasyczne.}}{46}{figure.caption.22}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem wiatru -- regulatory zaawansowane.}}{46}{figure.caption.23}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Porównanie sygnału sterującego $u$ dla MPC-J2 z różnymi wartościami $R_{abs}$.}}{48}{figure.caption.26}%

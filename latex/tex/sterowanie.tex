@@ -268,8 +268,8 @@ dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń.
 
 \subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}
 
-Jako wariant badawczy algorytmu predykcyjnego zaimplementowano sterownik
-\texttt{MPCControllerJ2} (plik \texttt{mpc\_J2.py}). Jego struktura jest
+Zaimplementowano sterownik \texttt{MPCControllerJ2} jako wariant badawczy algorytmu predykcyjnego
+(plik \texttt{mpc\_J2.py}). Jego struktura jest
 zbliżona do~podstawowego MPC, jednak funkcja kosztu została rozbudowana
 o~dodatkowy składnik karzący bezwzględną wartość sygnału sterującego
 (energię), a~nie tylko jego przyrosty.
@@ -279,8 +279,13 @@ Zmodyfikowana funkcja celu przyjmuje postać:
     J = \sum_{k=1}^{N_{\mathrm{p}}} (x_k - x_{\mathrm{ref}})^T Q (x_k - x_{\mathrm{ref}}) \;+\; R_{\Delta} \sum_{k=0}^{N_{\mathrm{c}}-1} (\Delta u_k)^2 \;+\; R_{\mathrm{abs}} \sum_{k=0}^{N_{\mathrm{c}}-1} (u_k)^2.
 \end{equation}
 Wprowadzenie parametru $R_{\mathrm{abs}}$ pozwala na~bezpośrednie minimalizowanie
-zużycia energii sterowania, co może być istotne w~zastosowaniach mobilnych
-zasilanych bateryjnie. W~badaniach przyjęto wagi: $q_{\theta}=80.0$,
+zużycia energii sterowania, co jest podejściem powszechnie stosowanym
+w~praktycznych implementacjach algorytmów predykcyjnych \cite{Camacho2007, Rawlings2017}.
+Ograniczenie amplitudy sygnału sterującego nie tylko redukuje wydatek energetyczny
+(istotny w~aplikacjach mobilnych), ale także zmniejsza obciążenie mechaniczne
+elementów wykonawczych, co wpływa na~żywotność napędu.
+
+W~badaniach przyjęto wagi: $q_{\theta}=80.0$,
 $q_x=120.0$ (elementy macierzy diagonalnej $Q$), kładąc większy
 nacisk na~precyzję pozycjonowania wózka w~porównaniu do~standardowego MPC.
 

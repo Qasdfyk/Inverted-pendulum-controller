@@ -222,6 +222,42 @@ oraz stabilizacji wózka (pozycja).
         $E_{u}$ & 15.39160 & 11.73032 & 12.59235 & 14.42652 & 85.88725 \\ \hline
     \end{tabular}
 \end{table}
+\newpage
+\subsection{Analiza wpływu kary za sterowanie w MPC z alternatywną funkcją kosztu}
+
+W celu empirycznej weryfikacji wpływu parametru $R_\mathrm{abs}$ (kary za bezwzględną wartość sterowania)
+na jakość regulacji, przeprowadzono dodatkową serię eksperymentów dla regulatora MPC-J2.
+Porównano dwa warianty: wariant bazowy ($R_\mathrm{abs}=0$) oraz wariant z włączoną karą energetyczną ($R_\mathrm{abs}=10^{-4}$).
+
+Zestawienie wyników (Tabela \ref{tab:mpc_j2_study}) oraz przebiegi sterowania (Rys. \ref{fig:mpc_j2_study_u})
+potwierdzają teoretyczne założenia. Włączenie nawet niewielkiej kary $R_\mathrm{abs}$ powoduje
+zauważalną redukcję amplitudy sygnału sterującego. W warunkach nominalnych pozwala to zaoszczędzić
+ok. 10\% energii całkowitej ($E_u$ spada z 0.62 do 0.57), przy praktycznie niezauważalnym pogorszeniu
+jakości regulacji kąta ($MSE_\theta$ wzrasta pomijalnie).
+
+Jest to istotny wynik praktyczny, pokazujący, że świadome kształtowanie funkcji kosztu pozwala
+na dostrojenie charakterystyki regulatora do specyficznych wymagań aplikacji (np. oszczędzanie akumulatora)
+bez utraty stabilności.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_nominal_mpc_j2_study.png}
+    \caption{Porównanie sygnału sterującego $u$ dla MPC-J2 z różnymi wartościami $R_{abs}$.}
+    \label{fig:mpc_j2_study_u}
+\end{figure}
+
+\begin{table}[h!]
+    \centering
+    \caption{Wpływ parametru $R_{abs}$ na wskaźniki jakości (Warunki nominalne)}
+    \label{tab:mpc_j2_study}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        Wskaźnik & MPC-J2 ($R_{abs}=0$) & MPC-J2 ($R_{abs}=10^{-4}$) \\ \hline
+        $MSE_\theta$ & 0.00005 & 0.00006 \\ \hline
+        $T_{s, \theta}$ [s] & 1.10000 & 1.10000 \\ \hline
+        $E_{u}$ & 0.62171 & 0.56937 \\ \hline
+    \end{tabular}
+\end{table}
 
 \subsection{Dyskusja i wnioski końcowe}
 

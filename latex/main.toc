@@ -27,19 +27,20 @@
 \contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}{32}{subsection.4.4}%
 \contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace }Analiza wpływu kary za energię}{33}{subsubsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.5\relax .\enspace }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{34}{subsection.4.5}%
-\contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór reguł i funkcji przynależności}{34}{subsubsection.4.5.1}%
-\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{36}{section.5}%
-\contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{36}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2\relax .\enspace }Badane algorytmy}{36}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3\relax .\enspace }Wskaźniki jakości regulacji}{37}{subsection.5.3}%
-\contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników}{39}{section.6}%
-\contentsline {subsection}{\numberline {6.1\relax .\enspace }Stabilizacja w warunkach nominalnych}{39}{subsection.6.1}%
-\contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{39}{subsubsection.6.1.1}%
-\contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{40}{subsubsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{42}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3\relax .\enspace }Szczegółowe zestawienie ilościowe}{44}{subsection.6.3}%
-\contentsline {subsection}{\numberline {6.4\relax .\enspace }Dyskusja i wnioski końcowe}{44}{subsection.6.4}%
-\contentsline {section}{Bibliografia}{49}{section*.29}%
-\contentsline {section}{Wykaz symboli i skrótów}{51}{section*.30}%
-\contentsline {section}{Spis rysunków}{52}{section*.30}%
-\contentsline {section}{Spis tabel}{52}{section*.30}%
+\contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór reguł i funkcji przynależności}{35}{subsubsection.4.5.1}%
+\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{37}{section.5}%
+\contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{37}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2\relax .\enspace }Badane algorytmy}{37}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3\relax .\enspace }Wskaźniki jakości regulacji}{38}{subsection.5.3}%
+\contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników}{40}{section.6}%
+\contentsline {subsection}{\numberline {6.1\relax .\enspace }Stabilizacja w warunkach nominalnych}{40}{subsection.6.1}%
+\contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{40}{subsubsection.6.1.1}%
+\contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{41}{subsubsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{43}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3\relax .\enspace }Szczegółowe zestawienie ilościowe}{45}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4\relax .\enspace }Analiza wpływu kary za sterowanie w MPC z alternatywną funkcją kosztu}{47}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5\relax .\enspace }Dyskusja i wnioski końcowe}{48}{subsection.6.5}%
+\contentsline {section}{Bibliografia}{51}{section*.31}%
+\contentsline {section}{Wykaz symboli i skrótów}{53}{section*.32}%
+\contentsline {section}{Spis rysunków}{54}{section*.32}%
+\contentsline {section}{Spis tabel}{54}{section*.32}%
