@@ -223,12 +223,11 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
         \draw [arrow] (sum_pd) -- (pd_pos);
         
         % Sprzężenie zwrotne LQR (na dole) - ciągła strzałka
-        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-2.4) -| (sum_lqr.south);
-        \node [below=3pt of sum_lqr.south, font=\tiny] {$-$};
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,1.4) -| (sum_lqr.north);
+        \node [above=3pt of sum_lqr.north, font=\tiny] {$-$};
         
         % Sprzężenie zwrotne PD (x) - od głównej linii sprzężenia
-        \coordinate (fb_junction) at ($(sum_lqr.south) + (0,-0.7)$);
-        \draw [arrow] (fb_junction) -- ++(-1.2,0) |- (sum_pd.south);
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-3.4) -| (sum_pd.south);
         \node [below=3pt of sum_pd.south, font=\tiny] {$-$};
         
         % Ramka LQR
@@ -363,7 +362,7 @@ nieliniowej (NMPC). Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:di
         \draw [arrow] (plant) -- node[above, font=\scriptsize] {$x$} (out);
         
         % Sprzężenie zwrotne - ciągła strzałka
-        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-1.8) -| node[pos=0.25, right, font=\scriptsize] {$x(t)$} ($(opt.south) + (0.6,0)$);
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-0.8) -| node[pos=0.25, right, font=\scriptsize] {$x(t)$} ($(opt.south) + (0.6,0)$);
         
         % Predykcja: Optymalizator <-> Model (dwukierunkowe, obok siebie)
         \draw [arrow, dashed] ($(opt.south) + (-0.3,0)$) -- ($(model.north) + (-0.3,0)$);
