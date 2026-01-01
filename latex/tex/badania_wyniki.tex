@@ -86,12 +86,13 @@ początkowe przyspieszenie jest znaczne. Taka charakterystyka wiąże się z ogr
 energetycznym ($E_u \approx 2.84$), co może być nieakceptowalne w~aplikacjach zasilanych
 bateryjnie.
 
-Na drugim biegunie znajduje się regulator MPC. Działa on z "rozmysłem", planując ruch wózka na
-kilkanaście kroków do przodu. Jego priorytetem jest znalezienie kompromisu między szybkością
+Na drugim biegunie znajduje się regulator MPC. Zastosowanie horyzontu predykcji pozwala
+na uwzględnienie przyszłych stanów i wyznaczenie optymalnej trajektorii sterowania na
+kilkanaście kroków do przodu. Funkcja kosztu wymusza kompromis między szybkością
 redukcji błędu a minimalizacją wydatku energetycznego. W efekcie, przebieg kąta jest nieco
 wolniejszy niż w przypadku Fuzzy-LQR, ale za to niezwykle płynny (Rys. \ref{fig:nom_advanced}).
 Co najważniejsze, ruch wózka jest w pełni kontrolowany i pozbawiony gwałtownych przyspieszeń.
-MPC jako jedyny regulator potrafi w sposób jawny uwzględnić ograniczenia fizyczne napędu, co
+MPC jako jedyny regulator pozwala w sposób jawny uwzględnić ograniczenia fizyczne napędu, co
 czyni go rozwiązaniem najbezpieczniejszym dla mechaniki układu. Zużycie energii na poziomie
 $E_u \approx 0.56$ jest ponad dwukrotnie niższe od obecnego LQR ($1.48$) oraz niższe od PD-PD,
 co czyni MPC najbardziej ekonomicznym rozwiązaniem w~warunkach nominalnych.
@@ -150,20 +151,21 @@ regulator Fuzzy-LQR osiąga najlepsze wyniki w~dziedzinie precyzji kątowej
 pozostaje zaporowa ($E_u \approx 85.9$). Sterownik ten charakteryzuje się bardzo agresywną strategią sterowania -- wykorzystuje
 maksymalną dostępną moc, aby zminimalizować błąd regulacji.
 
-Zupełnie inną strategię w~obliczu wiatru przyjmuje MPC. Ograniczony funkcją kosztu, która karze
-duże sterowania, MPC zachowuje się bardziej pasywnie. Pozwala on wahadłu na pewne, kontrolowane
-wychylenia pod wiatr, "płynąc" z zakłóceniem. Skutkuje to największym dryfem wózka w zestawieniu
-($Max |x| \approx 0.40$ m), który jest po prostu spychany przez wiatr, ale za to zużycie
-energii jest niskie ($E_u \approx 12.6$). Warto zauważyć, że w~tych konkretnych warunkach
-PD-LQR okazał się lepszy od MPC zarówno pod względem trzymania pozycji, jak i zużycia energii,
+Zupełnie inną charakterystykę w~obliczu wiatru wykazuje MPC. Ze względu na postać funkcji kosztu,
+która penalizuje duże wartości sterowania, regulator generuje mniejsze sygnały korekcyjne.
+Prowadzi to do pewnych, kontrolowanych wychyleń wahadła pod wpływem wiatru. Skutkuje to największym 
+dryfem wózka w zestawieniu ($Max |x| \approx 0.40$ m), gdyż układ jest spychany przez wiatr, 
+ale za to zużycie energii jest niskie ($E_u \approx 12.6$). Warto zauważyć, że w~tych konkretnych 
+warunkach PD-LQR okazał się lepszy od MPC zarówno pod względem trzymania pozycji, jak i zużycia energii,
 co dowodzi, że dobrze nastrojony regulator liniowy może konkurować z predykcyjnym, o ile nie
 występują nasycenia sterowania.
 
-Warto odnotować całkowitą porażkę wariantu MPC-J2 w tym teście. Jego funkcja kosztu, karząca
+Warto odnotować całkowitą porażkę wariantu MPC-J2 w tym teście. Jego funkcja kosztu, penalizująca
 bezpośrednio wartość sterowania ($u$), a nie jej zmianę ($\Delta u$), okazała się zbyt
-restrykcyjna. W~obliczu silnego wiatru regulator ten unikał generowania większej siły sterującej, co
-doprowadziło do przekroczenia krytycznego kąta wychylenia i przewrócenia się wahadła. Jest to
-cenna lekcja projektowa, pokazująca jak dobór funkcji celu determinuje odporność układu.
+restrykcyjna. Ze względu na wysoką karę za sterowanie, wyznaczane wartości sygnału sterującego 
+były niewystarczające do skompensowania zakłóceń, co doprowadziło do przekroczenia krytycznego 
+kąta wychylenia i przewrócenia się wahadła. Jest to cenna lekcja projektowa, pokazująca jak 
+dobór funkcji celu determinuje odporność układu.
 
 \begin{figure}[h!]
     \centering

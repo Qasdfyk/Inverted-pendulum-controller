@@ -109,22 +109,22 @@ def run_single_experiment(ctrl, name, wind_enabled=False):
     
     # Angle
     axes[0].plot(t, X[:, 0], label=r'$\theta$')
-    axes[0].plot(t, np.zeros_like(t), 'k--', alpha=0.5)
-    axes[0].set_ylabel(r'$\theta$ [rad]')
+    axes[0].plot(t, np.zeros_like(t), 'k--', alpha=0.5, label='Wartość zadana')
+    axes[0].set_ylabel(r'Kąt $\theta$ [rad]')
     axes[0].set_title(f'{name} - {scenario_name}')
     axes[0].grid(True)
     
     # Position
     axes[1].plot(t, X[:, 2], label=r'$x$')
-    axes[1].plot(t, np.ones_like(t)*x0[2], 'k--', alpha=0.5, label=r'$x_{0}$') # Fix ref plotting if needed
-    axes[1].set_ylabel(r'$x$ [m]')
+    axes[1].plot(t, np.ones_like(t)*x0[2], 'k--', alpha=0.5, label='Wartość zadana')
+    axes[1].set_ylabel(r'Pozycja $x$ [m]')
     axes[1].grid(True)
     axes[1].legend()
     
     # Control
     axes[2].plot(tf, U, label=r'$u$')
-    axes[2].set_ylabel(r'$u$ [N]')
-    axes[2].set_xlabel('Time [s]')
+    axes[2].set_ylabel(r'Siła sterująca $u$ [N]')
+    axes[2].set_xlabel('Czas [s]')
     axes[2].grid(True)
     
     plt.tight_layout()
@@ -229,11 +229,11 @@ def main():
                     plot_ref = True
                 elif signal_type == 'u':
                     ax.plot(tf, U, label=name, linewidth=3)
-                    ylabel = r'Sterowanie $u$ [N]'
+                    ylabel = r'Siła sterująca $u$ [N]'
                     plot_ref = False
         
         if plot_ref:
-             ax.plot(t_ref, ref_val, 'k--', alpha=0.3, linewidth=2, label='Referencja')
+             ax.plot(t_ref, ref_val, 'k--', alpha=0.3, linewidth=2, label='Wartość zadana')
 
         ax.set_title(f"Porównanie: {scenario_title}")
         ax.set_ylabel(ylabel)
