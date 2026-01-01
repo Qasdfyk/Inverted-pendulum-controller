@@ -72,11 +72,11 @@ pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}
         \draw [arrow] (plant) -- node[above, font=\scriptsize] {$\theta,x$} (out);
         
         % Sprzężenie zwrotne (na dole) - ciągła linia
-        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-1.8) -| (sum_x.south);
         \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,+1.8) -| (sum_theta.north);
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-1.8) -| (sum_x.south);
         
         % Znak minus na sumach
-        \node [below=3pt of sum_theta.south, font=\tiny] {$-$};
+        \node [above=3pt of sum_theta.north, font=\tiny] {$-$};
         \node [below=3pt of sum_x.south, font=\tiny] {$-$};
     \end{tikzpicture}
     \caption{Schemat blokowy regulatora PD-PD o~strukturze równoległej.}
