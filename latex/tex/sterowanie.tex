@@ -88,7 +88,9 @@ Prawo sterowania wyraża się wzorem:
     u(t) = \mathrm{sat}_{u_{\mathrm{max}}} \left( u_{\theta}(t) + u_{x}(t) \right),
 \end{equation}
 gdzie funkcja nasycenia $\mathrm{sat}(\cdot)$ wynika z~ograniczeń fizycznych
-Definiując uchyby regulacji jako $e_{\theta}(t) = \theta_{\mathrm{ref}} - \theta(t)$ oraz $e_x(t) = x_{\mathrm{ref}} - x(t)$, prawo sterowania dla poszczególnych pętli można zapisać w~ogólnej postaci regulatora PID:
+siłownika. Definiując uchyby regulacji jako $e_{\theta}(t) = \theta_{\mathrm{ref}} - \theta(t)$ 
+oraz $e_x(t) = x_{\mathrm{ref}} - x(t)$, prawo sterowania dla poszczególnych pętli 
+można zapisać w~ogólnej postaci regulatora PID:
 \begin{align}
     u_{\theta}(t) &= K_{p,\theta} e_{\theta}(t) + K_{i,\theta} \int_0^t e_{\theta}(\tau)\,d\tau + K_{d,\theta} \frac{d e_{\theta}(t)}{dt}, \label{eq:pd_theta} \\
     u_{x}(t) &= K_{p,x} e_x(t) + K_{i,x} \int_0^t e_x(\tau)\,d\tau + K_{d,x} \frac{d e_x(t)}{dt}. \label{eq:pd_x}
@@ -111,12 +113,45 @@ $\mathrm{anti\text{-}windup}$.
 
 \subsubsection{Proces doboru nastaw oraz analiza PID}
 Dobór nastaw dla regulatora PD-PD został zrealizowany wieloetapowo, ewoluując
-od metod heurystycznych do pełnej optymalizacji numerycznej. Wstępne próby
-doboru metodą ,,prób i~błędów'', oparte na~dekompozycji problemu (najpierw
-stabilizacja wahadła, potem pozycja wózka), pozwoliły uzyskać stabilność,
-jednak jakość regulacji była niezadowalająca. Układ charakteryzował się
-powolnym dochodzeniem do~punktu pracy i~znacznymi oscylacjami
-(\ref{fig:pdpd_manual}).
+od metod heurystycznych do pełnej optymalizacji numerycznej.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_1_manual.png}
+    \caption{Regulator PD nastawiony ręcznie ($K_{p,\theta}=-40$, $K_{d,\theta}=-8$, 
+    $K_{p,x}=-1$, $K_{d,x}=-3$).}
+    \label{fig:pid_manual}
+\end{figure}
+
+Wstępne próby doboru metodą ,,prób i~błędów'' (Rys.~\ref{fig:pid_manual}), oparte 
+na~dekompozycji problemu (najpierw stabilizacja wahadła, potem pozycja wózka), 
+pozwoliły uzyskać stabilność, jednak jakość regulacji była niezadowalająca. 
+Układ charakteryzował się powolnym dochodzeniem do~punktu pracy i~znacznymi 
+oscylacjami. Wzmocnienia proporcjonalne ($K_p=-40$ dla kąta) były niewystarczające,
+aby szybko tłumić odchylenia od~pionu.
+
+\paragraph{Analiza porównawcza struktur PD i PID}
+W~literaturze przedmiotu \cite{Varghese2017, Nguyen2024} często podkreśla się, że dla
+obiektów niestabilnych statycznie, takich jak wahadło odwrócone, kluczowa jest
+szybka reakcja na~zmiany kąta, którą zapewnia człon różniczkujący (D).
+Włączenie członu całkującego (I), tworzącego regulator PID, wprowadza dodatkowe
+przesunięcie fazowe (opóźnienie), co w~układzie o~dynamice astatycznej
+i~nieliniowej prowadzi do znacznego pogorszenia zapasu stabilności.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_2_integral_bad.png}
+    \caption{Regulator PID z~członem całkującym ($K_{p,\theta}=-40$, $K_{i,\theta}=-2$, 
+    $K_{d,\theta}=-8$, $K_{p,x}=-1$, $K_{i,x}=-2$, $K_{d,x}=-3$).}
+    \label{fig:pdpd_integral}
+\end{figure}
+
+Przeprowadzone badania symulacyjne potwierdziły te wnioski (Rys.~\ref{fig:pdpd_integral}). 
+Próba dodania akcji całkującej ($K_i \neq 0$) skutkowała zjawiskiem 
+\textit{integral wind-up} -- akumulacją błędu w~fazie rozruchu, co powodowało 
+przeregulowania wykraczające poza obszar przyciągania stabilnego punktu równowagi. 
+Regulator PID wpadał w~niegasnące oscylacje lub doprowadzał do~przewrócenia wahadła, 
+podczas gdy ,,czysty'' regulator PD zapewnia sztywne i~szybkie sterowanie.
 
 Aby wyeliminować subiektywność strojenia ręcznego, zastosowano algorytm
 Ewolucji Różnicowej (Differential Evolution), zaimplementowany w~module
@@ -127,45 +162,21 @@ gwarantuje ,,uczciwe'' porównanie wszystkich badanych regulatorów:
 \end{equation}
 gdzie przyjęto wagi $w_{\theta}=4.0$ (priorytet stabilizacji), $w_{x}=1.0$
 (dokładność pozycjonowania) oraz $w_{u}=0.01$ (koszt energii). Algorytm operował
-na populacji 10 osobników przez 20 generacji, co pozwoliło uniknąć minimów
-lokalnych i~znaleźć optymalny zestaw wzmocnień (\ref{fig:pdpd_opt}).
-
-\paragraph{Analiza porównawcza struktur PD i PID}
-W~literaturze przedmiotu \cite{Varghese2017, Nguyen2024} często podkreśla się, że dla
-obiektów niestabilnych statycznie, takich jak wahadło odwrócone, kluczowa jest
-szybka reakcja na~zmiany kąta, którą zapewnia człon różniczkujący (D).
-Włączenie członu całkującego (I), tworzącego regulator PID, wprowadza dodatkowe
-przesunięcie fazowe (opóźnienie), co w~układzie o~dynamice astatycznej
-i~nieliniowej prowadzi do znacznego pogorszenia zapasu stabilności.
-
-Przeprowadzone badania symulacyjne potwierdziły te wnioski. Próba dodania akcji
-całkującej ($K_i \neq 0$) skutkowała zjawiskiem \textit{integral wind-up} --
-akumulacją błędu w~fazie rozruchu, co powodowało przeregulowania wykraczające
-poza obszar przyciągania stabilnego punktu równowagi. Jak widać na~rysunku
-\ref{fig:pid_bad}, regulator PID wpada w~niegasnące oscylacje lub doprowadza
-do przewrócenia wahadła, podczas gdy ,,czysty'' regulator PD zapewnia sztywne
-i~szybkie sterowanie.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/pid_1_integral_bad.png}
-    \caption{Destabilizujący wpływ członu całkującego (PID) - widoczne narastające oscylacje i utrata stabilności.}
-    \label{fig:pid_bad}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_2_manual.png}
-    \caption{Stabilna, lecz oscylacyjna praca regulatora PD-PD przy strojeniu ręcznym.}
-    \label{fig:pdpd_manual}
-\end{figure}
+na~populacji 10 osobników przez 20 generacji, co pozwoliło uniknąć minimów
+lokalnych.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_3_opt.png}
-    \caption{Przebiegi czasowe dla zoptymalizowanych nastaw regulatora PD-PD (algorytm Differential Evolution).}
+    \caption{Zoptymalizowany regulator PD-PD ($K_{p,\theta}=-95$, $K_{d,\theta}=-14$, 
+    $K_{p,x}=-16$, $K_{d,x}=-14$).}
     \label{fig:pdpd_opt}
 \end{figure}
+
+Zoptymalizowane nastawy (Rys.~\ref{fig:pdpd_opt}) charakteryzują się znacznie wyższymi
+wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-40$) oraz $K_{p,x}=-16$ 
+(vs. $-1$). Algorytm ,,odkrył'', że agresywna reakcja na~błąd pozycji wózka pośrednio
+stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii.
 
 \subsection{Układ hybrydowy PD-LQR}
 
@@ -278,46 +289,54 @@ zapewnia stabilność, a~regulator zewnętrzny dba o~uchyb w~stanie ustalonym
 Dobór wag dla regulatora LQR również charakteryzował się ewolucyjnym podejściem
 do~problemu optymalizacji wskaźnika jakości.
 
-W~pierwszej fazie przyjęcie jednostkowej macierzy diagonalnej $Q=I$ oraz $R=1$
-okazało się niewystarczające. Mimo teoretycznej stabilności wynikającej z~rozwiązania
-równania CARE, wahadło wykonywało bardzo duże wychylenia, a~wózek wielokrotnie
-wyjeżdżał poza dopuszczalny zakres roboczy toru. Świadczyło to o~zbyt małej karze
-nałożonej na~uchyb kątowy.
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_1_bad.png}
-    \caption{Próba sterowania LQR z wagami jednostkowymi ($Q=I, R=1$). Widoczna duża bezwładność układu.}
+    \caption{Regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$, 
+    PD: $K_{p,x}=-4.5$, $K_{d,x}=-3$).}
     \label{fig:lqr_bad}
 \end{figure}
 
-Następnie przeprowadzono strojenie ręczne metodą prób i~błędów, inspirując się
-regułą Brysona. Reguła ta postuluje, że elementy diagonalne macierzy $Q$ i~$R$ 
-powinny być odwrotnie proporcjonalne do~kwadratów maksymalnych dopuszczalnych 
-wartości odpowiednich zmiennych stanu i~sterowania, tj. $Q_{ii} = 1/x_{i,\max}^2$
-oraz $R = 1/u_{\max}^2$. Ręczne zwiększanie kar za~wychylenie kąta ($Q_{\theta}$) poprawiło
-sztywność wahadła. Udało się ustalić zestaw wag zapewniający stabilną pracę, choć
-czas regulacji był wciąż niezadowalający, a~reakcja na~zakłócenia powolna.
+W~pierwszej fazie przyjęcie jednostkowej macierzy diagonalnej $Q=I$ oraz $R=1$
+(Rys.~\ref{fig:lqr_bad}) okazało się niewystarczające. Mimo teoretycznej stabilności 
+wynikającej z~rozwiązania równania CARE, wahadło wykonywało bardzo duże wychylenia, 
+a~wózek wielokrotnie wyjeżdżał poza dopuszczalny zakres roboczy toru. Problem wynikał
+z~faktu, że jednostkowe wagi traktują 1~rad błędu kąta tak samo jak 1~m błędu pozycji
+i~1~N$^2$ kosztu sterowania -- co jest fizycznie nieuzasadnione.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_2_manual.png}
-    \caption{Wyniki strojenia ręcznego LQR metodą Brysona.}
+    \caption{Regulator LQR strojony metodą Brysona ($Q=\mathrm{diag}([25, 1, 4, 1])$, 
+    $R=10$, PD: $K_{p,x}=-4.5$, $K_{d,x}=-3$).}
     \label{fig:lqr_manual}
 \end{figure}
 
-W~ostatnim etapie zastosowano optymalizację numeryczną. Algorytm genetyczny
-poszukiwał optymalnych elementów diagonalnych macierzy $Q$ oraz skalara $R$,
-    minimalizując czas regulacji. Zoptymalizowane wagi (w szczególności wysoka kara
-    $Q_{x} = 500$) sprawiają, że regulator bardzo agresywnie pilnuje pozycji wózka,
-    co pośrednio wymusza stabilne trzymanie wahadła (wymagane do kontroli pozycji).
+Następnie przeprowadzono strojenie ręczne metodą prób i~błędów, inspirując się
+regułą Brysona (Rys.~\ref{fig:lqr_manual}). Reguła ta postuluje, że elementy 
+diagonalne macierzy $Q$ i~$R$ powinny być odwrotnie proporcjonalne do~kwadratów 
+maksymalnych dopuszczalnych wartości odpowiednich zmiennych stanu i~sterowania, 
+tj. $Q_{ii} = 1/x_{i,\max}^2$ oraz $R = 1/u_{\max}^2$. Ręczne zwiększanie kar 
+za~wychylenie kąta ($Q_{\theta}=25$) poprawiło sztywność wahadła. Udało się ustalić 
+zestaw wag zapewniający stabilną pracę, choć czas regulacji był wciąż niezadowalający, 
+a~reakcja na~zakłócenia powolna.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_3_opt.png}
-    \caption{Optymalne przebiegi regulatora PD-LQR po zastosowaniu algorytmu genetycznego.}
+    \caption{Zoptymalizowany regulator PD-LQR ($Q=\mathrm{diag}([1, 1, 500, 250])$, 
+    $R=1$, PD: $K_{p,x}=-1.5$, $K_{d,x}=-5$).}
     \label{fig:lqr_opt}
 \end{figure}
+
+W~ostatnim etapie zastosowano optymalizację numeryczną (Rys.~\ref{fig:lqr_opt}). 
+Algorytm genetyczny poszukiwał optymalnych elementów diagonalnych macierzy $Q$ 
+oraz skalara $R$, minimalizując wskaźnik jakości. Zoptymalizowane wagi 
+(w~szczególności wysoka kara $Q_{x} = 500$) sprawiają, że regulator bardzo 
+agresywnie pilnuje pozycji wózka, co pośrednio wymusza stabilne trzymanie wahadła. 
+Interesujące jest, że optymalizator ,,odkrył'' strategię przeciwną do~intuicyjnej: 
+zamiast karać głównie kąt ($Q_{\theta}$), kładzie nacisk na~pozycję ($Q_x$), 
+co zmusza wózek do~szybkich korekt stabilizujących wahadło.
 
 \subsection{Nieliniowe sterowanie predykcyjne (MPC)}
 
@@ -426,25 +445,51 @@ nieoptymalne nastawy.
 Dla regulatora MPC kluczowym wyzwaniem był dobór horyzontu predykcji oraz
 macierzy wag, determinujących zachowanie układu w~stanie nieustalonym.
 
-Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N_{\mathrm{p}} < 5$)
-prowadziło do~niestabilności układu zamkniętego. Regulator ,,nie widział'', że
-rozpędzając wózek w~celu korekcji kąta, nie zdąży wyhamować przed upadkiem
-wahadła lub osiągnięciem końca toru. Zwiększenie horyzontu do $N_{\mathrm{p}}=10$
-w~ramach korekty ręcznej ustabilizowało proces. Dodatkowa manipulacja wagami $Q$
-pozwoliła na~uzyskanie poprawnego sterowania, jednak koszt obliczeniowy był
-wysoki, a~przebiegi wciąż wykazywały niepożądane przeregulowania.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/mpc_1_bad.png}
+    \caption{Regulator MPC z~krótkim horyzontem ($N_p=5$, $N_c=2$, 
+    $Q=\mathrm{diag}([10, 1, 10, 1])$, $R=0.1$).}
+    \label{fig:mpc_bad}
+\end{figure}
 
-Automatyzacja procesu strojenia przy użyciu skryptu \texttt{tune\_mpc.py} pozwoliła
-na~znalezienie kompromisu między długością horyzontu a~wagami. Algorytm
-optymalizacyjny wskazał $N_{\mathrm{p}}=12$ jako optimum dla tego modelu
-dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń.
+Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N_{\mathrm{p}} = 5$,
+Rys.~\ref{fig:mpc_bad}) prowadziło do~niestabilności układu zamkniętego. Regulator 
+,,nie widział'', że rozpędzając wózek w~celu korekcji kąta, nie zdąży wyhamować 
+przed upadkiem wahadła lub osiągnięciem końca toru. Horyzont pięciu kroków (przy
+$dt=0.02$s daje zaledwie 0.1s predykcji) jest niewystarczający, aby uchwycić pełną
+dynamikę wahadła i~zaplanować odpowiedni manewr powrotny.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/mpc_2_manual.png}
+    \caption{Regulator MPC z~ręcznie dobranymi wagami ($N_p=10$, $N_c=3$, 
+    $Q=\mathrm{diag}([50, 10, 50, 10])$, $R=0.1$).}
+    \label{fig:mpc_manual}
+\end{figure}
+
+Zwiększenie horyzontu do~$N_{\mathrm{p}}=10$ w~ramach korekty ręcznej 
+(Rys.~\ref{fig:mpc_manual}) ustabilizowało proces. Regulator zyskał możliwość
+,,patrzenia w~przyszłość'' na~0.2s, co pozwoliło na~antycypację skutków swoich
+działań. Dodatkowa manipulacja wagami $Q$ pozwoliła na~uzyskanie poprawnego 
+sterowania, jednak odpowiedź dynamiczna była powolna, a~przebiegi wykazywały
+przeregulowania.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpc_3_opt.png}
-    \caption{Zoptymalizowany regulator MPC ($N_p=12$) - szybka i gładka stabilizacja.}
+    \caption{Zoptymalizowany regulator MPC ($N_p=12$, $N_c=4$, 
+    $Q=\mathrm{diag}([158.4, 36.8, 43.4, 19.7])$, $R=0.086$).}
     \label{fig:mpc_opt}
 \end{figure}
+
+Automatyzacja procesu strojenia przy użyciu skryptu \texttt{tune\_mpc.py} pozwoliła
+na~znalezienie kompromisu między długością horyzontu a~wagami (Rys.~\ref{fig:mpc_opt}).
+Algorytm optymalizacyjny wskazał $N_{\mathrm{p}}=12$ jako optimum dla tego modelu
+dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń. Zoptymalizowane
+wagi $Q$ znacząco różnią się od~intuicyjnych proporcji -- wysoka kara za~kąt 
+($Q_{\theta}=158.4$) w~połączeniu z~niską karą za~zmianę sterowania ($R=0.086$)
+zapewnia agresywną, ale gładką stabilizację.
 
 \subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}
 
@@ -465,35 +510,61 @@ Ograniczenie amplitudy sygnału sterującego nie tylko redukuje wydatek energety
 (istotny w~aplikacjach mobilnych), ale także zmniejsza obciążenie mechaniczne
 elementów wykonawczych, co wpływa na~żywotność napędu.
 
-W~badaniach przyjęto wagi: $q_{\theta}=80.0$,
-$q_x=120.0$ (elementy macierzy diagonalnej $Q$), kładąc większy
-nacisk na~precyzję pozycjonowania wózka w~porównaniu do~standardowego MPC.
+W~badaniach przyjęto zoptymalizowane wagi: $q_{\theta}=40.0$,
+$q_x=40.0$, $q_{\dot{\theta}}=5.0$, $q_{\dot{x}}=5.0$ (elementy macierzy diagonalnej $Q$),
+przy czym $R_{\Delta}=0.0001$ i~$R_{\mathrm{abs}}=0$ dla wariantu priorytetyzującego 
+jakość regulacji.
 
 \subsubsection{Analiza wpływu kary za energię}
 W~przypadku wariantu MPC-J2 analizowano nieliniowy wpływ parametru $R_{\mathrm{abs}}$
-na~zachowanie układu.
+na~zachowanie układu. Eksperymenty przeprowadzono przy stałych wagach stanu
+($q_{\theta}=40$, $q_x=40$, $q_{\dot{\theta}}=5$, $q_{\dot{x}}=5$), zmieniając 
+jedynie wartość kary za~bezwzględną wartość sterowania.
 
-Przyjęcie zbyt dużej wartości kary za~sterowanie bezwzględne ($R_{\mathrm{abs}}$)
-spowodowało, że regulator wykazywał tendencję do~pasywności. Wahadło przewracało się,
-ponieważ koszt energetyczny utrzymania go w~pionie przewyższał zysk wynikający
-z~małego błędu kąta w~funkcji celu.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/mpcJ2_1_bad.png}
+    \caption{Regulator MPC-J2 z~wysoką karą za~energię ($R_{\mathrm{abs}}=10$).}
+    \label{fig:mpcj2_bad}
+\end{figure}
 
-Stopniowe, ręczne zmniejszanie parametru $R_{\mathrm{abs}}$ pozwoliło znaleźć punkt
-pracy, w~którym układ odzyskał stabilność przy zachowaniu relatywnej oszczędności
-energetycznej. Odpowiedź dynamiczna była jednak powolna i~zbyt asekuracyjna dla
-większych zakłóceń.
+Przyjęcie zbyt dużej wartości kary za~sterowanie bezwzględne ($R_{\mathrm{abs}}=10$,
+Rys.~\ref{fig:mpcj2_bad}) spowodowało, że regulator wykazywał tendencję do~pasywności.
+Funkcja kosztu karała każdy niuton siły tak mocno, że optymalizator ,,wolał'' pozwolić
+wahadłu upaść, niż ponieść wysoki koszt energetyczny ratowania go. W~efekcie układ
+nie był w~stanie ustabilizować się -- wahadło przewracało się, ponieważ koszt 
+energetyczny utrzymania go w~pionie przewyższał zysk wynikający z~małego błędu 
+kątowego w~funkcji celu.
 
-Algorytm optymalizacyjny precyzyjnie dostroił $R_{\mathrm{abs}}$, minimalizując złożony
-wskaźnik kosztu (błąd + energia). Znaleziono ,,złoty środek'', w~którym układ
-stabilizuje się szybko, ale sterowanie pozbawione jest zbędnych oscylacji
-wysokoczęstotliwościowych, co przekłada się na~oszczędność energii.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/mpcJ2_2_manual.png}
+    \caption{Regulator MPC-J2 z~ręcznie zmniejszoną karą ($R_{\mathrm{abs}}=1$).}
+    \label{fig:mpcj2_manual}
+\end{figure}
+
+Stopniowe, ręczne zmniejszanie parametru $R_{\mathrm{abs}}$ do~wartości $1.0$
+(Rys.~\ref{fig:mpcj2_manual}) pozwoliło na~początkową stabilizację, jednak układ
+ostatecznie ulegał destabilizacji. Regulator działał zbyt zachowawczo -- oszczędzając
+energię, pozwalał wózkowi na~zbyt duży dryf od~pozycji zadanej. Gdy błąd pozycji
+narastał, próba korekcji wymagała agresywnego ruchu wózka, co z~kolei destabilizowało
+wahadło. Taki scenariusz ilustruje typowy problem źle dostrojonego kompromisu
+między jakością regulacji a~oszczędnością energii.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpcJ2_3_opt.png}
-    \caption{Optymalny kompromis między jakością regulacji a energią w MPC-J2.}
+    \caption{Zoptymalizowany regulator MPC-J2 ($R_{\mathrm{abs}}=0$).}
     \label{fig:mpcj2_opt}
 \end{figure}
+
+Algorytm optymalizacyjny wskazał, że dla tego zadania najlepszym rozwiązaniem jest
+całkowite wyłączenie kary za~bezwzględną wartość sterowania ($R_{\mathrm{abs}}=0$,
+Rys.~\ref{fig:mpcj2_opt}). Pozostała jedynie kara za~przyrosty sterowania 
+$R_{\Delta}=0.0001$, która zapewnia gładkość sygnału sterującego bez ograniczania
+zdolności regulatora do~szybkiej reakcji. Znaleziono ,,złoty środek'', w~którym układ
+stabilizuje się szybko, a~sterowanie pozbawione jest zbędnych oscylacji
+wysokoczęstotliwościowych.
 
 \subsection{Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}
 
@@ -572,8 +643,8 @@ Wyjście sterownika obliczane jest jako średnia ważona:
 \begin{equation}
     u_{\mathrm{Fuzzy}} = G \cdot \frac{\sum_{i=1}^{16} w_i(x) \cdot u_i}{\sum_{i=1}^{16} w_i(x)},
 \end{equation}
-gdzie $w_i$ to stopień aktywacji $i$-tej reguły, a~$G = 0.9$ to globalne
-wzmocnienie skalujące.
+gdzie $w_i$ to stopień aktywacji $i$-tej reguły, a~$G = 0.37$ to globalne
+wzmocnienie skalujące (po optymalizacji).
 
 Zastosowany mechanizm ,,Gain Scheduling'' pozwala na:
 \begin{enumerate}
@@ -591,23 +662,50 @@ w~porównaniu do~klasycznego LQR, co potwierdzają wyniki badań w~pracy
 Strojenie rozmytego regulatora Fuzzy-LQR jest zadaniem złożonym ze względu na~dużą
 liczbę parametrów definiujących bazę reguł i~funkcje przynależności.
 
-Błędne zdefiniowanie zbyt wąskich funkcji przynależności dla strefy ,,małego błędu''
-skutkowało gwałtownym przełączaniem się regulatora na~agresywne reguły (chatter).
-Prowadziło to do~silnych drgań wokół punktu równowagi, co jest zjawiskiem
-niepożądanym w~rzeczywistych układach napędowych.
-Opierając się na~literaturze \cite{Nguyen2024}, dobrano ręcznie szerokości trójkątnych
-funkcji przynależności tak, aby przejście między strefami było płynne. Układ uzyskał
-stabilność asymptotyczną, jednak nie wykorzystywał w~pełni potencjału szybkiej
-reakcji na~duże zakłócenia, działając zachowawczo.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/fuzzy_1_bad.png}
+    \caption{Regulator Fuzzy-LQR z~wąskimi funkcjami przynależności 
+    (zakres ,,mały błąd'' dla $\theta$: $[-0.02, 0.02]$~rad).}
+    \label{fig:fuzzy_bad}
+\end{figure}
 
-Ostatecznie, dedykowany skrypt \texttt{tune\_fuzzy\_lqr.py} posłużył do~optymalizacji
-wag pojedynczych reguł oraz parametrów kształtu funkcji przynależności. Uzyskano
-nieliniową powierzchnię sterowania, która łączy zalety miękkiego sterowania LQR
-w~pobliżu zera z~maksymalną siłą reakcji przy dużych wychyleniach.
+Błędne zdefiniowanie zbyt wąskich funkcji przynależności dla strefy ,,małego błędu''
+(Rys.~\ref{fig:fuzzy_bad}) skutkowało gwałtownym przełączaniem się regulatora 
+na~agresywne reguły (chatter). Zakres $[-0.02, 0.02]$~rad oznacza, że już przy
+wychyleniu wahadła o~około $1^{\circ}$ regulator przeskakiwał z~trybu ,,łagodnego''
+(LQR) na~tryb ,,agresywny'' (duże wzmocnienia reguł rozmytych), a~przy powrocie
+do~pionu natychmiast wracał. Prowadziło to do~silnych drgań wokół punktu równowagi,
+co jest zjawiskiem niepożądanym w~rzeczywistych układach napędowych ze~względu na~
+zużycie mechaniczne i~hałas.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/fuzzy_2_manual.png}
+    \caption{Regulator Fuzzy-LQR z~ręcznie dobranymi parametrami 
+    ($F_{\theta}=20$, $F_{\dot{\theta}}=5$, $F_x=10$, $F_{\dot{x}}=2$, 
+    zakres: $[-0.2, 0.2]$~rad).}
+    \label{fig:fuzzy_manual}
+\end{figure}
+
+Opierając się na~literaturze \cite{Nguyen2024}, dobrano ręcznie szerokości trójkątnych
+funkcji przynależności tak, aby przejście między strefami było płynne 
+(Rys.~\ref{fig:fuzzy_manual}). Rozszerzenie zakresu do~$[-0.2, 0.2]$~rad wyeliminowało
+chatter, jednak wzmocnienia reguł były zbyt słabe ($F_{\theta}=20$ vs. optymalne $167.9$).
+Układ uzyskał stabilność asymptotyczną, jednak nie wykorzystywał w~pełni potencjału 
+szybkiej reakcji na~duże zakłócenia, działając zachowawczo.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/fuzzy_3_opt.png}
-    \caption{Efektywne sterowanie Fuzzy-LQR po optymalizacji bazy reguł.}
+    \caption{Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta}=167.9$, 
+    $F_{\dot{\theta}}=5.3$, $F_x=19.8$, $F_{\dot{x}}=19.3$, $G=0.37$).}
     \label{fig:fuzzy_opt}
 \end{figure}
+
+Ostatecznie, dedykowany skrypt \texttt{tune\_fuzzy\_lqr.py} posłużył do~optymalizacji
+wag pojedynczych reguł oraz parametrów kształtu funkcji przynależności 
+(Rys.~\ref{fig:fuzzy_opt}). Algorytm znalazł zaskakująco wysoką wartość wzmocnienia
+dla kąta ($F_{\theta}=167.9$), przy jednoczesnym zmniejszeniu globalnego wzmocnienia
+($G=0.37$). Uzyskano nieliniową powierzchnię sterowania, która łączy zalety miękkiego 
+sterowania LQR w~pobliżu zera z~maksymalną siłą reakcji przy dużych wychyleniach.
