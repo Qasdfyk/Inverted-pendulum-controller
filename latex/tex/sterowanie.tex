@@ -233,9 +233,10 @@ pozycji wózka.
 Zwiększenie wag dla pozycji i~prędkości wózka ($Q_x=500$, $Q_{\dot{x}}=250$) prowadzi 
 do~znaczącej poprawy jakości śledzenia wartości zadanej (Rys.~\ref{fig:lqr_opt_2}). 
 Wyższe kary za~błąd pozycji wymuszają na~regulatorze intensywniejszą reakcję, 
-co skutkuje szybszym osiągnięciem zadanego punktu. Jednak czysty LQR nie zapewnia 
-zerowego uchybu ustalonego przy stałych zakłóceniach, co motywuje rozszerzenie 
-struktury o~dodatkową pętlę PD z~możliwością włączenia członu całkującego.
+co skutkuje szybszym osiągnięciem zadanego punktu. Jedank sygnał sterujący dla 
+tak skonfigurowanego regulatora LQR jest bardzo słabej jakości. Widoczny są gwałtowne, 
+nieciągłe zmiany sygnału sterującego, które są kosztowne energetycznie i mogą być niebezpieczne dla układu.
+Motywuje to rozszerzenie struktury o~dodatkową pętlę PD z~możliwością włączenia członu całkującego.
 
 \subsubsection{Struktura hybrydowa PID-LQR}
 
