@@ -60,20 +60,20 @@ def run_simulation(ctrl, name, filename_suffix, title_suffix):
     ax1.plot(t, X[:, 0]) 
     ax1.plot(t, np.zeros_like(t), 'k--', alpha=0.5, label='Wartość zadana')
     ax1.grid(True)
-    ax1.set_ylabel(r'Kąt $\theta$ [rad]')
+    ax1.set_ylabel(r'\theta [rad]')
     ax1.set_title("") 
     
     ax2 = fig.add_subplot(3, 1, 2)
     ax2.plot(t, X[:, 2]) 
     ax2.plot(t, np.ones_like(t) * x_ref[2], 'k--', alpha=0.5, label='Wartość zadana')
     ax2.grid(True)
-    ax2.set_ylabel(r'Pozycja $x$ [m]')
+    ax2.set_ylabel(r'x [m]')
     ax2.set_title("") 
     
     ax3 = fig.add_subplot(3, 1, 3)
     ax3.plot(tf, U) 
     ax3.grid(True)
-    ax3.set_ylabel(r'Siła sterująca $u$ [N]')
+    ax3.set_ylabel(r'u [N]')
     ax3.set_xlabel('Czas [s]')
     ax3.set_title("") 
     

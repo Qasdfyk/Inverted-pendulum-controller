@@ -559,7 +559,7 @@ Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N_{\mathrm{p}} = 5$
 Rys.~\ref{fig:mpc_bad}) prowadziło do~niestabilności układu zamkniętego. Horyzont 
 predykcji był zbyt krótki, aby regulator mógł uwzględnić, że rozpędzając wózek 
 w~celu korekcji kąta, nie zdąży wyhamować przed upadkiem wahadła lub osiągnięciem końca toru. Horyzont pięciu kroków (przy
-$\Delta t=0{,}01$~s daje zaledwie $0{,}05$~s predykcji) jest niewystarczający, aby uchwycić pełną
+$\Delta t=0{,}1$~s daje zaledwie $0{,}5$~s predykcji) jest niewystarczający, aby uchwycić pełną
 dynamikę wahadła i~zaplanować odpowiedni manewr powrotny.
 
 \begin{figure}[H]
@@ -572,7 +572,7 @@ dynamikę wahadła i~zaplanować odpowiedni manewr powrotny.
 
 Zwiększenie horyzontu do~$N_{\mathrm{p}}=10$ w~ramach korekty ręcznej 
 (Rys.~\ref{fig:mpc_manual}) ustabilizowało proces. Dłuższy horyzont umożliwił 
-predykcję na~$0{,}1$~s, co pozwoliło na~antycypację skutków podejmowanych działań 
+predykcję na~$1{,}0$~s, co pozwoliło na~antycypację skutków podejmowanych działań 
 sterujących. Dodatkowa manipulacja wagami $Q$ pozwoliła na~uzyskanie poprawnego 
 sterowania, jednak odpowiedź dynamiczna była powolna, a~przebiegi wykazywały
 przeregulowania.
@@ -587,8 +587,8 @@ przeregulowania.
 
 Automatyzacja procesu strojenia przy użyciu skryptu \texttt{tune\_mpc.py} pozwoliła
 na~znalezienie kompromisu między długością horyzontu a~wagami (Rys.~\ref{fig:mpc_opt}).
-Algorytm optymalizacyjny wskazał $N_{\mathrm{p}}=12$ jako optimum dla tego modelu
-dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń. Zoptymalizowane
+Algorytm optymalizacyjny wskazał $N_{\mathrm{p}}=12$ (co odpowiada $1{,}2$~s predykcji) 
+jako optimum dla tego modelu dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń. Zoptymalizowane
 wagi $Q$ znacząco różnią się od~intuicyjnych proporcji -- wysoka kara za~kąt 
 ($Q_{\theta}=158.4$) w~połączeniu z~niską karą za~zmianę sterowania ($R=0.086$)
 zapewnia szybką, ale gładką stabilizację.

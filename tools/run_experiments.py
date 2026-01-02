@@ -213,14 +213,14 @@ def main():
                 
                 if signal_type == 'theta':
                     ax.plot(t, X[:, 0], label=name, linewidth=3)
-                    ylabel = r'Kąt $\theta$ [rad]'
+                    ylabel = r'\theta [rad]'
                     # Reference
                     t_ref = t
                     ref_val = np.zeros_like(t_ref)
                     plot_ref = True
                 elif signal_type == 'x':
                     ax.plot(t, X[:, 2], label=name, linewidth=3)
-                    ylabel = r'Pozycja $x$ [m]'
+                    ylabel = r'x [m]'
                     # Reference x=0 (or whatever ref is, assumed 0 here based on context)
                     # Actually x_ref is usually 0 unless specified otherwise in SIM["x_ref"]
                     # We can just plot 0
@@ -229,7 +229,7 @@ def main():
                     plot_ref = True
                 elif signal_type == 'u':
                     ax.plot(tf, U, label=name, linewidth=3)
-                    ylabel = r'Siła sterująca $u$ [N]'
+                    ylabel = r'u [N]'
                     plot_ref = False
         
         if plot_ref:

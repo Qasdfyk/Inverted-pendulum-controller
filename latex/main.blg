@@ -1,17 +1,17 @@
 [0] Config.pm:328> INFO - This is Biber 2.21
 [0] Config.pm:331> INFO - Logfile is 'main.blg'
-[95] biber-MSWIN64:342> INFO - === 
-[127] Biber.pm:421> INFO - Reading 'main.bcf'
-[220] Biber.pm:1002> INFO - Found 20 citekeys in bib section 0
-[232] Biber.pm:4487> INFO - Processing section 0
-[242] Biber.pm:4678> INFO - Looking for bibtex file 'bibliografia.bib' for section 0
-[281] bibtex.pm:1713> INFO - LaTeX decoding ...
-[300] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliografia.bib'
-[421] UCollate.pm:68> INFO - Overriding locale 'pl-PL' defaults 'variable = shifted' with 'variable = non-ignorable'
-[421] UCollate.pm:68> INFO - Overriding locale 'pl-PL' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[421] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'pl-PL'
-[434] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
-[444] bbl.pm:779> INFO - Output to main.bbl
-[444] Biber.pm:132> WARN - ISBN '978-83-01-18311-4' in entry 'Fortuna2015' is invalid - run biber with '--validate_datamodel' for details.
-[444] Biber.pm:132> WARN - ISBN '978-0-9759377-3-4' in entry 'Rawlings2017' is invalid - run biber with '--validate_datamodel' for details.
-[444] Biber.pm:134> INFO - WARNINGS: 2
+[100] biber-MSWIN64:342> INFO - === 
+[134] Biber.pm:421> INFO - Reading 'main.bcf'
+[247] Biber.pm:1002> INFO - Found 20 citekeys in bib section 0
+[262] Biber.pm:4487> INFO - Processing section 0
+[275] Biber.pm:4678> INFO - Looking for bibtex file 'bibliografia.bib' for section 0
+[314] bibtex.pm:1713> INFO - LaTeX decoding ...
+[334] bibtex.pm:1519> INFO - Found BibTeX data source 'bibliografia.bib'
+[456] UCollate.pm:68> INFO - Overriding locale 'pl-PL' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[456] UCollate.pm:68> INFO - Overriding locale 'pl-PL' defaults 'variable = shifted' with 'variable = non-ignorable'
+[456] Biber.pm:4307> INFO - Sorting list 'none/global//global/global/global' of type 'entry' with template 'none' and locale 'pl-PL'
+[474] bbl.pm:676> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[486] bbl.pm:779> INFO - Output to main.bbl
+[487] Biber.pm:132> WARN - ISBN '978-83-01-18311-4' in entry 'Fortuna2015' is invalid - run biber with '--validate_datamodel' for details.
+[487] Biber.pm:132> WARN - ISBN '978-0-9759377-3-4' in entry 'Rawlings2017' is invalid - run biber with '--validate_datamodel' for details.
+[487] Biber.pm:134> INFO - WARNINGS: 2

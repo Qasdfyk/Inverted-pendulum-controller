@@ -24,7 +24,7 @@
 \contentsline {subsubsection}{\numberline {4.1.1\relax .\enspace }Proces doboru nastaw oraz analiza PD}{23}{subsubsection.4.1.1}%
 \contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PID-LQR}{26}{subsection.4.2}%
 \contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace }Ograniczenia czystego regulatora LQR}{27}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2\relax .\enspace }Struktura hybrydowa PID-LQR}{28}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2\relax .\enspace }Struktura hybrydowa PID-LQR}{29}{subsubsection.4.2.2}%
 \contentsline {subsubsection}{\numberline {4.2.3\relax .\enspace }Dobór wag macierzy Q i R}{30}{subsubsection.4.2.3}%
 \contentsline {subsubsection}{\numberline {4.2.4\relax .\enspace }Analiza wpływu członu całkującego w~układzie PID-LQR}{32}{subsubsection.4.2.4}%
 \contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{34}{subsection.4.3}%
