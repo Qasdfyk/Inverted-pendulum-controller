@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  1 JAN 2026 18:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  2 JAN 2026 10:17
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1552,33 +1552,27 @@ LaTeX Font Info:    Font shape `U/futm/m/n' will be
 )
 
 [18 <./img/open_loop.png>] (tex/srodowisko.tex
-Overfull \hbox (19.16063pt too wide) in paragraph at lines 79--88
+Overfull \hbox (19.16063pt too wide) in paragraph at lines 79--90
 \T1/futs/m/n/12 (-20) nio-wych rów-na« dy-na-miki. Za-im-ple-men-to-wano pro-ce-dur¦ caª-ko-wa-nia me-tod¡ Rungego-Kutty
  []
 
 
 
 [19]
-Underfull \vbox (badness 3271) has occurred while \output is active []
-
-
 
 [20]
-<img/wind_signal.png, id=453, 462.528pt x 346.896pt>
+<img/wind_signal.png, id=454, 462.528pt x 346.896pt>
 File: img/wind_signal.png Graphic file (type png)
 <use img/wind_signal.png>
-Package pdftex.def Info: img/wind_signal.png  used on input line 162.
+Package pdftex.def Info: img/wind_signal.png  used on input line 155.
 (pdftex.def)             Requested size: 416.2625pt x 312.2141pt.
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
 
 
 [21 <./img/wind_signal.png>]
-<img/animation.png, id=463, 563.10374pt x 245.41687pt>
+<img/animation.png, id=464, 563.10374pt x 245.41687pt>
 File: img/animation.png Graphic file (type png)
 <use img/animation.png>
-Package pdftex.def Info: img/animation.png  used on input line 202.
+Package pdftex.def Info: img/animation.png  used on input line 195.
 (pdftex.def)             Requested size: 416.2625pt x 181.4184pt.
 )
 
@@ -1776,6 +1770,9 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [42 <./images/tuning/fuzzy_2_manual.png>])
 
 [43 <./images/tuning/fuzzy_3_opt.png>] (tex/eksperymenty.tex
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 
 [44]
 
@@ -1912,6 +1909,9 @@ Overfull \hbox (1.58801pt too wide) in paragraph at lines 278--283
 [55])
 
 [56 <./images/experiments/combined_nominal_mpc_j2_study.png>] (tex/podsumowanie.tex
+Underfull \vbox (badness 1038) has occurred while \output is active []
+
+
 
 [57])
 
@@ -1923,6 +1923,9 @@ Overfull \hbox (1.58801pt too wide) in paragraph at lines 278--283
 ]
 
 [60] (main.lof
+Underfull \vbox (badness 1436) has occurred while \output is active []
+
+
 
 [61]
 Overfull \hbox (19.95255pt too wide) in paragraph at lines 19--19
@@ -1945,23 +1948,23 @@ LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-10-09>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: A377E331E0C2A9677451609445826E73;10398.
+(rerunfilecheck)             Checksum: 63ED900F9191B6F9C465883A824866FF;10393.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 45684 strings out of 468080
- 929634 string characters out of 5425772
- 2029908 words of memory out of 5000000
+ 45660 strings out of 468080
+ 929382 string characters out of 5425772
+ 2029907 words of memory out of 5000000
  72780 multiletter control sequences out of 15000+600000
- 835623 words of font info for 600 fonts, out of 8000000 for 9000
+ 833865 words of font info for 582 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,17n,121p,1047b,2806s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (62 pages, 3223179 bytes).
+Output written on main.pdf (62 pages, 3222150 bytes).
 PDF statistics:
- 1044 PDF objects out of 1200 (max. 8388607)
+ 1043 PDF objects out of 1200 (max. 8388607)
  242 named destinations out of 1000 (max. 500000)
  119877 words of extra memory for PDF output out of 128383 (max. 10000000)
 

@@ -18,11 +18,11 @@
 \contentsline {subsection}{\numberline {3.1\relax .\enspace }Narzędzia programistyczne}{19}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2\relax .\enspace }Konfiguracja symulacji}{19}{subsection.3.2}%
 \contentsline {subsection}{\numberline {3.3\relax .\enspace }Modelowanie zakłóceń}{20}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4\relax .\enspace }Wizualizacja i animacja}{22}{subsection.3.4}%
+\contentsline {subsection}{\numberline {3.4\relax .\enspace }Wizualizacja i animacja}{21}{subsection.3.4}%
 \contentsline {section}{\numberline {4\relax .\enspace }Algorytmy sterowania}{23}{section.4}%
-\contentsline {subsection}{\numberline {4.1\relax .\enspace }Równoległy regulator PD-PD}{23}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.1\relax .\enspace }Równoległy regulator PID}{23}{subsection.4.1}%
 \contentsline {subsubsection}{\numberline {4.1.1\relax .\enspace }Proces doboru nastaw oraz analiza PID}{24}{subsubsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PD-LQR}{27}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PID-LQR}{27}{subsection.4.2}%
 \contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace }Dobór wag macierzy Q i R}{29}{subsubsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{31}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace }Dobór horyzontu i wag funkcji celu}{33}{subsubsection.4.3.1}%
@@ -32,7 +32,7 @@
 \contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór reguł i funkcji przynależności}{40}{subsubsection.4.5.1}%
 \contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{44}{section.5}%
 \contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{44}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2\relax .\enspace }Badane algorytmy}{44}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.2\relax .\enspace }Badane algorytmy}{45}{subsection.5.2}%
 \contentsline {subsection}{\numberline {5.3\relax .\enspace }Wskaźniki jakości regulacji}{45}{subsection.5.3}%
 \contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników}{47}{section.6}%
 \contentsline {subsection}{\numberline {6.1\relax .\enspace }Stabilizacja w warunkach nominalnych}{47}{subsection.6.1}%

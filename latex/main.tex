@@ -65,7 +65,7 @@
 Celem pracy było zaprojektowanie autorskiego środowiska symulacyjnego oraz przeprowadzenie 
 wielokryterialnej analizy porównawczej algorytmów sterowania dla nieliniowego układu odwróconego
 wahadła na wózku. W ramach badań zaimplementowano i przetestowano cztery strategie sterowania: 
-klasyczny regulator kaskadowy PD-PD, układ hybrydowy PD-LQR, nieliniowe sterowanie predykcyjne (MPC) 
+klasyczny regulator równoległy PID, układ hybrydowy PID-LQR, nieliniowe sterowanie predykcyjne (MPC) 
 w dwóch wariantach funkcji kosztu oraz sterownik rozmyty typu Takagi-Sugeno wspomagany regulatorem LQR 
 (Fuzzy-LQR). Badania przeprowadzono w środowisku języka Python, wykorzystując pełny model nieliniowy obiektu. 
 Skuteczność algorytmów zweryfikowano w dwóch scenariuszach: stabilizacji w punkcie pracy oraz pracy w warunkach 
@@ -73,7 +73,7 @@ zakłóceń zewnętrznych (symulacja wiatru). Analiza wyników wykazała, że ni
 dla wszystkich zastosowań. Sterownik Fuzzy-LQR zapewnił najwyższą precyzję stabilizacji i odporność na 
 zakłócenia, jednak odbyło się to kosztem bardzo wysokiego zużycia energii sterowania. Z kolei regulator 
 MPC okazał się rozwiązaniem najbardziej ekonomicznym, zapewniając płynność ruchu i uwzględnienie ograniczeń
-fizycznych napędu, co jest kluczowe w systemach rzeczywistych. Układ PD-LQR stanowił kompromis między 
+fizycznych napędu, co jest kluczowe w systemach rzeczywistych. Układ PID-LQR stanowił kompromis między 
 złożonością obliczeniową a jakością regulacji, przewyższając klasyczne podejście PID.
 \slowakluczowe odwrócone wahadło,\allowbreak regulator PID,\allowbreak regulator LQR,\allowbreak regulator MPC,\allowbreak Takagi\allowbreak--\allowbreak Sugeno,\allowbreak sterowanie predykcyjne,\allowbreak sterowanie optymalne,\allowbreak zakłócenia,\allowbreak stabilizacja,\allowbreak symulacja,\allowbreak układ nieliniowy
 
@@ -90,8 +90,8 @@ złożonością obliczeniową a jakością regulacji, przewyższając klasyczne 
 The aim of this thesis was to design a custom simulation environment and 
 conduct a multi-criteria comparative analysis of control algorithms for a 
 nonlinear inverted pendulum system on a cart. As part of the research, four 
-control strategies were implemented and tested: a classical cascade PD-PD 
-controller, a hybrid PD-LQR system, nonlinear Model Predictive Control (MPC) 
+control strategies were implemented and tested: a classical parallel PID 
+controller, a hybrid PID-LQR system, nonlinear Model Predictive Control (MPC) 
 with two cost function variants, and a Takagi-Sugeno fuzzy controller supported 
 by LQR (Fuzzy-LQR). The study was conducted in a Python environment using a full 
 nonlinear model of the object. The effectiveness of the algorithms was verified 
@@ -102,7 +102,7 @@ provided the highest stabilization precision and robustness to disturbances, but
 at the cost of very high control energy consumption. On the other hand, the MPC 
 controller proved to be the most economical solution, ensuring smooth motion and 
 compliance with physical drive constraints, which is crucial in real-world systems. 
-The PD-LQR system represented a compromise between computational complexity and control 
+The PID-LQR system represented a compromise between computational complexity and control 
 quality, outperforming the classical PID approach.
 \keywords inverted pendulum, PID controller, LQR controller, MPC controller, Takagi\allowbreak--\allowbreak Sugeno, predictive control, optimal control, disturbances, stabilization, nonlinear system, simulation
 
@@ -170,8 +170,8 @@ quality, outperforming the classical PID approach.
 \acronymlist
 \acronym{$x$}{Położenie wózka [m]}
 \acronym{$\dot{x}$}{Prędkość wózka [m/s]}
-\acronym{$\varphi$}{Kąt odchylenia wahadła od pionu [rad]}
-\acronym{$\dot{\varphi}$}{Prędkość kątowa wahadła [rad/s]}
+\acronym{$\theta$}{Kąt odchylenia wahadła od pionu [rad]}
+\acronym{$\dot{\theta}$}{Prędkość kątowa wahadła [rad/s]}
 \acronym{$u$}{Sygnał sterujący (siła działająca na wózek) [N]}
 \acronym{LQR}{Linear-Quadratic Regulator - regulator liniowo-kwadratowy}
 \acronym{PID}{Proporcjonalno-Całkująco-Różniczkujący regulator}

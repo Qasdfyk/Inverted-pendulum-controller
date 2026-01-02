@@ -15,31 +15,33 @@ testów symulacyjnych. Każdy z~zaimplementowanych regulatorów (PID, LQR, MPC, 
     Symulacja odpowiedzi układu na~niezerowe warunki początkowe przy braku
     zakłóceń zewnętrznych.
     \begin{itemize}
-        \item Początkowy kąt wychylenia wahadła: $\varphi(0) = 0{,}05$ rad ($\approx 2{,}87^\circ$).
+        \item Początkowy kąt wychylenia wahadła: $\theta(0) = 0{,}05$ rad ($\approx 2{,}87^\circ$).
         \item Początkowa pozycja wózka: $x(0) = 0$ m.
-        \item Zerowe prędkości początkowe: $\dot{\varphi}(0) = 0$, $\dot{x}(0) = 0$.
+        \item Zerowe prędkości początkowe: $\dot{\theta}(0) = 0$, $\dot{x}(0) = 0$.
     \end{itemize}
-    Wybór wartości $\varphi(0) = 0{,}05$ rad podyktowany jest dwoma czynnikami:
+    Wybór wartości $\theta(0) = 0{,}05$ rad podyktowany jest dwoma czynnikami:
     jest to wychylenie na~tyle małe, że mieści się w~obszarze stosowalności 
     modelu zlinearyzowanego (istotne dla LQR), a~jednocześnie wystarczająco duże,
     aby wymagać aktywnej interwencji regulatora. Wartość ta jest również powszechnie
     stosowana w~literaturze przedmiotu jako standardowy warunek testowy~\cite{Prasad2014}.
     Celem jest sprawdzenie zdolności regulatora do~sprowadzenia układu do~pionu
-    ($\varphi=0, x=0$) oraz ocena czasu regulacji i~przeregulowań.
+    ($\theta=0, x=0$) oraz ocena czasu regulacji i~przeregulowań.
 
     \item \textbf{Eksperyment 2: Odporność na~zakłócenia zewnętrzne.} \\
     Symulacja z~tymi samymi warunkami początkowymi, przy czym na~wahadło
     oddziałuje losowa siła zakłócająca $F_{\mathrm{w}}(t)$ (modelująca
     porywisty wiatr) generowana zgodnie z~procedurą opisaną w~Rozdziale 3. 
-    Przyjęto moc zakłócenia $P = 5{,}0$ W, co odpowiada wartości skutecznej
-    siły wiatru rzędu $\pm 2{,}2$ N --- jest to poziom zakłóceń stanowiący
-    istotne wyzwanie dla układu sterowania, lecz nieprzekraczający możliwości
+    Przyjęto odchylenie standardowe siły zakłócającej $\sigma = 2{,}2$~N,
+    co odpowiada wartości skutecznej (RMS) siły wiatru rzędu $2{,}2$~N
+    i~chwilowym wartościom szczytowym do~$\pm 6{,}6$~N. Jest to poziom 
+    zakłóceń stanowiący istotne wyzwanie dla układu sterowania 
+    (kilka procent $F_{\max}$), lecz nieprzekraczający możliwości
     kompensacyjnych regulatorów. Test ten pozwala ocenić krzepkość 
     (ang. \textit{robustness}) układu zamkniętego.
 \end{enumerate}
 
-Wszystkie symulacje przeprowadzono z~krokiem czasowym $\Delta t = 0{,}1$ s
-w~czasie $T_{\mathrm{sim}} = 10$ s (dla testów MPC i~pełnego ustalenia).
+Wszystkie symulacje przeprowadzono z~krokiem czasowym $\Delta t = 0{,}01$~s
+w~czasie $T_{\mathrm{sim}} = 10$~s (dla testów MPC i~pełnego ustalenia).
 Ograniczenie sygnału sterującego ustawiono na $|u| \le 100$ N.
 
 \subsection{Badane algorytmy}
@@ -47,8 +49,8 @@ Ograniczenie sygnału sterującego ustawiono na $|u| \le 100$ N.
 W~ramach eksperymentów przetestowano następujące regulatory (w~wersjach po
 optymalizacji nastaw):
 \begin{enumerate}
-    \item \textbf{PD-PD} -- Kaskadowy układ dwóch regulatorów PD.
-    \item \textbf{PD-LQR} -- Hybryda: PD dla wózka, LQR dla wahadła.
+    \item \textbf{PID} -- Równoległy układ dwóch regulatorów PID ($K_i=0$).
+    \item \textbf{PID-LQR} -- Hybryda: PID dla wózka, LQR dla wahadła.
     \item \textbf{MPC} -- Klasyczny predykcyjny regulator liniowy.
     \item \textbf{MPC-J2} -- MPC z funkcją kosztu $J_2$ (uwzględniającą kwadrat
     sygnału sterującego wprost).
@@ -59,7 +61,7 @@ optymalizacji nastaw):
 \subsection{Wskaźniki jakości regulacji}
 
 Do~ilościowej oceny jakości sterowania wykorzystano następujące wskaźniki
-błędów, obliczane dla zdyskretyzowanych przebiegów kąta $\varphi[k]$
+błędów, obliczane dla zdyskretyzowanych przebiegów kąta $\theta[k]$
 ($N$ próbek):
 
 \begin{itemize}
@@ -93,7 +95,7 @@ błędów, obliczane dla zdyskretyzowanych przebiegów kąta $\varphi[k]$
         E_{u, L1} = \int_{0}^{T} |u(t)| \, dt
     \end{equation}
 
-    \item \textbf{Czas regulacji $t_s$ (Settling Time)} -- Czas, po którym sygnał wyjściowy trwale wchodzi w~kanał tolerancji i~już go nie opuszcza. W~niniejszej pracy przyjęto tolerancję $\varepsilon = 2\%$ wartości początkowego wychylenia, tj. $|\varphi| < 0{,}001$ rad dla kąta oraz $|x| < 0{,}002$ m dla pozycji.
+    \item \textbf{Czas regulacji $t_s$ (Settling Time)} -- Czas, po którym sygnał wyjściowy trwale wchodzi w~kanał tolerancji i~już go nie opuszcza. W~niniejszej pracy przyjęto tolerancję $\varepsilon = 2\%$ wartości początkowego wychylenia, tj. $|\theta| < 0{,}001$ rad dla kąta oraz $|x| < 0{,}002$ m dla pozycji.
 
     \item \textbf{Przeregulowanie $M_p$ (Overshoot)} -- Maksymalne procentowe odchylenie sygnału od wartości zadanej w odniesieniu do wartości skoku.
     \begin{equation}

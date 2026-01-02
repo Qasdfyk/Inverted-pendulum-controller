@@ -5,14 +5,14 @@
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Architektura środowiska symulacyjnego.}}{19}{figure.caption.4}%
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru) działającego na wahadło w czasie symulacji.}}{21}{figure.caption.6}%
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}}{22}{figure.caption.7}%
-\contentsline {figure}{\numberline {4.1}{\ignorespaces Schemat blokowy regulatora PD-PD o~strukturze równoległej.}}{23}{figure.caption.8}%
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Schemat blokowy regulatora PID o~strukturze równoległej.}}{23}{figure.caption.8}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Regulator PD nastawiony ręcznie ($K_{p,\theta }=-40$, $K_{d,\theta }=-8$, $K_{p,x}=-1$, $K_{d,x}=-3$).}}{25}{figure.caption.9}%
 \contentsline {figure}{\numberline {4.3}{\ignorespaces Regulator PID z~członem całkującym ($K_{p,\theta }=-40$, $K_{i,\theta }=-2$, $K_{d,\theta }=-8$, $K_{p,x}=-1$, $K_{i,x}=-2$, $K_{d,x}=-3$).}}{26}{figure.caption.11}%
-\contentsline {figure}{\numberline {4.4}{\ignorespaces Zoptymalizowany regulator PD-PD ($K_{p,\theta }=-95$, $K_{d,\theta }=-14$, $K_{p,x}=-16$, $K_{d,x}=-14$).}}{27}{figure.caption.12}%
-\contentsline {figure}{\numberline {4.5}{\ignorespaces Schemat blokowy hybrydowego regulatora PD-LQR.}}{28}{figure.caption.13}%
+\contentsline {figure}{\numberline {4.4}{\ignorespaces Zoptymalizowany regulator PID ($K_{p,\theta }=-95$, $K_{d,\theta }=-14$, $K_{p,x}=-16$, $K_{d,x}=-14$).}}{27}{figure.caption.12}%
+\contentsline {figure}{\numberline {4.5}{\ignorespaces Schemat blokowy hybrydowego regulatora PID-LQR.}}{28}{figure.caption.13}%
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$, PD: $K_{p,x}=-4.5$, $K_{d,x}=-3$).}}{29}{figure.caption.14}%
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Regulator LQR strojony metodą Brysona ($Q=\mathrm {diag}([25, 1, 4, 1])$, $R=10$, PD: $K_{p,x}=-4.5$, $K_{d,x}=-3$).}}{30}{figure.caption.15}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Zoptymalizowany regulator PD-LQR ($Q=\mathrm {diag}([1, 1, 500, 250])$, $R=1$, PD: $K_{p,x}=-1.5$, $K_{d,x}=-5$).}}{31}{figure.caption.16}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Zoptymalizowany regulator PID-LQR ($Q=\mathrm {diag}([1, 1, 500, 250])$, $R=1$, PID: $K_{p,x}=-1.5$, $K_{d,x}=-5$).}}{31}{figure.caption.16}%
 \contentsline {figure}{\numberline {4.9}{\ignorespaces Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym.}}{32}{figure.caption.17}%
 \contentsline {figure}{\numberline {4.10}{\ignorespaces Regulator MPC z~krótkim horyzontem ($N_p=5$, $N_c=2$, $Q=\mathrm {diag}([10, 1, 10, 1])$, $R=0.1$).}}{33}{figure.caption.18}%
 \contentsline {figure}{\numberline {4.11}{\ignorespaces Regulator MPC z~ręcznie dobranymi wagami ($N_p=10$, $N_c=3$, $Q=\mathrm {diag}([50, 10, 50, 10])$, $R=0.1$).}}{34}{figure.caption.19}%

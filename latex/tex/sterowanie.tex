@@ -14,7 +14,7 @@ jako klasyczny problem testowy dla metod sterowania liniowego i~nieliniowego
 \cite{Prasad2014, Nguyen2024}. Poniżej opisano teoretyczne podstawy oraz szczegóły
 implementacyjne zbadanych struktur sterowania.
 
-\subsection{Równoległy regulator PD-PD}
+\subsection{Równoległy regulator PID}
 
 Pierwszym zaimplementowanym układem jest regulator o~strukturze kaskadowej lub
 równoległej, wykorzystujący klasyczne sprzężenie zwrotne typu PD
@@ -79,7 +79,7 @@ pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}
         \node [above=3pt of sum_theta.north, font=\tiny] {$-$};
         \node [below=3pt of sum_x.south, font=\tiny] {$-$};
     \end{tikzpicture}
-    \caption{Schemat blokowy regulatora PD-PD o~strukturze równoległej.}
+    \caption{Schemat blokowy regulatora PID o~strukturze równoległej.}
     \label{fig:diagram_pdpd}
 \end{figure}
 
@@ -112,7 +112,7 @@ niestabilność w~stanach nieustalonych bez odpowiednich mechanizmów
 $\mathrm{anti\text{-}windup}$.
 
 \subsubsection{Proces doboru nastaw oraz analiza PID}
-Dobór nastaw dla regulatora PD-PD został zrealizowany wieloetapowo, ewoluując
+Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo, ewoluując
 od metod heurystycznych do pełnej optymalizacji numerycznej.
 
 \begin{figure}[H]
@@ -168,7 +168,7 @@ lokalnych.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_3_opt.png}
-    \caption{Zoptymalizowany regulator PD-PD ($K_{p,\theta}=-95$, $K_{d,\theta}=-14$, 
+    \caption{Zoptymalizowany regulator PID ($K_{p,\theta}=-95$, $K_{d,\theta}=-14$, 
     $K_{p,x}=-16$, $K_{d,x}=-14$).}
     \label{fig:pdpd_opt}
 \end{figure}
@@ -178,7 +178,7 @@ wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-40$) oraz $K_{p,x
 (vs. $-1$). Algorytm ,,odkrył'', że agresywna reakcja na~błąd pozycji wózka pośrednio
 stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii.
 
-\subsection{Układ hybrydowy PD-LQR}
+\subsection{Układ hybrydowy PID-LQR}
 
 Kolejnym analizowanym algorytmem jest regulator liniowo-kwadratowy (LQR),
 będący standardem w~sterowaniu optymalnym systemów wielowymiarowych MIMO
@@ -247,7 +247,7 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
                    fit=(sum_lqr) (lqr), inner sep=6pt] {};
         \end{scope}
     \end{tikzpicture}
-    \caption{Schemat blokowy hybrydowego regulatora PD-LQR.}
+    \caption{Schemat blokowy hybrydowego regulatora PID-LQR.}
     \label{fig:diagram_pdlqr}
 \end{figure}
 
@@ -324,8 +324,8 @@ a~reakcja na~zakłócenia powolna.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_3_opt.png}
-    \caption{Zoptymalizowany regulator PD-LQR ($Q=\mathrm{diag}([1, 1, 500, 250])$, 
-    $R=1$, PD: $K_{p,x}=-1.5$, $K_{d,x}=-5$).}
+    \caption{Zoptymalizowany regulator PID-LQR ($Q=\mathrm{diag}([1, 1, 500, 250])$, 
+    $R=1$, PID: $K_{p,x}=-1.5$, $K_{d,x}=-5$).}
     \label{fig:lqr_opt}
 \end{figure}
 
@@ -457,7 +457,7 @@ Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N_{\mathrm{p}} = 5$
 Rys.~\ref{fig:mpc_bad}) prowadziło do~niestabilności układu zamkniętego. Regulator 
 ,,nie widział'', że rozpędzając wózek w~celu korekcji kąta, nie zdąży wyhamować 
 przed upadkiem wahadła lub osiągnięciem końca toru. Horyzont pięciu kroków (przy
-$dt=0.02$s daje zaledwie 0.1s predykcji) jest niewystarczający, aby uchwycić pełną
+$\Delta t=0{,}01$~s daje zaledwie $0{,}05$~s predykcji) jest niewystarczający, aby uchwycić pełną
 dynamikę wahadła i~zaplanować odpowiedni manewr powrotny.
 
 \begin{figure}[H]
@@ -470,7 +470,7 @@ dynamikę wahadła i~zaplanować odpowiedni manewr powrotny.
 
 Zwiększenie horyzontu do~$N_{\mathrm{p}}=10$ w~ramach korekty ręcznej 
 (Rys.~\ref{fig:mpc_manual}) ustabilizowało proces. Regulator zyskał możliwość
-,,patrzenia w~przyszłość'' na~0.2s, co pozwoliło na~antycypację skutków swoich
+,,patrzenia w~przyszłość'' na~$0{,}1$~s, co pozwoliło na~antycypację skutków swoich
 działań. Dodatkowa manipulacja wagami $Q$ pozwoliła na~uzyskanie poprawnego 
 sterowania, jednak odpowiedź dynamiczna była powolna, a~przebiegi wykazywały
 przeregulowania.

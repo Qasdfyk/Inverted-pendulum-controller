@@ -85,16 +85,8 @@ co zapewnia wysoką dokładność przy umiarkowanym koszcie obliczeniowym.
 Jednocześnie, w~przeciwieństwie do~metod adaptacyjnych (np. \texttt{ode45}), 
 stały krok czasowy gwarantuje deterministyczne taktowanie pętli sterowania, 
 co jest istotne przy porównywaniu regulatorów.
-
 Przyjęto stały krok symulacji oraz sterowania wynoszący
-\(\Delta t = 0{,}1\,\text{s}\). Wartość tę dobrano na~podstawie analizy 
-dynamiki układu: dominująca stała czasowa niestabilnego modu wahadła 
-wynosi $\tau \approx 1/\lambda_4 \approx 0{,}18$ s (gdzie $\lambda_4 \approx 5{,}49$ 
-to dodatnia wartość własna macierzy stanu). Krok $\Delta t = 0{,}1$ s 
-jest zatem wystarczająco mały, aby poprawnie odwzorować dynamikę układu 
-(spełniony warunek $\Delta t < \tau$), a~jednocześnie pozwala na~efektywne
-działanie numerycznych algorytmów optymalizacji MPC w~czasie zbliżonym 
-do~rzeczywistego.
+\(\Delta t = 0{,}01\,\text{s}\) (10~ms).
 
 \begin{table}[H]
 	\centering
@@ -138,14 +130,15 @@ operacje:
 
 \textbf{1. Dyskretne próbkowanie szumu:}
 \begin{equation}
-    w_k \sim \mathcal{N}\!\left(0,\;\sigma^2\right),\qquad \sigma^2=\frac{P}{T_{\mathrm{s}}},
+    w_k \sim \mathcal{N}\!\left(0,\;\sigma^2\right),
 \end{equation}
-gdzie $P$ oznacza moc zakłócenia, a~$T_{\mathrm{s}} = \Delta t$
-to krok symulacji. W~przeprowadzonych eksperymentach przyjęto $P = 5{,}0$ W, 
-co odpowiada wartości skutecznej siły wiatru rzędu $\pm 2{,}2$ N. 
-Wartość ta została dobrana tak, aby zakłócenia stanowiły istotne wyzwanie 
-dla układu sterowania, lecz nie przekraczały możliwości kompensacyjnych 
-badanych regulatorów.
+gdzie $\sigma$ jest odchyleniem standardowym siły zakłócającej wyrażonym w~niutonach.
+W~przeprowadzonych eksperymentach przyjęto $\sigma = 2{,}2$~N, co oznacza,
+że wartość skuteczna (RMS) siły wiatru wynosi około $2{,}2$~N, 
+a~chwilowe wartości szczytowe mogą osiągać $\pm 6{,}6$~N (przedział $3\sigma$).
+Parametr ten dobrano empirycznie tak, aby zakłócenia stanowiły istotne wyzwanie 
+dla układu sterowania (porównywalne z~kilkoma procentami maksymalnej siły aktuatora 
+$F_{\max}=100$~N), lecz nie przekraczały możliwości kompensacyjnych badanych regulatorów.
 
 \textbf{2. Wygładzanie (ruchoma średnia):}
 \begin{equation}
