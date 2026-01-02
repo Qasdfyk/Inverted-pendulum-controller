@@ -24,6 +24,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../cont
 
 from controllers.pd_pd import PDPDController
 from controllers.pd_lqr import PDLQRController
+from controllers.lqr import LQRController
 from controllers.mpc import MPCController
 from controllers.mpc_J2 import MPCControllerJ2
 from controllers.mpc_utils import PLANT, SIM, simulate_mpc
@@ -145,6 +146,20 @@ def generate_pd_lqr():
                                     lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0})
     run_simulation(ctrl_opt_ki, "PID-LQR", "pdlqr_4_with_ki", "Optimized (Ki=-1)")
 
+def generate_lqr():
+    print("\n--- LQR ---")
+    dt = SIM["dt"]
+    
+    # 1. Pure LQR with Q=I, R=1 (baseline)
+    ctrl_base = LQRController(PLANT, dt,
+                              lqr_gains={"Q": [1.0, 1.0, 1.0, 1.0], "R": 1.0})
+    run_simulation(ctrl_base, "LQR", "lqr_1_baseline", "Q=I, R=1")
+    
+    # 2. Pure LQR with optimized Q weights for position tracking
+    ctrl_opt = LQRController(PLANT, dt,
+                             lqr_gains={"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0})
+    run_simulation(ctrl_opt, "LQR", "lqr_2_opt", "Q=[1,1,500,250], R=1")
+
 def generate_mpc():
     print("\n--- MPC ---")
     dt = SIM["dt"]
@@ -224,6 +239,7 @@ def generate_fuzzy():
     
 if __name__ == "__main__":
     generate_pd_pd()
+    generate_lqr()
     generate_pd_lqr()
     generate_mpc()
     generate_mpc_j2()

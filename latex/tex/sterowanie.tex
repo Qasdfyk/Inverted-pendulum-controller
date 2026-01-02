@@ -183,9 +183,63 @@ stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii.
 
 \subsection{Układ hybrydowy PID-LQR}
 
-Kolejnym analizowanym algorytmem jest regulator liniowo-kwadratowy (LQR),
-będący standardem w~sterowaniu optymalnym systemów wielowymiarowych MIMO
-\cite{Lewis2012, Jezierski2017}. Klasa \texttt{PDLQRController} implementuje sterowanie
+Regulator liniowo-kwadratowy (LQR) stanowi fundamentalną metodę sterowania optymalnego
+dla systemów liniowych wielowymiarowych MIMO~\cite{Lewis2012, Jezierski2017}. 
+W~odróżnieniu od~regulatorów PD, które wymagają empirycznego doboru wzmocnień 
+dla każdej zmiennej stanu, LQR wyznacza optymalne wzmocnienia automatycznie 
+na~podstawie modelu liniowego obiektu oraz macierzy wag $Q$ i~$R$ definiujących 
+kompromis między jakością regulacji a~zużyciem energii.
+
+Problem LQR polega na~znalezieniu prawa sterowania $u(t) = -K x(t)$, które 
+minimalizuje wskaźnik jakości:
+\begin{equation}
+    J = \int_{0}^{\infty} \left( x(t)^T Q x(t) + u(t)^T R u(t) \right) dt,
+\end{equation}
+gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą sterowania. 
+Optymalna macierz wzmocnień $K$ wyznaczana jest poprzez rozwiązanie algebraicznego 
+równania Riccatiego (CARE):
+\begin{equation}
+    A^T P + P A - P B R^{-1} B^T P + Q = 0,
+\end{equation}
+skąd $K = R^{-1} B^T P$. Macierze $A$ i~$B$ pochodzą z~linearyzacji modelu wahadła 
+wokół górnego punktu równowagi ($\theta = 0$).
+
+\subsubsection{Ograniczenia czystego regulatora LQR}
+
+Przed przystąpieniem do~analizy struktury hybrydowej, zbadano działanie czystego 
+regulatora LQR (klasa \texttt{LQRController}, plik \texttt{lqr.py}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/lqr_1_baseline.png}
+    \caption{Czysty regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$).}
+    \label{fig:lqr_baseline}
+\end{figure}
+
+Na~Rysunku~\ref{fig:lqr_baseline} przedstawiono odpowiedź układu z~czystym regulatorem 
+LQR przy zastosowaniu jednostkowych macierzy wag ($Q=I$, $R=1$). Mimo poprawnej 
+stabilizacji wahadła (mały błąd kątowy), widoczne są istotne ograniczenia tej 
+konfiguracji. Jednostkowe wagi traktują 1~rad błędu kąta tak samo jak 1~m błędu 
+pozycji, co jest fizycznie nieuzasadnione i~prowadzi do~powolnego osiągania zadanej 
+pozycji wózka.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/lqr_2_opt.png}
+    \caption{Czysty regulator LQR z~wagami zoptymalizowanymi ($Q=\mathrm{diag}([1, 1, 500, 250])$, $R=1$).}
+    \label{fig:lqr_opt_2}
+\end{figure}
+
+Zwiększenie wag dla pozycji i~prędkości wózka ($Q_x=500$, $Q_{\dot{x}}=250$) prowadzi 
+do~znaczącej poprawy jakości śledzenia wartości zadanej (Rys.~\ref{fig:lqr_opt_2}). 
+Wyższe kary za~błąd pozycji wymuszają na~regulatorze intensywniejszą reakcję, 
+co skutkuje szybszym osiągnięciem zadanego punktu. Jednak czysty LQR nie zapewnia 
+zerowego uchybu ustalonego przy stałych zakłóceniach, co motywuje rozszerzenie 
+struktury o~dodatkową pętlę PD z~możliwością włączenia członu całkującego.
+
+\subsubsection{Struktura hybrydowa PID-LQR}
+
+Klasa \texttt{PDLQRController} (plik \texttt{pd\_lqr.py}) implementuje sterowanie
 oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PD dla uchybu
 pozycji, co tworzy strukturę hybrydową opisaną m.in. w~\cite{Prasad2014} oraz
 \cite{Nguyen2024} (w~kontekście porównawczym). Schemat blokowy tego układu 
