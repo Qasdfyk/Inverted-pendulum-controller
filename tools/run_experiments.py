@@ -235,7 +235,7 @@ def main():
         if plot_ref:
              ax.plot(t_ref, ref_val, 'k--', alpha=0.3, linewidth=2, label='Wartość zadana')
 
-        ax.set_title(f"Porównanie: {scenario_title}")
+        #ax.set_title(f"Porównanie: {scenario_title}")
         ax.set_ylabel(ylabel)
         ax.set_xlabel('Czas [s]')
         ax.grid(True)

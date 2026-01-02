@@ -64,10 +64,10 @@
 % Otrzymane rezultaty wskazują, że włączenie metod optymalnych i predykcyjnych pozwala znacząco poprawić stabilność oraz odporność układu w porównaniu z klasycznym sterowaniem PID. Regulator MPC zapewniał najkrótszy czas stabilizacji przy zachowaniu umiarkowanego kosztu sterowania, natomiast regulator rozmyty Takagi--Sugeno wykazał dobrą adaptacyjność przy zmiennych warunkach pracy. Opracowane środowisko może stanowić podstawę do dalszych badań nad sterowaniem nieliniowym, w tym nad integracją metod rozmytych, optymalnych i predykcyjnych.
 Celem pracy było zaprojektowanie autorskiego środowiska symulacyjnego oraz przeprowadzenie 
 wielokryterialnej analizy porównawczej algorytmów sterowania dla nieliniowego układu odwróconego
-wahadła na wózku. W ramach badań zaimplementowano i przetestowano cztery strategie sterowania: 
-klasyczny regulator równoległy PID, układ hybrydowy PID-LQR, nieliniowe sterowanie predykcyjne (MPC) 
-w dwóch wariantach funkcji kosztu oraz sterownik rozmyty typu Takagi-Sugeno wspomagany regulatorem LQR 
-(Fuzzy-LQR). Badania przeprowadzono w środowisku języka Python, wykorzystując pełny model nieliniowy obiektu. 
+wahadła na wózku. W ramach badań zaimplementowano i przetestowano pięć strategii sterowania: 
+klasyczny regulator równoległy PID, układ hybrydowy PID-LQR, nieliniowe sterowanie predykcyjne 
+(MPC oraz MPC-J2 z~rozszerzoną funkcją kosztu) oraz sterownik rozmyty typu Takagi-Sugeno 
+wspomagany regulatorem LQR (Fuzzy-LQR). Badania przeprowadzono w środowisku języka Python, wykorzystując pełny model nieliniowy obiektu. 
 Skuteczność algorytmów zweryfikowano w dwóch scenariuszach: stabilizacji w punkcie pracy oraz pracy w warunkach 
 zakłóceń zewnętrznych (symulacja wiatru). Analiza wyników wykazała, że nie istnieje jeden uniwersalny regulator
 dla wszystkich zastosowań. Sterownik Fuzzy-LQR zapewnił najwyższą precyzję stabilizacji i odporność na 
@@ -89,11 +89,11 @@ złożonością obliczeniową a jakością regulacji, przewyższając klasyczne 
 % The obtained results show that introducing optimal and predictive control significantly improves system stability and robustness compared to classical PID regulation. The MPC controller provided the fastest stabilization with a moderate control effort, while the Takagi--Sugeno fuzzy controller demonstrated good adaptability under varying operating conditions. The developed simulation environment constitutes a solid foundation for further research on nonlinear control, particularly on hybrid combinations of fuzzy, optimal, and predictive methods.
 The aim of this thesis was to design a custom simulation environment and 
 conduct a multi-criteria comparative analysis of control algorithms for a 
-nonlinear inverted pendulum system on a cart. As part of the research, four 
+nonlinear inverted pendulum system on a cart. As part of the research, five 
 control strategies were implemented and tested: a classical parallel PID 
-controller, a hybrid PID-LQR system, nonlinear Model Predictive Control (MPC) 
-with two cost function variants, and a Takagi-Sugeno fuzzy controller supported 
-by LQR (Fuzzy-LQR). The study was conducted in a Python environment using a full 
+controller, a hybrid PID-LQR system, nonlinear Model Predictive Control 
+(MPC and MPC-J2 with an extended cost function), and a Takagi-Sugeno fuzzy 
+controller supported by LQR (Fuzzy-LQR). The study was conducted in a Python environment using a full 
 nonlinear model of the object. The effectiveness of the algorithms was verified 
 in two scenarios: stabilization at the operating point and operation under external 
 disturbances (simulated wind). The analysis of the results showed that there is 

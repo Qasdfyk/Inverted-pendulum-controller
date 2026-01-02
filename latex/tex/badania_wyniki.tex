@@ -9,10 +9,10 @@ zmienne podmuchy wiatru.
 
 Podczas analizy wyników szczególny nacisk położono na dwa kluczowe, i nierzadko sprzeczne ze
 sobą, aspekty sterowania. Pierwszym z nich jest stabilizacja kątowa, czyli zdolność układu do
-utrzymania pręta wahadła w pionie (pozycja równowagi chwiejnej). Jest to zadanie priorytetowe,
-gdyż jego niezrealizowanie prowadzi do upadku wahadła i porażki sterowania. Drugim, równie
-istotnym aspektem, jest stabilizacja pozycji wózka. Chodzi tutaj o to, aby proces stabilizacji
-kąta nie odbywał się kosztem "ucieczki" wózka z~zadanego obszaru roboczego. W~systemach
+utrzymania pręta wahadła w~pionie (pozycja równowagi chwiejnej). Jest to zadanie priorytetowe,
+gdyż jego niezrealizowanie prowadzi do~upadku wahadła i~niepowodzenia procesu regulacji. Drugim, równie
+istotnym aspektem, jest stabilizacja pozycji wózka. Wymogiem jest, aby proces stabilizacji
+kąta nie odbywał się kosztem nadmiernego przemieszczenia wózka poza zadany obszar roboczy. W~systemach
 rzeczywistych, takich jak suwnice czy roboty balansujące, utrzymanie pozycji jest często równie
 krytyczne co sama stabilizacja ładunku.
 
@@ -39,12 +39,13 @@ jednak robią to w różnym stylu.
 Zoptymalizowany regulator PID-LQR, wykorzystujący duże wzmocnienia dla błędu pozycji ($Q_x=500$),
 charakteryzuje się niezwykle szybkim czasem regulacji ($T_s \approx 0.2$ s). Jest to wynik
 zdecydowanie lepszy od regulatora PID ($T_s \approx 0.3$ s). PID-LQR działa agresywnie,
-co widać na~wykresie pozycji (Rys. \ref{fig:nom_pos_classical}) -- wózek wykonuje szybki ruch
-korekcyjny, niemal natychmiast ustalając pozycję w pobliżu zera. Cena za tę dynamikę jest jednak
-widoczna w zużyciu energii. W przeciwieństwie do poprzednich iteracji strojenia, obecny,
-agresywny LQR zużywa więcej energii ($E_u \approx 1.48$) niż "miękki" regulator PID
-($E_u \approx 0.85$), który pozwala sobie na dłuższe i łagodniejsze dochodzenie do równowagi.
-Obserwujemy zatem zmianę charakterystyki: PID stał się rozwiązaniem bardziej ekonomicznym w
+co widać na~wykresie pozycji (Rys. \ref{fig:nom_pos_classical}) --- wózek wykonuje szybki ruch
+korekcyjny, niemal natychmiast ustalając pozycję w~pobliżu zera. Kosztem tej dynamiki jest jednak
+zwiększone zużycie energii. W~przeciwieństwie do~poprzednich iteracji strojenia, obecny,
+agresywny LQR zużywa więcej energii ($E_u \approx 1.48$) niż regulator PID o~łagodniejszej 
+charakterystyce ($E_u \approx 0.85$), który charakteryzuje się dłuższym i~łagodniejszym 
+dochodzeniem do~równowagi. Można zatem zaobserwować zmianę charakterystyki: PID stał się 
+rozwiązaniem bardziej ekonomicznym w
 stanie przejściowym, podczas gdy PID-LQR charakteryzuje się szybszą odpowiedzią dynamiczną.
 
 \begin{figure}[h!]
@@ -71,13 +72,13 @@ stanie przejściowym, podczas gdy PID-LQR charakteryzuje się szybszą odpowiedz
 \subsubsection{Charakterystyka regulatorów zaawansowanych}
 
 W grupie regulatorów zaawansowanych, których wyniki zaprezentowano na Rysunkach
-\ref{fig:nom_advanced}, \ref{fig:nom_pos_advanced} i \ref{fig:nom_control_advanced},
-obserwujemy starcie dwóch odmiennych podejść: predykcji opartej na modelu (MPC) oraz sterowania
-rozmytego (Fuzzy-LQR).
+\ref{fig:nom_advanced}, \ref{fig:nom_pos_advanced} i~\ref{fig:nom_control_advanced},
+można zaobserwować porównanie dwóch odmiennych podejść: predykcji opartej na~modelu (MPC) oraz 
+sterowania rozmytego (Fuzzy-LQR).
 
 Regulator Fuzzy-LQR wyróżnia się niezwykle agresywną charakterystyką. Jego działanie przypomina
-strategię "bang-bang" (włącz-wyłącz), gdzie w pierwszej fazie ruchu generowany jest potężny
-impuls sterujący (widoczny na Rys. \ref{fig:nom_control_advanced}), mający na celu jak
+strategię typu bang-bang (sterowanie dwustanowe), gdzie w~pierwszej fazie ruchu generowany jest silny
+impuls sterujący (widoczny na~Rys.~\ref{fig:nom_control_advanced}), mający na~celu jak
 najszybsze zniwelowanie uchybu kątowego. Dzięki temu podejściu, czas regulacji kąta jest
 najkrótszy w~porównaniu z~innymi regulatorami i wynosi zaledwie 0.70 s. Ma to jednak swoją cenę w zachowaniu wózka. Aby
 wygenerować tak dużą siłę prostującą wahadło, wózek musi wykonać gwałtowny ruch korekcyjny, co widać na
@@ -86,7 +87,7 @@ początkowe przyspieszenie jest znaczne. Taka charakterystyka wiąże się z ogr
 energetycznym ($E_u \approx 2.84$), co może być nieakceptowalne w~aplikacjach zasilanych
 bateryjnie.
 
-Na drugim biegunie znajduje się regulator MPC. Zastosowanie horyzontu predykcji pozwala
+Odmienną charakterystykę wykazuje regulator MPC. Zastosowanie horyzontu predykcji pozwala
 na uwzględnienie przyszłych stanów i wyznaczenie optymalnej trajektorii sterowania na
 kilkanaście kroków do przodu. Funkcja kosztu wymusza kompromis między szybkością
 redukcji błędu a minimalizacją wydatku energetycznego. W efekcie, przebieg kąta jest nieco
@@ -124,16 +125,16 @@ odpornościowym.
 
 \subsection{Analiza odporności na zakłócenia}
 
-Drugi scenariusz badawczy stanowił znacznie trudniejsze wyzwanie. Do układu wprowadzono sygnał
+Drugi scenariusz badawczy stanowił znacznie bardziej wymagający test. Do układu wprowadzono sygnał
 zakłócający, modelujący losowe podmuchy wiatru o zmiennej sile i kierunku. Test ten miał na
 celu sprawdzenie właściwości "robust" (odpornościowych) regulatorów, czyli ich zdolności do
 utrzymania stabilności mimo działania nieznanych, zewnętrznych sił.
 
 Podstawowym problemem fizycznym w tym scenariuszu jest zjawisko sprzężenia dryfu. Aby
 skompensować siłę wiatru pchającą wahadło np. w prawo, wózek musi nieustannie przyspieszać w
-prawo, aby "podjechać" pod środek ciężkości wahadła i wytworzyć moment siły bezwładności
-przeciwdziałający wiatrowi. Oznacza to, że skuteczna walka z wychyleniem kątowym nieuchronnie
-prowadzi do przemieszczania się wózka (dryfu). Sztuka polega na znalezieniu równowagi - jak
+prawo, aby przemieścić się pod środek ciężkości wahadła i wytworzyć moment siły bezwładności
+przeciwdziałający wiatrowi. Oznacza to, że skuteczna kompensacja wychylenia kątowego nieuchronnie
+prowadzi do przemieszczania się wózka (dryfu). Istotą problemu jest znalezienie kompromisu --- jak
 bardzo pozwolić wózkowi uciec, by utrzymać wahadło w pionie.
 
 W grupie klasycznej (Rys. \ref{fig:wind_classical} i \ref{fig:wind_pos_classical}) nastąpiła
@@ -142,14 +143,14 @@ karę za zmianę pozycji, przyniosło znaczące efekty. LQR nie tylko lepiej sta
 kąt ($Max |\theta| \approx 0.060$ vs $0.068$ rad dla PID), ale przede wszystkim istotnie
 redukuje dryf pozycji ($Max |x| \approx 0.22$ m vs $0.26$ m). Warto zauważyć, że
 osiąga to przy niższym zużyciu energii ($E_u \approx 11.7$) niż regulator PID ($15.4$).
-Wynika to z faktu, że optymalny regulator tłumi zakłócenie w zarodku, nie pozwalając na
-rozhustanie się układu, podczas gdy PID walczy ze skutkami oscylacji, które sam dopuścił.
+Wynika to z faktu, że optymalny regulator tłumi zakłócenie w~zarodku, nie pozwalając na
+rozhustanie się układu, podczas gdy PID kompensuje skutki oscylacji, które sam dopuścił.
 
 W grupie zaawansowanej (Rys. \ref{fig:wind_advanced} i \ref{fig:wind_pos_advanced})
 regulator Fuzzy-LQR osiąga najlepsze wyniki w~dziedzinie precyzji kątowej
-($Max |\theta| \approx 0.05$ rad -- praktycznie brak wychylenia), jednak cena energetyczna
-pozostaje zaporowa ($E_u \approx 85.9$). Sterownik ten charakteryzuje się bardzo agresywną strategią sterowania -- wykorzystuje
-maksymalną dostępną moc, aby zminimalizować błąd regulacji.
+($Max |\theta| \approx 0.05$~rad --- minimalne wychylenie), jednak koszt energetyczny
+jest znaczący ($E_u \approx 85.9$). Sterownik ten charakteryzuje się bardzo agresywną strategią 
+sterowania --- wykorzystuje maksymalną dostępną moc w~celu minimalizacji błędu regulacji.
 
 Zupełnie inną charakterystykę w~obliczu wiatru wykazuje MPC. Ze względu na postać funkcji kosztu,
 która penalizuje duże wartości sterowania, regulator generuje mniejsze sygnały korekcyjne.
@@ -160,12 +161,12 @@ warunkach PID-LQR okazał się lepszy od MPC zarówno pod względem trzymania po
 co dowodzi, że dobrze nastrojony regulator liniowy może konkurować z predykcyjnym, o ile nie
 występują nasycenia sterowania.
 
-Warto odnotować całkowitą porażkę wariantu MPC-J2 w tym teście. Jego funkcja kosztu, penalizująca
+Należy odnotować nieskuteczność wariantu MPC-J2 w~tym teście. Jego funkcja kosztu, penalizująca
 bezpośrednio wartość sterowania ($u$), a nie jej zmianę ($\Delta u$), okazała się zbyt
 restrykcyjna. Ze względu na wysoką karę za sterowanie, wyznaczane wartości sygnału sterującego 
 były niewystarczające do skompensowania zakłóceń, co doprowadziło do przekroczenia krytycznego 
-kąta wychylenia i przewrócenia się wahadła. Jest to cenna lekcja projektowa, pokazująca jak 
-dobór funkcji celu determinuje odporność układu.
+kąta wychylenia i~przewrócenia się wahadła. Jest to istotny wniosek projektowy, ilustrujący 
+wpływ doboru funkcji celu na~odporność układu.
 
 \begin{figure}[h!]
     \centering

@@ -34,7 +34,7 @@ testów symulacyjnych. Każdy z~zaimplementowanych regulatorów (PID, LQR, MPC, 
     Przyjęto odchylenie standardowe siły zakłócającej $\sigma = 2{,}2$~N,
     co odpowiada wartości skutecznej (RMS) siły wiatru rzędu $2{,}2$~N
     i~chwilowym wartościom szczytowym do~$\pm 6{,}6$~N. Jest to poziom 
-    zakłóceń stanowiący istotne wyzwanie dla układu sterowania 
+    zakłóceń stanowiący znaczące obciążenie dla układu sterowania 
     (kilka procent $F_{\max}$), lecz nieprzekraczający możliwości
     kompensacyjnych regulatorów. Test ten pozwala ocenić krzepkość 
     (ang. \textit{robustness}) układu zamkniętego.
@@ -51,9 +51,10 @@ optymalizacji nastaw):
 \begin{enumerate}
     \item \textbf{PID} -- Równoległy układ dwóch regulatorów PID ($K_i=0$).
     \item \textbf{PID-LQR} -- Hybryda: PID dla wózka, LQR dla wahadła.
-    \item \textbf{MPC} -- Klasyczny predykcyjny regulator liniowy.
-    \item \textbf{MPC-J2} -- MPC z funkcją kosztu $J_2$ (uwzględniającą kwadrat
-    sygnału sterującego wprost).
+    \item \textbf{MPC} -- Nieliniowe sterowanie predykcyjne (NMPC) z~pełnym 
+    modelem dynamiki i~całkowaniem metodą Rungego-Kutty 4.~rzędu.
+    \item \textbf{MPC-J2} -- Wariant NMPC z~rozszerzoną funkcją kosztu $J_2$ 
+    (uwzględniającą dodatkowo kwadrat bezwzględnej wartości sterowania).
     \item \textbf{Fuzzy-LQR} -- Regulator rozmyty Takagi-Sugeno wspomagany
     lokalnym LQR.
 \end{enumerate}

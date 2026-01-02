@@ -151,12 +151,15 @@ Próba dodania akcji całkującej ($K_i \neq 0$) skutkowała zjawiskiem
 \textit{integral wind-up} -- akumulacją błędu w~fazie rozruchu, co powodowało 
 przeregulowania wykraczające poza obszar przyciągania stabilnego punktu równowagi. 
 Regulator PID wpadał w~niegasnące oscylacje lub doprowadzał do~przewrócenia wahadła, 
-podczas gdy ,,czysty'' regulator PD zapewnia sztywne i~szybkie sterowanie.
+podczas gdy ,,czysty'' regulator PD (z~$K_i=0$) zapewnia sztywne i~szybkie sterowanie.
+Warto jednak zauważyć, że w~strukturze hybrydowej PID-LQR, gdzie LQR zapewnia 
+dodatkowe tłumienie, człon całkujący może być bezpiecznie zastosowany -- 
+zagadnienie to omówiono szczegółowo w~Podrozdziale~4.2.
 
 Aby wyeliminować subiektywność strojenia ręcznego, zastosowano algorytm
 Ewolucji Różnicowej (Differential Evolution), zaimplementowany w~module
 \texttt{scipy.optimize}. Zdefiniowano globalną funkcję kosztu $J$, która
-gwarantuje ,,uczciwe'' porównanie wszystkich badanych regulatorów:
+umożliwia porównanie wszystkich badanych regulatorów w~ujednoliconych warunkach:
 \begin{equation}
     J = w_{\theta} \cdot \text{MSE}(\theta) + w_{x} \cdot \text{MSE}(x) + w_{u} \cdot \text{RMS}(u),
 \end{equation}
@@ -175,7 +178,7 @@ lokalnych.
 
 Zoptymalizowane nastawy (Rys.~\ref{fig:pdpd_opt}) charakteryzują się znacznie wyższymi
 wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-40$) oraz $K_{p,x}=-16$ 
-(vs. $-1$). Algorytm ,,odkrył'', że agresywna reakcja na~błąd pozycji wózka pośrednio
+(vs. $-1$). W~wyniku optymalizacji ustalono, że intensywna reakcja na~błąd pozycji wózka pośrednio
 stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii.
 
 \subsection{Układ hybrydowy PID-LQR}
@@ -324,8 +327,9 @@ a~reakcja na~zakłócenia powolna.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_3_opt.png}
-    \caption{Zoptymalizowany regulator PID-LQR ($Q=\mathrm{diag}([1, 1, 500, 250])$, 
-    $R=1$, PID: $K_{p,x}=-1.5$, $K_{d,x}=-5$).}
+    \caption{Zoptymalizowany regulator PID-LQR bez członu całkującego 
+    ($Q=\mathrm{diag}([1, 1, 500, 250])$, $R=1$, PD: $K_{p,x}=-1{,}5$, 
+    $K_{i,x}=0$, $K_{d,x}=-5$).}
     \label{fig:lqr_opt}
 \end{figure}
 
@@ -333,10 +337,54 @@ W~ostatnim etapie zastosowano optymalizację numeryczną (Rys.~\ref{fig:lqr_opt}
 Algorytm genetyczny poszukiwał optymalnych elementów diagonalnych macierzy $Q$ 
 oraz skalara $R$, minimalizując wskaźnik jakości. Zoptymalizowane wagi 
 (w~szczególności wysoka kara $Q_{x} = 500$) sprawiają, że regulator bardzo 
-agresywnie pilnuje pozycji wózka, co pośrednio wymusza stabilne trzymanie wahadła. 
-Interesujące jest, że optymalizator ,,odkrył'' strategię przeciwną do~intuicyjnej: 
+intensywnie koryguje pozycję wózka, co pośrednio wymusza stabilne utrzymanie wahadła. 
+Należy zauważyć, że optymalizator wyznaczył strategię przeciwną do~intuicyjnej: 
 zamiast karać głównie kąt ($Q_{\theta}$), kładzie nacisk na~pozycję ($Q_x$), 
 co zmusza wózek do~szybkich korekt stabilizujących wahadło.
+
+\subsubsection{Analiza wpływu członu całkującego w~układzie PID-LQR}
+
+Istotną różnicą między regulatorem PID (bez LQR) a~układem hybrydowym PID-LQR 
+jest możliwość bezpiecznego zastosowania akcji całkującej ($K_i \neq 0$). 
+Jak wykazano w~Rozdziale 4.1, dodanie członu całkującego do~samodzielnego 
+regulatora PID prowadziło do~oscylacji i~potencjalnej niestabilności 
+(Rys.~\ref{fig:pdpd_integral}), co jest zgodne z~obserwacjami w~literaturze 
+\cite{Prasad2014}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_4_with_ki.png}
+    \caption{Regulator PID-LQR z~członem całkującym ($K_{p,x}=-2{,}5$, 
+    $K_{i,x}=-1{,}0$, $K_{d,x}=-5$, $Q=\mathrm{diag}([1, 1, 500, 250])$, $R=1$).}
+    \label{fig:lqr_with_ki}
+\end{figure}
+
+W~przypadku układu hybrydowego PID-LQR sytuacja jest diametralnie inna. 
+Regulator LQR zapewnia optymalne tłumienie poprzez sprzężenie od~pełnego 
+wektora stanu, co skutecznie kompensuje dodatkowe przesunięcie fazowe 
+wprowadzane przez człon całkujący. Na Rysunku~\ref{fig:lqr_with_ki} 
+przedstawiono odpowiedź układu z~włączonym członem całkującym 
+($K_i = -1{,}0$). W~przeciwieństwie do~regulatora PID, gdzie identyczna 
+konfiguracja powodowała oscylacje (por. Rys.~\ref{fig:pdpd_integral}), 
+układ PID-LQR zachowuje pełną stabilność i~płynność przebiegów.
+
+Korzyści z~zastosowania członu całkującego w~układzie PID-LQR obejmują:
+\begin{itemize}
+    \item \textbf{Eliminację uchybu ustalonego} -- akcja całkująca gwarantuje 
+    zerowy błąd w~stanie ustalonym dla stałych wartości zadanych.
+    \item \textbf{Lepszą kompensację zakłóceń} -- całkowanie błędu pozwala 
+    na~skuteczniejsze eliminowanie wpływu stałych zakłóceń.
+    \item \textbf{Zachowanie stabilności} -- LQR zapewnia wystarczający 
+    zapas stabilności, aby układ tolerował dodatkową dynamikę integratora.
+\end{itemize}
+
+Obserwacja ta jest zgodna z~wynikami przedstawionymi w~pracy \cite{Prasad2014}, 
+gdzie autorzy wykazali, że połączenie regulatora PID z~optymalnym sprzężeniem 
+zwrotnym LQR pozwala uzyskać lepsze właściwości dynamiczne niż każda z~metod 
+stosowana oddzielnie. W~niniejszej pracy potwierdzono eksperymentalnie, 
+że struktura hybrydowa umożliwia bezpieczne wykorzystanie pełnego potencjału 
+regulatora PID (włącznie z~członem całkującym), co nie jest możliwe 
+w~konfiguracji bez LQR.
 
 \subsection{Nieliniowe sterowanie predykcyjne (MPC)}
 
@@ -442,7 +490,7 @@ aby porównywać ich najlepsze możliwe konfiguracje, a~nie identyczne, ale
 nieoptymalne nastawy.
 
 \subsubsection{Dobór horyzontu i wag funkcji celu}
-Dla regulatora MPC kluczowym wyzwaniem był dobór horyzontu predykcji oraz
+Dla regulatora MPC kluczowym zagadnieniem był dobór horyzontu predykcji oraz
 macierzy wag, determinujących zachowanie układu w~stanie nieustalonym.
 
 \begin{figure}[H]
@@ -454,9 +502,9 @@ macierzy wag, determinujących zachowanie układu w~stanie nieustalonym.
 \end{figure}
 
 Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N_{\mathrm{p}} = 5$,
-Rys.~\ref{fig:mpc_bad}) prowadziło do~niestabilności układu zamkniętego. Regulator 
-,,nie widział'', że rozpędzając wózek w~celu korekcji kąta, nie zdąży wyhamować 
-przed upadkiem wahadła lub osiągnięciem końca toru. Horyzont pięciu kroków (przy
+Rys.~\ref{fig:mpc_bad}) prowadziło do~niestabilności układu zamkniętego. Horyzont 
+predykcji był zbyt krótki, aby regulator mógł uwzględnić, że rozpędzając wózek 
+w~celu korekcji kąta, nie zdąży wyhamować przed upadkiem wahadła lub osiągnięciem końca toru. Horyzont pięciu kroków (przy
 $\Delta t=0{,}01$~s daje zaledwie $0{,}05$~s predykcji) jest niewystarczający, aby uchwycić pełną
 dynamikę wahadła i~zaplanować odpowiedni manewr powrotny.
 
@@ -469,9 +517,9 @@ dynamikę wahadła i~zaplanować odpowiedni manewr powrotny.
 \end{figure}
 
 Zwiększenie horyzontu do~$N_{\mathrm{p}}=10$ w~ramach korekty ręcznej 
-(Rys.~\ref{fig:mpc_manual}) ustabilizowało proces. Regulator zyskał możliwość
-,,patrzenia w~przyszłość'' na~$0{,}1$~s, co pozwoliło na~antycypację skutków swoich
-działań. Dodatkowa manipulacja wagami $Q$ pozwoliła na~uzyskanie poprawnego 
+(Rys.~\ref{fig:mpc_manual}) ustabilizowało proces. Dłuższy horyzont umożliwił 
+predykcję na~$0{,}1$~s, co pozwoliło na~antycypację skutków podejmowanych działań 
+sterujących. Dodatkowa manipulacja wagami $Q$ pozwoliła na~uzyskanie poprawnego 
 sterowania, jednak odpowiedź dynamiczna była powolna, a~przebiegi wykazywały
 przeregulowania.
 
@@ -530,8 +578,8 @@ jedynie wartość kary za~bezwzględną wartość sterowania.
 
 Przyjęcie zbyt dużej wartości kary za~sterowanie bezwzględne ($R_{\mathrm{abs}}=10$,
 Rys.~\ref{fig:mpcj2_bad}) spowodowało, że regulator wykazywał tendencję do~pasywności.
-Funkcja kosztu karała każdy niuton siły tak mocno, że optymalizator ,,wolał'' pozwolić
-wahadłu upaść, niż ponieść wysoki koszt energetyczny ratowania go. W~efekcie układ
+Funkcja kosztu penalizowała każdy niuton siły na~tyle intensywnie, że wartość funkcji celu
+faworyzowała dopuszczenie do~upadku wahadła kosztem uniknięcia wysokiego wydatku energetycznego. W~efekcie układ
 nie był w~stanie ustabilizować się -- wahadło przewracało się, ponieważ koszt 
 energetyczny utrzymania go w~pionie przewyższał zysk wynikający z~małego błędu 
 kątowego w~funkcji celu.
@@ -562,7 +610,7 @@ Algorytm optymalizacyjny wskazał, że dla tego zadania najlepszym rozwiązaniem
 całkowite wyłączenie kary za~bezwzględną wartość sterowania ($R_{\mathrm{abs}}=0$,
 Rys.~\ref{fig:mpcj2_opt}). Pozostała jedynie kara za~przyrosty sterowania 
 $R_{\Delta}=0.0001$, która zapewnia gładkość sygnału sterującego bez ograniczania
-zdolności regulatora do~szybkiej reakcji. Znaleziono ,,złoty środek'', w~którym układ
+zdolności regulatora do~szybkiej reakcji. Uzyskano optymalny kompromis, w~którym układ
 stabilizuje się szybko, a~sterowanie pozbawione jest zbędnych oscylacji
 wysokoczęstotliwościowych.
 
@@ -705,7 +753,7 @@ szybkiej reakcji na~duże zakłócenia, działając zachowawczo.
 
 Ostatecznie, dedykowany skrypt \texttt{tune\_fuzzy\_lqr.py} posłużył do~optymalizacji
 wag pojedynczych reguł oraz parametrów kształtu funkcji przynależności 
-(Rys.~\ref{fig:fuzzy_opt}). Algorytm znalazł zaskakująco wysoką wartość wzmocnienia
+(Rys.~\ref{fig:fuzzy_opt}). Algorytm wyznaczył znacząco wyższą wartość wzmocnienia
 dla kąta ($F_{\theta}=167.9$), przy jednoczesnym zmniejszeniu globalnego wzmocnienia
 ($G=0.37$). Uzyskano nieliniową powierzchnię sterowania, która łączy zalety miękkiego 
 sterowania LQR w~pobliżu zera z~maksymalną siłą reakcji przy dużych wychyleniach.
