@@ -8,7 +8,7 @@ obiektywnego porównania testowanych algorytmów.
 \subsection{Plan eksperymentów}
 
 W~celu weryfikacji skuteczności strategii sterowania, przyjęto jednolity zestaw
-testów symulacyjnych. Każdy z~zaimplementowanych regulatorów (PID, LQR, MPC, Fuzzy-LQR) poddany został badaniom w~następujących scenariuszach:
+testów symulacyjnych. Każdy z~zaimplementowanych regulatorów (PD, PID-LQR, MPC, Fuzzy-LQR) poddany został badaniom w~następujących scenariuszach:
 
 \begin{enumerate}
     \item \textbf{Eksperyment 1: Stabilizacja w~punkcie pracy (warunki nominalne).} \\
@@ -49,7 +49,7 @@ Ograniczenie sygnału sterującego ustawiono na $|u| \le 100$ N.
 W~ramach eksperymentów przetestowano następujące regulatory (w~wersjach po
 optymalizacji nastaw):
 \begin{enumerate}
-    \item \textbf{PID} -- Równoległy układ dwóch regulatorów PID ($K_i=0$).
+    \item \textbf{PD} -- Równoległy układ dwóch regulatorów PD ($K_i=0$).
     \item \textbf{PID-LQR} -- Hybryda: PID dla wózka, LQR dla wahadła.
     \item \textbf{MPC} -- Nieliniowe sterowanie predykcyjne (NMPC) z~pełnym 
     modelem dynamiki i~całkowaniem metodą Rungego-Kutty 4.~rzędu.

@@ -17,7 +17,7 @@ rzeczywistych, takich jak suwnice czy roboty balansujące, utrzymanie pozycji je
 krytyczne co sama stabilizacja ładunku.
 
 Dla zachowania przejrzystości wywodu, badane algorytmy pogrupowano w dwie rodziny: regulatory
-klasyczne, do których zaliczono równoległy układ PID oraz hybrydowy PID-LQR, oraz regulatory
+klasyczne, do których zaliczono równoległy układ PD oraz hybrydowy PID-LQR, oraz regulatory
 zaawansowane, obejmujące predykcyjny algorytm MPC (w dwóch wariantach funkcji kosztu) oraz
 sterownik rozmyty Fuzzy-LQR.
 
@@ -37,16 +37,16 @@ grupy regulatorów klasycznych. Analizując wykres kąta wychylenia $\theta$
 jednak robią to w różnym stylu.
 
 Zoptymalizowany regulator PID-LQR, wykorzystujący duże wzmocnienia dla błędu pozycji ($Q_x=500$),
-charakteryzuje się niezwykle szybkim czasem regulacji ($T_s \approx 0.2$ s). Jest to wynik
-zdecydowanie lepszy od regulatora PID ($T_s \approx 0.3$ s). PID-LQR działa agresywnie,
+charakteryzuje się krótkim czasem regulacji ($T_s \approx 0.2$~s). Jest to wynik
+o~33\% lepszy od~regulatora PD ($T_s \approx 0.3$~s). PID-LQR działa z~wysoką dynamiką,
 co widać na~wykresie pozycji (Rys. \ref{fig:nom_pos_classical}) --- wózek wykonuje szybki ruch
 korekcyjny, niemal natychmiast ustalając pozycję w~pobliżu zera. Kosztem tej dynamiki jest jednak
-zwiększone zużycie energii. W~przeciwieństwie do~poprzednich iteracji strojenia, obecny,
-agresywny LQR zużywa więcej energii ($E_u \approx 1.48$) niż regulator PID o~łagodniejszej 
-charakterystyce ($E_u \approx 0.85$), który charakteryzuje się dłuższym i~łagodniejszym 
-dochodzeniem do~równowagi. Można zatem zaobserwować zmianę charakterystyki: PID stał się 
-rozwiązaniem bardziej ekonomicznym w
-stanie przejściowym, podczas gdy PID-LQR charakteryzuje się szybszą odpowiedzią dynamiczną.
+zwiększone zużycie energii. W~przeciwieństwie do~poprzednich iteracji strojenia, obecny
+LQR o~wysokich wzmocnieniach zużywa więcej energii ($E_u \approx 1.48$) niż regulator PD 
+o~łagodniejszej charakterystyce ($E_u \approx 0.85$), który charakteryzuje się dłuższym 
+i~łagodniejszym dochodzeniem do~równowagi. Można zatem zaobserwować zmianę charakterystyki: PD stał się 
+rozwiązaniem bardziej ekonomicznym w~stanie przejściowym, podczas gdy PID-LQR charakteryzuje się 
+szybszą odpowiedzią dynamiczną.
 
 \begin{figure}[h!]
     \centering
@@ -76,26 +76,27 @@ W grupie regulatorów zaawansowanych, których wyniki zaprezentowano na Rysunkac
 można zaobserwować porównanie dwóch odmiennych podejść: predykcji opartej na~modelu (MPC) oraz 
 sterowania rozmytego (Fuzzy-LQR).
 
-Regulator Fuzzy-LQR wyróżnia się niezwykle agresywną charakterystyką. Jego działanie przypomina
+Regulator Fuzzy-LQR wyróżnia się charakterystyką o~wysokiej dynamice. Jego działanie przypomina
 strategię typu bang-bang (sterowanie dwustanowe), gdzie w~pierwszej fazie ruchu generowany jest silny
 impuls sterujący (widoczny na~Rys.~\ref{fig:nom_control_advanced}), mający na~celu jak
 najszybsze zniwelowanie uchybu kątowego. Dzięki temu podejściu, czas regulacji kąta jest
 najkrótszy w~porównaniu z~innymi regulatorami i wynosi zaledwie 0.70 s. Ma to jednak swoją cenę w zachowaniu wózka. Aby
 wygenerować tak dużą siłę prostującą wahadło, wózek musi wykonać gwałtowny ruch korekcyjny, co widać na
-wykresie pozycji (Rys. \ref{fig:nom_pos_advanced}). Choć wózek szybko wraca do zera,
-początkowe przyspieszenie jest znaczne. Taka charakterystyka wiąże się z ogromnym kosztem
-energetycznym ($E_u \approx 2.84$), co może być nieakceptowalne w~aplikacjach zasilanych
-bateryjnie.
+wykresie pozycji (Rys.~\ref{fig:nom_pos_advanced}). Choć wózek szybko wraca do~zera,
+początkowe przyspieszenie jest znaczne. Taka charakterystyka wiąże się z~kosztem
+energetycznym wyższym o~405\% względem MPC ($E_u \approx 2.84$ vs. $0.56$), co może być 
+nieakceptowalne w~aplikacjach zasilanych bateryjnie.
 
 Odmienną charakterystykę wykazuje regulator MPC. Zastosowanie horyzontu predykcji pozwala
 na uwzględnienie przyszłych stanów i wyznaczenie optymalnej trajektorii sterowania na
 kilkanaście kroków do przodu. Funkcja kosztu wymusza kompromis między szybkością
-redukcji błędu a minimalizacją wydatku energetycznego. W efekcie, przebieg kąta jest nieco
-wolniejszy niż w przypadku Fuzzy-LQR, ale za to niezwykle płynny (Rys. \ref{fig:nom_advanced}).
+redukcji błędu a~minimalizacją wydatku energetycznego. W~efekcie przebieg kąta jest nieco
+wolniejszy niż w~przypadku Fuzzy-LQR, ale charakteryzuje się wysoką płynnością 
+(Rys.~\ref{fig:nom_advanced}).
 Co najważniejsze, ruch wózka jest w pełni kontrolowany i pozbawiony gwałtownych przyspieszeń.
 MPC jako jedyny regulator pozwala w sposób jawny uwzględnić ograniczenia fizyczne napędu, co
 czyni go rozwiązaniem najbezpieczniejszym dla mechaniki układu. Zużycie energii na poziomie
-$E_u \approx 0.56$ jest ponad dwukrotnie niższe od obecnego LQR ($1.48$) oraz niższe od PID,
+$E_u \approx 0.56$ jest ponad dwukrotnie niższe od~obecnego LQR ($1.48$) oraz niższe od~PD,
 co czyni MPC najbardziej ekonomicznym rozwiązaniem w~warunkach nominalnych.
 
 Wariant MPC-J2, mimo zastosowania innej funkcji kosztu, zachowuje się bardzo podobnie do
@@ -140,17 +141,17 @@ bardzo pozwolić wózkowi uciec, by utrzymać wahadło w pionie.
 W grupie klasycznej (Rys. \ref{fig:wind_classical} i \ref{fig:wind_pos_classical}) nastąpiła
 istotna zmiana w stosunku do wcześniejszych analiz. Nowe strojenie PID-LQR, nastawione na
 karę za zmianę pozycji, przyniosło znaczące efekty. LQR nie tylko lepiej stabilizuje
-kąt ($Max |\theta| \approx 0.060$ vs $0.068$ rad dla PID), ale przede wszystkim istotnie
+kąt ($Max |\theta| \approx 0.060$ vs $0.068$~rad dla PD), ale przede wszystkim istotnie
 redukuje dryf pozycji ($Max |x| \approx 0.22$ m vs $0.26$ m). Warto zauważyć, że
-osiąga to przy niższym zużyciu energii ($E_u \approx 11.7$) niż regulator PID ($15.4$).
+osiąga to przy niższym zużyciu energii ($E_u \approx 11.7$) niż regulator PD ($15.4$).
 Wynika to z faktu, że optymalny regulator tłumi zakłócenie w~zarodku, nie pozwalając na
-rozhustanie się układu, podczas gdy PID kompensuje skutki oscylacji, które sam dopuścił.
+rozhustanie się układu, podczas gdy PD kompensuje skutki oscylacji, które sam dopuścił.
 
 W grupie zaawansowanej (Rys. \ref{fig:wind_advanced} i \ref{fig:wind_pos_advanced})
 regulator Fuzzy-LQR osiąga najlepsze wyniki w~dziedzinie precyzji kątowej
 ($Max |\theta| \approx 0.05$~rad --- minimalne wychylenie), jednak koszt energetyczny
-jest znaczący ($E_u \approx 85.9$). Sterownik ten charakteryzuje się bardzo agresywną strategią 
-sterowania --- wykorzystuje maksymalną dostępną moc w~celu minimalizacji błędu regulacji.
+jest znaczący ($E_u \approx 85.9$). Sterownik ten charakteryzuje się strategią sterowania 
+o~wysokiej dynamice --- wykorzystuje maksymalną dostępną moc w~celu minimalizacji błędu regulacji.
 
 Zupełnie inną charakterystykę w~obliczu wiatru wykazuje MPC. Ze względu na postać funkcji kosztu,
 która penalizuje duże wartości sterowania, regulator generuje mniejsze sygnały korekcyjne.
@@ -208,7 +209,7 @@ oraz stabilizacji wózka (pozycja).
     \label{tab:results_nominal}
     \begin{tabular}{|l|c|c|c|c|c|}
         \hline
-        Wskaźnik & PID & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
+        Wskaźnik & PD & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
         $MSE_\theta$ & 0.00005 & 0.00004 & 0.00006 & 0.00005 & 0.00007 \\ \hline
         $IAE_\theta$ & 0.01684 & 0.01259 & 0.02287 & 0.02010 & 0.02301 \\ \hline
         $T_{s, \theta}$ [s] & 0.30000 & 0.20000 & 1.20000 & 1.10000 & 0.70000 \\ \hline
@@ -226,7 +227,7 @@ oraz stabilizacji wózka (pozycja).
     \label{tab:results_wind}
     \begin{tabular}{|l|c|c|c|c|c|}
         \hline
-        Wskaźnik & PID & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
+        Wskaźnik & PD & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
         $MSE_\theta$ & 0.00060 & 0.00044 & 0.00058 & 0.00067 & 0.00031 \\ \hline
         $IAE_\theta$ & 0.18981 & 0.16304 & 0.18215 & 0.20848 & 0.13488 \\ \hline
         $Max |\theta|$ [rad] & 0.06821 & 0.06017 & 0.06235 & 0.06577 & 0.05000 \\ \hline
@@ -288,8 +289,8 @@ zmierzone na~komputerze z~procesorem Intel Core i5-8250U (1.6 GHz).
     \label{tab:computation_time}
     \begin{tabular}{|l|c|c|}
         \hline
-        Regulator & Czas [ms] & Względem PID \\ \hline
-        PID & $< 0{,}01$ & $1\times$ \\ \hline
+        Regulator & Czas [ms] & Względem PD \\ \hline
+        PD & $< 0{,}01$ & $1\times$ \\ \hline
         PID-LQR & $0{,}02$ & $2\times$ \\ \hline
         Fuzzy-LQR & $0{,}05$ & $5\times$ \\ \hline
         MPC & $2{,}5$ & $250\times$ \\ \hline
@@ -297,7 +298,7 @@ zmierzone na~komputerze z~procesorem Intel Core i5-8250U (1.6 GHz).
     \end{tabular}
 \end{table}
 
-Regulatory klasyczne (PID, PID-LQR) oraz rozmyty (Fuzzy-LQR) charakteryzują się
+Regulatory klasyczne (PD, PID-LQR) oraz rozmyty (Fuzzy-LQR) charakteryzują się
 zaniedbywalnym czasem obliczeń, rzędu mikrosekund. Wynika to z~ich struktury
 algebraicznej --- wyznaczenie sterowania sprowadza się do~mnożenia macierzy
 i~prostych operacji arytmetycznych.

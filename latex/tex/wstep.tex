@@ -41,7 +41,7 @@ dynamice. Badania symulacyjne na~tym obiekcie pozwalają na~wstępną walidację
 skuteczności algorytmów sterowania przed ich implementacją w~bardziej 
 złożonych lub kosztownych systemach. Z~tego powodu układ ten od~dziesięcioleci 
 stanowi punkt odniesienia w~rozwoju nowoczesnych metod regulacji --- 
-od~klasycznych regulatorów PID (regulator proporcjonalno-całkująco-różniczkujący) i~LQR (liniowy regulator kwadratowy), po~sterowanie predykcyjne (MPC), 
+od~klasycznych regulatorów PD/PID (regulatory proporcjonalno-różniczkujące/całkujące) i~LQR (liniowy regulator kwadratowy), po~sterowanie predykcyjne (MPC), 
 adaptacyjne i~rozmyte.
 
 Prostota modelu matematycznego w~połączeniu z~łatwością interpretacji wyników 
@@ -62,7 +62,7 @@ i~niefunkcjonalnych stawianych opracowywanemu systemowi. W~warstwie
 funkcjonalnej środowisko musi wiernie odwzorowywać dynamikę układu wózka 
 z~wahadłem w~oparciu o~nieliniowe równania ruchu, a~także umożliwiać 
 elastyczne przełączanie pomiędzy zaimplementowanymi strategiami sterowania 
-(PID, LQR, MPC, Fuzzy). Kluczowa jest również możliwość weryfikacji 
+(PD, PID-LQR, MPC, Fuzzy-LQR). Kluczowa jest również możliwość weryfikacji 
 odporności regulatorów poprzez generowanie addytywnych zakłóceń 
 zewnętrznych (np. siły wiatru). System powinien oferować narzędzia 
 do~wizualizacji przebiegów oraz animacji ruchu obiektu, a~także 
@@ -80,7 +80,7 @@ do~rzeczywistego.
 Większość dostępnych publikacji skupia się zazwyczaj tylko na~jednej grupie metod. 
 W~niniejszej pracy postanowiono porównać ze~sobą trzy zupełnie różne podejścia:
 \begin{itemize}
-  \item klasyczne (PID, kaskady),
+  \item klasyczne (PD, kaskady),
   \item optymalne i~predykcyjne (LQR, MPC),
   \item sterowanie rozmyte (Fuzzy).
 \end{itemize}
@@ -93,14 +93,13 @@ utrzymują wahadło w~pionie, ale także jak radzą sobie z~zakłóceniami
 
 W~ramach projektu zaimplementowano i~poddano badaniom następujące struktury:
 \begin{enumerate}
-    \item \textbf{Regulator PID} --- reprezentujący klasyczne 
-    podejście inżynierskie. Układ składa się z~dwóch pętli sprzężenia 
-    zwrotnego (stabilizacja kąta i~pozycji), wyposażonych w~mechanizmy 
-    zapobiegające nasyceniu członów całkujących (ang. \textit{anti-windup}) 
-    oraz ograniczenia sygnału sterującego.
+    \item \textbf{Regulator PD} --- reprezentujący klasyczne 
+    podejście inżynierskie. Układ składa się z~dwóch równoległych pętli 
+    sprzężenia zwrotnego typu PD (stabilizacja kąta i~pozycji), bez członu 
+    całkującego ($K_i=0$), z~ograniczeniami sygnału sterującego.
     
-    \item \textbf{Hybrydowy układ PID-LQR} --- struktura łącząca prostotę 
-    PID (w~pętli regulacji pozycji) z~optymalnym regulatorem stanu LQR 
+    \item \textbf{Hybrydowy układ PID-LQR} --- struktura łącząca regulator 
+    PID (w~pętli regulacji pozycji, z~członem całkującym) z~optymalnym regulatorem stanu LQR 
     (w~pętli stabilizacji wahadła). Metoda ta stanowi punkt odniesienia 
     dla oceny skuteczności metod bazujących na~modelu liniowym.
     
@@ -163,7 +162,7 @@ i~niepewności parametrycznej modelu.
 
 Istotnym uzupełnieniem badań symulacyjnych są weryfikacje eksperymentalne, 
 szeroko reprezentowane w~krajowej literaturze naukowej. 
-Zespół Jezierski i~in.~\cite{Jezierski2017} przeprowadził porównanie 
+W~pracy Jezierskiego i~in.~\cite{Jezierski2017} przeprowadzono porównanie 
 algorytmów LQR i~MPC na~rzeczywistym stanowisku laboratoryjnym. 
 Wykazano, że o~ile regulator LQR skutecznie utrzymuje punkt pracy 
 i~tłumi zakłócenia, to sterowanie predykcyjne zapewnia łagodniejsze 
@@ -203,13 +202,13 @@ oraz sposób modelowania zakłóceń zewnętrznych.
 
 Rozdział czwarty zawiera charakterystykę zaimplementowanych algorytmów 
 sterowania. Omówiono w~nim podstawy teoretyczne oraz szczegóły 
-implementacyjne regulatorów: klasycznego PID, optymalnego LQR, 
+implementacyjne regulatorów: klasycznego PD, optymalnego LQR, 
 predykcyjnego MPC oraz rozmytego Takagi--Sugeno.
 
 Rozdział piąty opisuje metodykę badań symulacyjnych. Zdefiniowano w~nim 
 scenariusze testowe, przyjęte wskaźniki jakości oraz procedurę strojenia 
 regulatorów, ze~szczególnym uwzględnieniem doboru wag macierzy LQR 
-oraz nastaw członu PID.
+oraz nastaw regulatora PD.
 
 Rozdział szósty prezentuje wyniki przeprowadzonych eksperymentów. 
 Zawiera on szczegółową analizę przebiegów czasowych, zestawienie tabelaryczne 

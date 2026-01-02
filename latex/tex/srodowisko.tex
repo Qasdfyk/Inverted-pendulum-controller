@@ -1,7 +1,7 @@
 \section{Środowisko symulacyjne i implementacja}
 
 W~celu przeprowadzenia badań i~weryfikacji działania algorytmów sterowania,
-przygotowano autorskie środowisko symulacyjne zrealizowane w~języku
+przygotowano zestaw skryptów symulacyjnych zrealizowanych w~języku
 \textbf{Python 3}. Wybór tego języka podyktowany był jego powszechnością
 w~zastosowaniach naukowych, dostępnością bibliotek do~obliczeń numerycznych
 i~optymalizacji, a~także łatwością prototypowania złożonych struktur sterowania.
@@ -57,11 +57,11 @@ Ogólną architekturę środowiska przedstawiono na~Rys.~\ref{fig:diagram_env}.
 
 W~projekcie wykorzystano następujące biblioteki i narzędzia:
 \begin{itemize}
-    \item \textbf{NumPy} -- podstawowa biblioteka do~obliczeń macierzowych
+    \item \textbf{NumPy}~\cite{Harris2020} -- podstawowa biblioteka do~obliczeń macierzowych
     i~operacji na~wielowymiarowych tablicach danych, wykorzystywana
     do~implementacji równań stanu oraz przechowywania przebiegów symulacji.
-    \item \textbf{SciPy} -- pakiet naukowy dostarczający zaawansowanych
-    algorytmów numerycznych. W pracy użyto modułów:
+    \item \textbf{SciPy}~\cite{Virtanen2020} -- pakiet naukowy dostarczający zaawansowanych
+    algorytmów numerycznych. W~pracy użyto modułów:
     \begin{itemize}
         \item \texttt{scipy.linalg} -- do~rozwiązywania algebraicznego równania
         Riccatiego (ARE) w algorytmie LQR.
@@ -78,7 +78,7 @@ W~projekcie wykorzystano następujące biblioteki i narzędzia:
 
 Symulator opiera~się na~numerycznym całkowaniu wyprowadzonych wcześniej
 nieliniowych równań dynamiki. Zaimplementowano procedurę całkowania metodą
-Rungego-Kutty czwartego rzędu (RK4). Wybór tej metody podyktowany 
+Rungego-Kutty czwartego rzędu (RK4)~\cite{Fortuna2015}. Wybór tej metody podyktowany 
 był kilkoma czynnikami: w~odróżnieniu od~prostszej metody Eulera, RK4 
 charakteryzuje się błędem lokalnym rzędu $\mathcal{O}(\Delta t^5)$, 
 co zapewnia wysoką dokładność przy umiarkowanym koszcie obliczeniowym. 

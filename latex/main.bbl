@@ -548,6 +548,244 @@
       \verb 10.1016/j.compeleceng.2017.05.016
       \endverb
     \endentry
+    \entry{Harris2020}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{3}{}{%
+        {{hash=db2b4761cc46be347b418e68660c9554}{%
+           family={Harris},
+           familyi={H\bibinitperiod},
+           given={Charles\bibnamedelima R.},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=b053969d2c6a9ec8689980fb6463cd56}{%
+           family={Millman},
+           familyi={M\bibinitperiod},
+           given={K.\bibnamedelimi Jarrod},
+           giveni={K\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=9a5a65a789013a8d1e8035ec28df9b6e}{%
+           family={Walt},
+           familyi={W\bibinitperiod},
+           given={Stéfan\bibnamedelima J.},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod},
+           prefix={van\bibnamedelima der},
+           prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod}}}%
+      }
+      \strng{namehash}{754b3dec5e203c19b9a5798bbb902222}
+      \strng{fullhash}{6689ecc3c9e295b778f29b8693fbf88e}
+      \strng{fullhashraw}{6689ecc3c9e295b778f29b8693fbf88e}
+      \strng{bibnamehash}{6689ecc3c9e295b778f29b8693fbf88e}
+      \strng{authorbibnamehash}{6689ecc3c9e295b778f29b8693fbf88e}
+      \strng{authornamehash}{754b3dec5e203c19b9a5798bbb902222}
+      \strng{authorfullhash}{6689ecc3c9e295b778f29b8693fbf88e}
+      \strng{authorfullhashraw}{6689ecc3c9e295b778f29b8693fbf88e}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{title}{Array programming with {NumPy}}
+      \field{volume}{585}
+      \field{year}{2020}
+      \field{pages}{357\bibrangedash 362}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1038/s41586-020-2649-2
+      \endverb
+    \endentry
+    \entry{Virtanen2020}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{3}{}{%
+        {{hash=18703a2bb6a62484483c193a212da2f8}{%
+           family={Virtanen},
+           familyi={V\bibinitperiod},
+           given={Pauli},
+           giveni={P\bibinitperiod}}}%
+        {{hash=646fbfe08374cc41c2f9bd971d8c4725}{%
+           family={Gommers},
+           familyi={G\bibinitperiod},
+           given={Ralf},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d500f4849030f34359cdb3e1513acf83}{%
+           family={Oliphant},
+           familyi={O\bibinitperiod},
+           given={Travis\bibnamedelima E.},
+           giveni={T\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{fullhash}{2614ea043823efadef6a201c96446be0}
+      \strng{fullhashraw}{2614ea043823efadef6a201c96446be0}
+      \strng{bibnamehash}{2614ea043823efadef6a201c96446be0}
+      \strng{authorbibnamehash}{2614ea043823efadef6a201c96446be0}
+      \strng{authornamehash}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{authorfullhash}{2614ea043823efadef6a201c96446be0}
+      \strng{authorfullhashraw}{2614ea043823efadef6a201c96446be0}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature Methods}
+      \field{title}{{SciPy} 1.0: fundamental algorithms for scientific computing in {Python}}
+      \field{volume}{17}
+      \field{year}{2020}
+      \field{pages}{261\bibrangedash 272}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1038/s41592-019-0686-2
+      \endverb
+    \endentry
+    \entry{Fortuna2015}{book}{}{}
+      \name{author}{3}{}{%
+        {{hash=39e73491bd10472ecb77b93b63c7132b}{%
+           family={Fortuna},
+           familyi={F\bibinitperiod},
+           given={Zenon},
+           giveni={Z\bibinitperiod}}}%
+        {{hash=a70dfc5c88fa569aad5aa24a7cf6e45a}{%
+           family={Macukow},
+           familyi={M\bibinitperiod},
+           given={Bohdan},
+           giveni={B\bibinitperiod}}}%
+        {{hash=9e8b22c2cd083e38f977c9fa5216a029}{%
+           family={Wąsowski},
+           familyi={W\bibinitperiod},
+           given={Janusz},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Warszawa}%
+      }
+      \list{publisher}{1}{%
+        {Wydawnictwa Naukowo-Techniczne}%
+      }
+      \strng{namehash}{79f65da355c5bd21db5a7b14b413f5d6}
+      \strng{fullhash}{659ee86f6956477bbdde0b869a399cbe}
+      \strng{fullhashraw}{659ee86f6956477bbdde0b869a399cbe}
+      \strng{bibnamehash}{659ee86f6956477bbdde0b869a399cbe}
+      \strng{authorbibnamehash}{659ee86f6956477bbdde0b869a399cbe}
+      \strng{authornamehash}{79f65da355c5bd21db5a7b14b413f5d6}
+      \strng{authorfullhash}{659ee86f6956477bbdde0b869a399cbe}
+      \strng{authorfullhashraw}{659ee86f6956477bbdde0b869a399cbe}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{7}
+      \field{isbn}{978-83-01-18311-4}
+      \field{title}{Metody numeryczne}
+      \field{year}{2015}
+    \endentry
+    \entry{Ogata2010}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=72cb1e667ce543119df1b777c0db24de}{%
+           family={Ogata},
+           familyi={O\bibinitperiod},
+           given={Katsuhiko},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Upper Saddle River, NJ}%
+      }
+      \list{publisher}{1}{%
+        {Pearson}%
+      }
+      \strng{namehash}{72cb1e667ce543119df1b777c0db24de}
+      \strng{fullhash}{72cb1e667ce543119df1b777c0db24de}
+      \strng{fullhashraw}{72cb1e667ce543119df1b777c0db24de}
+      \strng{bibnamehash}{72cb1e667ce543119df1b777c0db24de}
+      \strng{authorbibnamehash}{72cb1e667ce543119df1b777c0db24de}
+      \strng{authornamehash}{72cb1e667ce543119df1b777c0db24de}
+      \strng{authorfullhash}{72cb1e667ce543119df1b777c0db24de}
+      \strng{authorfullhashraw}{72cb1e667ce543119df1b777c0db24de}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{5}
+      \field{isbn}{978-0-13-615673-4}
+      \field{title}{Modern Control Engineering}
+      \field{year}{2010}
+    \endentry
+    \entry{StornPrice1997}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=87ff7bd4305b95a067c44bc7243d8128}{%
+           family={Storn},
+           familyi={S\bibinitperiod},
+           given={Rainer},
+           giveni={R\bibinitperiod}}}%
+        {{hash=96e607982973d9cb076455039a368fa5}{%
+           family={Price},
+           familyi={P\bibinitperiod},
+           given={Kenneth},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{5dfb836e07d40eb2d1cef5fbe8334415}
+      \strng{fullhash}{5dfb836e07d40eb2d1cef5fbe8334415}
+      \strng{fullhashraw}{5dfb836e07d40eb2d1cef5fbe8334415}
+      \strng{bibnamehash}{5dfb836e07d40eb2d1cef5fbe8334415}
+      \strng{authorbibnamehash}{5dfb836e07d40eb2d1cef5fbe8334415}
+      \strng{authornamehash}{5dfb836e07d40eb2d1cef5fbe8334415}
+      \strng{authorfullhash}{5dfb836e07d40eb2d1cef5fbe8334415}
+      \strng{authorfullhashraw}{5dfb836e07d40eb2d1cef5fbe8334415}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Global Optimization}
+      \field{number}{4}
+      \field{title}{Differential Evolution -- A Simple and Efficient Heuristic for Global Optimization over Continuous Spaces}
+      \field{volume}{11}
+      \field{year}{1997}
+      \field{pages}{341\bibrangedash 359}
+      \range{pages}{19}
+      \verb{doi}
+      \verb 10.1023/A:1008202821328
+      \endverb
+    \endentry
+    \entry{Lewis2012}{book}{}{}
+      \name{author}{3}{}{%
+        {{hash=e8b2d327ef78200b45c2158053b96ca0}{%
+           family={Lewis},
+           familyi={L\bibinitperiod},
+           given={Frank\bibnamedelima L.},
+           giveni={F\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+        {{hash=c846cc1aab810cd9cc59c6fb9fcc8eec}{%
+           family={Vrabie},
+           familyi={V\bibinitperiod},
+           given={Draguna},
+           giveni={D\bibinitperiod}}}%
+        {{hash=2e16ff4f907784f7a6b259eec655e75c}{%
+           family={Syrmos},
+           familyi={S\bibinitperiod},
+           given={Vassilis\bibnamedelima L.},
+           giveni={V\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Hoboken, NJ}%
+      }
+      \list{publisher}{1}{%
+        {John Wiley \& Sons}%
+      }
+      \strng{namehash}{188107ef2d02c0d7ca73b157922eccf4}
+      \strng{fullhash}{35999ff53867c3cfaea021c922480d03}
+      \strng{fullhashraw}{35999ff53867c3cfaea021c922480d03}
+      \strng{bibnamehash}{35999ff53867c3cfaea021c922480d03}
+      \strng{authorbibnamehash}{35999ff53867c3cfaea021c922480d03}
+      \strng{authornamehash}{188107ef2d02c0d7ca73b157922eccf4}
+      \strng{authorfullhash}{35999ff53867c3cfaea021c922480d03}
+      \strng{authorfullhashraw}{35999ff53867c3cfaea021c922480d03}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{3}
+      \field{isbn}{978-0-470-63349-6}
+      \field{title}{Optimal Control}
+      \field{year}{2012}
+      \verb{doi}
+      \verb 10.1002/9781118122631
+      \endverb
+    \endentry
     \entry{Rawlings2017}{book}{}{}
       \name{author}{3}{}{%
         {{hash=a28ab6b1da316879310a82410e4e8dc4}{%
@@ -580,15 +818,63 @@
       \strng{authornamehash}{852055c0c20f72f6bbd27807b33544ad}
       \strng{authorfullhash}{d66551b47d480483dfb21f2de51ff12f}
       \strng{authorfullhashraw}{d66551b47d480483dfb21f2de51ff12f}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{2}
       \field{isbn}{978-0-9759377-3-4}
-      \field{note}{Dostępna wersja online}
       \field{title}{Model Predictive Control: Theory, Computation, and Design}
+      \field{urlday}{2}
+      \field{urlmonth}{1}
+      \field{urlyear}{2025}
       \field{year}{2017}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://sites.engineering.ucsb.edu/~jbraw/mpc/
+      \endverb
+      \verb{url}
+      \verb https://sites.engineering.ucsb.edu/~jbraw/mpc/
+      \endverb
+    \endentry
+    \entry{Nocedal2006}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=88a342d927bf795b0d92af8a5613da31}{%
+           family={Nocedal},
+           familyi={N\bibinitperiod},
+           given={Jorge},
+           giveni={J\bibinitperiod}}}%
+        {{hash=c49efb16d3fa7eef002cc3620d42ab8a}{%
+           family={Wright},
+           familyi={W\bibinitperiod},
+           given={Stephen\bibnamedelima J.},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{fullhash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{fullhashraw}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{bibnamehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authorbibnamehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authornamehash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authorfullhash}{5b8fd28f6245ae8b0af119560622fa4f}
+      \strng{authorfullhashraw}{5b8fd28f6245ae8b0af119560622fa4f}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{isbn}{978-0-387-30303-1}
+      \field{title}{Numerical Optimization}
+      \field{year}{2006}
+      \verb{doi}
+      \verb 10.1007/978-0-387-40065-5
+      \endverb
     \endentry
   \enddatalist
 \endrefsection

@@ -14,11 +14,11 @@ jako klasyczny problem testowy dla metod sterowania liniowego i~nieliniowego
 \cite{Prasad2014, Nguyen2024}. Poniżej opisano teoretyczne podstawy oraz szczegóły
 implementacyjne zbadanych struktur sterowania.
 
-\subsection{Równoległy regulator PID}
+\subsection{Równoległy regulator PD}
 
-Pierwszym zaimplementowanym układem jest regulator o~strukturze kaskadowej lub
-równoległej, wykorzystujący klasyczne sprzężenie zwrotne typu PD
-(Proporcjonalno-Różniczkujące). W~literaturze podejście to jest często
+Pierwszym zaimplementowanym układem jest regulator o~strukturze równoległej,
+wykorzystujący klasyczne sprzężenie zwrotne typu PD
+(Proporcjonalno-Różniczkujące)~\cite{Ogata2010}. W~literaturze podejście to jest często
 stosowane jako punkt odniesienia dla bardziej zaawansowanych metod
 \cite{Moreno2023, Prasad2014}.
 
@@ -79,7 +79,7 @@ pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}
         \node [above=3pt of sum_theta.north, font=\tiny] {$-$};
         \node [below=3pt of sum_x.south, font=\tiny] {$-$};
     \end{tikzpicture}
-    \caption{Schemat blokowy regulatora PID o~strukturze równoległej.}
+    \caption{Schemat blokowy regulatora PD o~strukturze równoległej.}
     \label{fig:diagram_pdpd}
 \end{figure}
 
@@ -90,7 +90,7 @@ Prawo sterowania wyraża się wzorem:
 gdzie funkcja nasycenia $\mathrm{sat}(\cdot)$ wynika z~ograniczeń fizycznych
 siłownika. Definiując uchyby regulacji jako $e_{\theta}(t) = \theta_{\mathrm{ref}} - \theta(t)$ 
 oraz $e_x(t) = x_{\mathrm{ref}} - x(t)$, prawo sterowania dla poszczególnych pętli 
-można zapisać w~ogólnej postaci regulatora PID:
+można zapisać w~ogólnej postaci regulatora PD (będącej szczególnym przypadkiem PID z~$K_i=0$):
 \begin{align}
     u_{\theta}(t) &= K_{p,\theta} e_{\theta}(t) + K_{i,\theta} \int_0^t e_{\theta}(\tau)\,d\tau + K_{d,\theta} \frac{d e_{\theta}(t)}{dt}, \label{eq:pd_theta} \\
     u_{x}(t) &= K_{p,x} e_x(t) + K_{i,x} \int_0^t e_x(\tau)\,d\tau + K_{d,x} \frac{d e_x(t)}{dt}. \label{eq:pd_x}
@@ -111,8 +111,8 @@ Mimo iż klasa umożliwia włączenie członu całkującego (PID), w~badaniach
 niestabilność w~stanach nieustalonych bez odpowiednich mechanizmów
 $\mathrm{anti\text{-}windup}$.
 
-\subsubsection{Proces doboru nastaw oraz analiza PID}
-Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo, ewoluując
+\subsubsection{Proces doboru nastaw oraz analiza PD}
+Dobór nastaw dla regulatora PD został zrealizowany wieloetapowo, ewoluując
 od metod heurystycznych do pełnej optymalizacji numerycznej.
 
 \begin{figure}[H]
@@ -157,8 +157,8 @@ dodatkowe tłumienie, człon całkujący może być bezpiecznie zastosowany --
 zagadnienie to omówiono szczegółowo w~Podrozdziale~4.2.
 
 Aby wyeliminować subiektywność strojenia ręcznego, zastosowano algorytm
-Ewolucji Różnicowej (Differential Evolution), zaimplementowany w~module
-\texttt{scipy.optimize}. Zdefiniowano globalną funkcję kosztu $J$, która
+Ewolucji Różnicowej (Differential Evolution)~\cite{StornPrice1997}, zaimplementowany 
+w~module \texttt{scipy.optimize}. Zdefiniowano globalną funkcję kosztu $J$, która
 umożliwia porównanie wszystkich badanych regulatorów w~ujednoliconych warunkach:
 \begin{equation}
     J = w_{\theta} \cdot \text{MSE}(\theta) + w_{x} \cdot \text{MSE}(x) + w_{u} \cdot \text{RMS}(u),
@@ -171,7 +171,7 @@ lokalnych.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_3_opt.png}
-    \caption{Zoptymalizowany regulator PID ($K_{p,\theta}=-95$, $K_{d,\theta}=-14$, 
+    \caption{Zoptymalizowany regulator PD ($K_{p,\theta}=-95$, $K_{d,\theta}=-14$, 
     $K_{p,x}=-16$, $K_{d,x}=-14$).}
     \label{fig:pdpd_opt}
 \end{figure}
@@ -185,7 +185,7 @@ stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii.
 
 Kolejnym analizowanym algorytmem jest regulator liniowo-kwadratowy (LQR),
 będący standardem w~sterowaniu optymalnym systemów wielowymiarowych MIMO
-\cite{Jezierski2017}. Klasa \texttt{PDLQRController} implementuje sterowanie
+\cite{Lewis2012, Jezierski2017}. Klasa \texttt{PDLQRController} implementuje sterowanie
 oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PD dla uchybu
 pozycji, co tworzy strukturę hybrydową opisaną m.in. w~\cite{Prasad2014} oraz
 \cite{Nguyen2024} (w~kontekście porównawczym). Schemat blokowy tego układu 
@@ -260,7 +260,7 @@ $u(t) = -K x(t)$, które minimalizuje wskaźnik jakości:
     J = \int_{0}^{\infty} \left( x(t)^T Q x(t) + u(t)^T R u(t) \right) dt,
 \end{equation}
 gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą
-sterowania. Optymalna macierz wzmocnień $K$ wyznaczana jest poprzez
+sterowania~\cite{Lewis2012}. Optymalna macierz wzmocnień $K$ wyznaczana jest poprzez
 rozwiązanie algebraicznego równania Riccatiego (CARE):
 \begin{equation}
     A^T P + P A - P B R^{-1} B^T P + Q = 0,
@@ -344,10 +344,10 @@ co zmusza wózek do~szybkich korekt stabilizujących wahadło.
 
 \subsubsection{Analiza wpływu członu całkującego w~układzie PID-LQR}
 
-Istotną różnicą między regulatorem PID (bez LQR) a~układem hybrydowym PID-LQR 
+Istotną różnicą między regulatorem PD (bez LQR) a~układem hybrydowym PID-LQR 
 jest możliwość bezpiecznego zastosowania akcji całkującej ($K_i \neq 0$). 
 Jak wykazano w~Rozdziale 4.1, dodanie członu całkującego do~samodzielnego 
-regulatora PID prowadziło do~oscylacji i~potencjalnej niestabilności 
+regulatora PD prowadziło do~oscylacji i~potencjalnej niestabilności 
 (Rys.~\ref{fig:pdpd_integral}), co jest zgodne z~obserwacjami w~literaturze 
 \cite{Prasad2014}.
 
@@ -364,7 +364,7 @@ Regulator LQR zapewnia optymalne tłumienie poprzez sprzężenie od~pełnego
 wektora stanu, co skutecznie kompensuje dodatkowe przesunięcie fazowe 
 wprowadzane przez człon całkujący. Na Rysunku~\ref{fig:lqr_with_ki} 
 przedstawiono odpowiedź układu z~włączonym członem całkującym 
-($K_i = -1{,}0$). W~przeciwieństwie do~regulatora PID, gdzie identyczna 
+($K_i = -1{,}0$). W~przeciwieństwie do~regulatora PD, gdzie identyczna 
 konfiguracja powodowała oscylacje (por. Rys.~\ref{fig:pdpd_integral}), 
 układ PID-LQR zachowuje pełną stabilność i~płynność przebiegów.
 
@@ -379,12 +379,11 @@ Korzyści z~zastosowania członu całkującego w~układzie PID-LQR obejmują:
 \end{itemize}
 
 Obserwacja ta jest zgodna z~wynikami przedstawionymi w~pracy \cite{Prasad2014}, 
-gdzie autorzy wykazali, że połączenie regulatora PID z~optymalnym sprzężeniem 
+gdzie autorzy wykazali, że połączenie regulatora PD z~optymalnym sprzężeniem 
 zwrotnym LQR pozwala uzyskać lepsze właściwości dynamiczne niż każda z~metod 
 stosowana oddzielnie. W~niniejszej pracy potwierdzono eksperymentalnie, 
-że struktura hybrydowa umożliwia bezpieczne wykorzystanie pełnego potencjału 
-regulatora PID (włącznie z~członem całkującym), co nie jest możliwe 
-w~konfiguracji bez LQR.
+że struktura hybrydowa umożliwia bezpieczne rozszerzenie regulatora PD 
+o~człon całkujący (tworząc PID), co nie jest możliwe w~konfiguracji bez LQR.
 
 \subsection{Nieliniowe sterowanie predykcyjne (MPC)}
 
@@ -447,10 +446,10 @@ nieliniowej (NMPC). Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:di
 \end{figure}
 
 Zadanie optymalizacji rozwiązywane jest numerycznie metodą SQP (Sequential
-Quadratic Programming) przy użyciu solwera \texttt{SLSQP} z~biblioteki 
+Quadratic Programming)~\cite{Nocedal2006} przy użyciu solwera \texttt{SLSQP} z~biblioteki 
 \texttt{scipy.optimize}. Wybór tego solwera podyktowany był jego dostępnością 
-w~standardowej dystrybucji Pythona oraz zdolnością do~obsługi ograniczeń 
-nierównościowych (wymaganych dla saturacji sterowania). Zadanie zdefiniowane jest
+w~popularnych dystrybucjach środowisk naukowych (Anaconda, pip) oraz zdolnością 
+do~obsługi ograniczeń nierównościowych (wymaganych dla saturacji sterowania). Zadanie zdefiniowane jest
 następująco:
 \begin{equation}
     \min_{\Delta U} J = \sum_{k=1}^{N_{\mathrm{p}}} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) + R \sum_{k=0}^{N_{\mathrm{c}}-1} (\Delta u_k)^2,
@@ -483,7 +482,7 @@ Analiza wykazała, że bezpośrednie przeniesienie macierzy wag $Q$ i $R$
 z~regulatora LQR do~sterownika MPC prowadziło do~znaczącego pogorszenia jakości
 sterowania (wydłużenie czasu regulacji z~ok. 3s do~ponad 9s). Wynika to z~faktu,
 że model MPC, dzięki jawnemu uwzględnieniu ograniczeń sygnału sterującego, pozwala
-na~zastosowanie znacznie bardziej agresywnych nastaw (większych kar za~błędy stanu),
+na~zastosowanie nastaw o~znacznie wyższych wzmocnieniach (większych kar za~błędy stanu),
 które w~liniowym regulatorze LQR powodowałyby nasycenie i~potencjalną niestabilność.
 Dlatego zdecydowano się na~niezależną optymalizację parametrów obu regulatorów,
 aby porównywać ich najlepsze możliwe konfiguracje, a~nie identyczne, ale
@@ -537,7 +536,7 @@ Algorytm optymalizacyjny wskazał $N_{\mathrm{p}}=12$ jako optimum dla tego mode
 dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń. Zoptymalizowane
 wagi $Q$ znacząco różnią się od~intuicyjnych proporcji -- wysoka kara za~kąt 
 ($Q_{\theta}=158.4$) w~połączeniu z~niską karą za~zmianę sterowania ($R=0.086$)
-zapewnia agresywną, ale gładką stabilizację.
+zapewnia szybką, ale gładką stabilizację.
 
 \subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}
 
@@ -595,7 +594,7 @@ Stopniowe, ręczne zmniejszanie parametru $R_{\mathrm{abs}}$ do~wartości $1.0$
 (Rys.~\ref{fig:mpcj2_manual}) pozwoliło na~początkową stabilizację, jednak układ
 ostatecznie ulegał destabilizacji. Regulator działał zbyt zachowawczo -- oszczędzając
 energię, pozwalał wózkowi na~zbyt duży dryf od~pozycji zadanej. Gdy błąd pozycji
-narastał, próba korekcji wymagała agresywnego ruchu wózka, co z~kolei destabilizowało
+narastał, próba korekcji wymagała gwałtownego ruchu wózka, co z~kolei destabilizowało
 wahadło. Taki scenariusz ilustruje typowy problem źle dostrojonego kompromisu
 między jakością regulacji a~oszczędnością energii.
 
@@ -620,7 +619,7 @@ Ostatnim zbadanym układem jest sterownik hybrydowy \texttt{TSFuzzyController}
 (plik \texttt{fuzzy\_lqr.py}), łączący liniowy regulator LQR z~systemem
 wnioskowania rozmytego typu Takagi-Sugeno (T-S). Koncepcja ta, opisana szerzej
 w~\cite{Nguyen2024} oraz \cite{Roose2017}, ma na~celu adaptację wzmocnień regulatora
-w~zależności od~punktu pracy, co pozwala na~agresywniejszą reakcję w~przypadku
+w~zależności od~punktu pracy, co pozwala na~silniejszą reakcję w~przypadku
 dużych odchyleń od~pionu. Strukturę regulatora przedstawiono na~Rys.~\ref{fig:diagram_fuzzy}.
 
 \begin{figure}[H]
@@ -720,10 +719,10 @@ liczbę parametrów definiujących bazę reguł i~funkcje przynależności.
 
 Błędne zdefiniowanie zbyt wąskich funkcji przynależności dla strefy ,,małego błędu''
 (Rys.~\ref{fig:fuzzy_bad}) skutkowało gwałtownym przełączaniem się regulatora 
-na~agresywne reguły (chatter). Zakres $[-0.02, 0.02]$~rad oznacza, że już przy
-wychyleniu wahadła o~około $1^{\circ}$ regulator przeskakiwał z~trybu ,,łagodnego''
-(LQR) na~tryb ,,agresywny'' (duże wzmocnienia reguł rozmytych), a~przy powrocie
-do~pionu natychmiast wracał. Prowadziło to do~silnych drgań wokół punktu równowagi,
+na~reguły o~wysokich wzmocnieniach (drgania przełączeniowe). Zakres $[-0.02, 0.02]$~rad 
+oznacza, że już przy wychyleniu wahadła o~około $1^{\circ}$ regulator przeskakiwał 
+z~trybu o~niskich wzmocnieniach (LQR) na~tryb o~wysokich wzmocnieniach (reguły rozmyte), 
+a~przy powrocie do~pionu natychmiast wracał. Prowadziło to do~silnych drgań wokół punktu równowagi,
 co jest zjawiskiem niepożądanym w~rzeczywistych układach napędowych ze~względu na~
 zużycie mechaniczne i~hałas.
 
@@ -739,7 +738,7 @@ zużycie mechaniczne i~hałas.
 Opierając się na~literaturze \cite{Nguyen2024}, dobrano ręcznie szerokości trójkątnych
 funkcji przynależności tak, aby przejście między strefami było płynne 
 (Rys.~\ref{fig:fuzzy_manual}). Rozszerzenie zakresu do~$[-0.2, 0.2]$~rad wyeliminowało
-chatter, jednak wzmocnienia reguł były zbyt słabe ($F_{\theta}=20$ vs. optymalne $167.9$).
+drgania przełączeniowe, jednak wzmocnienia reguł były zbyt słabe ($F_{\theta}=20$ vs. optymalne $167.9$).
 Układ uzyskał stabilność asymptotyczną, jednak nie wykorzystywał w~pełni potencjału 
 szybkiej reakcji na~duże zakłócenia, działając zachowawczo.
 
