@@ -34,8 +34,18 @@ def tri_mf(x: np.ndarray, a: float, b: float, c: float) -> np.ndarray:
 def plot_membership_functions():
     """Generuje wykres funkcji przynależności dla wszystkich zmiennych stanu."""
     
-    # Konfiguracja wykresu (bez tytułu - opis w LaTeX)
-    fig, axes = plt.subplots(2, 2, figsize=(11, 8))
+    # Ustawienia globalne dla większych czcionek (prezentacja)
+    plt.rcParams.update({
+        'font.size': 18,
+        'axes.titlesize': 20,
+        'axes.labelsize': 20,
+        'xtick.labelsize': 16,
+        'ytick.labelsize': 16,
+        'legend.fontsize': 16,
+    })
+    
+    # Konfiguracja wykresu - większy rozmiar dla prezentacji
+    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
     
     # Kolory
     color_small = '#2E86AB'  # niebieski
@@ -62,44 +72,48 @@ def plot_membership_functions():
         mu_small = tri_mf(x, a, b, c)
         mu_large = 1.0 - mu_small
         
-        # Rysowanie
-        ax.plot(x, mu_small, color=color_small, linewidth=2.5, label='Mały błąd')
-        ax.plot(x, mu_large, color=color_large, linewidth=2.5, label='Duży błąd')
-        ax.fill_between(x, mu_small, alpha=0.2, color=color_small)
-        ax.fill_between(x, mu_large, alpha=0.2, color=color_large)
+        # Rysowanie - grubsze linie
+        ax.plot(x, mu_small, color=color_small, linewidth=3.5, label='Mały błąd')
+        ax.plot(x, mu_large, color=color_large, linewidth=3.5, label='Duży błąd')
+        ax.fill_between(x, mu_small, alpha=0.25, color=color_small)
+        ax.fill_between(x, mu_large, alpha=0.25, color=color_large)
         
         # Pionowe linie dla punktów charakterystycznych
         for val, style in [(a, '--'), (b, ':'), (c, '--')]:
-            ax.axvline(val, color='gray', linestyle=style, linewidth=0.8, alpha=0.7)
+            ax.axvline(val, color='gray', linestyle=style, linewidth=1.2, alpha=0.7)
         
-        # Etykiety - powiększone
-        ax.set_xlabel(f'{var_label} [{unit}]', fontsize=14)
-        ax.set_ylabel(r'$\mu$', fontsize=14)
+        # Etykiety - duże czcionki dla prezentacji
+        ax.set_xlabel(f'{var_label} [{unit}]', fontsize=22)
+        ax.set_ylabel(r'$\mu$', fontsize=22)
         
-        # Adnotacje z wartościami granicznymi - powiększone
-        ax.annotate(f'{a:.2f}', xy=(a, 0), xytext=(a, -0.12),
-                   ha='center', fontsize=11, color='gray')
-        ax.annotate(f'{c:.2f}', xy=(c, 0), xytext=(c, -0.12),
-                   ha='center', fontsize=11, color='gray')
+        # Adnotacje z wartościami granicznymi - przeniesione na górę
+        ax.annotate(f'{a:.2f}', xy=(a, 1.0), xytext=(a, 1.08),
+                   ha='center', fontsize=14, color='#555555')
+        ax.annotate(f'{c:.2f}', xy=(c, 1.0), xytext=(c, 1.08),
+                   ha='center', fontsize=14, color='#555555')
         
         # Siatka i zakres
-        ax.set_ylim(-0.05, 1.1)
+        ax.set_ylim(-0.02, 1.18)
         ax.set_xlim(x_min, x_max)
         ax.grid(True, alpha=0.3, linestyle='-')
-        ax.legend(loc='upper right', fontsize=12)
-        ax.tick_params(axis='both', labelsize=12)
+        ax.legend(loc='upper right', fontsize=18, framealpha=0.9)
+        ax.tick_params(axis='both', labelsize=16, width=1.5, length=6)
+        
+        # Grubsze ramki
+        for spine in ax.spines.values():
+            spine.set_linewidth(1.5)
         
         # Tło
         ax.set_facecolor('#FAFAFA')
     
-    plt.tight_layout()
+    plt.tight_layout(pad=2.0)
     
-    # Zapis do pliku
+    # Zapis do pliku - wyższa rozdzielczość
     output_dir = Path(__file__).parent.parent / 'latex' / 'images' / 'diagrams'
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / 'fuzzy_membership.png'
     
-    plt.savefig(output_path, dpi=200, bbox_inches='tight', 
+    plt.savefig(output_path, dpi=250, bbox_inches='tight', 
                 facecolor='white', edgecolor='none')
     print(f"Zapisano wykres: {output_path}")
     

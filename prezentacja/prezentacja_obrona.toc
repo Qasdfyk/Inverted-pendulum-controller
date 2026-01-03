@@ -1,0 +1,7 @@
+\babel@toc {polish}{}\relax 
+\beamer@sectionintoc {1}{Cel pracy}{3}{0}{1}
+\beamer@sectionintoc {2}{Model obiektu}{6}{0}{2}
+\beamer@sectionintoc {3}{Regulatory}{10}{0}{3}
+\beamer@sectionintoc {4}{Wyniki eksperymentów}{16}{0}{4}
+\beamer@sectionintoc {5}{Analiza odporności}{25}{0}{5}
+\beamer@sectionintoc {6}{Podsumowanie}{29}{0}{6}

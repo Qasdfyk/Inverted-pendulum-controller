@@ -1,0 +1,730 @@
+%======================
+% Prezentacja na obronę pracy inżynierskiej - wersja finalna
+%======================
+\documentclass[aspectratio=169]{beamer}
+
+%--------- Fonts & language
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[polish]{babel}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{appendixnumberbeamer}
+\usepackage{booktabs}
+
+%--------- Paths (relative to prezentacja folder)
+\graphicspath{{../latex/images/experiments/}{../latex/images/diagrams/}{../latex/img/}{../latex/images_odpornosc/}}
+
+%--------- Colors
+\definecolor{Primary}{HTML}{1E3A8A}
+\definecolor{Accent}{HTML}{3B82C4}
+\definecolor{Dark}{HTML}{162E6A}
+\definecolor{Text}{HTML}{1F2937}
+\definecolor{BG}{HTML}{FFFFFF}
+\definecolor{Success}{HTML}{059669}
+\definecolor{Warning}{HTML}{D97706}
+
+%--------- Beamer color config
+\setbeamercolor{normal text}{fg=Text,bg=BG}
+\setbeamercolor{structure}{fg=Primary}
+\setbeamercolor{frametitle}{fg=Text,bg=white}
+\setbeamercolor{title}{fg=white,bg=Primary}
+\setbeamercolor{author in head/foot}{fg=white,bg=Primary}
+\setbeamercolor{date in head/foot}{fg=white,bg=Primary}
+\setbeamercolor{section in head/foot}{fg=white,bg=Primary}
+\setbeamercolor{page number in head/foot}{fg=white,bg=Primary}
+\setbeamercolor{block title}{fg=white,bg=Primary}
+\setbeamercolor{block body}{fg=Text,bg=Primary!10}
+
+%--------- Fonts sizing
+\setbeamerfont{title}{series=\bfseries,size=\Large}
+\setbeamerfont{frametitle}{series=\bfseries,size=\large}
+\setbeamerfont{footline}{size=\scriptsize}
+\setbeamerfont{headline}{size=\scriptsize}
+
+%--------- Remove default nav symbols
+\setbeamertemplate{navigation symbols}{}
+
+%--------- Top bar (headline) with section title
+\setbeamertemplate{headline}{%
+  \leavevmode%
+  \begin{beamercolorbox}[wd=\paperwidth,ht=2.6ex,dp=1.2ex,left]{section in head/foot}
+    \hspace{1.2ex}%
+    \strut%
+    \ifx\insertsectionhead\empty
+      \insertshorttitle
+    \else
+      \insertsectionhead
+    \fi
+  \end{beamercolorbox}%
+  \begingroup
+    \color{Accent}\rule{\paperwidth}{0.6pt}%
+  \endgroup
+}
+
+%--------- Bottom bar
+\setbeamertemplate{footline}{%
+  \begin{tikzpicture}[remember picture,overlay]
+    \fill[Primary] (current page.south west) rectangle ([yshift=4.6ex]current page.south east);
+    \draw[Accent, line width=0.6pt] ([yshift=4.6ex]current page.south west) -- ([yshift=4.6ex]current page.south east);
+    \node[anchor=south west, text=white, font=\scriptsize, inner sep=1.2ex]
+      at (current page.south west) {\insertshorttitle};
+    \node[anchor=south east, text=white, font=\scriptsize, inner sep=1.2ex]
+      at (current page.south east) {\insertframenumber{} / \inserttotalframenumber};
+  \end{tikzpicture}%
+  \vspace{4.8ex}%
+}
+
+%--------- Frame title styling
+\setbeamertemplate{frametitle}{%
+  \vspace{0.2em}
+  \nointerlineskip%
+  \begin{beamercolorbox}[wd=\paperwidth,dp=0.6ex,sep=1.2ex,left]{frametitle}
+    \insertframetitle
+  \end{beamercolorbox}%
+}
+
+%--------- TOC at section start
+\AtBeginSection[]{
+  {%
+    \setbeamertemplate{footline}{}
+    \begin{frame}[noframenumbering]{Plan prezentacji}
+      \tableofcontents[currentsection]
+    \end{frame}
+  }%
+}
+
+%--------- Title info
+\title[Stabilizacja wahadła na wózku]{Efektywny układ stabilizacji\\odwróconego wahadła na wózku}
+\author[Adam Sokołowski]{Autor: Adam Sokołowski \\ Opiekun: mgr inż. Robert Nebeluk}
+\institute{Wydział Elektroniki i Technik Informacyjnych PW\\Automatyka i Robotyka}
+\date{08.01.2026}
+
+\newcommand{\TitleSlide}{%
+  {%
+  \setbeamertemplate{headline}{}%
+  \setbeamertemplate{footline}{}%
+  \begin{frame}[plain]
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.5\paperheight,center,dp=0ex]{title}
+      \vspace*{1.5em}
+      {\usebeamerfont{title}\inserttitle\par}
+      \vspace{0.5em}
+      {\large \insertsubtitle\par}
+      \vfill
+      {\normalsize \insertauthor\par}
+      {\footnotesize \insertinstitute\par}
+      {\footnotesize \insertdate\par}
+      \vspace*{1.5em}
+    \end{beamercolorbox}
+  \end{frame}
+  }%
+}
+
+%--------- Document
+\begin{document}
+
+%----- Title Slide
+\TitleSlide
+
+%----- Plan of the presentation
+\begin{frame}{Plan prezentacji}
+  \tableofcontents
+\end{frame}
+
+%======================
+% Section 1: Cel pracy
+%======================
+\section{Cel pracy}
+
+\begin{frame}{Cel pracy}
+  \begin{itemize}
+    \item Stworzenie środowiska symulacyjnego do testowania regulatorów
+    \item Implementacja i optymalizacja pięciu różnych strategii sterowania
+    \item Wielokryterialne porównanie algorytmów regulacji
+    \item Ocena odporności układów na zakłócenia i zmienność parametrów
+  \end{itemize}
+  
+  \vspace{1em}
+  \textbf{Zaimplementowane regulatory:}
+  \begin{columns}
+  \begin{column}{0.5\textwidth}
+    \begin{itemize}
+      \item PD–PD (kaskadowy)
+      \item PD–LQR (hybrydowy)
+      \item MPC (predykcyjny)
+    \end{itemize}
+  \end{column}
+  \begin{column}{0.5\textwidth}
+    \begin{itemize}
+      \item MPC-J2 (alternatywna funkcja kosztu)
+      \item Fuzzy-LQR (rozmyty Takagi–Sugeno)
+    \end{itemize}
+  \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Zastosowanie}
+\begin{columns}
+\begin{column}{0.55\textwidth}
+  Odwrócone wahadło jest klasycznym benchmarkiem w teorii sterowania:
+  \begin{itemize}
+    \item Robotyka mobilna (roboty balansujące)
+    \item Sterowanie rakiet i pojazdów kosmicznych
+    \item Stabilizacja pojazdów dwukołowych
+    \item Układy suwnicowe
+  \end{itemize}
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\centering
+\includegraphics[width=0.85\linewidth]{model.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+%======================
+% Section 2: Model obiektu
+%======================
+\section{Model obiektu}
+
+\begin{frame}{Charakterystyka układu}
+    \begin{columns}[T,onlytextwidth]
+    \column{0.52\textwidth}
+      \textbf{Cechy układu:}
+      \begin{itemize}
+        \item Wysoka nieliniowość
+        \item Niestabilny w punkcie pracy
+        \item System niedoaktuowany (1 wejście, 2 wyjścia)
+        \item Duża wrażliwość na zakłócenia
+        \item Pośrednie sterowanie wahadłem przez wózek
+      \end{itemize}
+
+    \column{0.48\textwidth}
+      \centering
+      \includegraphics[width=0.85\linewidth]{model.png}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Równania stanu układu}
+\small
+\[
+\frac{d}{dt}
+\begin{bmatrix}
+\theta \\ \dot\theta \\ x \\ \dot x
+\end{bmatrix}
+=
+\begin{bmatrix}
+\dot\theta \\
+\frac{u \cos \theta - (M + m) g \sin \theta + m l (\cos \theta \sin \theta) \dot\theta^2}
+{m l \cos^2 \theta - (M + m) l} \\
+\dot x \\
+\frac{u + m l (\sin \theta) \dot\theta^2 - m g \cos \theta \sin \theta}
+{M + m - m \cos^2 \theta}
+\end{bmatrix}
+\]
+
+\vspace{0.5em}
+\textbf{Parametry modelu:}
+\begin{itemize}
+    \item $M = 1.0$ kg -- masa wózka
+    \item $m = 0.23$ kg -- masa wahadła
+    \item $l = 0.5$ m -- długość wahadła
+    \item $g = 9.81$ m/s$^2$ -- przyspieszenie ziemskie
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Liniaryzacja w punkcie równowagi}
+Model liniowy dla małych wychyleń wahadła ($\theta \approx 0$):
+\[
+\frac{d \delta x}{dt} =
+\begin{bmatrix}
+0 & 1 & 0 & 0 \\
+\frac{(M + m) g}{M l} & 0 & 0 & 0 \\
+0 & 0 & 0 & 1 \\
+-\frac{m g}{M} & 0 & 0 & 0
+\end{bmatrix}
+\delta x
++
+\begin{bmatrix}
+0 \\[4pt]
+-\frac{1}{M l} \\[4pt]
+0 \\[4pt]
+\frac{1}{M}
+\end{bmatrix}
+\delta u
+\]
+
+Model liniowy wykorzystywany jest przez:
+\begin{itemize}
+    \item Regulator LQR (wyznaczanie optymalnego wzmocnienia)
+    \item Regulator MPC (predykcja zachowania układu)
+\end{itemize}
+\end{frame}
+
+%======================
+% Section 3: Regulatory
+%======================
+\section{Regulatory}
+
+\begin{frame}{Regulator PD–PD (kaskadowy)}
+\begin{columns}
+\begin{column}{0.55\textwidth}
+\small
+Układ kaskadowy z dwóch regulatorów PD:
+
+\textbf{Pętla wewnętrzna (kąt):}
+\[
+u_\theta = K_{p\theta} e_{\theta} + K_{d\theta} \dot{e}_{\theta}
+\]
+
+\textbf{Pętla zewnętrzna (pozycja):}
+\[
+\theta_{ref} = K_{px} e_{x} + K_{dx} \dot{e}_{x}
+\]
+
+\vspace{0.5em}
+\textcolor{Success}{\textbf{+}} Prosta implementacja, niski koszt obliczeniowy\\
+\textcolor{Warning}{\textbf{--}} Wymaga starannego strojenia obu pętli
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{pd_pd.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Regulator PD–LQR (hybrydowy)}
+\begin{columns}
+\begin{column}{0.55\textwidth}
+\small
+Połączenie LQR ze sprzężeniem od pozycji (PD):
+
+\textbf{Optymalne wzmocnienie LQR:}
+\[
+K = R^{-1} B^\top P
+\]
+gdzie $P$ z równania Riccatiego:
+\[
+A^\top P + P A - P B R^{-1} B^\top P + Q = 0
+\]
+
+\textbf{Sterowanie hybrydowe:}
+\[
+u = -K x + K_{px} e_x + K_{dx} \dot{e}_x
+\]
+
+\textcolor{Success}{\textbf{+}} Optymalna stabilizacja kąta\\
+\textcolor{Success}{\textbf{+}} Dobra kontrola pozycji
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{pid_lqr.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Regulator MPC (predykcyjny)}
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\small
+Minimalizacja funkcji kosztu na horyzoncie predykcji:
+\[
+J = \sum_{k=1}^{N} (x_{k} - x_{ref})^\top Q (x_{k} - x_{ref}) + R \sum_{k=1}^{N_u} (\Delta u_k)^2
+\]
+
+\textbf{Parametry:}
+\begin{itemize}
+    \item $N = 20$ -- horyzont predykcji
+    \item $N_u = 10$ -- horyzont sterowania
+    \item $Q$ -- macierz wag błędów stanu
+    \item $R$ -- waga kary za zmiany sterowania
+\end{itemize}
+
+\textcolor{Success}{\textbf{+}} Jawne uwzględnienie ograniczeń\\
+\textcolor{Warning}{\textbf{--}} Wysoki koszt obliczeniowy
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\centering
+\includegraphics[width=0.9\linewidth]{animation.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Regulator MPC-J2 (alternatywna funkcja kosztu)}
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\small
+Zmodyfikowana funkcja kosztu:
+\[
+J = \sum_{k=1}^{N} (x_k - x_{ref})^T Q (x_k - x_{ref}) + r \sum (\Delta u_k)^2 + r_{abs} \sum u_k^2
+\]
+
+\textbf{Różnice względem MPC:}
+\begin{itemize}
+    \item Jawne wagi dla prędkości $\dot\theta$, $\dot x$ w macierzy $Q$
+    \item Parametr $r_{abs}$ -- kara za bezwzględną wartość $u$
+    \item Bezpośrednia minimalizacja energii sterowania
+\end{itemize}
+
+\vspace{0.3em}
+\textcolor{Success}{\textbf{+}} Płynniejsze sterowanie\\
+\textcolor{Warning}{\textbf{--}} Wrażliwość na dobór $r_{abs}$ przy zakłóceniach
+\end{column}
+
+\begin{column}{0.4\textwidth}
+\centering
+\includegraphics[width=\linewidth]{combined_nominal_mpc_j2_study.png}
+\small\textit{Wpływ $r_{abs}$ na sterowanie}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Regulator Fuzzy-LQR (rozmyty Takagi–Sugeno)}
+\begin{columns}
+\begin{column}{0.55\textwidth}
+\small
+Interpolacja lokalnych regulatorów LQR:
+
+\textbf{Reguły rozmyte:}
+\[
+R_i: \text{Jeśli } \theta \text{ jest } A_i \text{, to } u_i = -K_i x
+\]
+
+\textbf{Wyjście systemu:}
+\[
+u = \frac{\sum_{i=1}^{M} w_i \cdot (-K_i x)}{\sum_{i=1}^{M} w_i}
+\]
+
+gdzie $w_i = \mu_{A_i}(\theta)$ -- stopień przynależności
+
+\textcolor{Success}{\textbf{+}} Adaptacja do stanu układu\\
+\textcolor{Success}{\textbf{+}} Wysoka precyzja stabilizacji
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{fuzzy_membership.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+%======================
+% Section 4: Wyniki
+%======================
+\section{Wyniki eksperymentów}
+
+\begin{frame}{Metodyka badań}
+\textbf{Scenariusze testowe:}
+\begin{enumerate}
+    \item \textbf{Warunki nominalne} -- stabilizacja z wychylenia początkowego $\theta_0 = 0.05$ rad
+    \item \textbf{Zakłócenia zewnętrzne} -- losowa siła działająca na wahadło
+    \item \textbf{Zmiana parametrów} -- +10\% masy wahadła (test odporności)
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Wskaźniki jakości:}
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+    \item $MSE_\theta$, $MSE_x$ -- błędy średniokwadratowe
+    \item $IAE_\theta$ -- całkowy błąd bezwzględny
+    \item $T_s$ -- czas regulacji
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+    \item $E_u$ -- energia sterowania
+    \item $Max|\theta|$, $Max|x|$ -- maksymalne wychylenia
+    \item $t_{comp}$ -- czas obliczeń
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Warunki nominalne -- regulatory klasyczne}
+\begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{combined_nominal_classical.png}
+        \small\textit{Przebieg kąta $\theta$}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{combined_nominal_pos_classical.png}
+        \small\textit{Przebieg pozycji $x$}
+    \end{column}
+\end{columns}
+
+\vspace{0.3em}
+\small
+\textbf{Obserwacje:} PD-LQR: $T_s = 0.2$ s (33\% szybszy od PD), ale wyższa energia ($E_u = 1.48$ vs $0.85$)
+\end{frame}
+
+\begin{frame}{Warunki nominalne -- regulatory zaawansowane}
+\begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{combined_nominal_advanced.png}
+        \small\textit{Przebieg kąta $\theta$}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{combined_nominal_pos_advanced.png}
+        \small\textit{Przebieg pozycji $x$}
+    \end{column}
+\end{columns}
+
+\vspace{0.3em}
+\small
+\textbf{Obserwacje:} MPC: najniższa energia ($E_u = 0.56$), płynne sterowanie.\\
+Fuzzy-LQR: szybka stabilizacja, ale wysoka energia ($E_u = 2.75$, +394\% vs MPC)
+\end{frame}
+
+\begin{frame}{Zakłócenia zewnętrzne -- model}
+\begin{columns}
+\begin{column}{0.55\textwidth}
+\small
+\textbf{Model zakłócenia:}
+\[
+w_k \sim \mathcal{N}\!\left(0,\;\sigma^2\right),\quad
+\sigma^2=\frac{power}{T_s}
+\]
+
+\textbf{Wygładzanie:}
+\[
+F_{w,k}=\frac{1}{s}\sum_{i=0}^{s-1} w_{k-i}
+\]
+
+Symuluje losowe zakłócenia zewnętrzne (np. podmuchy wiatru) działające bezpośrednio na wahadło.
+\end{column}
+
+\begin{column}{0.45\textwidth}
+\centering
+\includegraphics[width=\linewidth]{wind_signal.png}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Zakłócenia -- regulatory klasyczne}
+\begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{combined_wind_classical.png}
+        \small\textit{Przebieg kąta $\theta$}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{combined_wind_pos_classical.png}
+        \small\textit{Dryf pozycji $x$}
+    \end{column}
+\end{columns}
+
+\vspace{0.3em}
+\small
+\textbf{Obserwacje:} PD-LQR lepiej stabilizuje kąt ($Max|\theta| = 0.060$ vs $0.068$ rad) \\
+i redukuje dryf ($Max|x| = 0.22$ vs $0.26$ m) przy niższej energii ($E_u = 11.7$ vs $15.4$)
+\end{frame}
+
+\begin{frame}{Zakłócenia -- regulatory zaawansowane}
+\begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{combined_wind_advanced.png}
+        \small\textit{Przebieg kąta $\theta$}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{combined_wind_pos_advanced.png}
+        \small\textit{Dryf pozycji $x$}
+    \end{column}
+\end{columns}
+
+\vspace{0.3em}
+\small
+\textbf{Obserwacje:} Fuzzy-LQR: najlepsza precyzja ($Max|\theta| = 0.05$ rad), ale $E_u = 25.4$\\
+MPC: największy dryf ($Max|x| = 0.41$ m), ale kontrolowana energia ($E_u = 12.4$)
+\end{frame}
+
+\begin{frame}{Zestawienie wyników -- warunki nominalne}
+\centering
+\small
+\begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Wskaźnik} & \textbf{PD} & \textbf{PD-LQR} & \textbf{MPC} & \textbf{MPC-J2} & \textbf{Fuzzy} \\ \hline
+    $MSE_\theta \times 10^{5}$ & 4.66 & \textcolor{Success}{\textbf{3.65}} & 6.19 & 5.15 & 9.32 \\ \hline
+    $T_{s,\theta}$ [s] & 0.30 & \textcolor{Success}{\textbf{0.20}} & 1.20 & 0.30 & 0.80 \\ \hline
+    $T_{s,x}$ [s] & 1.20 & 2.20 & 2.20 & 1.10 & \textcolor{Success}{\textbf{1.00}} \\ \hline
+    $E_{u}$ & 0.85 & 1.48 & \textcolor{Success}{\textbf{0.56}} & 0.59 & 2.75 \\ \hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Wnioski:}
+\begin{itemize}
+    \item PD-LQR: najszybsza stabilizacja kąta
+    \item MPC: najniższe zużycie energii (o 62\% mniej niż Fuzzy-LQR)
+    \item Fuzzy-LQR: najszybsza stabilizacja pozycji
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Zestawienie wyników -- zakłócenia zewnętrzne}
+\centering
+\small
+\begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Wskaźnik} & \textbf{PD} & \textbf{PD-LQR} & \textbf{MPC} & \textbf{MPC-J2} & \textbf{Fuzzy} \\ \hline
+    $MSE_\theta \times 10^{4}$ & 6.01 & 4.44 & 5.78 & 6.59 & \textcolor{Success}{\textbf{3.57}} \\ \hline
+    $Max|\theta|$ [rad] & 0.068 & 0.060 & 0.062 & 0.065 & \textcolor{Success}{\textbf{0.051}} \\ \hline
+    $Max|x|$ [m] & 0.26 & \textcolor{Success}{\textbf{0.22}} & 0.41 & 0.26 & 0.23 \\ \hline
+    $E_{u}$ & 15.4 & \textcolor{Success}{\textbf{11.7}} & 12.4 & 17.3 & 25.4 \\ \hline
+\end{tabular}
+
+\vspace{1em}
+\textbf{Wnioski:}
+\begin{itemize}
+    \item Fuzzy-LQR: najlepsza precyzja kątowa (minimalne wychylenia)
+    \item PD-LQR: najlepsza ekonomia przy zakłóceniach, lepszy od MPC
+    \item MPC: największy dryf pozycji (oszczędza energię kosztem pozycji)
+\end{itemize}
+\end{frame}
+
+%======================
+% Section 5: Odporność
+%======================
+\section{Analiza odporności}
+
+\begin{frame}{Test odporności -- zmiana parametrów modelu}
+\begin{columns}[c]
+    \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{robustness_theta.png}
+        \small\textit{Przebieg kąta (+10\% masy wahadła)}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{robustness_x.png}
+        \small\textit{Przebieg pozycji (+10\% masy wahadła)}
+    \end{column}
+\end{columns}
+
+\vspace{0.3em}
+\small
+\textbf{Obserwacje:} Wszystkie regulatory zachowały stabilność. Regulatory MPC wykazują \\
+największą wrażliwość (model wewnętrzny różni się od rzeczywistego obiektu).
+\end{frame}
+
+\begin{frame}{Analiza wrażliwości na zmianę masy}
+\begin{columns}
+\begin{column}{0.55\textwidth}
+\centering
+\includegraphics[width=\linewidth]{robustness_sensitivity.png}
+\end{column}
+\begin{column}{0.45\textwidth}
+\small
+\textbf{Zakres testów:}\\
+$-75\%$ do $+200\%$ masy nominalnej
+
+\vspace{0.5em}
+\textbf{Wnioski:}
+\begin{itemize}
+    \item Regulatory klasyczne (PD, LQR) -- płaska charakterystyka, niska wrażliwość
+    \item MPC -- najwyższe $IAE_\theta$, wrażliwość na błąd modelu
+    \item Wszystkie regulatory stabilne w całym zakresie
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Złożoność obliczeniowa}
+\centering
+\begin{tabular}{|l|c|c|}
+    \hline
+    \textbf{Regulator} & \textbf{Czas [ms]} & \textbf{Względem PD} \\ \hline
+    PD-PD & $< 0.01$ & $1\times$ \\ \hline
+    PD-LQR & $0.02$ & $2\times$ \\ \hline
+    Fuzzy-LQR & $0.05$ & $5\times$ \\ \hline
+    MPC & $2.5$ & $250\times$ \\ \hline
+    MPC-J2 & $2.8$ & $280\times$ \\ \hline
+\end{tabular}
+
+\vspace{1em}
+\begin{itemize}
+    \item Regulatory klasyczne i rozmyte: czas rzędu mikrosekund
+    \item MPC: $\sim$2.5 ms (rozwiązywanie optymalizacji w każdym kroku)
+    \item Wszystkie regulatory mogą pracować w czasie rzeczywistym ($\Delta t = 100$ ms)
+\end{itemize}
+\end{frame}
+
+%======================
+% Section 6: Podsumowanie
+%======================
+\section{Podsumowanie}
+
+\begin{frame}{Główne wnioski}
+\begin{enumerate}
+    \item \textbf{Brak uniwersalnego regulatora} -- każdy ma swoje zalety i wady
+    
+    \item \textbf{Najwyższa precyzja: Fuzzy-LQR}
+    \begin{itemize}
+        \item Minimalne wychylenia kątowe ($Max|\theta| = 0.05$ rad)
+        \item Wysoki koszt energetyczny ($E_u = 25.4$)
+    \end{itemize}
+    
+    \item \textbf{Najlepsza ekonomia: MPC}
+    \begin{itemize}
+        \item Najniższa energia w warunkach nominalnych ($E_u = 0.56$)
+        \item Płynne, przewidywalne sterowanie
+    \end{itemize}
+    
+    \item \textbf{Uniwersalność: PD-LQR}
+    \begin{itemize}
+        \item Lepszy od MPC przy zakłóceniach (pozycja + energia)
+        \item Niska złożoność obliczeniowa
+    \end{itemize}
+    
+    \item \textbf{Wrażliwość na funkcję kosztu} -- MPC-J2 pokazuje znaczenie doboru wag
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Realizacja celów pracy}
+\begin{block}{Zrealizowane cele:}
+\begin{itemize}
+    \item[\checkmark] Środowisko symulacyjne w Pythonie
+    \item[\checkmark] 5 zaimplementowanych regulatorów z optymalizacją parametrów
+    \item[\checkmark] Wielokryterialna analiza porównawcza
+    \item[\checkmark] Testy odporności na zakłócenia i zmianę parametrów
+    \item[\checkmark] Kompleksowa dokumentacja wyników
+\end{itemize}
+\end{block}
+
+\vspace{0.5em}
+\textbf{Kierunki rozwoju:}
+\begin{itemize}
+    \item Algorytm swing-up (wprowadzanie z pozycji dolnej)
+    \item Weryfikacja na stanowisku laboratoryjnym
+    \item Porównanie z metodami uczenia ze wzmocnieniem
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Dziękuję za uwagę}
+\centering
+\vspace{2em}
+{\Large\textbf{Pytania?}}
+
+\vspace{2em}
+\begin{tabular}{ll}
+\textbf{Autor:} & Adam Sokołowski \\
+\textbf{Opiekun:} & mgr inż. Robert Nebeluk \\
+\textbf{Kierunek:} & Automatyka i Robotyka \\
+\end{tabular}
+\end{frame}
+
+% Title slide again
+\TitleSlide
+
+\end{document}
+
