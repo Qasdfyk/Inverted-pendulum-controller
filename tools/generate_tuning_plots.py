@@ -114,7 +114,7 @@ def generate_pd_pd():
     run_simulation(ctrl_opt, "PD-PD", "pdpd_3_opt", "Optimized Gains")
 
 def generate_pd_lqr():
-    print("\n--- PID-LQR ---")
+    print("\n--- PD-LQR ---")
     dt = SIM["dt"]
     
     # 1. Bad (Q=I, R=1)
@@ -123,28 +123,28 @@ def generate_pd_lqr():
     ctrl_bad = PDLQRController(PLANT, dt,
                                pid_gains={"Kp": -4.5, "Ki": 0.0, "Kd": -3}, 
                                lqr_gains={"Q": [1.0, 1.0, 1.0, 1.0], "R": 1.0})
-    run_simulation(ctrl_bad, "PID-LQR", "pdlqr_1_bad", "Q=I, R=1")
+    run_simulation(ctrl_bad, "PD-LQR", "pdlqr_1_bad", "Q=I, R=1")
     
     # 2. Manual (Bryson-like/Heuristic)
     # Better, but manually picked Q=[25, 1, 4, 1], R=10
     ctrl_man = PDLQRController(PLANT, dt,
                                pid_gains={"Kp": -4.5, "Ki": 0.0, "Kd": -3},
                                lqr_gains={"Q": [25.0, 1.0, 4.0, 1.0], "R": 10.0}) 
-    run_simulation(ctrl_man, "PID-LQR", "pdlqr_2_manual", "Manual (Bryson)")
+    run_simulation(ctrl_man, "PD-LQR", "pdlqr_2_manual", "Manual (Bryson)")
     
     # 3. Optimized (without Ki - PD only)
     ctrl_opt_pd = PDLQRController(PLANT, dt,
                                     pid_gains = {"Kp": -1.5, "Ki": 0.0, "Kd": -5.0},
                                     lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0})
-    run_simulation(ctrl_opt_pd, "PID-LQR", "pdlqr_3_opt", "Optimized (Ki=0)")
+    run_simulation(ctrl_opt_pd, "PD-LQR", "pdlqr_3_opt", "Optimized (Ki=0)")
     
-    # 4. Optimized with Ki - showing integral action improves steady-state
-    # In contrast to PD-PD where Ki caused instability, here LQR provides
-    # enough damping that integral action can be safely added
+    # 4. With Ki - showing that integral action causes steady-state error
+    # Despite LQR providing damping, the integrator interferes with optimal
+    # control and creates position offset - Ki is NOT recommended
     ctrl_opt_ki = PDLQRController(PLANT, dt,
                                     pid_gains = {"Kp": -2.5, "Ki": -1.0, "Kd": -5.0},
                                     lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0})
-    run_simulation(ctrl_opt_ki, "PID-LQR", "pdlqr_4_with_ki", "Optimized (Ki=-1)")
+    run_simulation(ctrl_opt_ki, "PD-LQR", "pdlqr_4_with_ki", "With Ki (causes error)")
 
 def generate_lqr():
     print("\n--- LQR ---")
@@ -180,7 +180,7 @@ def generate_mpc():
     # 3. Optimized (N=12)
     # Found by automated sweep
     ctrl_opt = MPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-                             Q=np.diag([158.39, 36.80, 43.41, 19.71]), R=0.08592)
+                             Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592)
     run_simulation(ctrl_opt, "MPC", "mpc_3_opt", "Optimized (N=12)")
 
 def generate_mpc_j2():

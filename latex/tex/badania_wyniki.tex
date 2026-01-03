@@ -16,7 +16,7 @@ rzeczywistych, takich jak suwnice czy roboty balansujące, utrzymanie pozycji je
 krytyczne co sama stabilizacja ładunku.
 
 Dla zachowania przejrzystości wywodu, badane algorytmy pogrupowano w dwie rodziny: regulatory
-klasyczne, do których zaliczono równoległy układ PD oraz hybrydowy PID-LQR, oraz regulatory
+klasyczne, do których zaliczono równoległy układ PD oraz hybrydowy PD-LQR, oraz regulatory
 zaawansowane, obejmujące predykcyjny algorytm MPC (w dwóch wariantach funkcji kosztu) oraz
 sterownik rozmyty Fuzzy-LQR.
 
@@ -35,16 +35,16 @@ grupy regulatorów klasycznych. Analizując wykres kąta wychylenia $\theta$
 (Rys. \ref{fig:nom_classical}), można zaobserwować, że oba regulatory radzą sobie ze stabilizacją,
 jednak robią to w różnym stylu.
 
-Zoptymalizowany regulator PID-LQR, wykorzystujący duże wzmocnienia dla błędu pozycji ($Q_x=500$),
+Zoptymalizowany regulator PD-LQR, wykorzystujący duże wzmocnienia dla błędu pozycji ($Q_x=500$),
 charakteryzuje się krótkim czasem regulacji ($T_s \approx 0.2$~s). Jest to wynik
-o~33\% lepszy od~regulatora PD ($T_s \approx 0.3$~s). PID-LQR działa z~wysoką dynamiką,
+o~33\% lepszy od~regulatora PD ($T_s \approx 0.3$~s). PD-LQR działa z~wysoką dynamiką,
 co widać na~wykresie pozycji (Rys. \ref{fig:nom_pos_classical}) --- wózek wykonuje szybki ruch
 korekcyjny, niemal natychmiast ustalając pozycję w~pobliżu zera. Kosztem tej dynamiki jest jednak
 zwiększone zużycie energii. W~przeciwieństwie do~poprzednich iteracji strojenia, obecny
 LQR o~wysokich wzmocnieniach zużywa więcej energii ($E_u \approx 1.48$) niż regulator PD 
 o~łagodniejszej charakterystyce ($E_u \approx 0.85$), który charakteryzuje się dłuższym 
 i~łagodniejszym dochodzeniem do~równowagi. Można zatem zaobserwować zmianę charakterystyki: PD stał się 
-rozwiązaniem bardziej ekonomicznym w~stanie przejściowym, podczas gdy PID-LQR charakteryzuje się 
+rozwiązaniem bardziej ekonomicznym w~stanie przejściowym, podczas gdy PD-LQR charakteryzuje się 
 szybszą odpowiedzią dynamiczną.
 
 \begin{figure}[ht!]
@@ -79,11 +79,11 @@ Regulator Fuzzy-LQR wyróżnia się charakterystyką o~wysokiej dynamice. Jego d
 strategię typu bang-bang (sterowanie dwustanowe), gdzie w~pierwszej fazie ruchu generowany jest silny
 impuls sterujący (widoczny na~Rys.~\ref{fig:nom_control_advanced}), mający na~celu jak
 najszybsze zniwelowanie uchybu kątowego. Dzięki temu podejściu, czas regulacji kąta jest
-najkrótszy w~porównaniu z~innymi regulatorami i wynosi zaledwie 0.70 s. Ma to jednak swoją cenę w zachowaniu wózka. Aby
+najkrótszy w~porównaniu z~innymi regulatorami i wynosi zaledwie 0.80 s. Ma to jednak swoją cenę w zachowaniu wózka. Aby
 wygenerować tak dużą siłę prostującą wahadło, wózek musi wykonać gwałtowny ruch korekcyjny, co widać na
 wykresie pozycji (Rys.~\ref{fig:nom_pos_advanced}). Choć wózek szybko wraca do~zera,
 początkowe przyspieszenie jest znaczne. Taka charakterystyka wiąże się z~kosztem
-energetycznym wyższym o~405\% względem MPC ($E_u \approx 2.84$ vs. $0.56$), co może być 
+energetycznym wyższym o~394\% względem MPC ($E_u \approx 2.75$ vs. $0.56$), co może być 
 nieakceptowalne w~aplikacjach zasilanych bateryjnie.
 
 Odmienną charakterystykę wykazuje regulator MPC. Zastosowanie horyzontu predykcji pozwala
@@ -138,7 +138,7 @@ prowadzi do przemieszczania się wózka (dryfu). Istotą problemu jest znalezien
 bardzo pozwolić wózkowi uciec, by utrzymać wahadło w pionie.
 
 W grupie klasycznej (Rys. \ref{fig:wind_classical} i \ref{fig:wind_pos_classical}) nastąpiła
-istotna zmiana w stosunku do wcześniejszych analiz. Nowe strojenie PID-LQR, nastawione na
+istotna zmiana w stosunku do wcześniejszych analiz. Nowe strojenie PD-LQR, nastawione na
 karę za zmianę pozycji, przyniosło znaczące efekty. LQR nie tylko lepiej stabilizuje
 kąt ($Max |\theta| \approx 0.060$ vs $0.068$~rad dla PD), ale przede wszystkim istotnie
 redukuje dryf pozycji ($Max |x| \approx 0.22$ m vs $0.26$ m). Warto zauważyć, że
@@ -149,15 +149,15 @@ rozhustanie się układu, podczas gdy PD kompensuje skutki oscylacji, które sam
 W grupie zaawansowanej (Rys. \ref{fig:wind_advanced} i \ref{fig:wind_pos_advanced})
 regulator Fuzzy-LQR osiąga najlepsze wyniki w~dziedzinie precyzji kątowej
 ($Max |\theta| \approx 0.05$~rad --- minimalne wychylenie), jednak koszt energetyczny
-jest znaczący ($E_u \approx 85.9$). Sterownik ten charakteryzuje się strategią sterowania 
+jest znaczący ($E_u \approx 25.4$). Sterownik ten charakteryzuje się strategią sterowania 
 o~wysokiej dynamice --- wykorzystuje maksymalną dostępną moc w~celu minimalizacji błędu regulacji.
 
 Zupełnie inną charakterystykę w~obliczu zakłóceń zewnętrznych wykazuje MPC. Ze względu na postać funkcji kosztu,
 która penalizuje duże wartości sterowania, regulator generuje mniejsze sygnały korekcyjne.
 Prowadzi to do pewnych, kontrolowanych wychyleń wahadła pod wpływem zakłóceń. Skutkuje to największym 
-dryfem wózka w zestawieniu ($Max |x| \approx 0.40$ m), gdyż układ jest spychany przez siłę zakłócającą, 
-ale za to zużycie energii jest niskie ($E_u \approx 12.6$). Warto zauważyć, że w~tych konkretnych 
-warunkach PID-LQR okazał się lepszy od MPC zarówno pod względem trzymania pozycji, jak i zużycia energii,
+dryfem wózka w zestawieniu ($Max |x| \approx 0.41$ m), gdyż układ jest spychany przez siłę zakłócającą, 
+ale za to zużycie energii jest niskie ($E_u \approx 12.4$). Warto zauważyć, że w~tych konkretnych 
+warunkach PD-LQR okazał się lepszy od MPC zarówno pod względem trzymania pozycji, jak i zużycia energii,
 co dowodzi, że dobrze nastrojony regulator liniowy może konkurować z predykcyjnym, o ile nie
 występują nasycenia sterowania.
 
@@ -266,7 +266,7 @@ co potwierdza jego agresywną strategię minimalizacji uchybu kątowego.
 
 W~celu pełniejszej oceny zapasów odporności poszczególnych regulatorów przeprowadzono
 dodatkową analizę wrażliwości. Zbadano zachowanie układów sterowania w~szerokim zakresie
-zmian masy wahadła: od~$-20\%$ do~$+50\%$ wartości nominalnej. Dla każdej wartości
+zmian masy wahadła: od~$-75\%$ do~$+200\%$ wartości nominalnej. Dla każdej wartości
 perturbacji obliczono wskaźnik całkowy błędu bezwzględnego kąta ($IAE_\theta$),
 który jest miarą skumulowanego uchybu w~czasie symulacji.
 
@@ -317,15 +317,15 @@ oraz stabilizacji wózka (pozycja).
     \label{tab:results_nominal}
     \begin{tabular}{|l|c|c|c|c|c|}
         \hline
-        Wskaźnik & PD & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
-        $MSE_\theta$ & 0.00005 & 0.00004 & 0.00006 & 0.00005 & 0.00007 \\ \hline
-        $IAE_\theta$ & 0.01684 & 0.01259 & 0.02287 & 0.02010 & 0.02301 \\ \hline
-        $T_{s, \theta}$ [s] & 0.30000 & 0.20000 & 1.20000 & 1.10000 & 0.70000 \\ \hline
+        Wskaźnik & PD & PD-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
+        $MSE_\theta$ & 0.00005 & 0.00004 & 0.00006 & 0.00005 & 0.00009 \\ \hline
+        $IAE_\theta$ & 0.01684 & 0.01259 & 0.02323 & 0.01854 & 0.02661 \\ \hline
+        $T_{s, \theta}$ [s] & 0.30000 & 0.20000 & 1.20000 & 0.30000 & 0.80000 \\ \hline
         \hline
-        $MSE_x$ & 0.00040 & 0.00048 & 0.00038 & 0.00046 & 0.00037 \\ \hline
-        $T_{s, x}$ [s] & 1.20000 & 2.20000 & 0.90000 & 1.00000 & 1.20000 \\ \hline
+        $MSE_x$ & 0.00040 & 0.00048 & 0.00038 & 0.00038 & 0.00035 \\ \hline
+        $T_{s, x}$ [s] & 1.20000 & 2.20000 & 2.20000 & 1.10000 & 1.00000 \\ \hline
         \hline
-        $E_{u}$ & 0.84515 & 1.47775 & 0.56337 & 0.62171 & 2.84489 \\ \hline
+        $E_{u}$ & 0.84515 & 1.47775 & 0.55762 & 0.59132 & 2.75440 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -335,15 +335,15 @@ oraz stabilizacji wózka (pozycja).
     \label{tab:results_wind}
     \begin{tabular}{|l|c|c|c|c|c|}
         \hline
-        Wskaźnik & PD & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
-        $MSE_\theta$ & 0.00060 & 0.00044 & 0.00058 & 0.00067 & 0.00031 \\ \hline
-        $IAE_\theta$ & 0.18981 & 0.16304 & 0.18215 & 0.20848 & 0.13488 \\ \hline
-        $Max |\theta|$ [rad] & 0.06821 & 0.06017 & 0.06235 & 0.06577 & 0.05000 \\ \hline
+        Wskaźnik & PD & PD-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
+        $MSE_\theta$ & 0.00060 & 0.00044 & 0.00058 & 0.00066 & 0.00036 \\ \hline
+        $IAE_\theta$ & 0.18981 & 0.16304 & 0.18151 & 0.20064 & 0.14650 \\ \hline
+        $Max |\theta|$ [rad] & 0.06821 & 0.06017 & 0.06246 & 0.06468 & 0.05082 \\ \hline
         \hline
-        $MSE_x$ & 0.00466 & 0.00328 & 0.01772 & 0.00317 & 0.00440 \\ \hline
-        $Max |x|$ [m] & 0.26214 & 0.22189 & 0.40389 & 0.23177 & 0.24186 \\ \hline
+        $MSE_x$ & 0.00466 & 0.00328 & 0.01843 & 0.00462 & 0.00363 \\ \hline
+        $Max |x|$ [m] & 0.26214 & 0.22189 & 0.40938 & 0.26306 & 0.22965 \\ \hline
         \hline
-        $E_{u}$ & 15.39160 & 11.73032 & 12.59235 & 14.42652 & 85.88725 \\ \hline
+        $E_{u}$ & 15.39160 & 11.73032 & 12.43920 & 17.31098 & 25.36657 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -353,15 +353,15 @@ oraz stabilizacji wózka (pozycja).
     \label{tab:results_robustness}
     \begin{tabular}{|l|c|c|c|c|c|}
         \hline
-        Wskaźnik & PD & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
+        Wskaźnik & PD & PD-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
         $MSE_\theta$ & 0.00005 & 0.00004 & 0.00006 & 0.00005 & 0.00008 \\ \hline
-        $IAE_\theta$ & 0.01687 & 0.01262 & 0.02299 & 0.02130 & 0.02312 \\ \hline
-        $T_{s, \theta}$ [s] & 0.30 & 0.20 & 1.20 & 1.00 & 0.70 \\ \hline
+        $IAE_\theta$ & 0.01687 & 0.01262 & 0.02346 & 0.02130 & 0.02870 \\ \hline
+        $T_{s, \theta}$ [s] & 0.30000 & 0.20000 & 1.20000 & 1.00000 & 1.10000 \\ \hline
         \hline
-        $MSE_x$ & 0.00040 & 0.00048 & 0.00037 & 0.00047 & 0.00037 \\ \hline
-        $T_{s, x}$ [s] & 1.20 & 2.20 & 0.90 & 1.00 & 1.20 \\ \hline
+        $MSE_x$ & 0.00040 & 0.00048 & 0.00038 & 0.00047 & 0.00037 \\ \hline
+        $T_{s, x}$ [s] & 1.20000 & 2.20000 & 2.20000 & 1.00000 & 2.30000 \\ \hline
         \hline
-        $E_{u}$ & 0.85 & 1.47 & 0.57 & 0.61 & 2.88 \\ \hline
+        $E_{u}$ & 0.84540 & 1.46812 & 0.56480 & 0.61222 & 1.46148 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -375,7 +375,7 @@ Porównano dwa warianty: wariant bazowy ($R_\mathrm{abs}=0$) oraz wariant z wł�
 Zestawienie wyników (Tabela \ref{tab:mpc_j2_study}) oraz przebiegi sterowania (Rys. \ref{fig:mpc_j2_study_u})
 potwierdzają teoretyczne założenia. Włączenie nawet niewielkiej kary $R_\mathrm{abs}$ powoduje
 zauważalną redukcję amplitudy sygnału sterującego. W~warunkach nominalnych pozwala to zaoszczędzić
-ok. 10\% energii całkowitej ($E_u$ spada z 0.62 do 0.57), przy praktycznie niezauważalnym pogorszeniu
+ok. 4\% energii całkowitej ($E_u$ spada z 0.59 do 0.57), przy praktycznie niezauważalnym pogorszeniu
 jakości regulacji kąta ($MSE_\theta$ wzrasta pomijalnie).
 
 Jest to istotny wynik praktyczny, pokazujący, że świadome kształtowanie funkcji kosztu pozwala
@@ -396,9 +396,9 @@ bez utraty stabilności.
     \begin{tabular}{|l|c|c|}
         \hline
         Wskaźnik & MPC-J2 ($R_{abs}=0$) & MPC-J2 ($R_{abs}=10^{-4}$) \\ \hline
-        $MSE_\theta$ & 0.00005 & 0.00006 \\ \hline
-        $T_{s, \theta}$ [s] & 1.10000 & 1.10000 \\ \hline
-        $E_{u}$ & 0.62171 & 0.56937 \\ \hline
+        $MSE_\theta$ & 0.00005 & 0.00005 \\ \hline
+        $T_{s, \theta}$ [s] & 0.30000 & 1.00000 \\ \hline
+        $E_{u}$ & 0.59132 & 0.56723 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -418,14 +418,14 @@ zmierzone na~komputerze z~procesorem Intel Core i5-8250U (1.6 GHz).
         \hline
         Regulator & Czas [ms] & Względem PD \\ \hline
         PD & $< 0{,}01$ & $1\times$ \\ \hline
-        PID-LQR & $0{,}02$ & $2\times$ \\ \hline
+        PD-LQR & $0{,}02$ & $2\times$ \\ \hline
         Fuzzy-LQR & $0{,}05$ & $5\times$ \\ \hline
         MPC & $2{,}5$ & $250\times$ \\ \hline
         MPC-J2 & $2{,}8$ & $280\times$ \\ \hline
     \end{tabular}
 \end{table}
 
-Regulatory klasyczne (PD, PID-LQR) oraz rozmyty (Fuzzy-LQR) charakteryzują się
+Regulatory klasyczne (PD, PD-LQR) oraz rozmyty (Fuzzy-LQR) charakteryzują się
 zaniedbywalnym czasem obliczeń, rzędu mikrosekund. Wynika to z~ich struktury
 algebraicznej --- wyznaczenie sterowania sprowadza się do~mnożenia macierzy
 i~prostych operacji arytmetycznych.

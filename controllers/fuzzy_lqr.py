@@ -55,7 +55,7 @@ class TSParams16:
 # def starter_ts_params16(u_sat: float, base_th=5.2, base_thd=4.5, base_x=20.9, base_xd=18.6) -> TSParams16:
 # Optimized Params for Disturbance Rejection (Automated Optimization)
 # Best Cost: 0.1007 | Wind: Enabled
-def starter_ts_params16(u_sat: float, base_th=167.86, base_thd=5.27, base_x=19.82, base_xd=19.25) -> TSParams16:
+def starter_ts_params16(u_sat: float, base_th=100.0, base_thd=5.27, base_x=19.82, base_xd=19.25):
     th_small  = (-0.15, 0.0, 0.15)
     thd_small = (-1.0, 0.0, 1.0)
     x_small   = (-0.3, 0.0, 0.3)
@@ -75,7 +75,7 @@ def starter_ts_params16(u_sat: float, base_th=167.86, base_thd=5.27, base_x=19.8
 
     return TSParams16(
         th_small=th_small, thd_small=thd_small, x_small=x_small, xd_small=xd_small,
-        F_rules=F_rules, u_sat=u_sat, sign=-1, flip_u=False, gain_scale=0.3682, 
+        F_rules=F_rules, u_sat=u_sat, sign=-1, flip_u=False, gain_scale=0.36, 
     )
 
 def ts_weights16(th: float, thd: float, x: float, xd: float, p: TSParams16) -> np.ndarray:
@@ -179,8 +179,8 @@ if __name__ == "__main__":
     x0, x_ref = SIM["x0"], SIM["x_ref"]
 
     # --- Wind Settings ---
-    # wind = Wind(T, seed=42, Ts=0.05, power=5e-3, smooth=10) # Uncomment for wind
-    wind = None 
+    wind = Wind(T, seed=42, Ts=0.05, power=5e-3, smooth=10) # Uncomment for wind
+    #wind = None 
 
     K_lqr = lqr_from_plant(plant)
     print(f"LQR Gain: {K_lqr}")

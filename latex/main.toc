@@ -22,36 +22,36 @@
 \contentsline {section}{\numberline {4\relax .\enspace }Algorytmy sterowania}{22}{section.4}%
 \contentsline {subsection}{\numberline {4.1\relax .\enspace }Równoległy regulator PD}{22}{subsection.4.1}%
 \contentsline {subsubsection}{\numberline {4.1.1\relax .\enspace }Proces doboru nastaw oraz analiza PD}{23}{subsubsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PID-LQR}{26}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PD-LQR}{26}{subsection.4.2}%
 \contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace }Ograniczenia czystego regulatora LQR}{27}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2\relax .\enspace }Struktura hybrydowa PID-LQR}{29}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.2\relax .\enspace }Struktura hybrydowa PD-LQR}{29}{subsubsection.4.2.2}%
 \contentsline {subsubsection}{\numberline {4.2.3\relax .\enspace }Dobór wag macierzy Q i R}{30}{subsubsection.4.2.3}%
-\contentsline {subsubsection}{\numberline {4.2.4\relax .\enspace }Analiza wpływu członu całkującego w~układzie PID-LQR}{32}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.4\relax .\enspace }Analiza wpływu członu całkującego w~układzie PD-LQR}{32}{subsubsection.4.2.4}%
 \contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{34}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace }Dobór horyzontu i wag funkcji celu}{35}{subsubsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}{38}{subsection.4.4}%
 \contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace }Analiza wpływu kary za energię}{39}{subsubsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.5\relax .\enspace }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{42}{subsection.4.5}%
 \contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór reguł i funkcji przynależności}{43}{subsubsection.4.5.1}%
-\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{47}{section.5}%
-\contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{47}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2\relax .\enspace }Badane algorytmy}{48}{subsection.5.2}%
-\contentsline {subsection}{\numberline {5.3\relax .\enspace }Wskaźniki jakości regulacji}{48}{subsection.5.3}%
-\contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników}{50}{section.6}%
-\contentsline {subsection}{\numberline {6.1\relax .\enspace }Stabilizacja w warunkach nominalnych}{50}{subsection.6.1}%
-\contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{50}{subsubsection.6.1.1}%
-\contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{53}{subsubsection.6.1.2}%
-\contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{55}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3\relax .\enspace }Analiza odporności na zmianę parametrów modelu}{58}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1\relax .\enspace }Analiza wrażliwości na zakres perturbacji}{61}{subsubsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.4\relax .\enspace }Szczegółowe zestawienie ilościowe}{61}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5\relax .\enspace }Analiza wpływu kary za sterowanie w MPC z alternatywną funkcją kosztu}{63}{subsection.6.5}%
-\contentsline {subsection}{\numberline {6.6\relax .\enspace }Porównanie złożoności obliczeniowej}{63}{subsection.6.6}%
-\contentsline {section}{\numberline {7\relax .\enspace }Podsumowanie}{65}{section.7}%
-\contentsline {subsection}{\numberline {7.1\relax .\enspace }Wnioski końcowe}{65}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2\relax .\enspace }Ograniczenia pracy}{65}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3\relax .\enspace }Kierunki dalszych badań}{66}{subsection.7.3}%
-\contentsline {section}{Bibliografia}{67}{section*.51}%
-\contentsline {section}{Wykaz symboli i skrótów}{69}{section*.52}%
-\contentsline {section}{Spis rysunków}{71}{section*.52}%
-\contentsline {section}{Spis tabel}{71}{section*.52}%
+\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{48}{section.5}%
+\contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{48}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2\relax .\enspace }Badane algorytmy}{49}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3\relax .\enspace }Wskaźniki jakości regulacji}{49}{subsection.5.3}%
+\contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników}{51}{section.6}%
+\contentsline {subsection}{\numberline {6.1\relax .\enspace }Stabilizacja w warunkach nominalnych}{51}{subsection.6.1}%
+\contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{51}{subsubsection.6.1.1}%
+\contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{54}{subsubsection.6.1.2}%
+\contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{56}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3\relax .\enspace }Analiza odporności na zmianę parametrów modelu}{59}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1\relax .\enspace }Analiza wrażliwości na zakres perturbacji}{62}{subsubsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.4\relax .\enspace }Szczegółowe zestawienie ilościowe}{62}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5\relax .\enspace }Analiza wpływu kary za sterowanie w MPC z alternatywną funkcją kosztu}{64}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6\relax .\enspace }Porównanie złożoności obliczeniowej}{64}{subsection.6.6}%
+\contentsline {section}{\numberline {7\relax .\enspace }Podsumowanie}{66}{section.7}%
+\contentsline {subsection}{\numberline {7.1\relax .\enspace }Wnioski końcowe}{66}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2\relax .\enspace }Ograniczenia pracy}{66}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3\relax .\enspace }Kierunki dalszych badań}{67}{subsection.7.3}%
+\contentsline {section}{Bibliografia}{69}{section*.52}%
+\contentsline {section}{Wykaz symboli i skrótów}{71}{section*.53}%
+\contentsline {section}{Spis rysunków}{73}{section*.53}%
+\contentsline {section}{Spis tabel}{73}{section*.53}%

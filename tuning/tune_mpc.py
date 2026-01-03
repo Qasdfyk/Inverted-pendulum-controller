@@ -3,8 +3,8 @@ import os
 import numpy as np
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'controllers')))
-from controllers.mpc import MPCController
-from controllers.mpc_utils import PLANT, SIM
+from mpc import MPCController
+from mpc_utils import PLANT, SIM
 
 sys.path.append(os.path.dirname(__file__))
 from optimizer import run_tuning

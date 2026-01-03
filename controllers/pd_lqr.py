@@ -79,10 +79,10 @@ if __name__ == "__main__":
     wind = None
     # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
 
-    # Optimized gains for PID-LQR
-    # Unlike standalone PID, integral action (Ki) is safe here because
-    # LQR provides sufficient damping to compensate for the phase lag
-    pid_gains = {"Kp": -2.5, "Ki": -1.0, "Kd": -5.0}
+    # Optimized gains for PD-LQR
+    # Integral action (Ki) is disabled because it creates steady-state error
+    # when combined with LQR - the integrator interferes with optimal control
+    pid_gains = {"Kp": -1.5, "Ki": 0.0, "Kd": -5.0}
     lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0}
 
     ctrl = PDLQRController(

@@ -4,7 +4,7 @@ Niniejsza praca miała na~celu opracowanie zestawu skryptów symulacyjnych
 oraz przeprowadzenie wielokryterialnej analizy porównawczej algorytmów sterowania
 dla nieliniowego układu odwróconego wahadła na~wózku. Zrealizowano wszystkie
 założone cele badawcze: zaimplementowano pięć różnych strategii sterowania
-(PD, PID-LQR, MPC, MPC-J2, Fuzzy-LQR), przeprowadzono ich optymalizację
+(PD, PD-LQR, MPC, MPC-J2, Fuzzy-LQR), przeprowadzono ich optymalizację
 parametryczną oraz zweryfikowano skuteczność w~warunkach nominalnych
 i~przy obecności zakłóceń zewnętrznych.
 
@@ -32,7 +32,7 @@ sformułowanie szeregu istotnych wniosków:
     uwzględnianiem ograniczeń fizycznych napędu, co czyni go rozwiązaniem
     najbezpieczniejszym dla mechaniki układu.
     
-    \item \textbf{Uniwersalność PID-LQR.} Regulator hybrydowy PID-LQR, po~odpowiednim
+    \item \textbf{Uniwersalność PD-LQR.} Regulator hybrydowy PD-LQR, po~odpowiednim
     doborze wag ($Q_x = 500$), okazał się rozwiązaniem bardzo uniwersalnym.
     W~warunkach zakłóceń zewnętrznych osiągnął lepsze wyniki niż MPC pod~względem trzymania
     pozycji i~zużycia energii, przy znacznie niższej złożoności obliczeniowej.

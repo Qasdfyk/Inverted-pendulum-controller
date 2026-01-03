@@ -153,7 +153,7 @@ def main():
     
     # 3. MPC
     controllers['MPC'] = MPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-                                       Q=np.diag([158.39, 36.80, 43.41, 19.71]), R=0.08592)
+                                       Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592)
     
     # 4. MPC-J2 Variants
     controllers['MPC-J2 (r=0)'] = MPCControllerJ2(

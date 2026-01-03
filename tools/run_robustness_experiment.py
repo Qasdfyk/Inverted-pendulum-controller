@@ -206,8 +206,8 @@ def run_sensitivity_analysis(controllers):
     Run sensitivity analysis across a range of mass perturbations.
     Returns dict: {controller_name: {perturbation: iae_theta}}
     """
-    # Define perturbation range: -20% to +50%
-    perturbations = [-0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
+    # Define perturbation range: -75% to +200%
+    perturbations = [-0.75, -0.5, -0.3, -0.1, 0.0, 0.1, 0.3, 0.5, 0.75, 1.0, 1.5, 2.0]
     
     dt, T = SIM["dt"], SIM["T"]
     x0, x_ref = SIM["x0"], SIM["x_ref"]
@@ -346,7 +346,7 @@ def main():
     
     # 3. MPC
     controllers['MPC'] = MPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-                                       Q=np.diag([158.39, 36.80, 43.41, 19.71]), R=0.08592)
+                                       Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592)
     
     # 4. MPC-J2
     controllers['MPC-J2'] = MPCControllerJ2(

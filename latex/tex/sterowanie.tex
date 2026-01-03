@@ -152,7 +152,7 @@ Próba dodania akcji całkującej ($K_i \neq 0$) skutkowała zjawiskiem
 przeregulowania wykraczające poza obszar przyciągania stabilnego punktu równowagi. 
 Regulator PID wpadał w~niegasnące oscylacje lub doprowadzał do~przewrócenia wahadła, 
 podczas gdy ,,czysty'' regulator PD (z~$K_i=0$) zapewnia sztywne i~szybkie sterowanie.
-Warto jednak zauważyć, że w~strukturze hybrydowej PID-LQR, gdzie LQR zapewnia 
+Warto jednak zauważyć, że w~strukturze hybrydowej PD-LQR, gdzie LQR zapewnia 
 dodatkowe tłumienie, człon całkujący może być bezpiecznie zastosowany -- 
 zagadnienie to omówiono szczegółowo w~Podrozdziale~4.2.
 
@@ -181,7 +181,7 @@ wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-40$) oraz $K_{p,x
 (vs. $-1$). W~wyniku optymalizacji ustalono, że intensywna reakcja na~błąd pozycji wózka pośrednio
 stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii.
 
-\subsection{Układ hybrydowy PID-LQR}
+\subsection{Układ hybrydowy PD-LQR}
 
 Regulator liniowo-kwadratowy (LQR) stanowi fundamentalną metodę sterowania optymalnego
 dla systemów liniowych wielowymiarowych MIMO~\cite{Lewis2012, Jezierski2017}. 
@@ -238,7 +238,7 @@ tak skonfigurowanego regulatora LQR jest bardzo słabej jakości. Widoczny są g
 nieciągłe zmiany sygnału sterującego, które są kosztowne energetycznie i mogą być niebezpieczne dla układu.
 Motywuje to rozszerzenie struktury o~dodatkową pętlę PD z~możliwością włączenia członu całkującego.
 
-\subsubsection{Struktura hybrydowa PID-LQR}
+\subsubsection{Struktura hybrydowa PD-LQR}
 
 Klasa \texttt{PDLQRController} (plik \texttt{pd\_lqr.py}) implementuje sterowanie
 oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PD dla uchybu
@@ -305,7 +305,7 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
                    fit=(sum_lqr) (lqr), inner sep=6pt] {};
         \end{scope}
     \end{tikzpicture}
-    \caption{Schemat blokowy hybrydowego regulatora PID-LQR.}
+    \caption{Schemat blokowy hybrydowego regulatora PD-LQR.}
     \label{fig:diagram_pdlqr}
 \end{figure}
 
@@ -382,7 +382,7 @@ a~reakcja na~zakłócenia powolna.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_3_opt.png}
-    \caption{Zoptymalizowany regulator PID-LQR bez członu całkującego 
+    \caption{Zoptymalizowany regulator PD-LQR bez członu całkującego 
     ($Q=\mathrm{diag}([1, 1, 500, 250])$, $R=1$, PD: $K_{p,x}=-1{,}5$, 
     $K_{i,x}=0$, $K_{d,x}=-5$).}
     \label{fig:lqr_opt}
@@ -397,48 +397,43 @@ Należy zauważyć, że optymalizator wyznaczył strategię przeciwną do~intuic
 zamiast karać głównie kąt ($Q_{\theta}$), kładzie nacisk na~pozycję ($Q_x$), 
 co zmusza wózek do~szybkich korekt stabilizujących wahadło.
 
-\subsubsection{Analiza wpływu członu całkującego w~układzie PID-LQR}
+\subsubsection{Analiza wpływu członu całkującego w~układzie PD-LQR}
 
-Istotną różnicą między regulatorem PD (bez LQR) a~układem hybrydowym PID-LQR 
-jest możliwość bezpiecznego zastosowania akcji całkującej ($K_i \neq 0$). 
-Jak wykazano w~Rozdziale 4.1, dodanie członu całkującego do~samodzielnego 
-regulatora PD prowadziło do~oscylacji i~potencjalnej niestabilności 
-(Rys.~\ref{fig:pdpd_integral}), co jest zgodne z~obserwacjami w~literaturze 
-\cite{Prasad2014}.
+W~literaturze \cite{Prasad2014} sugeruje się, że struktura hybrydowa PD-LQR 
+może bezpiecznie wykorzystywać akcję całkującą ($K_i \neq 0$), ponieważ LQR 
+zapewnia wystarczające tłumienie. Przeprowadzono eksperymentalną weryfikację 
+tej tezy.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_4_with_ki.png}
-    \caption{Regulator PID-LQR z~członem całkującym ($K_{p,x}=-2{,}5$, 
+    \caption{Regulator PD-LQR z~członem całkującym ($K_{p,x}=-2{,}5$, 
     $K_{i,x}=-1{,}0$, $K_{d,x}=-5$, $Q=\mathrm{diag}([1, 1, 500, 250])$, $R=1$).}
     \label{fig:lqr_with_ki}
 \end{figure}
 
-W~przypadku układu hybrydowego PID-LQR sytuacja jest diametralnie inna. 
-Regulator LQR zapewnia optymalne tłumienie poprzez sprzężenie od~pełnego 
-wektora stanu, co skutecznie kompensuje dodatkowe przesunięcie fazowe 
-wprowadzane przez człon całkujący. Na Rysunku~\ref{fig:lqr_with_ki} 
-przedstawiono odpowiedź układu z~włączonym członem całkującym 
-($K_i = -1{,}0$). W~przeciwieństwie do~regulatora PD, gdzie identyczna 
-konfiguracja powodowała oscylacje (por. Rys.~\ref{fig:pdpd_integral}), 
-układ PID-LQR zachowuje pełną stabilność i~płynność przebiegów.
+Na Rysunku~\ref{fig:lqr_with_ki} przedstawiono odpowiedź układu z~włączonym 
+członem całkującym ($K_i = -1{,}0$). Mimo że układ zachowuje stabilność, 
+widoczny jest wyraźny uchyb ustalony pozycji wózka. Paradoksalnie, człon 
+całkujący, który teoretycznie powinien eliminować uchyb ustalony, w~tej 
+konfiguracji powoduje jego powstanie. Zjawisko to wynika z~interakcji między 
+pętlą PD a~regulatorem LQR -- akumulowany błąd w~integratorze interferuje 
+z~optymalnym sterowaniem LQR, prowadząc do~przesunięcia punktu równowagi.
 
-Korzyści z~zastosowania członu całkującego w~układzie PID-LQR obejmują:
+Z~tego powodu w~finalnej konfiguracji regulatora PD-LQR zdecydowano się 
+na~wyłączenie członu całkującego ($K_i = 0$), pozostawiając strukturę PD-LQR 
+(Rys.~\ref{fig:lqr_opt}). Takie rozwiązanie zapewnia:
 \begin{itemize}
-    \item \textbf{Eliminację uchybu ustalonego} -- akcja całkująca gwarantuje 
-    zerowy błąd w~stanie ustalonym dla stałych wartości zadanych.
-    \item \textbf{Lepszą kompensację zakłóceń} -- całkowanie błędu pozwala 
-    na~skuteczniejsze eliminowanie wpływu stałych zakłóceń.
-    \item \textbf{Zachowanie stabilności} -- LQR zapewnia wystarczający 
-    zapas stabilności, aby układ tolerował dodatkową dynamikę integratora.
+    \item \textbf{Brak uchybu ustalonego} -- regulator LQR z~wysoką wagą 
+    $Q_x = 500$ skutecznie eliminuje błąd pozycji bez potrzeby całkowania.
+    \item \textbf{Szybszą odpowiedź dynamiczną} -- brak opóźnienia fazowego 
+    wprowadzanego przez integrator.
+    \item \textbf{Prostszą strukturę} -- mniej parametrów do~strojenia.
 \end{itemize}
 
-Obserwacja ta jest zgodna z~wynikami przedstawionymi w~pracy \cite{Prasad2014}, 
-gdzie autorzy wykazali, że połączenie regulatora PD z~optymalnym sprzężeniem 
-zwrotnym LQR pozwala uzyskać lepsze właściwości dynamiczne niż każda z~metod 
-stosowana oddzielnie. W~niniejszej pracy potwierdzono eksperymentalnie, 
-że struktura hybrydowa umożliwia bezpieczne rozszerzenie regulatora PD 
-o~człon całkujący (tworząc PID), co nie jest możliwe w~konfiguracji bez LQR.
+Wyniki te wskazują, że w~przypadku dobrze nastrojonego regulatora LQR 
+z~wysokimi wagami dla błędu pozycji, dodatkowy człon całkujący nie tylko 
+nie poprawia jakości regulacji, ale może ją pogorszyć.
 
 \subsection{Nieliniowe sterowanie predykcyjne (MPC)}
 
@@ -525,7 +520,7 @@ Gdzie:
     przyspieszając obliczenia przy zachowaniu długiego horyzontu predykcji,
     \item $f(\cdot)$ -- nieliniowy model dyskretny obiektu (całkowanie metodą
     Rungego-Kutt 4. rzędu),
-    \item $Q = \text{diag}([158.4,\; 36.8,\; 43.4,\; 19.7])$ -- macierz kar stanu,
+    \item $Q = \text{diag}([158.4,\; 40.8,\; 43.4,\; 19.7])$ -- macierz kar stanu,
     \item $R = 0.086$ -- współczynnik kary za~zmianę sterowania ($\Delta u$).
 \end{itemize}
 Kluczową zaletę MPC, podkreślaną w~pracach \cite{Mills2009} oraz
@@ -581,7 +576,7 @@ przeregulowania.
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpc_3_opt.png}
     \caption{Zoptymalizowany regulator MPC ($N_p=12$, $N_c=4$, 
-    $Q=\mathrm{diag}([158.4, 36.8, 43.4, 19.7])$, $R=0.086$).}
+    $Q=\mathrm{diag}([158.4, 40.8, 43.4, 19.7])$, $R=0.086$).}
     \label{fig:mpc_opt}
 \end{figure}
 
@@ -745,7 +740,7 @@ Wyjście sterownika obliczane jest jako średnia ważona:
 \begin{equation}
     u_{\mathrm{Fuzzy}} = G \cdot \frac{\sum_{i=1}^{16} w_i(x) \cdot u_i}{\sum_{i=1}^{16} w_i(x)},
 \end{equation}
-gdzie $w_i$ to stopień aktywacji $i$-tej reguły, a~$G = 0.37$ to globalne
+gdzie $w_i$ to stopień aktywacji $i$-tej reguły, a~$G = 0.36$ to globalne
 wzmocnienie skalujące (po optymalizacji).
 
 Zastosowany mechanizm ,,Gain Scheduling'' pozwala na:
@@ -793,21 +788,42 @@ zużycie mechaniczne i~hałas.
 Opierając się na~literaturze \cite{Nguyen2024}, dobrano ręcznie szerokości trójkątnych
 funkcji przynależności tak, aby przejście między strefami było płynne 
 (Rys.~\ref{fig:fuzzy_manual}). Rozszerzenie zakresu do~$[-0.2, 0.2]$~rad wyeliminowało
-drgania przełączeniowe, jednak wzmocnienia reguł były zbyt słabe ($F_{\theta}=20$ vs. optymalne $167.9$).
+drgania przełączeniowe, jednak wzmocnienia reguł były zbyt słabe ($F_{\theta}=20$ vs. optymalne $100.0$).
 Układ uzyskał stabilność asymptotyczną, jednak nie wykorzystywał w~pełni potencjału 
 szybkiej reakcji na~duże zakłócenia, działając zachowawczo.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/fuzzy_3_opt.png}
-    \caption{Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta}=167.9$, 
-    $F_{\dot{\theta}}=5.3$, $F_x=19.8$, $F_{\dot{x}}=19.3$, $G=0.37$).}
+    \caption{Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta}=100.0$, 
+    $F_{\dot{\theta}}=5.27$, $F_x=19.82$, $F_{\dot{x}}=19.25$, $G=0.36$).}
     \label{fig:fuzzy_opt}
 \end{figure}
 
 Ostatecznie, dedykowany skrypt \texttt{tune\_fuzzy\_lqr.py} posłużył do~optymalizacji
 wag pojedynczych reguł oraz parametrów kształtu funkcji przynależności 
-(Rys.~\ref{fig:fuzzy_opt}). Algorytm wyznaczył znacząco wyższą wartość wzmocnienia
-dla kąta ($F_{\theta}=167.9$), przy jednoczesnym zmniejszeniu globalnego wzmocnienia
-($G=0.37$). Uzyskano nieliniową powierzchnię sterowania, która łączy zalety miękkiego 
+(Rys.~\ref{fig:fuzzy_opt}). Algorytm wyznaczył znacznie wyższą wartość wzmocnienia
+dla kąta ($F_{\theta}=100.0$), przy jednoczesnym zmniejszeniu globalnego wzmocnienia
+($G=0.36$). Uzyskano nieliniową powierzchnię sterowania, która łączy zalety miękkiego 
 sterowania LQR w~pobliżu zera z~maksymalną siłą reakcji przy dużych wychyleniach.
+
+\paragraph{Trudności w~strojeniu regulatora rozmytego}
+Strojenie regulatora Fuzzy-LQR okazało się zadaniem znacznie bardziej wymagającym 
+niż w~przypadku pozostałych badanych algorytmów. Wynika to z~kilku czynników:
+\begin{itemize}
+    \item \textbf{Wysoka wymiarowość przestrzeni parametrów} --- dla 16 reguł, 
+    z~których każda definiuje 4 wzmocnienia, plus parametry funkcji przynależności 
+    i~wzmocnienie globalne, łączna liczba stopni swobody sięga kilkudziesięciu.
+    \item \textbf{Silne sprzężenia między parametrami} --- zmiana jednego wzmocnienia 
+    wpływa na~zachowanie całej bazy reguł poprzez mechanizm interpolacji rozmytej, 
+    co utrudnia intuicyjne strojenie metodą prób i~błędów.
+    \item \textbf{Wrażliwość na~warunki początkowe optymalizacji} --- algorytm 
+    ewolucji różnicowej wielokrotnie zbiegał do~różnych minimów lokalnych, 
+    dając rozwiązania o~znacząco odmiennych charakterystykach.
+    \item \textbf{Zależność od~scenariusza testowego} --- parametry zoptymalizowane 
+    dla warunków nominalnych mogą dawać gorsze wyniki przy zakłóceniach i~odwrotnie.
+\end{itemize}
+Z~powyższych powodów proces strojenia regulatora rozmytego wymagał wielokrotnego 
+uruchamiania optymalizacji z~różnymi punktami startowymi oraz manualnej weryfikacji 
+uzyskanych rozwiązań. Stanowi to istotną wadę praktyczną w~porównaniu z~regulatorami 
+LQR czy MPC, gdzie przestrzeń parametrów jest znacznie mniejsza i~bardziej interpretowalna.
