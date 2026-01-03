@@ -60,7 +60,7 @@ def run_simulation(ctrl, name, filename_suffix, title_suffix):
     ax1.plot(t, X[:, 0]) 
     ax1.plot(t, np.zeros_like(t), 'k--', alpha=0.5, label='Wartość zadana')
     ax1.grid(True)
-    ax1.set_ylabel(r'\theta [rad]')
+    ax1.set_ylabel(r'$\theta$ [rad]')
     ax1.set_title("") 
     
     ax2 = fig.add_subplot(3, 1, 2)

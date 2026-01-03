@@ -30,11 +30,14 @@
 \contentsline {figure}{\numberline {6.1}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne).}}{51}{figure.caption.31}%
 \contentsline {figure}{\numberline {6.2}{\ignorespaces Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}}{52}{figure.caption.32}%
 \contentsline {figure}{\numberline {6.3}{\ignorespaces Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}}{52}{figure.caption.33}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{53}{figure.caption.34}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{54}{figure.caption.34}%
 \contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{54}{figure.caption.35}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{54}{figure.caption.36}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{55}{figure.caption.36}%
 \contentsline {figure}{\numberline {6.7}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{56}{figure.caption.37}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{56}{figure.caption.38}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{57}{figure.caption.38}%
 \contentsline {figure}{\numberline {6.9}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{57}{figure.caption.39}%
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{57}{figure.caption.40}%
-\contentsline {figure}{\numberline {6.11}{\ignorespaces Porównanie sygnału sterującego $u$ dla MPC-J2 z różnymi wartościami $R_{abs}$.}}{59}{figure.caption.43}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{58}{figure.caption.40}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Przebieg kąta $\theta $ przy zmienionych parametrach modelu (+10\% masy wahadła).}}{59}{figure.caption.41}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Przebieg pozycji $x$ przy zmienionych parametrach modelu (+10\% masy wahadła).}}{60}{figure.caption.42}%
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Sygnał sterujący $u$ przy zmienionych parametrach modelu (+10\% masy wahadła).}}{60}{figure.caption.43}%
+\contentsline {figure}{\numberline {6.14}{\ignorespaces Porównanie sygnału sterującego $u$ dla MPC-J2 z różnymi wartościami $R_{abs}$.}}{62}{figure.caption.47}%

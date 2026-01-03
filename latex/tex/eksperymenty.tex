@@ -36,8 +36,25 @@ testów symulacyjnych. Każdy z~zaimplementowanych regulatorów (PD, PID-LQR, MP
     i~chwilowym wartościom szczytowym do~$\pm 6{,}6$~N. Jest to poziom 
     zakłóceń stanowiący znaczące obciążenie dla układu sterowania 
     (kilka procent $F_{\max}$), lecz nieprzekraczający możliwości
-    kompensacyjnych regulatorów. Test ten pozwala ocenić krzepkość 
-    (ang. \textit{robustness}) układu zamkniętego.
+    kompensacyjnych regulatorów. Test ten pozwala ocenić odporność 
+    układu zamkniętego na zakłócenia zewnętrzne.
+
+    \item \textbf{Eksperyment 3: Odporność na~zmianę parametrów modelu.} \\
+    Symulacja w~warunkach nominalnych (bez zakłóceń), przy czym parametry
+    rzeczywistego obiektu różnią się od~wartości użytych do~strojenia regulatorów.
+    W~eksperymencie zwiększono masę wahadła $m$ o~10\%, co odpowiada sytuacji,
+    w~której model użyty do~syntezy regulatora jest niedokładny względem
+    rzeczywistego układu fizycznego:
+    \begin{itemize}
+        \item Nominalna masa wahadła: $m_{\mathrm{nom}} = 0{,}23$~kg.
+        \item Rzeczywista masa wahadła: $m_{\mathrm{real}} = 0{,}253$~kg ($+10\%$).
+    \end{itemize}
+    Test ten ma~na~celu ocenę wrażliwości poszczególnych regulatorów na~niepewność
+    parametryczną modelu --- kluczową właściwość w~zastosowaniach praktycznych,
+    gdzie dokładne wartości parametrów fizycznych są~rzadko znane z~wysoką precyzją.
+    Zmiana masy wahadła wpływa bezpośrednio na~dynamikę układu, modyfikując zarówno
+    moment bezwładności, jak i~położenie środka ciężkości, co stanowi istotne
+    wyzwanie dla algorytmów sterowania.
 \end{enumerate}
 
 \subsection{Badane algorytmy}

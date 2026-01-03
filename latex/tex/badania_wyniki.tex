@@ -47,21 +47,21 @@ i~łagodniejszym dochodzeniem do~równowagi. Można zatem zaobserwować zmianę 
 rozwiązaniem bardziej ekonomicznym w~stanie przejściowym, podczas gdy PID-LQR charakteryzuje się 
 szybszą odpowiedzią dynamiczną.
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.95\textwidth]{images/experiments/combined_nominal_classical.png}
     \caption{Przebieg kąta $\theta$ dla regulatorów klasycznych (Warunki nominalne).}
     \label{fig:nom_classical}
 \end{figure}
-
-\begin{figure}[h!]
+\newpage
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.95\textwidth]{images/experiments/combined_nominal_pos_classical.png}
     \caption{Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}
     \label{fig:nom_pos_classical}
 \end{figure}
 
-\begin{figure}[h!]
+\begin{figure}[ht!]
     \centering
     \includegraphics[width=0.95\textwidth]{images/experiments/combined_nominal_control_classical.png}
     \caption{Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}
@@ -101,7 +101,7 @@ co czyni MPC najbardziej ekonomicznym rozwiązaniem w~warunkach nominalnych.
 Wariant MPC-J2, mimo zastosowania innej funkcji kosztu, zachowuje się bardzo podobnie do
 klasycznego MPC w~warunkach nominalnych. Różnice między nimi ujawnią się dopiero w~teście
 odpornościowym.
-
+\newpage
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.95\textwidth]{images/experiments/combined_nominal_advanced.png}
@@ -125,9 +125,9 @@ odpornościowym.
 
 \subsection{Analiza odporności na zakłócenia}
 
-Drugi scenariusz badawczy stanowił znacznie bardziej wymagający test. Do układu wprowadzono sygnał
+Drugi scenariusz badawczy stanowił bardziej wymagający test. Do układu wprowadzono sygnał
 zakłócający, modelujący losowe zakłócenia zewnętrzne o zmiennej sile i kierunku. Test ten miał na
-celu sprawdzenie właściwości "robust" (odpornościowych) regulatorów, czyli ich zdolności do
+celu sprawdzenie odporności regulatorów na zakłócenia zewnętrzne, czyli ich zdolności do
 utrzymania stabilności mimo działania nieznanych, zewnętrznych sił.
 
 Podstawowym problemem fizycznym w tym scenariuszu jest zjawisko sprzężenia dryfu. Aby
@@ -196,6 +196,72 @@ wpływ doboru funkcji celu na~odporność układu.
     \label{fig:wind_pos_advanced}
 \end{figure}
 
+\subsection{Analiza odporności na zmianę parametrów modelu}
+
+Trzeci scenariusz badawczy miał na celu ocenę wrażliwości regulatorów na~niepewność
+parametryczną modelu. W~praktycznych zastosowaniach przemysłowych dokładne wartości
+parametrów fizycznych układu są~rzadko znane z~wysoką precyzją. Mogą one ulegać
+zmianom w~czasie (np.~zużycie mechaniczne, zmiana ładunku), dlatego odporność na~takie
+perturbacje jest kluczową właściwością regulatora.
+
+W~eksperymencie zwiększono masę wahadła o~10\% względem wartości nominalnej
+($m_{\mathrm{nom}} = 0{,}23$~kg $\rightarrow$ $m_{\mathrm{real}} = 0{,}253$~kg),
+podczas gdy regulatory pozostały nastrojone dla parametrów nominalnych. Taka zmiana
+masy wpływa na~dynamikę układu w~sposób nieliniowy --- modyfikuje zarówno moment
+bezwładności wahadła, jak i~położenie jego środka ciężkości względem osi obrotu.
+
+Wyniki eksperymentu zaprezentowano na~Rysunkach \ref{fig:robust_theta}, \ref{fig:robust_x}
+oraz \ref{fig:robust_u}. Kluczową obserwacją jest fakt, że wszystkie badane regulatory
+zachowały stabilność mimo nieprawidłowego modelu. Świadczy to o~odpowiednim marginesie
+stabilności wynikającym z~procesu optymalizacji nastaw.
+
+Analizując przebieg kąta $\theta$ (Rys.~\ref{fig:robust_theta}), można zauważyć, że
+regulatory predykcyjne MPC i~MPC-J2 wykazują największą wrażliwość na~zmianę parametrów.
+Ich odpowiedź jest wolniejsza niż w~warunkach nominalnych, co wynika z~faktu, że
+wewnętrzny model używany do~predykcji nie odpowiada rzeczywistej dynamice obiektu.
+Regulator musi korygować błędy predykcji w~sposób reaktywny, tracąc część zalet
+podejścia predykcyjnego.
+
+Regulatory klasyczne (PD-PD, PD-LQR) okazały się bardziej odporne na~perturbację
+parametryczną. Ich struktura, oparta na~sprzężeniu zwrotnym od~błędu regulacji,
+nie wymaga dokładnego modelu obiektu --- korekta następuje na~podstawie obserwowanego
+uchybu, a~nie predykowanych stanów. W~szczególności regulator PD-LQR, dzięki
+wysokim wzmocnieniom w~macierzy $Q$, skutecznie kompensuje zwiększoną bezwładność
+wahadła.
+
+Regulator Fuzzy-LQR wykazuje interesującą charakterystykę. Jego odpowiedź w~fazie
+początkowej jest zbliżona do~warunków nominalnych, jednak widoczne jest niewielkie
+przeregulowanie pozycji wózka (Rys.~\ref{fig:robust_x}). Wynika to z~faktu, że
+logika rozmyta adaptuje się do~obserwowanego stanu układu, ale lokalne regulatory
+LQR zostały zaprojektowane dla parametrów nominalnych.
+
+Na~wykresie sterowania (Rys.~\ref{fig:robust_u}) widać, że regulatory muszą generować
+większe sygnały sterujące, aby skompensować zwiększoną masę wahadła. Jest to zgodne
+z~intuicją fizyczną --- cięższa masa wymaga większej siły do~przyspieszenia.
+Największy wzrost amplitudy sterowania obserwuje się dla regulatora Fuzzy-LQR,
+co potwierdza jego agresywną strategię minimalizacji uchybu kątowego.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images_odpornosc/robustness_theta.png}
+    \caption{Przebieg kąta $\theta$ przy zmienionych parametrach modelu (+10\% masy wahadła).}
+    \label{fig:robust_theta}
+\end{figure}
+\newpage
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images_odpornosc/robustness_x.png}
+    \caption{Przebieg pozycji $x$ przy zmienionych parametrach modelu (+10\% masy wahadła).}
+    \label{fig:robust_x}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images_odpornosc/robustness_u.png}
+    \caption{Sygnał sterujący $u$ przy zmienionych parametrach modelu (+10\% masy wahadła).}
+    \label{fig:robust_u}
+\end{figure}
+
 \subsection{Szczegółowe zestawienie ilościowe}
 
 Poniższe tabele stanowią numeryczne podsumowanie omówionych wyżej zjawisk. Dane zostały
@@ -237,6 +303,25 @@ oraz stabilizacji wózka (pozycja).
         $E_{u}$ & 15.39160 & 11.73032 & 12.59235 & 14.42652 & 85.88725 \\ \hline
     \end{tabular}
 \end{table}
+
+\begin{table}[h!]
+    \centering
+    \caption{Wskaźniki jakości (Kąt i Pozycja) - odporność na zmianę parametrów modelu (+10\% masy wahadła)}
+    \label{tab:results_robustness}
+    \begin{tabular}{|l|c|c|c|c|c|}
+        \hline
+        Wskaźnik & PD & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR \\ \hline
+        $MSE_\theta$ & 0.00005 & 0.00004 & 0.00006 & 0.00005 & 0.00008 \\ \hline
+        $IAE_\theta$ & 0.01687 & 0.01262 & 0.02299 & 0.02130 & 0.02312 \\ \hline
+        $T_{s, \theta}$ [s] & 0.30 & 0.20 & 1.20 & 1.00 & 0.70 \\ \hline
+        \hline
+        $MSE_x$ & 0.00040 & 0.00048 & 0.00037 & 0.00047 & 0.00037 \\ \hline
+        $T_{s, x}$ [s] & 1.20 & 2.20 & 0.90 & 1.00 & 1.20 \\ \hline
+        \hline
+        $E_{u}$ & 0.85 & 1.47 & 0.57 & 0.61 & 2.88 \\ \hline
+    \end{tabular}
+\end{table}
+
 \newpage
 \subsection{Analiza wpływu kary za sterowanie w MPC z alternatywną funkcją kosztu}
 

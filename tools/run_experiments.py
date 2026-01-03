@@ -213,7 +213,7 @@ def main():
                 
                 if signal_type == 'theta':
                     ax.plot(t, X[:, 0], label=name, linewidth=3)
-                    ylabel = r'\theta [rad]'
+                    ylabel = r'$\theta$ [rad]'
                     # Reference
                     t_ref = t
                     ref_val = np.zeros_like(t_ref)
