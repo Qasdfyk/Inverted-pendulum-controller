@@ -24,7 +24,7 @@ stosowanymi w~pracach badawczych~\cite{Prasad2014}:
     \item \(l\) --- długość wahadła (odległość od~osi obrotu do~środka ciężkości) [m],
     \item \(g\) --- przyspieszenie ziemskie [m/s\textsuperscript{2}],
     \item \(F(t)\) --- siła sterująca przyłożona do~wózka [N],
-    \item \(F_{\mathrm{w}}(t)\) --- siła zakłócająca (wiatr) działająca poziomo na~masę wahadła [N].
+    \item \(F_{\mathrm{w}}(t)\) --- siła zakłócająca (zakłócenie zewnętrzne) działająca poziomo na~masę wahadła [N].
 \end{itemize}
 
 W~celu sformułowania modelu analitycznego przyjęto następujące założenia 
@@ -143,7 +143,7 @@ przyjmuje postać:
 
 W~równaniu tym lewa strona reprezentuje moment wynikający z~sił 
 bezwładności, natomiast prawa strona uwzględnia momenty od~sił 
-zewnętrznych (grawitacji i~wiatru). Należy zauważyć, że siła wiatru \(F_{\mathrm{w}}(t)\) 
+zewnętrznych (grawitacji i~zakłócenia zewnętrznego). Należy zauważyć, że siła zakłócająca \(F_{\mathrm{w}}(t)\) 
 działa poziomo, stąd jej ramię siły względem punktu obrotu wynosi 
 \(l \cos\theta(t)\).
 
@@ -299,7 +299,7 @@ Macierz sterowania \(B\) oraz macierz zakłóceń \(B_{\mathrm{dist}}\) przyjmuj
     \end{bmatrix}.
 \end{equation}
 
-Warto zauważyć, że w~modelu zlinearyzowanym wpływ wiatru na~przyspieszenie 
+Warto zauważyć, że w~modelu zlinearyzowanym wpływ zakłócenia zewnętrznego na~przyspieszenie 
     kątowe wahadła jest odwrotnie proporcjonalny do~masy \(m\) (element \(-\frac{1}{ml}\) 
     w~macierzy \(B_{\mathrm{dist}}\)), podczas gdy w~równaniu przyspieszenia wózka 
     efekt ten zanika dla małych kątów (element zerowy). Jest to zgodne 

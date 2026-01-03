@@ -4,8 +4,7 @@ Rozdział ten poświęcony jest szczegółowej analizie wyników badań symulacy
 przeprowadzone w celu weryfikacji skuteczności i jakości działania zaprojektowanych układów
 sterowania. Głównym celem eksperymentów było zbadanie zachowania wahadła odwróconego w dwóch
 diametralnie różnych sytuacjach: podczas stabilizacji punktu pracy w idealnych warunkach
-nominalnych oraz w trakcie pracy pod wpływem losowych zakłóceń zewnętrznych, modelujących
-zmienne podmuchy wiatru.
+nominalnych oraz w trakcie pracy pod wpływem losowych zakłóceń zewnętrznych.
 
 Podczas analizy wyników szczególny nacisk położono na dwa kluczowe, i nierzadko sprzeczne ze
 sobą, aspekty sterowania. Pierwszym z nich jest stabilizacja kątowa, czyli zdolność układu do
@@ -127,14 +126,14 @@ odpornościowym.
 \subsection{Analiza odporności na zakłócenia}
 
 Drugi scenariusz badawczy stanowił znacznie bardziej wymagający test. Do układu wprowadzono sygnał
-zakłócający, modelujący losowe podmuchy wiatru o zmiennej sile i kierunku. Test ten miał na
+zakłócający, modelujący losowe zakłócenia zewnętrzne o zmiennej sile i kierunku. Test ten miał na
 celu sprawdzenie właściwości "robust" (odpornościowych) regulatorów, czyli ich zdolności do
 utrzymania stabilności mimo działania nieznanych, zewnętrznych sił.
 
 Podstawowym problemem fizycznym w tym scenariuszu jest zjawisko sprzężenia dryfu. Aby
-skompensować siłę wiatru pchającą wahadło np. w prawo, wózek musi nieustannie przyspieszać w
+skompensować siłę zakłócającą pchającą wahadło np. w prawo, wózek musi nieustannie przyspieszać w
 prawo, aby przemieścić się pod środek ciężkości wahadła i wytworzyć moment siły bezwładności
-przeciwdziałający wiatrowi. Oznacza to, że skuteczna kompensacja wychylenia kątowego nieuchronnie
+przeciwdziałający zakłóceniu. Oznacza to, że skuteczna kompensacja wychylenia kątowego nieuchronnie
 prowadzi do przemieszczania się wózka (dryfu). Istotą problemu jest znalezienie kompromisu --- jak
 bardzo pozwolić wózkowi uciec, by utrzymać wahadło w pionie.
 
@@ -153,10 +152,10 @@ regulator Fuzzy-LQR osiąga najlepsze wyniki w~dziedzinie precyzji kątowej
 jest znaczący ($E_u \approx 85.9$). Sterownik ten charakteryzuje się strategią sterowania 
 o~wysokiej dynamice --- wykorzystuje maksymalną dostępną moc w~celu minimalizacji błędu regulacji.
 
-Zupełnie inną charakterystykę w~obliczu wiatru wykazuje MPC. Ze względu na postać funkcji kosztu,
+Zupełnie inną charakterystykę w~obliczu zakłóceń zewnętrznych wykazuje MPC. Ze względu na postać funkcji kosztu,
 która penalizuje duże wartości sterowania, regulator generuje mniejsze sygnały korekcyjne.
-Prowadzi to do pewnych, kontrolowanych wychyleń wahadła pod wpływem wiatru. Skutkuje to największym 
-dryfem wózka w zestawieniu ($Max |x| \approx 0.40$ m), gdyż układ jest spychany przez wiatr, 
+Prowadzi to do pewnych, kontrolowanych wychyleń wahadła pod wpływem zakłóceń. Skutkuje to największym 
+dryfem wózka w zestawieniu ($Max |x| \approx 0.40$ m), gdyż układ jest spychany przez siłę zakłócającą, 
 ale za to zużycie energii jest niskie ($E_u \approx 12.6$). Warto zauważyć, że w~tych konkretnych 
 warunkach PID-LQR okazał się lepszy od MPC zarówno pod względem trzymania pozycji, jak i zużycia energii,
 co dowodzi, że dobrze nastrojony regulator liniowy może konkurować z predykcyjnym, o ile nie
@@ -172,28 +171,28 @@ wpływ doboru funkcji celu na~odporność układu.
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_classical.png}
-    \caption{Przebieg kąta $\theta$ pod wpływem wiatru -- regulatory klasyczne.}
+    \caption{Przebieg kąta $\theta$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}
     \label{fig:wind_classical}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_pos_classical.png}
-    \caption{Dryf pozycji $x$ pod wpływem wiatru -- regulatory klasyczne.}
+    \caption{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}
     \label{fig:wind_pos_classical}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_advanced.png}
-    \caption{Przebieg kąta $\theta$ pod wpływem wiatru -- regulatory zaawansowane.}
+    \caption{Przebieg kąta $\theta$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}
     \label{fig:wind_advanced}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_pos_advanced.png}
-    \caption{Dryf pozycji $x$ pod wpływem wiatru -- regulatory zaawansowane.}
+    \caption{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}
     \label{fig:wind_pos_advanced}
 \end{figure}
 
@@ -223,7 +222,7 @@ oraz stabilizacji wózka (pozycja).
 
 \begin{table}[h!]
     \centering
-    \caption{Wskaźniki jakości (Kąt i Pozycja) - zakłócenia wiatrem}
+    \caption{Wskaźniki jakości (Kąt i Pozycja) - zakłócenia zewnętrzne}
     \label{tab:results_wind}
     \begin{tabular}{|l|c|c|c|c|c|}
         \hline

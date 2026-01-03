@@ -3,7 +3,7 @@
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Schemat blokowy nieliniowego modelu wahadła w~przestrzeni stanów.}}{15}{figure.caption.2}%
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Symulacja odpowiedzi swobodnej układu (z uwzględnionym tłumieniem) na małe wychylenie początkowe. Układ opuszcza niestabilny punkt równowagi ($\theta \approx 0$) i stabilizuje się w pozycji wiszącej ($\theta = \pi $).}}{17}{figure.caption.3}%
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Architektura środowiska symulacyjnego.}}{18}{figure.caption.4}%
-\contentsline {figure}{\numberline {3.2}{\ignorespaces Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru) działającego na wahadło w czasie symulacji.}}{20}{figure.caption.6}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Przykładowa realizacja stochastycznego procesu zakłócenia zewnętrznego działającego na wahadło w czasie symulacji.}}{20}{figure.caption.6}%
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}}{21}{figure.caption.7}%
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Schemat blokowy regulatora PD o~strukturze równoległej.}}{22}{figure.caption.8}%
 \contentsline {figure}{\numberline {4.2}{\ignorespaces Regulator PD nastawiony ręcznie ($K_{p,\theta }=-40$, $K_{d,\theta }=-8$, $K_{p,x}=-1$, $K_{d,x}=-3$).}}{24}{figure.caption.9}%
@@ -33,8 +33,8 @@
 \contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{53}{figure.caption.34}%
 \contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{54}{figure.caption.35}%
 \contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{54}{figure.caption.36}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Przebieg kąta $\theta $ pod wpływem wiatru -- regulatory klasyczne.}}{56}{figure.caption.37}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem wiatru -- regulatory klasyczne.}}{56}{figure.caption.38}%
-\contentsline {figure}{\numberline {6.9}{\ignorespaces Przebieg kąta $\theta $ pod wpływem wiatru -- regulatory zaawansowane.}}{57}{figure.caption.39}%
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Dryf pozycji $x$ pod wpływem wiatru -- regulatory zaawansowane.}}{57}{figure.caption.40}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{56}{figure.caption.37}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{56}{figure.caption.38}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{57}{figure.caption.39}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{57}{figure.caption.40}%
 \contentsline {figure}{\numberline {6.11}{\ignorespaces Porównanie sygnału sterującego $u$ dla MPC-J2 z różnymi wartościami $R_{abs}$.}}{59}{figure.caption.43}%

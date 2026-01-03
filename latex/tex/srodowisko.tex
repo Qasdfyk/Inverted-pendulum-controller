@@ -124,7 +124,7 @@ jednoczesnym utrzymaniu pionowej pozycji wahadła ($\theta = 0$).
 \subsection{Modelowanie zakłóceń}
 
 Aby zweryfikować odporność układów sterowania, zaimplementowano generator
-zakłóceń symulujący podmuchy wiatru działające na~wahadło. Generator ten działa
+zakłóceń zewnętrznych działających na~wahadło. Generator ten działa
 w~sposób dyskretny, realizując w~każdym kroku symulacji $k$ następujące
 operacje:
 
@@ -134,7 +134,7 @@ operacje:
 \end{equation}
 gdzie $\sigma$ jest odchyleniem standardowym siły zakłócającej wyrażonym w~niutonach.
 W~przeprowadzonych eksperymentach przyjęto $\sigma = 2{,}2$~N, co oznacza,
-że wartość skuteczna (RMS) siły wiatru wynosi około $2{,}2$~N, 
+że wartość skuteczna (RMS) siły zakłócającej wynosi około $2{,}2$~N, 
 a~chwilowe wartości szczytowe mogą osiągać $\pm 6{,}6$~N (przedział $3\sigma$).
 Parametr ten dobrano empirycznie tak, aby zakłócenia stanowiły znaczące obciążenie 
 dla układu sterowania (porównywalne z~kilkoma procentami maksymalnej siły aktuatora 
@@ -144,16 +144,16 @@ $F_{\max}=100$~N), lecz nie przekraczały możliwości kompensacyjnych badanych 
 \begin{equation}
     F_{\mathrm{w},k}=\frac{1}{N_{\mathrm{s}}}\sum_{i=0}^{N_{\mathrm{s}}-1} w_{k-i},
 \end{equation}
-gdzie $F_{\mathrm{w},k}$ to wypadkowa siła wiatru w~chwili $k$, a~$N_{\mathrm{s}}$ to długość okna
+gdzie $F_{\mathrm{w},k}$ to wypadkowa siła zakłócająca w~chwili $k$, a~$N_{\mathrm{s}}$ to długość okna
 uśredniającego (przyjęto $N_{\mathrm{s}}=10$). Takie podejście pozwala na~uzyskanie
-ciągłego, wolnozmiennego sygnału lepiej odwzorowującego rzeczywiste podmuchy.
+ciągłego, wolnozmiennego sygnału lepiej odwzorowującego rzeczywiste zakłócenia zewnętrzne.
 Przykładowy przebieg wygenerowanego sygnału przedstawiono na~Rys.
 \ref{fig:wind_signal}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{img/wind_signal.png}
-    \caption{Przykładowa realizacja stochastycznego procesu zakłócenia (wiatru)
+    \caption{Przykładowa realizacja stochastycznego procesu zakłócenia zewnętrznego
     działającego na wahadło w czasie symulacji.}
     \label{fig:wind_signal}
 \end{figure}

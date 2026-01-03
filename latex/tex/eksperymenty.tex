@@ -30,19 +30,15 @@ testów symulacyjnych. Każdy z~zaimplementowanych regulatorów (PD, PID-LQR, MP
     \item \textbf{Eksperyment 2: Odporność na~zakłócenia zewnętrzne.} \\
     Symulacja z~tymi samymi warunkami początkowymi, przy czym na~wahadło
     oddziałuje losowa siła zakłócająca $F_{\mathrm{w}}(t)$ (modelująca
-    porywisty wiatr) generowana zgodnie z~procedurą opisaną w~Rozdziale 3. 
+    zakłócenia zewnętrzne) generowana zgodnie z~procedurą opisaną w~Rozdziale 3. 
     Przyjęto odchylenie standardowe siły zakłócającej $\sigma = 2{,}2$~N,
-    co odpowiada wartości skutecznej (RMS) siły wiatru rzędu $2{,}2$~N
+    co odpowiada wartości skutecznej (RMS) siły zakłócającej rzędu $2{,}2$~N
     i~chwilowym wartościom szczytowym do~$\pm 6{,}6$~N. Jest to poziom 
     zakłóceń stanowiący znaczące obciążenie dla układu sterowania 
     (kilka procent $F_{\max}$), lecz nieprzekraczający możliwości
     kompensacyjnych regulatorów. Test ten pozwala ocenić krzepkość 
     (ang. \textit{robustness}) układu zamkniętego.
 \end{enumerate}
-
-Wszystkie symulacje przeprowadzono z~krokiem czasowym $\Delta t = 0{,}01$~s
-w~czasie $T_{\mathrm{sim}} = 10$~s (dla testów MPC i~pełnego ustalenia).
-Ograniczenie sygnału sterującego ustawiono na $|u| \le 100$ N.
 
 \subsection{Badane algorytmy}
 
