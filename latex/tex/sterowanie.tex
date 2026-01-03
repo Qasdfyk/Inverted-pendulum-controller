@@ -494,21 +494,21 @@ w~popularnych dystrybucjach środowisk naukowych (Anaconda, pip) oraz zdolności
 do~obsługi ograniczeń nierównościowych (wymaganych dla saturacji sterowania). Zadanie zdefiniowane jest
 następująco:
 \begin{equation}
-    \min_{\Delta U} J = \sum_{k=1}^{N_{\mathrm{p}}} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) + R \sum_{k=0}^{N_{\mathrm{c}}-1} (\Delta u_k)^2,
+    \min_{\Delta U} J = \sum_{k=1}^{N} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) + R \sum_{k=0}^{N_u-1} (\Delta u_k)^2,
 \end{equation}
 przy ograniczeniach:
 \begin{align}
-    \hat{x}_{k+1} &= f(\hat{x}_k, u_k), \quad k=0,\dots,N_{\mathrm{p}}-1 \\
+    \hat{x}_{k+1} &= f(\hat{x}_k, u_k), \quad k=0,\dots,N-1 \\
     u_{\mathrm{min}} &\le u_k \le u_{\mathrm{max}}, \\
     u_k &= u_{k-1} + \Delta u_k.
 \end{align}
 Gdzie:
 \begin{itemize}
-    \item $N_{\mathrm{p}} = 12$ -- horyzont predykcji,
-    \item $N_{\mathrm{c}} = 4$ -- horyzont sterowania. Dla kroków $k \ge N_{\mathrm{c}}$ 
+    \item $N = 12$ -- horyzont predykcji,
+    \item $N_u = 4$ -- horyzont sterowania. Dla kroków $k \ge N_u$ 
     stosowane jest tzw.~\textit{blokowanie sterowania}, co oznacza, że przyrosty 
-    sterowania $\Delta u_k = 0$ i~sygnał sterujący pozostaje stały: $u_k = u_{N_{\mathrm{c}}-1}$. 
-    Technika ta redukuje liczbę zmiennych decyzyjnych z~$N_{\mathrm{p}}$ do~$N_{\mathrm{c}}$, 
+    sterowania $\Delta u_k = 0$ i~sygnał sterujący pozostaje stały: $u_k = u_{N_u-1}$. 
+    Technika ta redukuje liczbę zmiennych decyzyjnych z~$N$ do~$N_u$, 
     przyspieszając obliczenia przy zachowaniu długiego horyzontu predykcji,
     \item $f(\cdot)$ -- nieliniowy model dyskretny obiektu (całkowanie metodą
     Rungego-Kutt 4. rzędu),
@@ -537,12 +537,12 @@ macierzy wag, determinujących zachowanie układu w~stanie nieustalonym.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpc_1_bad.png}
-    \caption{Regulator MPC z~krótkim horyzontem ($N_p=5$, $N_c=2$, 
+    \caption{Regulator MPC z~krótkim horyzontem ($N=5$, $N_u=2$, 
     $Q=\mathrm{diag}([10, 1, 10, 1])$, $R=0.1$).}
     \label{fig:mpc_bad}
 \end{figure}
 
-Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N_{\mathrm{p}} = 5$,
+Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N = 5$,
 Rys.~\ref{fig:mpc_bad}) prowadziło do~niestabilności układu zamkniętego. Horyzont 
 predykcji był zbyt krótki, aby regulator mógł uwzględnić, że rozpędzając wózek 
 w~celu korekcji kąta, nie zdąży wyhamować przed upadkiem wahadła lub osiągnięciem końca toru. Horyzont pięciu kroków (przy
@@ -552,12 +552,12 @@ dynamikę wahadła i~zaplanować odpowiedni manewr powrotny.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpc_2_manual.png}
-    \caption{Regulator MPC z~ręcznie dobranymi wagami ($N_p=10$, $N_c=3$, 
+    \caption{Regulator MPC z~ręcznie dobranymi wagami ($N=10$, $N_u=3$, 
     $Q=\mathrm{diag}([50, 10, 50, 10])$, $R=0.1$).}
     \label{fig:mpc_manual}
 \end{figure}
 
-Zwiększenie horyzontu do~$N_{\mathrm{p}}=10$ w~ramach korekty ręcznej 
+Zwiększenie horyzontu do~$N=10$ w~ramach korekty ręcznej 
 (Rys.~\ref{fig:mpc_manual}) ustabilizowało proces. Dłuższy horyzont umożliwił 
 predykcję na~$1{,}0$~s, co pozwoliło na~antycypację skutków podejmowanych działań 
 sterujących. Dodatkowa manipulacja wagami $Q$ pozwoliła na~uzyskanie poprawnego 
@@ -567,14 +567,14 @@ przeregulowania.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpc_3_opt.png}
-    \caption{Zoptymalizowany regulator MPC ($N_p=12$, $N_c=4$, 
+    \caption{Zoptymalizowany regulator MPC ($N=12$, $N_u=4$, 
     $Q=\mathrm{diag}([158.4, 40.8, 43.4, 19.7])$, $R=0.086$).}
     \label{fig:mpc_opt}
 \end{figure}
 
 Automatyzacja procesu strojenia przy użyciu skryptu \texttt{tune\_mpc.py} pozwoliła
 na~znalezienie kompromisu między długością horyzontu a~wagami (Rys.~\ref{fig:mpc_opt}).
-Algorytm optymalizacyjny wskazał $N_{\mathrm{p}}=12$ (co odpowiada $1{,}2$~s predykcji) 
+Algorytm optymalizacyjny wskazał $N=12$ (co odpowiada $1{,}2$~s predykcji) 
 jako optimum dla tego modelu dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń. Zoptymalizowane
 wagi $Q$ znacząco różnią się od~intuicyjnych proporcji -- wysoka kara za~kąt 
 ($Q_{\theta}=158.4$) w~połączeniu z~niską karą za~zmianę sterowania ($R=0.086$)
@@ -590,7 +590,7 @@ o~dodatkowy składnik karzący bezwzględną wartość sygnału sterującego
 
 Zmodyfikowana funkcja celu przyjmuje postać:
 \begin{equation}
-    J = \sum_{k=1}^{N_{\mathrm{p}}} (x_k - x_{\mathrm{ref}})^T Q (x_k - x_{\mathrm{ref}}) \;+\; R_{\Delta} \sum_{k=0}^{N_{\mathrm{c}}-1} (\Delta u_k)^2 \;+\; R_{\mathrm{abs}} \sum_{k=0}^{N_{\mathrm{c}}-1} (u_k)^2.
+    J = \sum_{k=1}^{N} (x_k - x_{\mathrm{ref}})^T Q (x_k - x_{\mathrm{ref}}) \;+\; R_{\Delta} \sum_{k=0}^{N_u-1} (\Delta u_k)^2 \;+\; R_{\mathrm{abs}} \sum_{k=0}^{N-1} (u_k)^2.
 \end{equation}
 Wprowadzenie parametru $R_{\mathrm{abs}}$ pozwala na~bezpośrednie minimalizowanie
 zużycia energii sterowania, co jest podejściem powszechnie stosowanym
