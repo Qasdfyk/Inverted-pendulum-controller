@@ -201,6 +201,82 @@ def plot_combined(trajectories, signal_type, filename, title):
     print(f"  Saved: {filename}")
 
 
+def run_sensitivity_analysis(controllers):
+    """
+    Run sensitivity analysis across a range of mass perturbations.
+    Returns dict: {controller_name: {perturbation: iae_theta}}
+    """
+    # Define perturbation range: -20% to +50%
+    perturbations = [-0.2, -0.1, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5]
+    
+    dt, T = SIM["dt"], SIM["T"]
+    x0, x_ref = SIM["x0"], SIM["x_ref"]
+    
+    sensitivity_results = {name: {} for name in controllers.keys()}
+    
+    print("\n" + "="*60)
+    print("Running Sensitivity Analysis (Mass Perturbation Sweep)")
+    print("="*60)
+    
+    for pert in perturbations:
+        # Create perturbed plant
+        plant_pert = {
+            "M": PLANT["M"],
+            "m": PLANT["m"] * (1 + pert),
+            "l": PLANT["l"],
+            "g": PLANT["g"]
+        }
+        
+        print(f"\n  Perturbation: {pert*100:+.0f}% (m = {plant_pert['m']:.4f} kg)")
+        
+        for name, ctrl in controllers.items():
+            # Run simulation
+            X, U, _, _, _ = simulate_with_perturbed_plant(
+                plant_pert, ctrl, x0, x_ref, T, dt, wind=None
+            )
+            
+            t = np.linspace(0.0, T, len(U) + 1)
+            metrics = calculate_metrics(t, X, U, x_ref, dt)
+            
+            # Store IAE theta (or mark as failed if pendulum fell)
+            if metrics['fell']:
+                sensitivity_results[name][pert] = np.nan
+                print(f"    {name}: FELL")
+            else:
+                sensitivity_results[name][pert] = metrics['iae_theta']
+                print(f"    {name}: IAE_th = {metrics['iae_theta']:.5f}")
+    
+    return perturbations, sensitivity_results
+
+
+def plot_sensitivity_analysis(perturbations, sensitivity_results, filename):
+    """
+    Plot sensitivity analysis: IAE vs mass perturbation for all controllers.
+    """
+    fig, ax = plt.subplots(figsize=(12, 8))
+    
+    # Convert perturbations to percentages for X axis
+    pert_percent = [p * 100 for p in perturbations]
+    
+    markers = ['o', 's', '^', 'D', 'v']
+    
+    for (name, results), marker in zip(sensitivity_results.items(), markers):
+        iae_values = [results.get(p, np.nan) for p in perturbations]
+        ax.plot(pert_percent, iae_values, label=name, linewidth=3, 
+                marker=marker, markersize=10, markeredgewidth=2)
+    
+    ax.axvline(x=0, color='k', linestyle='--', alpha=0.3, linewidth=2)
+    ax.set_xlabel('Zmiana masy wahadla [%]')
+    ax.set_ylabel(r'$IAE_\theta$')
+    ax.grid(True)
+    ax.legend()
+    
+    plt.tight_layout()
+    plt.savefig(os.path.join(SAVE_DIR, filename))
+    plt.close(fig)
+    print(f"  Saved: {filename}")
+
+
 def print_results_table(results, controllers):
     """Print LaTeX table for robustness results."""
     print("\n\n=== LATEX TABLE: Robustness Results ===")
@@ -319,9 +395,25 @@ def main():
     # Print LaTeX table
     print_results_table(results, controllers)
     
+    # Run sensitivity analysis (sweep over perturbations)
+    perturbations, sensitivity_results = run_sensitivity_analysis(controllers)
+    
+    # Plot sensitivity analysis
+    print("\nGenerating sensitivity plot...")
+    plot_sensitivity_analysis(perturbations, sensitivity_results, 'robustness_sensitivity.png')
+    
+    # Save sensitivity results
+    sensitivity_file = os.path.join(os.path.dirname(__file__), 'robustness_sensitivity.json')
+    # Convert to serializable format
+    sens_save = {name: {str(k): v for k, v in res.items()} 
+                 for name, res in sensitivity_results.items()}
+    with open(sensitivity_file, 'w') as f:
+        json.dump(sens_save, f, indent=4)
+    print(f"Sensitivity results saved to {sensitivity_file}")
+    
     # Print comparison summary
     print("\n" + "="*60)
-    print("SUMMARY: Robustness Analysis")
+    print("SUMMARY: Robustness Analysis (+10% perturbation)")
     print("="*60)
     print(f"Plant perturbation: +{MASS_PERTURBATION*100:.0f}% pendulum mass")
     print(f"Nominal m = {PLANT['m']:.4f} kg -> Perturbed m = {PLANT_PERTURBED['m']:.4f} kg")

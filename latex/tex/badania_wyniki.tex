@@ -262,6 +262,49 @@ co potwierdza jego agresywną strategię minimalizacji uchybu kątowego.
     \label{fig:robust_u}
 \end{figure}
 
+\subsubsection{Analiza wrażliwości na zakres perturbacji}
+
+W~celu pełniejszej oceny zapasów odporności poszczególnych regulatorów przeprowadzono
+dodatkową analizę wrażliwości. Zbadano zachowanie układów sterowania w~szerokim zakresie
+zmian masy wahadła: od~$-20\%$ do~$+50\%$ wartości nominalnej. Dla każdej wartości
+perturbacji obliczono wskaźnik całkowy błędu bezwzględnego kąta ($IAE_\theta$),
+który jest miarą skumulowanego uchybu w~czasie symulacji.
+
+Wyniki analizy przedstawiono na~Rysunku~\ref{fig:robust_sensitivity}. Można zaobserwować
+kilka istotnych prawidłowości:
+
+\begin{itemize}
+    \item \textbf{Regulator Fuzzy-LQR} wykazuje najlepszą odporność na~niepewność
+    parametryczną, osiągając najniższe wartości $IAE_\theta$ w~całym badanym zakresie.
+    Co więcej, jego charakterystyka jest praktycznie płaska --- zmiana masy wahadła
+    nie wpływa istotnie na~jakość regulacji. Wynika to z~adaptacyjnej natury logiki
+    rozmytej, która dostosowuje wagi reguł do~obserwowanego stanu układu.
+    
+    \item \textbf{Regulatory klasyczne (PD-PD, PD-LQR)} również charakteryzują się
+    płaską charakterystyką w~całym zakresie perturbacji, choć z~nieco wyższymi
+    wartościami błędu niż Fuzzy-LQR. Ich jakość regulacji jest mało wrażliwa na~niepewność 
+    parametryczną dzięki strukturze opartej na~sprzężeniu zwrotnym od~błędu.
+    
+    \item \textbf{Regulatory predykcyjne (MPC, MPC-J2)} wykazują najwyższe wartości
+    wskaźnika $IAE_\theta$. Jest to spodziewane zachowanie, gdyż algorytm optymalizacji 
+    wykorzystuje wewnętrzny model, który odbiega od~rzeczywistej dynamiki obiektu.
+    Niemniej jednak, regulatory te zachowują stabilność w~całym badanym zakresie,
+    a~wzrost błędu wraz z~perturbacją jest umiarkowany.
+\end{itemize}
+
+Analiza ta~pokazuje, że regulatory wykorzystujące mechanizmy adaptacyjne (Fuzzy-LQR)
+lub proste sprzężenie zwrotne od~błędu (PD, LQR) mogą oferować lepszą odporność
+na~niepewność modelu niż metody predykcyjne, których skuteczność zależy od~dokładności
+wewnętrznego modelu obiektu.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images_odpornosc/robustness_sensitivity.png}
+    \caption{Analiza wrażliwości: zależność wskaźnika $IAE_\theta$ od~zmiany masy
+    wahadła dla poszczególnych regulatorów. Linia pionowa oznacza warunki nominalne.}
+    \label{fig:robust_sensitivity}
+\end{figure}
+
 \subsection{Szczegółowe zestawienie ilościowe}
 
 Poniższe tabele stanowią numeryczne podsumowanie omówionych wyżej zjawisk. Dane zostały

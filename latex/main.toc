@@ -43,14 +43,15 @@
 \contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{53}{subsubsection.6.1.2}%
 \contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{55}{subsection.6.2}%
 \contentsline {subsection}{\numberline {6.3\relax .\enspace }Analiza odporności na zmianę parametrów modelu}{58}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1\relax .\enspace }Analiza wrażliwości na zakres perturbacji}{61}{subsubsection.6.3.1}%
 \contentsline {subsection}{\numberline {6.4\relax .\enspace }Szczegółowe zestawienie ilościowe}{61}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5\relax .\enspace }Analiza wpływu kary za sterowanie w MPC z alternatywną funkcją kosztu}{62}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.5\relax .\enspace }Analiza wpływu kary za sterowanie w MPC z alternatywną funkcją kosztu}{63}{subsection.6.5}%
 \contentsline {subsection}{\numberline {6.6\relax .\enspace }Porównanie złożoności obliczeniowej}{63}{subsection.6.6}%
-\contentsline {section}{\numberline {7\relax .\enspace }Podsumowanie}{64}{section.7}%
-\contentsline {subsection}{\numberline {7.1\relax .\enspace }Wnioski końcowe}{64}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2\relax .\enspace }Ograniczenia pracy}{64}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3\relax .\enspace }Kierunki dalszych badań}{65}{subsection.7.3}%
-\contentsline {section}{Bibliografia}{67}{section*.50}%
-\contentsline {section}{Wykaz symboli i skrótów}{69}{section*.51}%
-\contentsline {section}{Spis rysunków}{70}{section*.51}%
-\contentsline {section}{Spis tabel}{71}{section*.51}%
+\contentsline {section}{\numberline {7\relax .\enspace }Podsumowanie}{65}{section.7}%
+\contentsline {subsection}{\numberline {7.1\relax .\enspace }Wnioski końcowe}{65}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2\relax .\enspace }Ograniczenia pracy}{65}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3\relax .\enspace }Kierunki dalszych badań}{66}{subsection.7.3}%
+\contentsline {section}{Bibliografia}{67}{section*.51}%
+\contentsline {section}{Wykaz symboli i skrótów}{69}{section*.52}%
+\contentsline {section}{Spis rysunków}{71}{section*.52}%
+\contentsline {section}{Spis tabel}{71}{section*.52}%

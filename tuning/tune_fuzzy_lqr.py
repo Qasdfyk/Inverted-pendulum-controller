@@ -2,9 +2,9 @@ import sys
 import os
 import numpy as np
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'controllers')))
-from fuzzy_lqr import TSFuzzyController, starter_ts_params16, lqr_from_plant
-from mpc_utils import PLANT, SIM
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from controllers.fuzzy_lqr import TSFuzzyController, starter_ts_params16, lqr_from_plant
+from controllers.mpc_utils import PLANT, SIM
 
 sys.path.append(os.path.dirname(__file__))
 from optimizer import run_tuning
