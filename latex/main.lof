@@ -24,21 +24,22 @@
 \contentsline {figure}{\numberline {4.17}{\ignorespaces Regulator MPC-J2 z~ręcznie zmniejszoną karą ($R_{\mathrm {abs}}=1$).}}{41}{figure.caption.25}%
 \contentsline {figure}{\numberline {4.18}{\ignorespaces Zoptymalizowany regulator MPC-J2 ($R_{\mathrm {abs}}=0$).}}{42}{figure.caption.26}%
 \contentsline {figure}{\numberline {4.19}{\ignorespaces Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową.}}{43}{figure.caption.27}%
-\contentsline {figure}{\numberline {4.20}{\ignorespaces Regulator Fuzzy-LQR z~wąskimi funkcjami przynależności (zakres ,,mały błąd'' dla $\theta $: $[-0.02, 0.02]$~rad).}}{44}{figure.caption.28}%
-\contentsline {figure}{\numberline {4.21}{\ignorespaces Regulator Fuzzy-LQR z~ręcznie dobranymi parametrami ($F_{\theta }=20$, $F_{\dot {\theta }}=5$, $F_x=10$, $F_{\dot {x}}=2$, zakres: $[-0.2, 0.2]$~rad).}}{45}{figure.caption.29}%
-\contentsline {figure}{\numberline {4.22}{\ignorespaces Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta }=100.0$, $F_{\dot {\theta }}=5.27$, $F_x=19.82$, $F_{\dot {x}}=19.25$, $G=0.36$).}}{46}{figure.caption.30}%
-\contentsline {figure}{\numberline {6.1}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne).}}{52}{figure.caption.32}%
-\contentsline {figure}{\numberline {6.2}{\ignorespaces Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}}{53}{figure.caption.33}%
-\contentsline {figure}{\numberline {6.3}{\ignorespaces Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}}{53}{figure.caption.34}%
-\contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{55}{figure.caption.35}%
-\contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{55}{figure.caption.36}%
-\contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{56}{figure.caption.37}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{57}{figure.caption.38}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{58}{figure.caption.39}%
-\contentsline {figure}{\numberline {6.9}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{58}{figure.caption.40}%
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{59}{figure.caption.41}%
-\contentsline {figure}{\numberline {6.11}{\ignorespaces Przebieg kąta $\theta $ przy zmienionych parametrach modelu (+10\% masy wahadła).}}{60}{figure.caption.42}%
-\contentsline {figure}{\numberline {6.12}{\ignorespaces Przebieg pozycji $x$ przy zmienionych parametrach modelu (+10\% masy wahadła).}}{61}{figure.caption.43}%
-\contentsline {figure}{\numberline {6.13}{\ignorespaces Sygnał sterujący $u$ przy zmienionych parametrach modelu (+10\% masy wahadła).}}{61}{figure.caption.44}%
-\contentsline {figure}{\numberline {6.14}{\ignorespaces Analiza wrażliwości: zależność wskaźnika $IAE_\theta $ od~zmiany masy wahadła dla poszczególnych regulatorów. Linia pionowa oznacza warunki nominalne.}}{63}{figure.caption.45}%
-\contentsline {figure}{\numberline {6.15}{\ignorespaces Porównanie sygnału sterującego $u$ dla MPC-J2 z różnymi wartościami $R_{abs}$.}}{65}{figure.caption.49}%
+\contentsline {figure}{\numberline {4.20}{\ignorespaces Trójkątne funkcje przynależności dla czterech zmiennych stanu regulatora Fuzzy-LQR. Każda zmienna posiada dwa zbiory rozmyte: ,,Mały błąd'' (aktywny w~pobliżu zera) oraz ,,Duży błąd'' (aktywny przy większych odchyleniach od~punktu równowagi).}}{43}{figure.caption.28}%
+\contentsline {figure}{\numberline {4.21}{\ignorespaces Regulator Fuzzy-LQR z~wąskimi funkcjami przynależności (zakres ,,mały błąd'' dla $\theta $: $[-0.02, 0.02]$~rad).}}{45}{figure.caption.29}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Regulator Fuzzy-LQR z~ręcznie dobranymi parametrami ($F_{\theta }=20$, $F_{\dot {\theta }}=5$, $F_x=10$, $F_{\dot {x}}=2$, zakres: $[-0.2, 0.2]$~rad).}}{46}{figure.caption.30}%
+\contentsline {figure}{\numberline {4.23}{\ignorespaces Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta }=100.0$, $F_{\dot {\theta }}=5.27$, $F_x=19.82$, $F_{\dot {x}}=19.25$, $G=0.36$).}}{47}{figure.caption.31}%
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne).}}{53}{figure.caption.33}%
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}}{54}{figure.caption.34}%
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}}{54}{figure.caption.35}%
+\contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{56}{figure.caption.36}%
+\contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{56}{figure.caption.37}%
+\contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{57}{figure.caption.38}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{58}{figure.caption.39}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{59}{figure.caption.40}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{59}{figure.caption.41}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{60}{figure.caption.42}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Przebieg kąta $\theta $ przy zmienionych parametrach modelu (+10\% masy wahadła).}}{61}{figure.caption.43}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Przebieg pozycji $x$ przy zmienionych parametrach modelu (+10\% masy wahadła).}}{62}{figure.caption.44}%
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Sygnał sterujący $u$ przy zmienionych parametrach modelu (+10\% masy wahadła).}}{62}{figure.caption.45}%
+\contentsline {figure}{\numberline {6.14}{\ignorespaces Analiza wrażliwości: zależność wskaźnika $IAE_\theta $ od~zmiany masy wahadła dla poszczególnych regulatorów. Linia pionowa oznacza warunki nominalne.}}{64}{figure.caption.46}%
+\contentsline {figure}{\numberline {6.15}{\ignorespaces Porównanie sygnału sterującego $u$ dla MPC-J2 z różnymi wartościami $R_{abs}$.}}{66}{figure.caption.50}%

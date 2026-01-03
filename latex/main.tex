@@ -167,19 +167,55 @@ quality, outperforming the classical PD approach.
 % zapewniając podstawowe formatowanie.
 % //AB
 \vspace{0.8cm}
+% Przedefiniowanie makra \acronym bez pogrubienia
+\renewcommand{\acronym}[2]{%
+    \par\noindent\hspace{0.4em}%
+    {#1 -- #2}%
+}
 \acronymlist
-\acronym{$x$}{Położenie wózka [m]}
-\acronym{$\dot{x}$}{Prędkość wózka [m/s]}
-\acronym{$\theta$}{Kąt odchylenia wahadła od pionu [rad]}
-\acronym{$\dot{\theta}$}{Prędkość kątowa wahadła [rad/s]}
-\acronym{$u$}{Sygnał sterujący (siła działająca na wózek) [N]}
-\acronym{LQR}{Linear-Quadratic Regulator - regulator liniowo-kwadratowy}
-\acronym{PD}{Proporcjonalno-Różniczkujący regulator}
-\acronym{PID}{Proporcjonalno-Całkująco-Różniczkujący regulator}
-\acronym{MSE}{Mean Squared Error - średni błąd kwadratowy}
-\acronym{MAE}{Mean Absolute Error - średni błąd bezwzględny}
-\acronym{$\Delta t$}{Krok czasowy symulacji [s]}
-\acronym{$N$}{Liczba próbek w sygnale dyskretnym}
+
+% --- Symbole (posortowane alfabetycznie) ---
+\acronym{$\Delta t$}{krok czasowy symulacji [s]}
+\acronym{$\Delta u$}{przyrost sygnału sterującego [N]}
+\acronym{$\dot{\theta}$}{prędkość kątowa wahadła [rad/s]}
+\acronym{$\dot{x}$}{prędkość wózka [m/s]}
+\acronym{$\mu$}{funkcja przynależności (logika rozmyta)}
+\acronym{$\theta$}{kąt odchylenia wahadła od pionu [rad]}
+\acronym{$F_w$}{siła zakłócająca (wiatr) [N]}
+\acronym{$g$}{przyspieszenie grawitacyjne [m/s\textsuperscript{2}]}
+\acronym{$G$}{wzmocnienie globalne regulatora rozmytego}
+\acronym{$J$}{funkcja kosztu (wskaźnik jakości)}
+\acronym{$K$}{wektor wzmocnień regulatora LQR}
+\acronym{$K_d$}{wzmocnienie członu różniczkującego}
+\acronym{$K_p$}{wzmocnienie członu proporcjonalnego}
+\acronym{$l$}{długość wahadła [m]}
+\acronym{$M$}{masa wózka [kg]}
+\acronym{$m$}{masa wahadła [kg]}
+\acronym{$N_c$}{horyzont sterowania (MPC)}
+\acronym{$N_p$}{horyzont predykcji (MPC)}
+\acronym{$Q$}{macierz wag stanu}
+\acronym{$R$}{macierz wag sterowania}
+\acronym{$R_{\mathrm{abs}}$}{kara za bezwzględną wartość sterowania (MPC-J2)}
+\acronym{$R_{\Delta}$}{kara za przyrosty sterowania}
+\acronym{$t_s$}{czas ustalania [s]}
+\acronym{$u$}{sygnał sterujący (siła działająca na wózek) [N]}
+\acronym{$u_{\mathrm{sat}}$}{ograniczenie (saturacja) sygnału sterującego [N]}
+\acronym{$w_i$}{waga $i$-tej reguły rozmytej}
+\acronym{$x$}{położenie wózka [m]}
+\acronym{$x_{\mathrm{ref}}$}{wartość zadana (referencyjna)}
+
+% --- Skróty (posortowane alfabetycznie) ---
+\acronym{IAE}{Integral of Absolute Error -- całka z błędu bezwzględnego}
+\acronym{ISE}{Integral of Squared Error -- całka z błędu kwadratowego}
+\acronym{LQR}{Linear-Quadratic Regulator -- regulator liniowo-kwadratowy}
+\acronym{MAE}{Mean Absolute Error -- średni błąd bezwzględny}
+\acronym{MPC}{Model Predictive Control -- sterowanie predykcyjne}
+\acronym{MSE}{Mean Squared Error -- średni błąd kwadratowy}
+\acronym{PD}{regulator proporcjonalno-różniczkujący}
+\acronym{PID}{regulator proporcjonalno-całkująco-różniczkujący}
+\acronym{SLSQP}{Sequential Least Squares Programming -- algorytm optymalizacji}
+\acronym{SNR}{Signal-to-Noise Ratio -- stosunek sygnału do szumu}
+\acronym{T-S}{Takagi-Sugeno -- typ systemu wnioskowania rozmytego}
 
 
 \listoffigurestoc     % Spis rysunków.

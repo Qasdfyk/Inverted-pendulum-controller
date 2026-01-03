@@ -419,17 +419,9 @@ całkujący, który teoretycznie powinien eliminować uchyb ustalony, w~tej
 konfiguracji powoduje jego powstanie. Zjawisko to wynika z~interakcji między 
 pętlą PD a~regulatorem LQR -- akumulowany błąd w~integratorze interferuje 
 z~optymalnym sterowaniem LQR, prowadząc do~przesunięcia punktu równowagi.
-
 Z~tego powodu w~finalnej konfiguracji regulatora PD-LQR zdecydowano się 
 na~wyłączenie członu całkującego ($K_i = 0$), pozostawiając strukturę PD-LQR 
-(Rys.~\ref{fig:lqr_opt}). Takie rozwiązanie zapewnia:
-\begin{itemize}
-    \item \textbf{Brak uchybu ustalonego} -- regulator LQR z~wysoką wagą 
-    $Q_x = 500$ skutecznie eliminuje błąd pozycji bez potrzeby całkowania.
-    \item \textbf{Szybszą odpowiedź dynamiczną} -- brak opóźnienia fazowego 
-    wprowadzanego przez integrator.
-    \item \textbf{Prostszą strukturę} -- mniej parametrów do~strojenia.
-\end{itemize}
+(Rys.~\ref{fig:lqr_opt}).
 
 Wyniki te wskazują, że w~przypadku dobrze nastrojonego regulatora LQR 
 z~wysokimi wagami dla błędu pozycji, dodatkowy człon całkujący nie tylko 
@@ -612,7 +604,7 @@ $q_x=40.0$, $q_{\dot{\theta}}=5.0$, $q_{\dot{x}}=5.0$ (elementy macierzy diagona
 przy czym $R_{\Delta}=0.0001$ i~$R_{\mathrm{abs}}=0$ dla wariantu priorytetyzującego 
 jakość regulacji.
 
-\subsubsection{Analiza wpływu kary za energię}
+\subsubsection{Dobór parametrów i analiza wpływu kary za energię}
 W~przypadku wariantu MPC-J2 analizowano nieliniowy wpływ parametru $R_{\mathrm{abs}}$
 na~zachowanie układu. Eksperymenty przeprowadzono przy stałych wagach stanu
 ($q_{\theta}=40$, $q_x=40$, $q_{\dot{\theta}}=5$, $q_{\dot{x}}=5$), zmieniając 
@@ -735,6 +727,18 @@ Część rozmyta $u_{\mathrm{Fuzzy}}(t)$ wykorzystuje bazę reguł postaci:
 gdzie $f_i(x)$ jest liniową funkcją stanu (lokalny regulator
 liniowy). Zastosowano funkcje przynależności trójkątne dla zmiennych stanu,
 dzieląc przestrzeń na~obszary ,,Mały błąd'' i~,,Duży błąd''.
+Kształt zastosowanych funkcji przynależności przedstawiono na~Rys.~\ref{fig:fuzzy_membership}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/diagrams/fuzzy_membership.png}
+    \caption{Trójkątne funkcje przynależności dla czterech zmiennych stanu 
+    regulatora Fuzzy-LQR. Każda zmienna posiada dwa zbiory rozmyte: 
+    ,,Mały błąd'' (aktywny w~pobliżu zera) oraz ,,Duży błąd'' 
+    (aktywny przy większych odchyleniach od~punktu równowagi).}
+    \label{fig:fuzzy_membership}
+\end{figure}
+
 Baza wiedzy składa się z~16 reguł ($2^4$ kombinacji dla 4 zmiennych stanu).
 Wyjście sterownika obliczane jest jako średnia ważona:
 \begin{equation}
