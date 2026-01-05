@@ -319,7 +319,7 @@ Rozwiązując powyższe równanie, otrzymujemy cztery wartości własne:
     \lambda_{1,2} = 0, \quad \lambda_3 \approx -5{,}49, \quad \lambda_4 \approx +5{,}49.
 \end{equation}
 Obecność dodatniej wartości własnej \(\lambda_4 > 0\) potwierdza, że układ 
-w~pętli otwartej jest \textbf{niestabilny} --- każde, nawet minimalne odchylenie 
+w~pętli otwartej jest niestabilny --- każde, nawet minimalne odchylenie 
 od~pionu będzie narastać eksponencjalnie w~czasie. Dwie zerowe wartości własne 
 odpowiadają ruchowi wózka po torze (brak tłumienia, brak siły przywracającej).
 
@@ -331,13 +331,13 @@ pary \((A, B)\). Macierz sterowności Kalmana zdefiniowana jest jako:
     \mathcal{C} = \begin{bmatrix} B & AB & A^2 B & A^3 B \end{bmatrix}.
 \end{equation}
 Dla rozpatrywanego układu wyznaczono \(\mathrm{rank}(\mathcal{C}) = 4\), 
-co oznacza \textbf{pełną sterowność} --- istnieje sygnał sterujący \(u(t)\), 
+co oznacza pełną sterowność --- istnieje sygnał sterujący \(u(t)\), 
 który pozwala przeprowadzić układ z~dowolnego stanu początkowego do~dowolnego 
 stanu końcowego w~skończonym czasie.
 
 Analogicznie, macierz obserwowalności (przy założeniu pomiaru kąta \(\theta\) 
 i~pozycji \(x\), tj. \(C = [1, 0, 0, 0; 0, 0, 1, 0]\)) ma pełny rząd, 
-co potwierdza \textbf{pełną obserwowalność} układu. Oznacza to, że na~podstawie 
+co potwierdza pełną obserwowalność układu. Oznacza to, że na~podstawie 
 pomiarów wyjściowych możliwe jest jednoznaczne odtworzenie pełnego wektora stanu, 
 co jest istotne dla praktycznej implementacji regulatorów opartych na~sprzężeniu 
 zwrotnym od~stanu.

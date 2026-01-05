@@ -384,34 +384,38 @@ J = \sum_{k=1}^{N} (x_k - x_{ref})^T Q (x_k - x_{ref}) + r \sum (\Delta u_k)^2 +
 \end{columns}
 \end{frame}
 
-\begin{frame}{Regulator Fuzzy-LQR (rozmyty Takagi–Sugeno)}
+\begin{frame}{Regulator Fuzzy-LQR (hybrydowy)}
 \begin{columns}
-\begin{column}{0.55\textwidth}
+\begin{column}{0.6\textwidth}
 \small
-Interpolacja lokalnych regulatorów LQR:
-
-\textbf{Reguły rozmyte:}
+\textbf{Prawo sterowania (hybrydowe):}
 \[
-R_i: \text{Jeśli } \theta \text{ jest } A_i \text{, to } u_i = -K_i x
+u(t) = u_{\mathrm{LQR}}(t) + u_{\mathrm{Fuzzy}}(t)
 \]
 
-\textbf{Wyjście systemu:}
+\textbf{Część rozmyta (Takagi-Sugeno):}
 \[
-u = \frac{\sum_{i=1}^{M} w_i \cdot (-K_i x)}{\sum_{i=1}^{M} w_i}
+u_{\mathrm{Fuzzy}} = \frac{\sum_{i=1}^{M} w_i(\theta) \cdot (-K_i x)}{\sum_{i=1}^{M} w_i(\theta)}
 \]
+gdzie $w_i(\theta)$ to stopień aktywacji reguły (z funkcji przynależności).
 
-gdzie $w_i = \mu_{A_i}(\theta)$ -- stopień przynależności
-
-\textcolor{Success}{\textbf{+}} Adaptacja do stanu układu\\
-\textcolor{Success}{\textbf{+}} Wysoka precyzja stabilizacji
+\vspace{0.4em}
+\textbf{Koncepcja ,,Gain Scheduling'':}
+\begin{itemize}
+    \item \textbf{Mały błąd:} $w_i$ aktywuje łagodne reguły (jak LQR).
+    \item \textbf{Duży błąd:} $w_i$ aktywuje agresywne reguły (szybki powrót).
+\end{itemize}
 \end{column}
 
-\begin{column}{0.45\textwidth}
+\begin{column}{0.4\textwidth}
 \centering
 \includegraphics[width=\linewidth]{fuzzy_membership.png}
+\small\textit{Funkcje przynależności $w_i(\theta)$}
 \end{column}
 \end{columns}
 \end{frame}
+
+
 
 %======================
 % Section 4: Wyniki

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  3 JAN 2026 22:23
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  3 JAN 2026 23:31
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1095,15 +1095,23 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [14
 
  <../latex/images/experiments/combined_nominal_mpc_j2_study.png>]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 414--414
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 416--416
 [][][][][][][]  
  []
 
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 416.
+(C:\Users\adams\AppData\Local\Programs\MiKTeX\tex/latex/lm\t1lmr.fd
+File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+)
 <../latex/images/diagrams/fuzzy_membership.png, id=211, 953.964pt x 664.884pt>
 File: ../latex/images/diagrams/fuzzy_membership.png Graphic file (type png)
 <use ../latex/images/diagrams/fuzzy_membership.png>
-Package pdftex.def Info: ../latex/images/diagrams/fuzzy_membership.png  used on input line 414.
-(pdftex.def)             Requested size: 179.25114pt x 124.92921pt.
+Package pdftex.def Info: ../latex/images/diagrams/fuzzy_membership.png  used on input line 416.
+(pdftex.def)             Requested size: 159.333pt x 111.05045pt.
+
+Overfull \vbox (3.66054pt too high) detected at line 416
+ []
+
 
 
 
@@ -1114,7 +1122,7 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [15
 
  <../latex/images/diagrams/fuzzy_membership.png>]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 419--419
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 423--423
 [][][][][][][]  
  []
 
@@ -1128,7 +1136,7 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [16
 
 ]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 447--447
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 451--451
 [][][][][][][]  
  []
 
@@ -1142,19 +1150,19 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [17
 
 ]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 466--466
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 470--470
 [][][][][][][]  
  []
 
-<../latex/images/experiments/combined_nominal_classical.png, id=244, 867.24pt x 578.16pt>
+<../latex/images/experiments/combined_nominal_classical.png, id=245, 867.24pt x 578.16pt>
 File: ../latex/images/experiments/combined_nominal_classical.png Graphic file (type png)
 <use ../latex/images/experiments/combined_nominal_classical.png>
-Package pdftex.def Info: ../latex/images/experiments/combined_nominal_classical.png  used on input line 466.
+Package pdftex.def Info: ../latex/images/experiments/combined_nominal_classical.png  used on input line 470.
 (pdftex.def)             Requested size: 199.1693pt x 132.7799pt.
-<../latex/images/experiments/combined_nominal_pos_classical.png, id=245, 867.24pt x 578.16pt>
+<../latex/images/experiments/combined_nominal_pos_classical.png, id=246, 867.24pt x 578.16pt>
 File: ../latex/images/experiments/combined_nominal_pos_classical.png Graphic file (type png)
 <use ../latex/images/experiments/combined_nominal_pos_classical.png>
-Package pdftex.def Info: ../latex/images/experiments/combined_nominal_pos_classical.png  used on input line 466.
+Package pdftex.def Info: ../latex/images/experiments/combined_nominal_pos_classical.png  used on input line 470.
 (pdftex.def)             Requested size: 199.1693pt x 132.7799pt.
 
 
@@ -1166,19 +1174,19 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [18
 
  <../latex/images/experiments/combined_nominal_classical.png> <../latex/images/experiments/combined_nominal_pos_classical.png>]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 486--486
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 490--490
 [][][][][][][]  
  []
 
-<../latex/images/experiments/combined_nominal_advanced.png, id=257, 867.24pt x 578.16pt>
+<../latex/images/experiments/combined_nominal_advanced.png, id=258, 867.24pt x 578.16pt>
 File: ../latex/images/experiments/combined_nominal_advanced.png Graphic file (type png)
 <use ../latex/images/experiments/combined_nominal_advanced.png>
-Package pdftex.def Info: ../latex/images/experiments/combined_nominal_advanced.png  used on input line 486.
+Package pdftex.def Info: ../latex/images/experiments/combined_nominal_advanced.png  used on input line 490.
 (pdftex.def)             Requested size: 199.1693pt x 132.7799pt.
-<../latex/images/experiments/combined_nominal_pos_advanced.png, id=258, 867.24pt x 578.16pt>
+<../latex/images/experiments/combined_nominal_pos_advanced.png, id=259, 867.24pt x 578.16pt>
 File: ../latex/images/experiments/combined_nominal_pos_advanced.png Graphic file (type png)
 <use ../latex/images/experiments/combined_nominal_pos_advanced.png>
-Package pdftex.def Info: ../latex/images/experiments/combined_nominal_pos_advanced.png  used on input line 486.
+Package pdftex.def Info: ../latex/images/experiments/combined_nominal_pos_advanced.png  used on input line 490.
 (pdftex.def)             Requested size: 199.1693pt x 132.7799pt.
 
 
@@ -1190,15 +1198,15 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [19
 
  <../latex/images/experiments/combined_nominal_advanced.png> <../latex/images/experiments/combined_nominal_pos_advanced.png>]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 511--511
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 515--515
 [][][][][][][]  
  []
 
-<../latex/img/wind_signal.png, id=271, 462.528pt x 346.896pt>
+<../latex/img/wind_signal.png, id=272, 722.7pt x 361.35pt>
 File: ../latex/img/wind_signal.png Graphic file (type png)
 <use ../latex/img/wind_signal.png>
-Package pdftex.def Info: ../latex/img/wind_signal.png  used on input line 511.
-(pdftex.def)             Requested size: 179.25114pt x 134.43668pt.
+Package pdftex.def Info: ../latex/img/wind_signal.png  used on input line 515.
+(pdftex.def)             Requested size: 179.25114pt x 89.62599pt.
 
 
 
@@ -1209,19 +1217,19 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [20
 
  <../latex/img/wind_signal.png>]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 531--531
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 535--535
 [][][][][][][]  
  []
 
-<../latex/images/experiments/combined_wind_classical.png, id=282, 867.24pt x 578.16pt>
+<../latex/images/experiments/combined_wind_classical.png, id=283, 867.24pt x 578.16pt>
 File: ../latex/images/experiments/combined_wind_classical.png Graphic file (type png)
 <use ../latex/images/experiments/combined_wind_classical.png>
-Package pdftex.def Info: ../latex/images/experiments/combined_wind_classical.png  used on input line 531.
+Package pdftex.def Info: ../latex/images/experiments/combined_wind_classical.png  used on input line 535.
 (pdftex.def)             Requested size: 199.1693pt x 132.7799pt.
-<../latex/images/experiments/combined_wind_pos_classical.png, id=283, 867.24pt x 578.16pt>
+<../latex/images/experiments/combined_wind_pos_classical.png, id=284, 867.24pt x 578.16pt>
 File: ../latex/images/experiments/combined_wind_pos_classical.png Graphic file (type png)
 <use ../latex/images/experiments/combined_wind_pos_classical.png>
-Package pdftex.def Info: ../latex/images/experiments/combined_wind_pos_classical.png  used on input line 531.
+Package pdftex.def Info: ../latex/images/experiments/combined_wind_pos_classical.png  used on input line 535.
 (pdftex.def)             Requested size: 199.1693pt x 132.7799pt.
 
 
@@ -1233,19 +1241,19 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [21
 
  <../latex/images/experiments/combined_wind_classical.png> <../latex/images/experiments/combined_wind_pos_classical.png>]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 551--551
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 555--555
 [][][][][][][]  
  []
 
-<../latex/images/experiments/combined_wind_advanced.png, id=295, 867.24pt x 578.16pt>
+<../latex/images/experiments/combined_wind_advanced.png, id=296, 867.24pt x 578.16pt>
 File: ../latex/images/experiments/combined_wind_advanced.png Graphic file (type png)
 <use ../latex/images/experiments/combined_wind_advanced.png>
-Package pdftex.def Info: ../latex/images/experiments/combined_wind_advanced.png  used on input line 551.
+Package pdftex.def Info: ../latex/images/experiments/combined_wind_advanced.png  used on input line 555.
 (pdftex.def)             Requested size: 199.1693pt x 132.7799pt.
-<../latex/images/experiments/combined_wind_pos_advanced.png, id=296, 867.24pt x 578.16pt>
+<../latex/images/experiments/combined_wind_pos_advanced.png, id=297, 867.24pt x 578.16pt>
 File: ../latex/images/experiments/combined_wind_pos_advanced.png Graphic file (type png)
 <use ../latex/images/experiments/combined_wind_pos_advanced.png>
-Package pdftex.def Info: ../latex/images/experiments/combined_wind_pos_advanced.png  used on input line 551.
+Package pdftex.def Info: ../latex/images/experiments/combined_wind_pos_advanced.png  used on input line 555.
 (pdftex.def)             Requested size: 199.1693pt x 132.7799pt.
 
 
@@ -1257,7 +1265,7 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [22
 
  <../latex/images/experiments/combined_wind_advanced.png> <../latex/images/experiments/combined_wind_pos_advanced.png>]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 572--572
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 576--576
 [][][][][][][]  
  []
 
@@ -1271,7 +1279,7 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [23
 
 ]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 593--593
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 597--597
 [][][][][][][]  
  []
 
@@ -1285,7 +1293,7 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [24
 
 ]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 598--598
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 602--602
 [][][][][][][]  
  []
 
@@ -1299,19 +1307,19 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [25
 
 ]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 618--618
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 622--622
 [][][][][][][]  
  []
 
-<../latex/images_odpornosc/robustness_theta.png, id=339, 867.24pt x 578.16pt>
+<../latex/images_odpornosc/robustness_theta.png, id=340, 867.24pt x 578.16pt>
 File: ../latex/images_odpornosc/robustness_theta.png Graphic file (type png)
 <use ../latex/images_odpornosc/robustness_theta.png>
-Package pdftex.def Info: ../latex/images_odpornosc/robustness_theta.png  used on input line 618.
+Package pdftex.def Info: ../latex/images_odpornosc/robustness_theta.png  used on input line 622.
 (pdftex.def)             Requested size: 199.1693pt x 132.7799pt.
-<../latex/images_odpornosc/robustness_x.png, id=340, 867.24pt x 578.16pt>
+<../latex/images_odpornosc/robustness_x.png, id=341, 867.24pt x 578.16pt>
 File: ../latex/images_odpornosc/robustness_x.png Graphic file (type png)
 <use ../latex/images_odpornosc/robustness_x.png>
-Package pdftex.def Info: ../latex/images_odpornosc/robustness_x.png  used on input line 618.
+Package pdftex.def Info: ../latex/images_odpornosc/robustness_x.png  used on input line 622.
 (pdftex.def)             Requested size: 199.1693pt x 132.7799pt.
 
 
@@ -1323,14 +1331,14 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [26
 
  <../latex/images_odpornosc/robustness_theta.png> <../latex/images_odpornosc/robustness_x.png>]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 640--640
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 644--644
 [][][][][][][]  
  []
 
-<../latex/images_odpornosc/robustness_sensitivity.png, id=352, 867.24pt x 578.16pt>
+<../latex/images_odpornosc/robustness_sensitivity.png, id=353, 867.24pt x 578.16pt>
 File: ../latex/images_odpornosc/robustness_sensitivity.png Graphic file (type png)
 <use ../latex/images_odpornosc/robustness_sensitivity.png>
-Package pdftex.def Info: ../latex/images_odpornosc/robustness_sensitivity.png  used on input line 640.
+Package pdftex.def Info: ../latex/images_odpornosc/robustness_sensitivity.png  used on input line 644.
 (pdftex.def)             Requested size: 219.08743pt x 146.05702pt.
 
 
@@ -1342,7 +1350,7 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [27
 
  <../latex/images_odpornosc/robustness_sensitivity.png>]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 660--660
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 664--664
 [][][][][][][]  
  []
 
@@ -1356,7 +1364,7 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [28
 
 ]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 665--665
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 669--669
 [][][][][][][]  
  []
 
@@ -1370,7 +1378,7 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [29
 
 ]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 691--691
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 695--695
 [][][][][][][]  
  []
 
@@ -1384,7 +1392,7 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [30
 
 ]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 711--711
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 715--715
 [][][][][][][]  
  []
 
@@ -1398,7 +1406,7 @@ Overfull \hbox (455.24408pt too wide) has occurred while \output is active
 [31
 
 ]
-Overfull \hbox (455.24408pt too wide) in paragraph at lines 724--724
+Overfull \hbox (455.24408pt too wide) in paragraph at lines 728--728
 [][][][][][][]  
  []
 
@@ -1434,17 +1442,17 @@ Package rerunfilecheck Info: File `prezentacja_obrona.out' has not changed.
 (rerunfilecheck)             Checksum: 3574C4D996B6425D9FFA04EEB9BE4058;686.
  ) 
 Here is how much of TeX's memory you used:
- 26569 strings out of 468080
- 531254 string characters out of 5425772
- 901428 words of memory out of 5000000
- 54611 multiletter control sequences out of 15000+600000
- 707715 words of font info for 94 fonts, out of 8000000 for 9000
+ 26606 strings out of 468080
+ 532023 string characters out of 5425772
+ 900428 words of memory out of 5000000
+ 54640 multiletter control sequences out of 15000+600000
+ 725648 words of font info for 100 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,16n,123p,445b,817s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi7.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss8.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss9.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso8.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on prezentacja_obrona.pdf (33 pages, 2071719 bytes).
+<C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi7.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi8.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss12.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss8.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmss9.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmssbx10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsso8.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on prezentacja_obrona.pdf (33 pages, 1857653 bytes).
 PDF statistics:
- 502 PDF objects out of 1000 (max. 8388607)
+ 507 PDF objects out of 1000 (max. 8388607)
  73 named destinations out of 1000 (max. 500000)
  181 words of extra memory for PDF output out of 10000 (max. 10000000)
 

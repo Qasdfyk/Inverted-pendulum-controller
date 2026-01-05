@@ -47,8 +47,7 @@ pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}
         \node [sum, right=1.8cm of pd_theta, yshift=-0.6cm] (sum_u) {\tiny $+$};
         
         % Saturacja i obiekt
-        \node [block, right=0.7cm of sum_u, minimum width=2.5em] (sat) {sat};
-        \node [bigblock, right=0.8cm of sat] (plant) {Wahadło};
+        \node [bigblock, right=1.5cm of sum_u] (plant) {Wahadło};
         
         % Wyjście
         \node [output, right=1.2cm of plant] (out) {};
@@ -67,8 +66,7 @@ pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}
         \draw [arrow] (pd_x.east) -| (sum_u.south);
         
         % Suma -> sat -> plant -> wyjście
-        \draw [arrow] (sum_u) -- (sat);
-        \draw [arrow] (sat) -- node[above, font=\scriptsize] {$u$} (plant);
+        \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$u$} (plant);
         \draw [arrow] (plant) -- node[above, font=\scriptsize] {$\theta,x$} (out);
         
         % Sprzężenie zwrotne (na dole) - ciągła linia
@@ -101,9 +99,9 @@ prędkości ($\dot{\theta}_{\mathrm{ref}}, \dot{x}_{\mathrm{ref}}$) wynoszą zer
 W~implementacji programowej (plik \texttt{pd\_pd.py}) przyjęto następujące
 nastawy dobrane eksperymentalnie:
 \begin{itemize}
-    \item Tor stabilizacji kąta: $K_{p,\theta} = -95.0$, $K_{d,\theta} = -14.0$.
+    \item Tor stabilizacji kąta: $K_{p,\theta} = -95,0$, $K_{d,\theta} = -14,0$.
     Ujemne znaki wynikają z~przyjętej konwencji układu współrzędnych i~zwrotu siły.
-    \item Tor pozycji: $K_{p,x} = -16.0$, $K_{d,x} = -14.0$.
+    \item Tor pozycji: $K_{p,x} = -16,0$, $K_{d,x} = -14,0$.
 \end{itemize}
 Mimo iż klasa umożliwia włączenie członu całkującego (PID), w~badaniach
 \cite{Varghese2017} często wskazuje się, że dla obiektów tej klasy człon różniczkujący
@@ -163,8 +161,8 @@ umożliwia porównanie wszystkich badanych regulatorów w~ujednoliconych warunka
 \begin{equation}
     J = w_{\theta} \cdot \text{MSE}(\theta) + w_{x} \cdot \text{MSE}(x) + w_{u} \cdot \text{RMS}(u),
 \end{equation}
-gdzie przyjęto wagi $w_{\theta}=4.0$ (priorytet stabilizacji), $w_{x}=1.0$
-(dokładność pozycjonowania) oraz $w_{u}=0.01$ (koszt energii). Algorytm operował
+gdzie przyjęto wagi $w_{\theta}=4,0$ (priorytet stabilizacji), $w_{x}=1,0$
+(dokładność pozycjonowania) oraz $w_{u}=0,01$ (koszt energii). Algorytm operował
 na~populacji 10 osobników przez 20 generacji, co pozwoliło uniknąć minimów
 lokalnych.
 
@@ -233,7 +231,7 @@ pozycji wózka.
 Zwiększenie wag dla pozycji i~prędkości wózka ($Q_x=500$, $Q_{\dot{x}}=250$) prowadzi 
 do~znaczącej poprawy jakości śledzenia wartości zadanej (Rys.~\ref{fig:lqr_opt_2}). 
 Wyższe kary za~błąd pozycji wymuszają na~regulatorze intensywniejszą reakcję, 
-co skutkuje szybszym osiągnięciem zadanego punktu. Jedank sygnał sterujący dla 
+co skutkuje szybszym osiągnięciem zadanego punktu. Jednak sygnał sterujący dla 
 tak skonfigurowanego regulatora LQR jest bardzo słabej jakości. Widoczny są gwałtowne, 
 nieciągłe zmiany sygnału sterującego, które są kosztowne energetycznie i mogą być niebezpieczne dla układu.
 Motywuje to rozszerzenie struktury o~dodatkową pętlę PD z~możliwością włączenia członu całkującego.
@@ -262,8 +260,7 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
         \node [sum, right=1.2cm of lqr] (sum_u) {\tiny $+$};
         
         % Saturacja i obiekt
-        \node [block, right=0.7cm of sum_u, minimum width=2.5em] (sat) {sat};
-        \node [bigblock, right=0.8cm of sat] (plant) {Wahadło};
+        \node [bigblock, right=1.5cm of sum_u] (plant) {Wahadło};
         
         % Wyjście
         \node [output, right=1.2cm of plant] (out) {};
@@ -282,8 +279,8 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
         \draw [arrow] (pd_pos.east) -| (sum_u.south);
         
         % Reszta toru
-        \draw [arrow] (sum_u) -- (sat);
-        \draw [arrow] (sat) -- node[above, font=\scriptsize] {$u$} (plant);
+
+        \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$u$} (plant);
         \draw [arrow] (plant) -- node[above, font=\scriptsize] {$x$} (out);
         
         % Wejście referencyjne PD
@@ -335,7 +332,7 @@ Składnik LQR realizuje stabilizację wokół punktu pracy:
 \end{equation}
 Zastosowane wagi optymalne to:
 \begin{equation}
-    Q = \text{diag}([1.0,\; 1.0,\; 500.0,\; 250.0]), \quad R = 1.0.
+    Q = \text{diag}([1,\; 1,\; 500,\; 250]), \quad R = 1.
 \end{equation}
 Dodatkowy człon PD na~pętli pozycji (zrealizowany analogicznie do wzoru
 \ref{eq:pd_x}) ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
@@ -351,7 +348,7 @@ do~problemu optymalizacji wskaźnika jakości.
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_1_bad.png}
     \caption{Regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$, 
-    PD: $K_{p,x}=-4.5$, $K_{d,x}=-3$).}
+    PD: $K_{p,x}=-4,5$, $K_{d,x}=-3$).}
     \label{fig:lqr_bad}
 \end{figure}
 
@@ -470,7 +467,7 @@ nieliniowej (NMPC). Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:di
         \draw [arrow] (plant) -- node[above, font=\scriptsize] {$x$} (out);
         
         % Sprzężenie zwrotne - ciągła strzałka
-        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-0.8) -| node[pos=0.25, right, font=\scriptsize] {$x(t)$} ($(opt.south) + (0.6,0)$);
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-0.8) -| node[pos=0.25, below, font=\scriptsize] {$x(t)$} ($(opt.south) + (0.6,0)$);
         
         % Predykcja: Optymalizator <-> Model (dwukierunkowe, obok siebie)
         \draw [arrow, dashed] ($(opt.south) + (-0.3,0)$) -- ($(model.north) + (-0.3,0)$);
@@ -512,8 +509,8 @@ Gdzie:
     przyspieszając obliczenia przy zachowaniu długiego horyzontu predykcji,
     \item $f(\cdot)$ -- nieliniowy model dyskretny obiektu (całkowanie metodą
     Rungego-Kutt 4. rzędu),
-    \item $Q = \text{diag}([158.4,\; 40.8,\; 43.4,\; 19.7])$ -- macierz kar stanu,
-    \item $R = 0.086$ -- współczynnik kary za~zmianę sterowania ($\Delta u$).
+    \item $Q = \text{diag}([158,\; 41,\; 43,\; 20])$ -- macierz kar stanu,
+    \item $R = 0,086$ -- współczynnik kary za~zmianę sterowania ($\Delta u$).
 \end{itemize}
 Kluczową zaletę MPC, podkreślaną w~pracach \cite{Mills2009} oraz
 \cite{Jezierski2017}, jest możliwość bezpośredniego uwzględnienia ograniczeń
@@ -568,7 +565,7 @@ przeregulowania.
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpc_3_opt.png}
     \caption{Zoptymalizowany regulator MPC ($N=12$, $N_u=4$, 
-    $Q=\mathrm{diag}([158.4, 40.8, 43.4, 19.7])$, $R=0.086$).}
+    $Q=\mathrm{diag}([158, 41, 43, 20])$, $R=0,086$).}
     \label{fig:mpc_opt}
 \end{figure}
 
@@ -577,7 +574,7 @@ na~znalezienie kompromisu między długością horyzontu a~wagami (Rys.~\ref{fig
 Algorytm optymalizacyjny wskazał $N=12$ (co odpowiada $1{,}2$~s predykcji) 
 jako optimum dla tego modelu dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń. Zoptymalizowane
 wagi $Q$ znacząco różnią się od~intuicyjnych proporcji -- wysoka kara za~kąt 
-($Q_{\theta}=158.4$) w~połączeniu z~niską karą za~zmianę sterowania ($R=0.086$)
+($Q_{\theta}=158$) w~połączeniu z~niską karą za~zmianę sterowania ($R=0,086$)
 zapewnia szybką, ale gładką stabilizację.
 
 \subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}

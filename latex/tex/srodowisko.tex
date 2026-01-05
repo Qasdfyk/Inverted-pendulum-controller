@@ -108,7 +108,7 @@ Symulacje przeprowadzane~są dla zadania stabilizacji układu w~pionie (tzw. pun
 pracy), startując z niezerowych warunków początkowych lub wymuszając zmianę
 pozycji wózka.
 
-\textbf{Warunki początkowe (domyślne):}
+\textbf{Warunki początkowe:}
 \[
 \mathbf{x}_0 = [\theta, \dot{\theta}, x, \dot{x}]^T = [0{,}05, 0, 0, 0]^T
 \]
@@ -175,7 +175,7 @@ geometrycznych:
     \item \textbf{Koła}: obiekty \texttt{Circle}, poruszające się wraz z
     wózkiem.
     \item \textbf{Wahadło}: obiekt liniowy, którego współrzędne końcowe
-    wyznaczane są trigonometrycznie na podstawie kąta $\theta(t)$.
+    wyznaczane są na podstawie kąta $\theta(t)$.
 \end{itemize}
 
 Kluczowym elementem implementacji jest funkcja aktualizująca \texttt{update},

@@ -12,14 +12,14 @@
 \contentsline {figure}{\numberline {4.5}{\ignorespaces Czysty regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$).}}{27}{figure.caption.13}%
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Czysty regulator LQR z~wagami zoptymalizowanymi ($Q=\mathrm {diag}([1, 1, 500, 250])$, $R=1$).}}{28}{figure.caption.14}%
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Schemat blokowy hybrydowego regulatora PD-LQR.}}{29}{figure.caption.15}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$, PD: $K_{p,x}=-4.5$, $K_{d,x}=-3$).}}{30}{figure.caption.16}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$, PD: $K_{p,x}=-4,5$, $K_{d,x}=-3$).}}{30}{figure.caption.16}%
 \contentsline {figure}{\numberline {4.9}{\ignorespaces Regulator LQR strojony metodą Brysona ($Q=\mathrm {diag}([25, 1, 4, 1])$, $R=10$, PD: $K_{p,x}=-4.5$, $K_{d,x}=-3$).}}{31}{figure.caption.17}%
 \contentsline {figure}{\numberline {4.10}{\ignorespaces Zoptymalizowany regulator PD-LQR bez członu całkującego ($Q=\mathrm {diag}([1, 1, 500, 250])$, $R=1$, PD: $K_{p,x}=-1{,}5$, $K_{i,x}=0$, $K_{d,x}=-5$).}}{32}{figure.caption.18}%
 \contentsline {figure}{\numberline {4.11}{\ignorespaces Regulator PD-LQR z~członem całkującym ($K_{p,x}=-2{,}5$, $K_{i,x}=-1{,}0$, $K_{d,x}=-5$, $Q=\mathrm {diag}([1, 1, 500, 250])$, $R=1$).}}{33}{figure.caption.19}%
 \contentsline {figure}{\numberline {4.12}{\ignorespaces Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym.}}{34}{figure.caption.20}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Regulator MPC z~krótkim horyzontem ($N_p=5$, $N_c=2$, $Q=\mathrm {diag}([10, 1, 10, 1])$, $R=0.1$).}}{36}{figure.caption.21}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Regulator MPC z~ręcznie dobranymi wagami ($N_p=10$, $N_c=3$, $Q=\mathrm {diag}([50, 10, 50, 10])$, $R=0.1$).}}{37}{figure.caption.22}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces Zoptymalizowany regulator MPC ($N_p=12$, $N_c=4$, $Q=\mathrm {diag}([158.4, 40.8, 43.4, 19.7])$, $R=0.086$).}}{38}{figure.caption.23}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Regulator MPC z~krótkim horyzontem ($N=5$, $N_u=2$, $Q=\mathrm {diag}([10, 1, 10, 1])$, $R=0.1$).}}{36}{figure.caption.21}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Regulator MPC z~ręcznie dobranymi wagami ($N=10$, $N_u=3$, $Q=\mathrm {diag}([50, 10, 50, 10])$, $R=0.1$).}}{37}{figure.caption.22}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Zoptymalizowany regulator MPC ($N=12$, $N_u=4$, $Q=\mathrm {diag}([158, 41, 43, 20])$, $R=0,086$).}}{38}{figure.caption.23}%
 \contentsline {figure}{\numberline {4.16}{\ignorespaces Regulator MPC-J2 z~wysoką karą za~energię ($R_{\mathrm {abs}}=10$).}}{40}{figure.caption.24}%
 \contentsline {figure}{\numberline {4.17}{\ignorespaces Regulator MPC-J2 z~ręcznie zmniejszoną karą ($R_{\mathrm {abs}}=1$).}}{41}{figure.caption.25}%
 \contentsline {figure}{\numberline {4.18}{\ignorespaces Zoptymalizowany regulator MPC-J2 ($R_{\mathrm {abs}}=0$).}}{42}{figure.caption.26}%
