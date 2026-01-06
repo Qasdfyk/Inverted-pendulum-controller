@@ -62,8 +62,8 @@ pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}
         \draw [arrow] (sum_x) -- (pd_x);
         
         % PD do sumy sterowania (rozdzielone wejścia: góra i dół)
-        \draw [arrow] (pd_theta.east) -| (sum_u.north);
-        \draw [arrow] (pd_x.east) -| (sum_u.south);
+        \draw [arrow] (pd_theta.east) -| node[above, font=\scriptsize] {$u_p$} (sum_u.north);
+        \draw [arrow] (pd_x.east) -| node[below, font=\scriptsize] {$u_c$} (sum_u.south);
         
         % Suma -> sat -> plant -> wyjście
         \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$u$} (plant);
@@ -276,7 +276,7 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
         \draw [arrow] (lqr) -- node[above, font=\scriptsize] {$u_{\mathrm{LQR}}$} (sum_u);
         
         % PD -> suma sterowania
-        \draw [arrow] (pd_pos.east) -| (sum_u.south);
+        \draw [arrow] (pd_pos.east) -| node[above left, font=\scriptsize] {$u_{\mathrm{PID}}$} (sum_u.south);
         
         % Reszta toru
 
