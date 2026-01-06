@@ -7,7 +7,7 @@ sterowania. Mimo że geometria i~parametry fizyczne obiektu są stosunkowo
 proste, układ ten wymaga zaawansowanych metod stabilizacji oraz 
 precyzyjnej regulacji w~czasie rzeczywistym. Jego charakterystyczna cecha 
 --- podwzbudność (ang. \textit{underactuated system}), oznaczająca mniejszą 
-liczbę wejść sterujących niż wyjść --- oraz silna wrażliwość 
+liczbę wejść sterujących niż wyjść oraz silna wrażliwość 
 na~zakłócenia sprawiają, że nawet niewielkie odchylenia mogą prowadzić 
 do~gwałtownego narastania błędów i~utraty równowagi.
 
@@ -49,7 +49,7 @@ metod stabilizacji systemów nieliniowych.
 
 \subsection{Cel i~zakres pracy}
 
-Zasadniczym celem pracy jest zaprojektowanie i~realizacja autorskiego 
+Celem pracy jest zaprojektowanie i~realizacja autorskiego 
 środowiska symulacyjnego oraz przeprowadzenie w~nim wielokryterialnej 
 analizy porównawczej algorytmów sterowania dla nieliniowego układu 
 odwróconego wahadła.
@@ -74,10 +74,9 @@ co ułatwi jego dalszą rozbudowę. Ponadto, zaimplementowane algorytmy
 powinny cechować się wydajnością umożliwiającą pracę w~czasie zbliżonym 
 do~rzeczywistego.
 
-Większość dostępnych publikacji skupia się zazwyczaj tylko na~jednej grupie metod. 
 W~niniejszej pracy postanowiono porównać ze~sobą trzy zupełnie różne podejścia:
 \begin{itemize}
-  \item klasyczne (PD, kaskady),
+  \item klasyczne (PD),
   \item optymalne i~predykcyjne (LQR, MPC),
   \item sterowanie rozmyte (Fuzzy).
 \end{itemize}
