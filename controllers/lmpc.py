@@ -2,19 +2,19 @@ from __future__ import annotations
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
-from typing import Callable, Optional
+from scipy.signal import cont2discrete
 import os
 
 # Import shared infrastructure
 from mpc_utils import (
-    PLANT, SIM, Wind, f_nonlinear, rk4_step, simulate_mpc,
+    PLANT, SIM, Wind, simulate_mpc,
     print_summary, animate_cartpole, linearize_upright,
     mse, mae, iae, ise, control_energy_l2, control_energy_l1,
     settling_time, overshoot, steady_state_error, disturbance_robustness
 )
 
 # ==========================================
-# 3. LINEAR MPC CONTROLLER IMPLEMENTATION
+# LINEAR MPC CONTROLLER (ZOH + minimize L-BFGS-B)
 # ==========================================
 class LinearMPCController:
     def __init__(self, pars: dict, dt: float, N: int, Nu: int,
@@ -28,119 +28,110 @@ class LinearMPCController:
         self.Q = Q
         self.R = R
 
-        # --- LINEARIZATION & DISCRETIZATION ---
-        # 1. Pobieramy macierze czasu ciągłego A, B dla punktu pracy
+        # --- LINEARIZATION ---
         Ac, Bc = linearize_upright(pars["M"], pars["m"], pars["l"], pars["g"])
-        
-        # 2. Dyskretyzacja metodą Eulera: x[k+1] = (I + A*dt)*x[k] + (B*dt)*u[k]
-        #    (Dla większej dokładności można użyć scipy.signal.cont2discrete)
-        self.Ad = np.eye(4) + Ac * dt
-        self.Bd = Bc * dt
-        
-        # Spłaszczamy Bd do wektora, aby łatwo mnożyć (4,1) -> (4,)
+
+        # --- DISCRETIZATION: ZOH ---
+        # x[k+1] = Ad x[k] + Bd u[k] (assuming u is constant on [k*dt, (k+1)*dt])
+        Ac = np.asarray(Ac, dtype=float)
+        Bc = np.asarray(Bc, dtype=float).reshape(4, 1)
+        Cc = np.eye(4)
+        Dc = np.zeros((4, 1))
+        Ad, Bd, *_ = cont2discrete((Ac, Bc, Cc, Dc), dt, method="zoh")
+
+        self.Ad = np.asarray(Ad, dtype=float)
+        self.Bd = np.asarray(Bd, dtype=float).reshape(4, 1)
         self.Bd_flat = self.Bd.flatten()
 
     def _rollout_linear(self, x0, u_seq):
-        """
-        Symulacja przyszłości przy użyciu modelu LINIOWEGO.
-        Zamiast RK4 i sinusów, mamy mnożenie macierzy.
-        """
+        """Symulacja przyszłości przy użyciu modelu LINIOWEGO (dyskretny ZOH)."""
         traj = []
         x_curr = np.array(x0, dtype=float)
-        
+
         for ui in u_seq:
-            # Równanie stanu liniowego: x_{k+1} = Ad * x_k + Bd * u_k
-            x_curr = self.Ad @ x_curr + self.Bd_flat * ui
+            x_curr = self.Ad @ x_curr + self.Bd_flat * float(ui)
             traj.append(x_curr.copy())
-            
+
         return np.asarray(traj)
 
     def _cost(self, du, x0, x_ref, u_prev):
         du = np.asarray(du, dtype=float)
-        
+
         # Rekonstrukcja sekwencji sterowania z przyrostów (du)
-        u_seq = np.zeros(self.N)
+        u_seq = np.zeros(self.N, dtype=float)
         if self.Nu > 0:
             u_cum = u_prev + np.cumsum(du)
             upto = min(self.Nu, self.N)
             u_seq[:upto] = u_cum[:upto]
             if self.N > self.Nu:
-                u_seq[self.Nu:] = u_cum[upto-1]
+                u_seq[self.Nu:] = u_cum[upto - 1]
         else:
             u_seq[:] = u_prev
 
-        # PREDYKCJA MODELU LINIOWEGO
+        # Predykcja (liniowa, dyskretna)
         preds = self._rollout_linear(x0, u_seq)
-        
-        # Obliczenie błędu
-        err = preds - x_ref.reshape(1, -1)
-        
-        # Koszt kwadratowy: (x-xref)'Q(x-xref) + u'Ru
-        # Używamy prostszego zapisu sumy ważonej
+
+        # Błąd i koszt
+        err = preds - np.asarray(x_ref, dtype=float).reshape(1, -1)
+
         cost_y = 0.0
         for e in err:
-            cost_y += e.T @ self.Q @ e
-            
+            cost_y += float(e.T @ self.Q @ e)
+
         cost_u = float(self.R * np.sum(du * du))
-        
         return cost_y + cost_u
 
     def compute_control(self, x0, x_ref, u_prev):
-        # Ograniczenia na zmiany sterowania (slew rate) - opcjonalne, tutaj wynikające z umin/umax
+        # Bounds na du (tak jak w Twojej wersji)
         du_min = self.umin - u_prev
         du_max = self.umax - u_prev
-        
-        # Ponieważ optymalizujemy przyrosty (du), bounds zależą od obecnego u
         bounds = [(du_min, du_max)] * self.Nu
-        du0 = np.zeros(self.Nu)
+        du0 = np.zeros(self.Nu, dtype=float)
 
-        # Używamy standardowego solvery scipy (SLSQP).
+        # Zmieniamy tylko solver: SLSQP -> L-BFGS-B (dobry do samych bounds)
         res = minimize(
             self._cost, du0,
             args=(x0, x_ref, u_prev),
-            method='SLSQP',
+            method="L-BFGS-B",
             bounds=bounds,
-            options={'maxiter': 100, 'ftol': 1e-4, 'disp': False}
+            options={"maxiter": 200, "ftol": 1e-6, "disp": False},
         )
         du_opt = res.x if res.success else du0
 
-        # Wybieramy tylko pierwszy krok sterowania
-        u_next = u_prev + du_opt[0]
-        
-        # Ostatnie zabezpieczenie saturacji
-        u_next = np.clip(u_next, self.umin, self.umax)
-        
-        # Zwracamy jako jednoelementową listę (dla kompatybilności z pętlą symulacji)
+        # Pierwszy ruch
+        u_next = u_prev + float(du_opt[0]) if self.Nu > 0 else float(u_prev)
+        u_next = float(np.clip(u_next, self.umin, self.umax))
         return [u_next]
 
+
 # ==========================================
-# 5. MAIN EXECUTION
+# MAIN EXECUTION
 # ==========================================
 if __name__ == "__main__":
     dt, T = SIM["dt"], SIM["T"]
     x0, x_ref, u_sat = SIM["x0"], SIM["x_ref"], SIM["u_sat"]
     plant = PLANT
-    
-    # Opcjonalnie włącz wiatr odkomentowując poniższą linię
-    # wind = Wind(T, seed=42, Ts=0.01, power=5e-3)
-    wind = None
 
-    # Inicjalizacja LINIOWEGO regulatora MPC
+    wind = Wind(T, seed=42, Ts=0.01, power=5e-3)
+    #wind = None
+
     ctrl = LinearMPCController(
         pars=plant, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-        Q=np.diag([150.0, 10.0, 100.0, 5.0]), # Wagi dobrane pod model liniowy
+        Q=np.diag([150.0, 10.0, 100.0, 5.0]),
         R=0.1
     )
 
-    print("Rozpoczynam symulację Liniowego MPC...")
-    X, U, Fw_tr, ctrl_time_total, sim_time_wall = simulate_mpc(plant, ctrl, x0, x_ref, T, dt, wind=wind)
+    print("Rozpoczynam symulację Liniowego MPC (ZOH + L-BFGS-B)...")
+    X, U, Fw_tr, ctrl_time_total, sim_time_wall = simulate_mpc(
+        plant, ctrl, x0, x_ref, T, dt, wind=wind
+    )
 
     # --- Wykresy ---
     steps = len(U)
     t = np.linspace(0.0, T, steps + 1)
     tf = t[:-1]
 
-    controller_name = "linear_mpc"
+    controller_name = "linear_mpc_zoh_lbfgsb_simple"
     disturbance = wind is not None
     step_type = "position_step"
     fig = plt.figure(figsize=(9, 7))
@@ -160,9 +151,6 @@ if __name__ == "__main__":
     eps_theta = 0.01; eps_x = 0.01; hold_time = 0.5
     ess_window_frac = 0.10; ess_window_min = 0.5
     is_step = True
-
-    e_th = X[:,0] - th_ref_tr
-    e_x  = X[:,2] - x_ref_tr
 
     metrics = {
         "mse_theta": mse(X[:, 0], th_ref_tr),
@@ -211,6 +199,5 @@ if __name__ == "__main__":
 
     print_summary(metrics)
 
-    # Animacja (jeśli ustawione w ENV lub ręcznie tutaj)
     if os.environ.get("ANIMATE", "0") == "1":
         animate_cartpole(t, X, params=plant)
