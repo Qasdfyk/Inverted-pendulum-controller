@@ -45,6 +45,7 @@ def calculate_metrics(t, x, u, x_ref, dt):
     pos = x[:, 2]
     
     ref_theta = np.zeros_like(theta)
+    # Use the actual target position from x_ref passed to the function
     ref_pos = np.ones_like(pos) * x_ref[2]
     
     # Calculate metrics
@@ -67,11 +68,7 @@ def calculate_metrics(t, x, u, x_ref, dt):
     metrics['ts_theta'] = settling_time(t, theta, ref_theta, eps=0.01, hold_time=0.5)
     metrics['ts_x'] = settling_time(t, pos, ref_pos, eps=0.01, hold_time=0.5)
     
-    metrics['os_theta'] = overshoot(theta, 0.0) # Target is 0, so Overshoot relative to 0 is weird if we start at 0.785.
-    # Usually overshoot is for step response. Here we have initial condition response. 
-    # Max deviation in OPPOSITE direction? Or just max amplitude?
-    # Let's simple record max absolute value after initial period?
-    # For now, let's skip conventional overshoot for regulation from IC.
+    metrics['os_theta'] = overshoot(theta, 0.0) 
     metrics['max_theta'] = np.max(np.abs(theta))
     metrics['max_x'] = np.max(np.abs(pos))
     
@@ -79,10 +76,11 @@ def calculate_metrics(t, x, u, x_ref, dt):
 
 def run_single_experiment(ctrl, name, wind_enabled=False):
     dt, T = SIM["dt"], SIM["T"]
-    x0, x_ref = SIM["x0"], SIM["x_ref"]
+    x0 = SIM["x0"]
     
-    # Use exact x0 from SIM as requested by user
-    # x0 is [0.05, 0, 0, 0] approx 2.8 deg
+    # --- ZMIANA: Ustawienie x_ref na 0.1 ---
+    # x_ref state: [theta, theta_dot, pos, pos_dot]
+    x_ref = np.array([0.0, 0.0, 0.1, 0.0])
     
     if wind_enabled:
         # Use parameters matching the controllers/mpc_utils defaults/comments
@@ -116,7 +114,8 @@ def run_single_experiment(ctrl, name, wind_enabled=False):
     
     # Position
     axes[1].plot(t, X[:, 2], label=r'$x$')
-    axes[1].plot(t, np.ones_like(t)*x0[2], 'k--', alpha=0.5, label='Wartość zadana')
+    # --- ZMIANA: Rysowanie linii referencyjnej x_ref[2] (0.1) zamiast x0[2] ---
+    axes[1].plot(t, np.ones_like(t)*x_ref[2], 'k--', alpha=0.5, label='Wartość zadana')
     axes[1].set_ylabel(r'Pozycja $x$ [m]')
     axes[1].grid(True)
     axes[1].legend()
@@ -153,10 +152,10 @@ def main():
     
     # 3. MPC
     controllers['MPC'] = MPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-                                       Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592)
+                                     Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592)
     
     # 4. MPC-J2 Variants
-    controllers['MPC-J2 (r=0)'] = MPCControllerJ2(
+    controllers['MPC-J2'] = MPCControllerJ2(
         pars=PLANT, dt=dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
         q_theta=40.0, q_x=40.0, q_thd=5.0, q_xd=5.0,
         r=0.0001, r_abs=0.0
@@ -199,13 +198,19 @@ def main():
 
     # Define Controller Groups
     group_classical = ['PD-PD', 'PD-LQR']
-    group_advanced = ['MPC', 'MPC-J2 (r=0)', 'MPC-J2 (r=1e-4)', 'Fuzzy-LQR']
-    group_mpc_study = ['MPC-J2 (r=0)', 'MPC-J2 (r=1e-4)']
+    group_advanced = ['MPC', 'MPC-J2', 'MPC-J2 (r=1e-4)', 'Fuzzy-LQR']
+    group_mpc_study = ['MPC-J2', 'MPC-J2 (r=1e-4)']
+    group_all = ['PD-PD', 'PD-LQR', 'MPC', 'MPC-J2', 'Fuzzy-LQR']
 
     # Helper function for grouped plots
     def plot_group(group_names, trajectories, title_suffix, filename_suffix, scenario_title, signal_type='theta'):
         fig, ax = plt.subplots(figsize=(12, 8))
         
+        plot_ref = False
+        t_ref = None
+        ref_val = None
+        ylabel = ""
+
         for name in group_names:
             if name in trajectories:
                 t, X, U = trajectories[name]
@@ -221,18 +226,17 @@ def main():
                 elif signal_type == 'x':
                     ax.plot(t, X[:, 2], label=name, linewidth=3)
                     ylabel = r'x [m]'
-                    # Reference x=0 (or whatever ref is, assumed 0 here based on context)
-                    # Actually x_ref is usually 0 unless specified otherwise in SIM["x_ref"]
-                    # We can just plot 0
+                    # Reference
                     t_ref = t
-                    ref_val = np.zeros_like(t_ref) # Assuming ref is 0 for simplicity or use SIM["x_ref"][2]
+                    # --- ZMIANA: Wartość zadana na wykresie zbiorczym to 0.1 ---
+                    ref_val = np.ones_like(t_ref) * 0.1 
                     plot_ref = True
                 elif signal_type == 'u':
                     ax.plot(tf, U, label=name, linewidth=3)
                     ylabel = r'u [N]'
                     plot_ref = False
         
-        if plot_ref:
+        if plot_ref and t_ref is not None:
              ax.plot(t_ref, ref_val, 'k--', alpha=0.3, linewidth=2, label='Wartość zadana')
 
         #ax.set_title(f"Porównanie: {scenario_title}")
@@ -249,24 +253,28 @@ def main():
     # Theta
     plot_group(group_classical, trajectories_nom, "Klasyczne", "nominal_classical", "Kąt (Nominal)", 'theta')
     plot_group(group_advanced, trajectories_nom, "Zaawansowane", "nominal_advanced", "Kąt (Nominal)", 'theta')
+    plot_group(group_all, trajectories_nom, "Wszystkie", "nominal_classical_all", "Kąt (Nominal)", 'theta')
     # Position
     plot_group(group_classical, trajectories_nom, "Klasyczne", "nominal_pos_classical", "Pozycja (Nominal)", 'x')
     plot_group(group_advanced, trajectories_nom, "Zaawansowane", "nominal_pos_advanced", "Pozycja (Nominal)", 'x')
+    plot_group(group_all, trajectories_nom, "Wszystkie", "nominal_pos_advanced_all", "Pozycja (Nominal)", 'x')
     # Control
     plot_group(group_classical, trajectories_nom, "Klasyczne", "nominal_control_classical", "Sterowanie (Nominal)", 'u')
     plot_group(group_advanced, trajectories_nom, "Zaawansowane", "nominal_control_advanced", "Sterowanie (Nominal)", 'u')
-    
+    plot_group(group_all, trajectories_nom, "Wszystkie", "nominal_control_advanced_all", "Sterowanie (Nominal)", 'u')
     # Wind
     # Theta
     plot_group(group_classical, trajectories_wind, "Klasyczne", "wind_classical", "Kąt (Wiatr)", 'theta')
     plot_group(group_advanced, trajectories_wind, "Zaawansowane", "wind_advanced", "Kąt (Wiatr)", 'theta')
+    plot_group(group_all, trajectories_wind, "Wszyskie", "wind_advanced_all", "Kąt (Wiatr)", 'theta')
     # Position
     plot_group(group_classical, trajectories_wind, "Klasyczne", "wind_pos_classical", "Pozycja (Wiatr)", 'x')
     plot_group(group_advanced, trajectories_wind, "Zaawansowane", "wind_pos_advanced", "Pozycja (Wiatr)", 'x')
+    plot_group(group_all, trajectories_wind, "Wszystkie", "wind_pos_advanced_all", "Pozycja (Wiatr)", 'x')
     # Control
     plot_group(group_classical, trajectories_wind, "Klasyczne", "wind_control_classical", "Sterowanie (Wiatr)", 'u')
     plot_group(group_advanced, trajectories_wind, "Zaawansowane", "wind_control_advanced", "Sterowanie (Wiatr)", 'u')
-    
+    plot_group(group_advanced, trajectories_wind, "Wszystkie", "wind_control_advanced_all", "Sterowanie (Wiatr)", 'u')
     # --- MPC Study Plots ---
     # Nominal
     plot_group(group_mpc_study, trajectories_nom, "MPC-J2 Study", "nominal_mpc_j2_study", "MPC-J2 r_abs (Nominal)", 'u')
@@ -312,7 +320,7 @@ def main():
                 # Formatting
                 # Formatting - consistent 5 decimal places for "elegant" look
                 val_str = f"{val:.5f}"
-                     
+                      
                 row_str += f" & {val_str}"
             print(row_str + r" \\ \hline")
             
