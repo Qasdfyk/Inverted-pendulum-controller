@@ -155,15 +155,14 @@ def main():
                                      Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592)
     
     # 4. MPC-J2 Variants
+    # 4. MPC-J2 Variants
     controllers['MPC-J2'] = MPCControllerJ2(
-        pars=PLANT, dt=dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
-        q_theta=40.0, q_x=40.0, q_thd=5.0, q_xd=5.0,
-        r=0.0001, r_abs=0.0
+        pars=PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.001
     )
     controllers['MPC-J2 (r=1e-4)'] = MPCControllerJ2(
-        pars=PLANT, dt=dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
-        q_theta=40.0, q_x=40.0, q_thd=5.0, q_xd=5.0,
-        r=0.0001, r_abs=1e-4
+        pars=PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.001
     )
     
     # 5. Fuzzy-LQR
@@ -198,8 +197,8 @@ def main():
 
     # Define Controller Groups
     group_classical = ['PD-PD', 'PD-LQR']
-    group_advanced = ['MPC', 'MPC-J2', 'MPC-J2 (r=1e-4)', 'Fuzzy-LQR']
-    group_mpc_study = ['MPC-J2', 'MPC-J2 (r=1e-4)']
+    group_advanced = ['MPC', 'MPC-J2', 'MPC-J2', 'Fuzzy-LQR']
+    group_mpc_study = ['MPC-J2', 'MPC-J2']
     group_all = ['PD-PD', 'PD-LQR', 'MPC', 'MPC-J2', 'Fuzzy-LQR']
 
     # Helper function for grouped plots

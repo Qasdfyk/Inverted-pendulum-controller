@@ -350,9 +350,8 @@ def main():
     
     # 4. MPC-J2
     controllers['MPC-J2'] = MPCControllerJ2(
-        pars=PLANT, dt=dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
-        q_theta=40.0, q_x=40.0, q_thd=5.0, q_xd=5.0,
-        r=0.0001, r_abs=0.0
+        pars=PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.001
     )
     
     # 5. Fuzzy-LQR

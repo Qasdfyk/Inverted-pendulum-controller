@@ -12,19 +12,15 @@ from mpc_utils import (PLANT, SIM, Wind, f_nonlinear, rk4_step, simulate_mpc,
 class MPCControllerJ2:
     def __init__(self, pars: dict, dt: float, N: int, Nu: int,
                  umin: float, umax: float, 
-                 q_theta: float, q_x: float, q_thd: float = 1.0, q_xd: float = 1.0,
-                 r: float = 0.001, r_abs: float = 0.0):
+                 Q: np.ndarray, R: float, r_abs: float = 0.0):
         self.pars = pars
         self.dt = dt
         self.N = N
         self.Nu = Nu
         self.umin = umin
         self.umax = umax
-        self.q_theta = q_theta
-        self.q_x = q_x
-        self.q_thd = q_thd
-        self.q_xd = q_xd
-        self.r = r
+        self.Q = Q
+        self.R = R
         self.r_abs = r_abs
 
     def _rollout(self, x0, u_seq):
@@ -48,16 +44,10 @@ class MPCControllerJ2:
             u_seq[:] = u_prev
 
         preds = self._rollout(x0, u_seq)
+        err = preds - x_ref.reshape(1, -1)
         
-        e_th  = preds[:, 0] - x_ref[0]
-        e_thd = preds[:, 1] - x_ref[1]
-        e_x   = preds[:, 2] - x_ref[2]
-        e_xd  = preds[:, 3] - x_ref[3]
-
-        cost_state = np.sum(self.q_theta * e_th**2 + self.q_thd * e_thd**2 + 
-                            self.q_x * e_x**2 + self.q_xd * e_xd**2)
-        
-        cost_du = self.r * np.sum(du**2)
+        cost_state = float(np.sum([e.T @ self.Q @ e for e in err]))
+        cost_du = float(self.R * np.sum(du**2))
         cost_u_abs = self.r_abs * np.sum(u_seq**2)
 
         return cost_state + cost_du + cost_u_abs
@@ -73,7 +63,7 @@ class MPCControllerJ2:
             args=(x0, x_ref, u_prev),
             method='SLSQP',
             bounds=bounds,
-            options={'maxiter': 100, 'ftol': 1e-3, 'disp': False}
+            options={'maxiter': 500, 'ftol': 1e-4, 'disp': False}
         )
         du_opt = res.x if res.success else du0
 
@@ -94,9 +84,8 @@ if __name__ == "__main__":
     #wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
 
     ctrl = MPCControllerJ2(
-        pars=plant, dt=dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
-        q_theta=40.0, q_x=40.0, q_thd=5.0, q_xd=5.0,
-        r=0.0001, r_abs=0.0
+        pars=plant, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.01
     )
 
     X, U, Fw_tr, ctrl_time_total, sim_time_wall = simulate_mpc(plant, ctrl, x0, x_ref, T, dt, wind=wind)

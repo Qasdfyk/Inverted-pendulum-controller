@@ -179,8 +179,8 @@ if __name__ == "__main__":
     x0, x_ref = SIM["x0"], SIM["x_ref"]
 
     # --- Wind Settings ---
-    wind = Wind(T, seed=42, Ts=0.05, power=5e-3, smooth=10) # Uncomment for wind
-    #wind = None 
+    #wind = Wind(T, seed=42, Ts=0.05, power=5e-3, smooth=10) # Uncomment for wind
+    wind = None 
 
     K_lqr = lqr_from_plant(plant)
     print(f"LQR Gain: {K_lqr}")
