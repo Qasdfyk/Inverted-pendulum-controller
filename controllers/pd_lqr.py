@@ -85,6 +85,9 @@ if __name__ == "__main__":
     pid_gains = {"Kp": -1.5, "Ki": 0.0, "Kd": -5.0}
     lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0}
 
+    # pid_gains = {"Kp": -1.5, "Ki": 0.1, "Kd": -1.0}
+    # lqr_gains = {"Q": [1.0, 1.0, 1.0, 1.0], "R": 1.0}
+
     ctrl = PDLQRController(
         pars=plant, dt=dt, 
         pid_gains=pid_gains, lqr_gains=lqr_gains,

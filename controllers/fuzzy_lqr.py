@@ -24,7 +24,7 @@ EPS = 1e-12
 
 def lqr_from_plant(plant: dict) -> np.ndarray:
     A, B = linearize_upright(plant["M"], plant["m"], plant["l"], plant["g"])
-    Q = np.diag([1.0, 1.0, 500.0, 250.0])
+    Q = np.diag([1.0, 1.0, 1.0, 1.0])
     R = np.array([[1.0]], dtype=float)
     P = solve_continuous_are(A, B, Q, R)
     K = np.linalg.solve(R, B.T @ P).ravel()

@@ -60,14 +60,14 @@ if __name__ == "__main__":
     x0, x_ref, u_sat = SIM["x0"], SIM["x_ref"], SIM["u_sat"]
     plant = PLANT
     wind = None
-    # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
+    #wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
 
     # Gains from config/controllers/pd_pd.yaml
-    # ang_pid = {"Kp": -40.0, "Ki": 0.0, "Kd": -8.0}
-    # cart_pid = {"Kp": -1.0, "Ki": 0.0, "Kd": -3.0}
+    ang_pid = {"Kp": -40.0, "Ki": -1.0, "Kd": -8.0}
+    cart_pid = {"Kp": -1.0, "Ki": -0.1, "Kd": -3.0}
 
-    ang_pid = {"Kp": -95.0, "Ki": 0.0, "Kd": -14.0}
-    cart_pid = {"Kp": -16.0, "Ki": 0.0, "Kd": -14.0}
+    # ang_pid = {"Kp": -95.0, "Ki": 0.0, "Kd": -14.0}
+    # cart_pid = {"Kp": -16.0, "Ki": 0.0, "Kd": -14.0}
 
     ctrl = PDPDController(
         pars=plant, dt=dt, 
