@@ -109,26 +109,28 @@ Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo, przechodząc
 od metod heurystycznych do pełnej optymalizacji numerycznej.
 Najpierw próbowano metodą prób i błędów nastroić regulator w taki sposób, aby 
 metryki $MSE$ i $MAE$ były jak najmniejsze oraz, żeby jakość sygnału sterującego była odpowiednia.
-Pierwsze próby doboru parametrów metodą prób i błędów dawały bardzo słabe wyniki, gdyż regulator nie dawał
-rady ustabilizować wahadła.
+Pierwsze próby doboru parametrów metodą prób i błędów dawały bardzo słabe wyniki, gdyż obiekt wahadła na 
+wózku wymaga bardzo precyzyjnych nastaw i trudnym zadaniem jest ich zgadnięcie. 
+Konieczne było balansowanie między agresywnym członem różniczkującym dla stabilizacji kąta, 
+a członem całkującym dla eliminacji uchybu pozycji, co często prowadziło do niestabilności układu.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_1_manual.png}
-    \caption{Regulator PD nastawiony ręcznie ($K_{p,\theta}=-40$, $K_{d,\theta}=-8$, 
-    $K_{p,x}=-1$, $K_{d,x}=-3$).}
+    \caption{Regulator PD nastawiony ręcznie ($K_{p,\theta}=-10$, $K_{i,\theta}=-1$,$K_{d,\theta}=-3$, 
+    $K_{p,x}=-1$, $K_{d,x}=-0,1$, $K_{d,x}=-3$).}
     \label{fig:pid_manual}
 \end{figure}
 
-Wstępne próby doboru metodą ,,prób i~błędów'' (Rys.~\ref{fig:pid_manual}), oparte 
+Wstępne próby doboru metodą prób i~błędów (Rys.~\ref{fig:pid_manual}), oparte 
 na~dekompozycji problemu (najpierw stabilizacja wahadła, potem pozycja wózka), 
-pozwoliły uzyskać stabilność, jednak jakość regulacji była niezadowalająca. 
-Układ charakteryzował się powolnym dochodzeniem do~punktu pracy i~znacznymi 
-oscylacjami. Wzmocnienia proporcjonalne ($K_p=-40$ dla kąta) były niewystarczające,
+nie pozwoliły uzyskać stabilności i jakość regulacji była niezadowalająca. 
+Układ charakteryzował się znacznymi oscylacjami. 
+Wzmocnienia proporcjonalne ($K_p=-10$ dla kąta) były niewystarczające,
 aby szybko tłumić odchylenia od~pionu.
 
 Aby wyeliminować subiektywność strojenia ręcznego, zastosowano algorytm
-Ewolucji Różnicowej (Differential Evolution)~\cite{StornPrice1997}, zaimplementowany 
+Ewolucji Różnicowej~\cite{StornPrice1997}, zaimplementowany 
 w~module \texttt{scipy.optimize}. Zdefiniowano globalną funkcję kosztu $J$, która
 umożliwia porównanie wszystkich badanych regulatorów w~ujednoliconych warunkach:
 \begin{equation}
@@ -150,7 +152,22 @@ lokalnych.
 Zoptymalizowane nastawy (Rys.~\ref{fig:pdpd_opt}) charakteryzują się znacznie wyższymi
 wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-40$) oraz $K_{p,x}=-16$ 
 (vs. $-1$). W~wyniku optymalizacji ustalono, że intensywna reakcja na~błąd pozycji wózka pośrednio
-stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii.
+stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii. Jednak w tym przypadku jakość 
+sygnału sterujjącego była niezadowa i ostateczne strojenie znów wykonano ręcznie, tym razem biorąc 
+juz pod uwagę wyniki uzyskane podczas strojenia z wykorzystaniem algorytmu ewolucyjnego.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_2_integral_bad.png}
+    \caption{Regulator PD nastawiony ręcznie ($K_{p,\theta}=-40$, $K_{i,\theta}=-1$, $K_{d,\theta}=-8$, 
+    $K_{p,x}=-1$, $K_{p,x}=-0,1$, $K_{d,x}=-3$).}
+    \label{fig:pid_final}
+\end{figure}
+Ostateczny regulator PID charakteryzuje się szybkim dochodzeniem do wartości zadanej, małymi błędami $MSE$ i $MAE$
+oraz wysoką jakością sygnału sterującego. Udało się uzyskać kompromis, w którym sterowanie jest dynamiczne, 
+ale nie powoduje nasycenia siłownika ani niebezpiecznych oscylacji. Czas regulacji oraz przeregulowania 
+zostały zminimalizowane, co czyni ten regulator solidnym punktem odniesienia dla bardziej 
+zaawansowanych strategii sterowania. 
 
 \subsection{Układ hybrydowy PID-LQR}
 
