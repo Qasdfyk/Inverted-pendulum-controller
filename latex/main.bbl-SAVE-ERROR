@@ -750,17 +750,7 @@
       \field{edition}{2}
       \field{isbn}{978-0-9759377-3-4}
       \field{title}{Model Predictive Control: Theory, Computation, and Design}
-      \field{urlday}{2}
-      \field{urlmonth}{1}
-      \field{urlyear}{2025}
       \field{year}{2017}
-      \field{urldateera}{ce}
-      \verb{urlraw}
-      \verb https://sites.engineering.ucsb.edu/~jbraw/mpc/
-      \endverb
-      \verb{url}
-      \verb https://sites.engineering.ucsb.edu/~jbraw/mpc/
-      \endverb
     \endentry
     \entry{Nocedal2006}{book}{}{}
       \name{author}{2}{}{%

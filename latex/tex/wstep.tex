@@ -38,7 +38,7 @@ dynamice. Badania symulacyjne na~tym obiekcie pozwalają na~wstępną walidację
 skuteczności algorytmów sterowania przed ich implementacją w~bardziej 
 złożonych lub kosztownych systemach. Z~tego powodu układ ten od~dziesięcioleci 
 stanowi punkt odniesienia w~rozwoju nowoczesnych metod regulacji --- 
-od~klasycznych regulatorów PD/PID (regulatory proporcjonalno-różniczkujące/całkujące) i~LQR (liniowy regulator kwadratowy), po~sterowanie predykcyjne (MPC), 
+od~klasycznych regulatorów PID (regulatory proporcjonalno-różniczkująco-całkujące) i~LQR (liniowy regulator kwadratowy), po~sterowanie predykcyjne (MPC), LMPC, 
 adaptacyjne i~rozmyte.
 
 Prostota modelu matematycznego w~połączeniu z~łatwością interpretacji wyników 
@@ -59,7 +59,7 @@ i~niefunkcjonalnych stawianych opracowywanemu systemowi. W~warstwie
 funkcjonalnej środowisko musi wiernie odwzorowywać dynamikę układu wózka 
 z~wahadłem w~oparciu o~nieliniowe równania ruchu, a~także umożliwiać 
 elastyczne przełączanie pomiędzy zaimplementowanymi strategiami sterowania 
-(PD, PD-LQR, MPC, Fuzzy-LQR). Kluczowa jest również możliwość weryfikacji 
+(PID-PID, PID-LQR, MPC, MPC-J2, Fuzzy-LQR, LMPC). Kluczowa jest również możliwość weryfikacji 
 odporności regulatorów poprzez generowanie addytywnych zakłóceń 
 zewnętrznych. System powinien oferować narzędzia 
 do~wizualizacji przebiegów oraz animacji ruchu obiektu, a~także 
@@ -76,8 +76,8 @@ do~rzeczywistego.
 
 W~niniejszej pracy postanowiono porównać ze~sobą trzy zupełnie różne podejścia:
 \begin{itemize}
-  \item klasyczne (PD),
-  \item optymalne i~predykcyjne (LQR, MPC),
+  \item klasyczne (PID-PID),
+  \item optymalne i~predykcyjne (PID-LQR, MPC, LMPC),
   \item sterowanie rozmyte (Fuzzy).
 \end{itemize}
 
@@ -89,13 +89,13 @@ zewnętrznymi oraz ile energii zużywają podczas pracy.
 
 W~ramach projektu zaimplementowano i~poddano badaniom następujące struktury:
 \begin{enumerate}
-    \item \textbf{Regulator PD} --- reprezentujący klasyczne 
+    \item \textbf{Regulator PID-PID} --- reprezentujący klasyczne 
     podejście inżynierskie. Układ składa się z~dwóch równoległych pętli 
-    sprzężenia zwrotnego typu PD (stabilizacja kąta i~pozycji), bez członu 
-    całkującego ($K_i=0$), z~ograniczeniami sygnału sterującego.
+    sprzężenia zwrotnego typu PID (stabilizacja kąta i~pozycji), bez członu 
+    całkującego ($K_i=0$).
     
-    \item \textbf{Hybrydowy układ PD-LQR} --- struktura łącząca regulator 
-    PD (w~pętli regulacji pozycji, bez członu całkującego) z~optymalnym regulatorem stanu LQR 
+    \item \textbf{Hybrydowy układ PID-LQR} --- struktura łącząca regulator 
+    PID (w~pętli regulacji pozycji) z~optymalnym regulatorem stanu LQR 
     (w~pętli stabilizacji wahadła). Metoda ta stanowi punkt odniesienia 
     dla oceny skuteczności metod bazujących na~modelu liniowym.
     
@@ -104,7 +104,10 @@ W~ramach projektu zaimplementowano i~poddano badaniom następujące struktury:
     Służy on w~pracy jako nowoczesny punkt odniesienia, pozwalający ocenić, 
     jakie korzyści daje uwzględnienie ograniczeń sterowania i~dynamiki 
     układu bezpośrednio w~procesie optymalizacji.
-    
+
+    \item \textbf{Regulator LMPC} --- liniowy wariant sterowania predykcyjnego
+    korzystający z modelu zlinearyzowanego, stanowiący kompromis obliczeniowy.
+
     \item \textbf{Regulator MPC z~rozszerzonym wskaźnikiem jakości} --- 
     wariant badawczy metody predykcyjnej, w~którym przeanalizowano wpływ 
     dodatkowych kar w~funkcji celu (za~gwałtowne zmiany sterowania 
@@ -113,6 +116,7 @@ W~ramach projektu zaimplementowano i~poddano badaniom następujące struktury:
     \item \textbf{Regulator rozmyty (Fuzzy Logic)} --- metoda sterowania 
     inteligentnego, wykorzystująca zbiór reguł wnioskowania, stanowiąca 
     alternatywę dla metod analitycznych.
+
 \end{enumerate}
 
 Kluczowym elementem pracy jest weryfikacja działania regulatorów w~zadaniu 
@@ -198,8 +202,8 @@ oraz sposób modelowania zakłóceń zewnętrznych.
 
 Rozdział czwarty zawiera charakterystykę zaimplementowanych algorytmów 
 sterowania. Omówiono w~nim podstawy teoretyczne oraz szczegóły 
-implementacyjne regulatorów: klasycznego PD, optymalnego LQR, 
-predykcyjnego MPC oraz rozmytego Takagi--Sugeno.
+implementacyjne regulatorów: klasycznego PID-PID, optymalnego PID-LQR, 
+predykcyjnego MPC/LMPC oraz rozmytego Takagi--Sugeno.
 
 Rozdział piąty opisuje metodykę badań symulacyjnych. Zdefiniowano w~nim 
 scenariusze testowe, przyjęte wskaźniki jakości oraz procedurę strojenia 

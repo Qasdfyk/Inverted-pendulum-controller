@@ -8,7 +8,7 @@ obiektywnego porównania testowanych algorytmów.
 \subsection{Plan eksperymentów}
 
 W~celu weryfikacji skuteczności strategii sterowania, przyjęto jednolity zestaw
-testów symulacyjnych. Każdy z~zaimplementowanych regulatorów (PD, PD-LQR, MPC, Fuzzy-LQR) poddany został badaniom w~następujących scenariuszach:
+testów symulacyjnych. Każdy z~zaimplementowanych regulatorów (PID-PID, PID-LQR, MPC, MPC-J2, Fuzzy-LQR, LMPC) poddany został badaniom w~następujących scenariuszach:
 
 \begin{enumerate}
     \item \textbf{Eksperyment 1: Stabilizacja w~punkcie pracy (warunki nominalne).} \\
@@ -62,14 +62,15 @@ testów symulacyjnych. Każdy z~zaimplementowanych regulatorów (PD, PD-LQR, MPC
 W~ramach eksperymentów przetestowano następujące regulatory (w~wersjach po
 optymalizacji nastaw):
 \begin{enumerate}
-    \item \textbf{PD} -- Równoległy układ dwóch regulatorów PD ($K_i=0$).
-    \item \textbf{PD-LQR} -- Hybryda: PD dla wózka, LQR dla wahadła.
+    \item \textbf{PID-PID} -- Równoległy układ dwóch regulatorów PID (gdzie $K_i=0$).
+    \item \textbf{PID-LQR} -- Hybryda: PID dla wózka, LQR dla wahadła.
     \item \textbf{MPC} -- Nieliniowe sterowanie predykcyjne (NMPC) z~pełnym 
     modelem dynamiki i~całkowaniem metodą Rungego-Kutty 4.~rzędu.
     \item \textbf{MPC-J2} -- Wariant NMPC z~rozszerzoną funkcją kosztu $J_2$ 
     (uwzględniającą dodatkowo kwadrat bezwzględnej wartości sterowania).
     \item \textbf{Fuzzy-LQR} -- Regulator rozmyty Takagi-Sugeno wspomagany
     lokalnym LQR.
+    \item \textbf{LMPC} -- Liniowy regulator MPC wykorzystujący model zlinearyzowany.
 \end{enumerate}
 
 \subsection{Wskaźniki jakości regulacji}

@@ -29,6 +29,7 @@ from controllers.mpc import MPCController
 from controllers.mpc_J2 import MPCControllerJ2
 from controllers.mpc_utils import PLANT, SIM, simulate_mpc
 from controllers.fuzzy_lqr import TSFuzzyController, starter_ts_params16, lqr_from_plant
+from controllers.lmpc import LinearMPCController
 
 SAVE_DIR = os.path.join(os.path.dirname(__file__), '../latex/images/tuning')
 os.makedirs(SAVE_DIR, exist_ok=True)
@@ -96,21 +97,21 @@ def generate_pd_pd():
     # 1. Bad (Unstable/Weak)
     # Gains too low to fight gravity effectively at larger angles
     ctrl_bad = PDPDController(PLANT, dt, 
-                              ang_pid = {"Kp": -40.0, "Ki": 0.0, "Kd": -8.0},
-                                cart_pid = {"Kp": -1.0, "Ki": 0.0, "Kd": -3.0})
+                              ang_pid = {"Kp": -10.0, "Ki": -1.0, "Kd": -3.0},
+                                cart_pid = {"Kp": -1.0, "Ki": -0.1, "Kd": -3.0})
     run_simulation(ctrl_bad, "PD-PD", "pdpd_1_manual", "Bad Gains")
     
     # 2. Manual (Stable but oscillatory)
     # Intuitive tuning: "Need more D for theta"
     ctrl_man = PDPDController(PLANT, dt,
-                                ang_pid = {"Kp": -40.0, "Ki": -2.0, "Kd": -8.0},
-                                cart_pid = {"Kp": -1.0, "Ki": -2.0, "Kd": -3.0})
+                                ang_pid = {"Kp": -40.0, "Ki": -1.0, "Kd": -8.0},
+                                cart_pid = {"Kp": -1.0, "Ki": -0.1, "Kd": -3.0})
     run_simulation(ctrl_man, "PD-PD", "pdpd_2_integral_bad", "Manual Tuning")
     
     # 3. Optimized (Current Best)
     ctrl_opt = PDPDController(PLANT, dt,
-                              ang_pid={"Kp": -95.0, "Ki": 0.0, "Kd": -14.0},
-                              cart_pid={"Kp": -16.0, "Ki": 0.0, "Kd": -14.0})
+                              ang_pid={"Kp": -95.0, "Ki": -1.0, "Kd": -14.0},
+                              cart_pid={"Kp": -16.0, "Ki": -0.1, "Kd": -14.0})
     run_simulation(ctrl_opt, "PD-PD", "pdpd_3_opt", "Optimized Gains")
 
 def generate_pd_lqr():
@@ -191,20 +192,20 @@ def generate_mpc_j2():
     # Using same Q weights as run_experiments.py (q_theta=40, q_x=40), varying only R_abs
     # 1. Bad (High R_abs -> Passive, refuses to act)
     ctrl_bad = MPCControllerJ2(PLANT, dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
-                               q_theta=40.0, q_x=40.0, q_thd=5.0, q_xd=5.0,
-                               r=0.0001, r_abs=1.0) 
+                               Q=np.diag([40.0, 5.0, 40.0, 5.0]), # Using same weights structure as manual/bad try
+                               R=0.0001, r_abs=1.0) 
     run_simulation(ctrl_bad, "MPC-J2", "mpcJ2_1_bad", "High Energy Cost")
     
     # 2. Manual (R_abs=1.0 - destabilizes when cart drifts too far)
     ctrl_man = MPCControllerJ2(PLANT, dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
-                               q_theta=40.0, q_x=40.0, q_thd=5.0, q_xd=5.0,
-                               r=0.0001, r_abs=0.1)
+                               Q=np.diag([40.0, 5.0, 40.0, 5.0]),
+                               R=0.0001, r_abs=0.1)
     run_simulation(ctrl_man, "MPC-J2", "mpcJ2_2_manual", "Manual R_abs")
     
     # 3. Optimized (R_abs=0, same as run_experiments.py)
-    ctrl_opt = MPCControllerJ2(PLANT, dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
-                               q_theta=40.0, q_x=40.0, q_thd=5.0, q_xd=5.0,
-                               r=0.0001, r_abs=0.0) 
+    ctrl_opt = MPCControllerJ2(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+                               Q=np.diag([158.39, 40.80, 43.41, 19.71]), 
+                               R=0.08592, r_abs=0.0) 
     run_simulation(ctrl_opt, "MPC-J2", "mpcJ2_3_opt", "Optimized")
 
 def generate_fuzzy():
@@ -236,6 +237,16 @@ def generate_fuzzy():
     p_opt = starter_ts_params16(u_sat) # Function defaults are now the Optimized ones
     ctrl_opt = TSFuzzyController(PLANT, p_opt, K_lqr, dt, du_max=800.0, ramp_T=1.0)
     run_simulation(ctrl_opt, "Fuzzy-LQR", "fuzzy_3_opt", "Optimized")
+
+def generate_lmpc():
+    print("\n--- LMPC ---")
+    dt = SIM["dt"]
+    u_sat = SIM["u_sat"]
+
+    # One plot only as requested
+    ctrl_opt = LinearMPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+                                   Q=np.diag([15.0, 1.0, 10.0, 1.0]), R=0.1)
+    run_simulation(ctrl_opt, "LMPC", "lmpc_opt", "Optimized")
     
 if __name__ == "__main__":
     generate_pd_pd()
@@ -244,4 +255,5 @@ if __name__ == "__main__":
     generate_mpc()
     generate_mpc_j2()
     generate_fuzzy()
+    generate_lmpc()
 

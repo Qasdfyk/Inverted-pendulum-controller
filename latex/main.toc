@@ -3,36 +3,37 @@
 \contentsline {subsection}{\numberline {1.1\relax .\enspace }Cel i~zakres pracy}{8}{subsection.1.1}%
 \contentsline {subsection}{\numberline {1.2\relax .\enspace }Przegląd literatury}{9}{subsection.1.2}%
 \contentsline {subsection}{\numberline {1.3\relax .\enspace }Układ pracy}{10}{subsection.1.3}%
-\contentsline {section}{\numberline {2\relax .\enspace }Model matematyczny układu}{11}{section.2}%
-\contentsline {subsection}{\numberline {2.1\relax .\enspace }Opis fizyczny i~założenia upraszczające}{11}{subsection.2.1}%
-\contentsline {subsection}{\numberline {2.2\relax .\enspace }Analiza kinematyczna}{12}{subsection.2.2}%
-\contentsline {subsection}{\numberline {2.3\relax .\enspace }Równania dynamiki układu}{13}{subsection.2.3}%
-\contentsline {subsubsection}{\numberline {2.3.1\relax .\enspace }Bilans sił w~kierunku poziomym}{13}{subsubsection.2.3.1}%
-\contentsline {subsubsection}{\numberline {2.3.2\relax .\enspace }Bilans momentów sił}{14}{subsubsection.2.3.2}%
-\contentsline {subsection}{\numberline {2.4\relax .\enspace }Nieliniowy model w~przestrzeni stanów}{14}{subsection.2.4}%
-\contentsline {subsection}{\numberline {2.5\relax .\enspace }Linearyzacja modelu w~punkcie pracy}{15}{subsection.2.5}%
-\contentsline {subsubsection}{\numberline {2.5.1\relax .\enspace }Analiza wartości własnych układu otwartego}{16}{subsubsection.2.5.1}%
-\contentsline {subsubsection}{\numberline {2.5.2\relax .\enspace }Sterowność i~obserwowalność}{16}{subsubsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.6\relax .\enspace }Analiza zachowania układu w pętli otwartej}{17}{subsection.2.6}%
-\contentsline {section}{\numberline {3\relax .\enspace }Środowisko symulacyjne i implementacja}{18}{section.3}%
-\contentsline {subsection}{\numberline {3.1\relax .\enspace }Narzędzia programistyczne}{18}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2\relax .\enspace }Konfiguracja symulacji}{18}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3\relax .\enspace }Modelowanie zakłóceń}{19}{subsection.3.3}%
-\contentsline {subsection}{\numberline {3.4\relax .\enspace }Wizualizacja i animacja}{20}{subsection.3.4}%
-\contentsline {section}{\numberline {4\relax .\enspace }Algorytmy sterowania}{22}{section.4}%
-\contentsline {subsection}{\numberline {4.1\relax .\enspace }Równoległy regulator PD}{22}{subsection.4.1}%
-\contentsline {subsubsection}{\numberline {4.1.1\relax .\enspace }Proces doboru nastaw oraz analiza PD}{23}{subsubsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PD-LQR}{26}{subsection.4.2}%
+\contentsline {section}{\numberline {2\relax .\enspace }Model matematyczny układu}{12}{section.2}%
+\contentsline {subsection}{\numberline {2.1\relax .\enspace }Opis fizyczny i~założenia upraszczające}{12}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2\relax .\enspace }Analiza kinematyczna}{13}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3\relax .\enspace }Równania dynamiki układu}{14}{subsection.2.3}%
+\contentsline {subsubsection}{\numberline {2.3.1\relax .\enspace }Bilans sił w~kierunku poziomym}{14}{subsubsection.2.3.1}%
+\contentsline {subsubsection}{\numberline {2.3.2\relax .\enspace }Bilans momentów sił}{15}{subsubsection.2.3.2}%
+\contentsline {subsection}{\numberline {2.4\relax .\enspace }Nieliniowy model w~przestrzeni stanów}{15}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5\relax .\enspace }Linearyzacja modelu w~punkcie pracy}{16}{subsection.2.5}%
+\contentsline {subsubsection}{\numberline {2.5.1\relax .\enspace }Analiza wartości własnych układu otwartego}{17}{subsubsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.2\relax .\enspace }Sterowność i~obserwowalność}{17}{subsubsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.6\relax .\enspace }Analiza zachowania układu w pętli otwartej}{18}{subsection.2.6}%
+\contentsline {section}{\numberline {3\relax .\enspace }Środowisko symulacyjne i implementacja}{19}{section.3}%
+\contentsline {subsection}{\numberline {3.1\relax .\enspace }Narzędzia programistyczne}{19}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2\relax .\enspace }Konfiguracja symulacji}{19}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3\relax .\enspace }Modelowanie zakłóceń}{20}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.4\relax .\enspace }Wizualizacja i animacja}{21}{subsection.3.4}%
+\contentsline {section}{\numberline {4\relax .\enspace }Algorytmy sterowania}{23}{section.4}%
+\contentsline {subsection}{\numberline {4.1\relax .\enspace }Równoległy regulator PID}{23}{subsection.4.1}%
+\contentsline {subsubsection}{\numberline {4.1.1\relax .\enspace }Proces doboru nastaw oraz analiza PD}{24}{subsubsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PID-LQR}{26}{subsection.4.2}%
 \contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace }Ograniczenia czystego regulatora LQR}{27}{subsubsection.4.2.1}%
 \contentsline {subsubsection}{\numberline {4.2.2\relax .\enspace }Struktura hybrydowa PD-LQR}{29}{subsubsection.4.2.2}%
 \contentsline {subsubsection}{\numberline {4.2.3\relax .\enspace }Dobór wag macierzy Q i R}{30}{subsubsection.4.2.3}%
-\contentsline {subsubsection}{\numberline {4.2.4\relax .\enspace }Analiza wpływu członu całkującego w~układzie PD-LQR}{32}{subsubsection.4.2.4}%
+\contentsline {subsubsection}{\numberline {4.2.4\relax .\enspace }Analiza wpływu członu całkującego w~układzie PID-LQR}{32}{subsubsection.4.2.4}%
 \contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{34}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace }Dobór horyzontu i wag funkcji celu}{35}{subsubsection.4.3.1}%
 \contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}{38}{subsection.4.4}%
 \contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace }Dobór parametrów i analiza wpływu kary za energię}{39}{subsubsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.5\relax .\enspace }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{42}{subsection.4.5}%
-\contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór reguł i funkcji przynależności}{44}{subsubsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.5\relax .\enspace }Liniowy regulator MPC (LMPC)}{42}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6\relax .\enspace }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{43}{subsection.4.6}%
+\contentsline {subsubsection}{\numberline {4.6.1\relax .\enspace }Dobór reguł i funkcji przynależności}{45}{subsubsection.4.6.1}%
 \contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{49}{section.5}%
 \contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{49}{subsection.5.1}%
 \contentsline {subsection}{\numberline {5.2\relax .\enspace }Badane algorytmy}{50}{subsection.5.2}%
@@ -42,7 +43,7 @@
 \contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{52}{subsubsection.6.1.1}%
 \contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{55}{subsubsection.6.1.2}%
 \contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{57}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3\relax .\enspace }Analiza odporności na zmianę parametrów modelu}{60}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.3\relax .\enspace }Analiza odporności na zmianę parametrów modelu}{58}{subsection.6.3}%
 \contentsline {subsubsection}{\numberline {6.3.1\relax .\enspace }Analiza wrażliwości na zakres perturbacji}{63}{subsubsection.6.3.1}%
 \contentsline {subsection}{\numberline {6.4\relax .\enspace }Szczegółowe zestawienie ilościowe}{63}{subsection.6.4}%
 \contentsline {subsection}{\numberline {6.5\relax .\enspace }Analiza wpływu kary za sterowanie w MPC z alternatywną funkcją kosztu}{65}{subsection.6.5}%
@@ -51,7 +52,7 @@
 \contentsline {subsection}{\numberline {7.1\relax .\enspace }Wnioski końcowe}{67}{subsection.7.1}%
 \contentsline {subsection}{\numberline {7.2\relax .\enspace }Ograniczenia pracy}{67}{subsection.7.2}%
 \contentsline {subsection}{\numberline {7.3\relax .\enspace }Kierunki dalszych badań}{68}{subsection.7.3}%
-\contentsline {section}{Bibliografia}{69}{section*.53}%
-\contentsline {section}{Wykaz symboli i skrótów}{71}{section*.54}%
-\contentsline {section}{Spis rysunków}{73}{section*.54}%
-\contentsline {section}{Spis tabel}{74}{section*.54}%
+\contentsline {section}{Bibliografia}{69}{section*.51}%
+\contentsline {section}{Wykaz symboli i skrótów}{71}{section*.52}%
+\contentsline {section}{Spis rysunków}{73}{section*.52}%
+\contentsline {section}{Spis tabel}{74}{section*.52}%
