@@ -29,6 +29,7 @@ from controllers.mpc import MPCController
 from controllers.mpc_J2 import MPCControllerJ2
 from controllers.mpc_utils import PLANT, SIM, simulate_mpc, Wind, mse, mae, iae, ise, control_energy_l2, control_energy_l1, settling_time, overshoot, steady_state_error
 from controllers.fuzzy_lqr import TSFuzzyController, starter_ts_params16, lqr_from_plant
+from controllers.lmpc import LinearMPCController
 
 SAVE_DIR = os.path.join(os.path.dirname(__file__), '../latex/images/experiments')
 RESULTS_FILE = os.path.join(os.path.dirname(__file__), 'experiments_results.json')
@@ -142,33 +143,32 @@ def main():
     
     # 1. PD-PD
     controllers['PD-PD'] = PDPDController(PLANT, dt,
-                                          ang_pid={"Kp": -95.0, "Ki": 0.0, "Kd": -14.0},
-                                          cart_pid={"Kp": -16.0, "Ki": 0.0, "Kd": -14.0})
+                                            ang_pid = {"Kp": -40.0, "Ki": -1.0, "Kd": -8.0},
+                                            cart_pid = {"Kp": -1.0, "Ki": -0.1, "Kd": -3.0})
     
     # 2. PD-LQR
     controllers['PD-LQR'] = PDLQRController(PLANT, dt,
-                                                pid_gains = {"Kp": -1.5, "Ki": 0.0, "Kd": -5.0},
-                                                lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0})
+                                                pid_gains = {"Kp": -1.5, "Ki": 0.1, "Kd": -1.0},
+                                                lqr_gains = {"Q": [1.0, 1.0, 1.0, 1.0], "R": 1.0})
     
     # 3. MPC
     controllers['MPC'] = MPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
                                      Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592)
     
     # 4. MPC-J2 Variants
-    # 4. MPC-J2 Variants
     controllers['MPC-J2'] = MPCControllerJ2(
         pars=PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.001
-    )
-    controllers['MPC-J2 (r=1e-4)'] = MPCControllerJ2(
-        pars=PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.001
+        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.01
     )
     
     # 5. Fuzzy-LQR
     K_lqr = lqr_from_plant(PLANT)
     p_opt = starter_ts_params16(u_sat)
     controllers['Fuzzy-LQR'] = TSFuzzyController(PLANT, p_opt, K_lqr, dt, du_max=800.0, ramp_T=1.0)
+
+    # 6. LMPC
+    controllers['LMPC'] = LinearMPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+                                              Q=np.diag([15.0, 1.0, 10.0, 1.0]), R=0.1)
 
     results = {}
     
@@ -200,6 +200,7 @@ def main():
     group_advanced = ['MPC', 'MPC-J2', 'MPC-J2', 'Fuzzy-LQR']
     group_mpc_study = ['MPC-J2', 'MPC-J2']
     group_all = ['PD-PD', 'PD-LQR', 'MPC', 'MPC-J2', 'Fuzzy-LQR']
+    group_all_lmpc = ['PD-PD', 'PD-LQR', 'MPC', 'MPC-J2', 'Fuzzy-LQR', 'LMPC']
 
     # Helper function for grouped plots
     def plot_group(group_names, trajectories, title_suffix, filename_suffix, scenario_title, signal_type='theta'):
@@ -274,6 +275,16 @@ def main():
     plot_group(group_classical, trajectories_wind, "Klasyczne", "wind_control_classical", "Sterowanie (Wiatr)", 'u')
     plot_group(group_advanced, trajectories_wind, "Zaawansowane", "wind_control_advanced", "Sterowanie (Wiatr)", 'u')
     plot_group(group_advanced, trajectories_wind, "Wszystkie", "wind_control_advanced_all", "Sterowanie (Wiatr)", 'u')
+    
+    # --- New LMPC Combined Plots ---
+    # Nominal
+    plot_group(group_all_lmpc, trajectories_nom, "All + LMPC", "nominal_all_lmpc_theta", "Kąt (Nominal) - All+LMPC", 'theta')
+    plot_group(group_all_lmpc, trajectories_nom, "All + LMPC", "nominal_all_lmpc_pos", "Pozycja (Nominal) - All+LMPC", 'x')
+    plot_group(group_all_lmpc, trajectories_nom, "All + LMPC", "nominal_all_lmpc_u", "Sterowanie (Nominal) - All+LMPC", 'u')
+    # Wind
+    plot_group(group_all_lmpc, trajectories_wind, "All + LMPC", "wind_all_lmpc_theta", "Kąt (Wiatr) - All+LMPC", 'theta')
+    plot_group(group_all_lmpc, trajectories_wind, "All + LMPC", "wind_all_lmpc_pos", "Pozycja (Wiatr) - All+LMPC", 'x')
+    plot_group(group_all_lmpc, trajectories_wind, "All + LMPC", "wind_all_lmpc_u", "Sterowanie (Wiatr) - All+LMPC", 'u')
     # --- MPC Study Plots ---
     # Nominal
     plot_group(group_mpc_study, trajectories_nom, "MPC-J2 Study", "nominal_mpc_j2_study", "MPC-J2 r_abs (Nominal)", 'u')
@@ -288,6 +299,13 @@ def main():
         """
         metrics_map: dict of {InputKey: DisplayName}
         """
+        # Define desired order
+        # User requested: pd-pd pd-lqr lmpc mpc mpc-j2 fuzzy
+        desired_order = ['PD-PD', 'PD-LQR', 'LMPC', 'MPC', 'MPC-J2', 'Fuzzy-LQR']
+        
+        # Filter controllers to only include those in desired_order that actually exist
+        ordered_keys = [k for k in desired_order if k in controllers]
+        
         print(f"\n\n=== LATEX TABLE: {title} ===")
         print(r"\begin{table}[h!]")
         print(r"    \centering")
@@ -295,23 +313,23 @@ def main():
         print(f"    \\label{{{label}}}")
         
         # Determine columns string: |l|c|c|...|
-        cols_str = "|l|" + "c|" * len(controllers)
+        cols_str = "|l|" + "c|" * len(ordered_keys)
         print(f"    \\begin{{tabular}}{{{cols_str}}}")
         print(r"        \hline")
         
         # Header Row
-        headers = ["Wskaźnik"] + list(controllers.keys())
+        headers = ["Wskaźnik"] + ordered_keys
         print(f"        \\textbf{{{headers[0]}}} & " + " & ".join([f"\\textbf{{{h}}}" for h in headers[1:]]) + r" \\ \hline")
         
         # Data Rows
         for key, display_name in metrics_map.items():
             if key == "SEPARATOR":
                 print(r"        \hline")
-                # print(r"        \multicolumn{" + str(len(controllers)+1) + r"}{|c|}{\textit{" + display_name + r"}} \\ \hline")
+                # print(r"        \multicolumn{" + str(len(ordered_keys)+1) + r"}{|c|}{\textit{" + display_name + r"}} \\ \hline")
                 continue
 
             row_str = f"        {display_name}"
-            for name in controllers.keys():
+            for name in ordered_keys:
                 m = results[f"{name}_{scenario_suffix}"]
                 val = m.get(key, 0.0)
                 if val is None: val = 999.9 # Handle NaNs if any

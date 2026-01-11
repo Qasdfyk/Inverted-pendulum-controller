@@ -112,12 +112,12 @@ if __name__ == "__main__":
     x0, x_ref, u_sat = SIM["x0"], SIM["x_ref"], SIM["u_sat"]
     plant = PLANT
 
-    wind = Wind(T, seed=42, Ts=0.01, power=5e-3)
-    #wind = None
+    #wind = Wind(T, seed=42, Ts=0.01, power=5e-3)
+    wind = None
 
     ctrl = LinearMPCController(
         pars=plant, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-        Q=np.diag([150.0, 10.0, 100.0, 5.0]),
+        Q=np.diag([15.0, 1.0, 10.0, 1.0]),
         R=0.1
     )
 
