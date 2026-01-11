@@ -135,16 +135,16 @@ def generate_pd_lqr():
     
     # 3. Optimized (without Ki - PD only)
     ctrl_opt_pd = PDLQRController(PLANT, dt,
-                                    pid_gains = {"Kp": -1.5, "Ki": 0.0, "Kd": -5.0},
-                                    lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0})
+                                    pid_gains = {"Kp": -7.0, "Ki": 0.1, "Kd": -3.0},
+                                    lqr_gains = {"Q": [200.0, 3.0, 35.0, 40.0], "R": 1.0})
     run_simulation(ctrl_opt_pd, "PD-LQR", "pdlqr_3_opt", "Optimized (Ki=0)")
     
     # 4. With Ki - showing that integral action causes steady-state error
     # Despite LQR providing damping, the integrator interferes with optimal
     # control and creates position offset - Ki is NOT recommended
     ctrl_opt_ki = PDLQRController(PLANT, dt,
-                                    pid_gains = {"Kp": -2.5, "Ki": -1.0, "Kd": -5.0},
-                                    lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0})
+                                    pid_gains = {"Kp": -7.0, "Ki": 0.1, "Kd": -3.0},
+                                    lqr_gains = {"Q": [200.0, 3.0, 35.0, 40.0], "R": 1.0})
     run_simulation(ctrl_opt_ki, "PD-LQR", "pdlqr_4_with_ki", "With Ki (causes error)")
 
 def generate_lqr():
@@ -191,21 +191,24 @@ def generate_mpc_j2():
     
     # Using same Q weights as run_experiments.py (q_theta=40, q_x=40), varying only R_abs
     # 1. Bad (High R_abs -> Passive, refuses to act)
-    ctrl_bad = MPCControllerJ2(PLANT, dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
-                               Q=np.diag([40.0, 5.0, 40.0, 5.0]), # Using same weights structure as manual/bad try
-                               R=0.0001, r_abs=1.0) 
+    ctrl_bad = MPCControllerJ2(
+        PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.001, r_abs=10
+    )
     run_simulation(ctrl_bad, "MPC-J2", "mpcJ2_1_bad", "High Energy Cost")
     
     # 2. Manual (R_abs=1.0 - destabilizes when cart drifts too far)
-    ctrl_man = MPCControllerJ2(PLANT, dt, N=15, Nu=7, umin=-u_sat, umax=u_sat,
-                               Q=np.diag([40.0, 5.0, 40.0, 5.0]),
-                               R=0.0001, r_abs=0.1)
+    ctrl_man = MPCControllerJ2(
+        PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.001, r_abs=5
+    )
     run_simulation(ctrl_man, "MPC-J2", "mpcJ2_2_manual", "Manual R_abs")
     
     # 3. Optimized (R_abs=0, same as run_experiments.py)
-    ctrl_opt = MPCControllerJ2(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-                               Q=np.diag([158.39, 40.80, 43.41, 19.71]), 
-                               R=0.08592, r_abs=0.0) 
+    ctrl_opt = MPCControllerJ2(
+        PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.001, r_abs=1
+    )
     run_simulation(ctrl_opt, "MPC-J2", "mpcJ2_3_opt", "Optimized")
 
 def generate_fuzzy():

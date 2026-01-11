@@ -117,7 +117,7 @@ a członem całkującym dla eliminacji uchybu pozycji, co często prowadziło do
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_1_manual.png}
-    \caption{Regulator PD nastawiony ręcznie ($K_{p,\theta}=-10$, $K_{i,\theta}=-1$,$K_{d,\theta}=-3$, 
+    \caption{Regulator PID nastawiony ręcznie ($K_{p,\theta}=-10$, $K_{i,\theta}=-1$,$K_{d,\theta}=-3$, 
     $K_{p,x}=-1$, $K_{d,x}=-0,1$, $K_{d,x}=-3$).}
     \label{fig:pid_manual}
 \end{figure}
@@ -144,7 +144,7 @@ lokalnych.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_3_opt.png}
-    \caption{Zoptymalizowany regulator PD ($K_{p,\theta}=-95$, $K_{d,\theta}=-14$, 
+    \caption{Zoptymalizowany regulator PID ($K_{p,\theta}=-95$, $K_{d,\theta}=-14$, 
     $K_{p,x}=-16$, $K_{d,x}=-14$).}
     \label{fig:pdpd_opt}
 \end{figure}
@@ -159,7 +159,7 @@ juz pod uwagę wyniki uzyskane podczas strojenia z wykorzystaniem algorytmu ewol
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_2_integral_bad.png}
-    \caption{Regulator PD nastawiony ręcznie ($K_{p,\theta}=-40$, $K_{i,\theta}=-1$, $K_{d,\theta}=-8$, 
+    \caption{Regulator PID nastawiony ręcznie ($K_{p,\theta}=-40$, $K_{i,\theta}=-1$, $K_{d,\theta}=-8$, 
     $K_{p,x}=-1$, $K_{p,x}=-0,1$, $K_{d,x}=-3$).}
     \label{fig:pid_final}
 \end{figure}
@@ -173,7 +173,7 @@ zaawansowanych strategii sterowania.
 
 Regulator liniowo-kwadratowy (LQR) stanowi fundamentalną metodę sterowania optymalnego
 dla systemów liniowych wielowymiarowych MIMO~\cite{Lewis2012, Jezierski2017}. 
-W~odróżnieniu od~regulatorów PD, które wymagają empirycznego doboru wzmocnień 
+W~odróżnieniu od~regulatorów PID, które wymagają empirycznego doboru wzmocnień 
 dla każdej zmiennej stanu, LQR wyznacza optymalne wzmocnienia automatycznie 
 na~podstawie modelu liniowego obiektu oraz macierzy wag $Q$ i~$R$ definiujących 
 kompromis między jakością regulacji a~zużyciem energii.
@@ -195,7 +195,7 @@ wokół górnego punktu równowagi ($\theta = 0$).
 \subsubsection{Ograniczenia czystego regulatora LQR}
 
 Przed przystąpieniem do~analizy struktury hybrydowej, zbadano działanie czystego 
-regulatora LQR (klasa \texttt{LQRController}, plik \texttt{lqr.py}).
+regulatora LQR.
 
 \begin{figure}[H]
     \centering
@@ -226,10 +226,10 @@ tak skonfigurowanego regulatora LQR jest bardzo słabej jakości. Widoczny są g
 nieciągłe zmiany sygnału sterującego, które są kosztowne energetycznie i mogą być niebezpieczne dla układu.
 Motywuje to rozszerzenie struktury o~dodatkową pętlę PD z~możliwością włączenia członu całkującego.
 
-\subsubsection{Struktura hybrydowa PD-LQR}
+\subsubsection{Struktura hybrydowa PID-LQR}
 
-Klasa \texttt{PDLQRController} (plik \texttt{pd\_lqr.py}) implementuje sterowanie
-oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PD dla uchybu
+Klasa \texttt{PDLQRController} implementuje sterowanie
+oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PID dla uchybu
 pozycji, co tworzy strukturę hybrydową opisaną m.in. w~\cite{Prasad2014} oraz
 \cite{Nguyen2024} (w~kontekście porównawczym). Schemat blokowy tego układu 
 przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
@@ -257,7 +257,7 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
         
         % PD pozycji (poniżej)
         \node [sum, below=1.4cm of sum_lqr] (sum_pd) {\tiny $+$};
-        \node [block, right=0.8cm of sum_pd] (pd_pos) {$\mathrm{PD}_x$};
+        \node [block, right=0.8cm of sum_pd] (pd_pos) {$\mathrm{PID}_x$};
         
         % --- Połączenia ---
         % Wejście LQR
@@ -311,7 +311,7 @@ skąd $K = R^{-1} B^T P$. Macierze $A$
 i~$B$ pochodzą z~linearyzacji modelu wahadła wokół punktu równowagi
 górnej ($\theta = 0$).
 
-W~zaimplementowanym rozwiązaniu (plik \texttt{pd\_lqr.py}), sygnał sterujący
+W~zaimplementowanym rozwiązaniu, sygnał sterujący
 składa się z~dwóch komponentów:
 \begin{equation}
     u(t) = u_{\mathrm{LQR}}(t) + u_{\mathrm{PID,pos}}(t).
@@ -338,7 +338,7 @@ do~problemu optymalizacji wskaźnika jakości.
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_1_bad.png}
     \caption{Regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$, 
-    PD: $K_{p,x}=-4,5$, $K_{d,x}=-3$).}
+    PID: $K_{p,x}=-4,5$, $K_{i,x}=0$, $K_{d,x}=-3$).}
     \label{fig:lqr_bad}
 \end{figure}
 
@@ -353,7 +353,7 @@ i~1~N$^2$ kosztu sterowania -- co jest fizycznie nieuzasadnione.
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_2_manual.png}
     \caption{Regulator LQR strojony metodą Brysona ($Q=\mathrm{diag}([25, 1, 4, 1])$, 
-    $R=10$, PD: $K_{p,x}=-4.5$, $K_{d,x}=-3$).}
+    $R=10$, PID: $K_{p,x}=-4.5$, $K_{p,x}=0$, $K_{d,x}=-3$).}
     \label{fig:lqr_manual}
 \end{figure}
 
@@ -370,56 +370,26 @@ a~reakcja na~zakłócenia powolna.
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_3_opt.png}
     \caption{Zoptymalizowany regulator PID-LQR bez członu całkującego 
-    ($Q=\mathrm{diag}([1, 1, 500, 250])$, $R=1$, PD: $K_{p,x}=-1{,}5$, 
-    $K_{i,x}=0$, $K_{d,x}=-5$).}
+    ($Q=\mathrm{diag}([200, 3, 35, 40])$, $R=1$, PID: $K_{p,x}=-7{,}0$, 
+    $K_{i,x}=0{,}1$, $K_{d,x}=-3{,}0$).}
     \label{fig:lqr_opt}
 \end{figure}
 
 W~ostatnim etapie zastosowano optymalizację numeryczną (Rys.~\ref{fig:lqr_opt}). 
 Algorytm genetyczny poszukiwał optymalnych elementów diagonalnych macierzy $Q$ 
 oraz skalara $R$, minimalizując wskaźnik jakości. Zoptymalizowane wagi 
-(w~szczególności wysoka kara $Q_{x} = 500$) sprawiają, że regulator bardzo 
+sprawiają, że regulator bardzo 
 intensywnie koryguje pozycję wózka, co pośrednio wymusza stabilne utrzymanie wahadła. 
-Należy zauważyć, że optymalizator wyznaczył strategię przeciwną do~intuicyjnej: 
-zamiast karać głównie kąt ($Q_{\theta}$), kładzie nacisk na~pozycję ($Q_x$), 
-co zmusza wózek do~szybkich korekt stabilizujących wahadło.
-
-\subsubsection{Analiza wpływu członu całkującego w~układzie PID-LQR}
-
-W~literaturze \cite{Prasad2014} sugeruje się, że struktura hybrydowa PID-LQR 
-może bezpiecznie wykorzystywać akcję całkującą ($K_i \neq 0$), ponieważ LQR 
-zapewnia wystarczające tłumienie. Przeprowadzono eksperymentalną weryfikację 
-tej tezy.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/pdlqr_4_with_ki.png}
-    \caption{Regulator PID-LQR z~członem całkującym ($K_{p,x}=-2{,}5$, 
-    $K_{i,x}=-1{,}0$, $K_{d,x}=-5$, $Q=\mathrm{diag}([1, 1, 500, 250])$, $R=1$).}
-    \label{fig:lqr_with_ki}
-\end{figure}
-
-Na Rysunku~\ref{fig:lqr_with_ki} przedstawiono odpowiedź układu z~włączonym 
-członem całkującym ($K_i = -1{,}0$). Mimo że układ zachowuje stabilność, 
-widoczny jest wyraźny uchyb ustalony pozycji wózka. Paradoksalnie, człon 
-całkujący, który teoretycznie powinien eliminować uchyb ustalony, w~tej 
-konfiguracji powoduje jego powstanie. Zjawisko to wynika z~interakcji między 
-pętlą PD a~regulatorem LQR -- akumulowany błąd w~integratorze interferuje 
-z~optymalnym sterowaniem LQR, prowadząc do~przesunięcia punktu równowagi.
-Z~tego powodu w~finalnej konfiguracji regulatora PID-LQR zdecydowano się 
-na~wyłączenie członu całkującego ($K_i = 0$), pozostawiając strukturę PID-LQR 
-(Rys.~\ref{fig:lqr_opt}).
-
-Wyniki te wskazują, że w~przypadku dobrze nastrojonego regulatora LQR 
-z~wysokimi wagami dla błędu pozycji, dodatkowy człon całkujący nie tylko 
-nie poprawia jakości regulacji, ale może ją pogorszyć.
+Należy zauważyć, że optymalizator wyznaczył strategię dość intuicyjną: 
+kara głównie kąt ($Q_{\theta}$), zamiast kłaść nacisk na~pozycję ($Q_x$), 
+co zmusza obiekt do~szybkich korekt stabilizujących wahadło.
 
 \subsection{Nieliniowe sterowanie predykcyjne (MPC)}
 
 Algorytm MPC (Model Predictive Control) stanowi zaawansowaną metodę sterowania,
 która w~odróżnieniu od~LQR, uwzględnia wprost ograniczenia sygnału sterującego
 oraz nieliniową dynamikę obiektu \cite{Camacho2007, Rawlings2017}.
-Zaimplementowany w~klasie \texttt{MPCController} (plik \texttt{mpc.py})
+Zaimplementowany w~klasie \texttt{MPCController} 
 algorytm rozwiązuje w~każdym kroku symulacji problem optymalizacji dynamicznej
 nieliniowej (NMPC). Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:diagram_mpc}.
 
@@ -569,8 +539,8 @@ zapewnia szybką, ale gładką stabilizację.
 
 \subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}
 
-Zaimplementowano sterownik \texttt{MPCControllerJ2} jako wariant badawczy algorytmu predykcyjnego
-(plik \texttt{mpc\_J2.py}). Jego struktura jest
+Zaimplementowano sterownik \texttt{MPCControllerJ2} jako wariant badawczy algorytmu predykcyjnego. 
+Jego struktura jest
 zbliżona do~podstawowego MPC, jednak funkcja kosztu została rozbudowana
 o~dodatkowy składnik karzący bezwzględną wartość sygnału sterującego
 (energię), a~nie tylko jego przyrosty.
@@ -586,15 +556,14 @@ Ograniczenie amplitudy sygnału sterującego nie tylko redukuje wydatek energety
 (istotny w~aplikacjach mobilnych), ale także zmniejsza obciążenie mechaniczne
 elementów wykonawczych, co wpływa na~żywotność napędu.
 
-W~badaniach przyjęto zoptymalizowane wagi: $q_{\theta}=40.0$,
-$q_x=40.0$, $q_{\dot{\theta}}=5.0$, $q_{\dot{x}}=5.0$ (elementy macierzy diagonalnej $Q$),
-przy czym $R_{\Delta}=0.0001$ i~$R_{\mathrm{abs}}=0$ dla wariantu priorytetyzującego 
+W~badaniach przyjęto zoptymalizowane wagi: $Q = \text{diag}([158 , 41 , 43 , 20])$,
+przy czym $R_{\Delta}=0.08592$ i~$R_{\mathrm{abs}}=0.01$ dla wariantu priorytetyzującego 
 jakość regulacji.
 
 \subsubsection{Dobór parametrów i analiza wpływu kary za energię}
 W~przypadku wariantu MPC-J2 analizowano nieliniowy wpływ parametru $R_{\mathrm{abs}}$
 na~zachowanie układu. Eksperymenty przeprowadzono przy stałych wagach stanu
-($q_{\theta}=40$, $q_x=40$, $q_{\dot{\theta}}=5$, $q_{\dot{x}}=5$), zmieniając 
+$Q = \text{diag}([158 , 41 , 43 , 20])$, zmieniając 
 jedynie wartość kary za~bezwzględną wartość sterowania.
 
 \begin{figure}[H]
@@ -606,52 +575,89 @@ jedynie wartość kary za~bezwzględną wartość sterowania.
 
 Przyjęcie zbyt dużej wartości kary za~sterowanie bezwzględne ($R_{\mathrm{abs}}=10$,
 Rys.~\ref{fig:mpcj2_bad}) spowodowało, że regulator wykazywał tendencję do~pasywności.
-Funkcja kosztu penalizowała każdy niuton siły na~tyle intensywnie, że wartość funkcji celu
-faworyzowała dopuszczenie do~upadku wahadła kosztem uniknięcia wysokiego wydatku energetycznego. W~efekcie układ
-nie był w~stanie ustabilizować się -- wahadło przewracało się, ponieważ koszt 
+Funkcja kosztu karała każdy niuton siły na~tyle intensywnie, że wartość funkcji celu
+faworyzowała bardzo wolną regulację kosztem uniknięcia wysokiego wydatku energetycznego. W~efekcie układ
+nie był w~stanie ustabilizować się -- wahadło oscylowało w okolicy punktu pracy, ponieważ koszt 
 energetyczny utrzymania go w~pionie przewyższał zysk wynikający z~małego błędu 
 kątowego w~funkcji celu.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpcJ2_2_manual.png}
-    \caption{Regulator MPC-J2 z~ręcznie zmniejszoną karą ($R_{\mathrm{abs}}=1$).}
+    \caption{Regulator MPC-J2 z~ręcznie zmniejszoną karą ($R_{\mathrm{abs}}=5$).}
     \label{fig:mpcj2_manual}
 \end{figure}
 
-Stopniowe, ręczne zmniejszanie parametru $R_{\mathrm{abs}}$ do~wartości $1.0$
-(Rys.~\ref{fig:mpcj2_manual}) pozwoliło na~początkową stabilizację, jednak układ
-ostatecznie ulegał destabilizacji. Regulator działał zbyt zachowawczo -- oszczędzając
-energię, pozwalał wózkowi na~zbyt duży dryf od~pozycji zadanej. Gdy błąd pozycji
-narastał, próba korekcji wymagała gwałtownego ruchu wózka, co z~kolei destabilizowało
-wahadło. Taki scenariusz ilustruje typowy problem źle dostrojonego kompromisu
+Stopniowe, ręczne zmniejszanie parametru $R_{\mathrm{abs}}$ do~wartości $5$
+(Rys.~\ref{fig:mpcj2_manual}) pozwoliło delikatnie polepszyć jakość regulacji, jednak układ
+ostatecznie nie dawał rady się ustabilizować. Regulator działał zbyt zachowawczo -- oszczędzając
+energię, pozwalał wózkowi na~zbyt duży dryf od~pozycji zadanej i za bardzo oszczędzał energię. 
+Taki scenariusz ilustruje typowy problem źle dostrojonego kompromisu
 między jakością regulacji a~oszczędnością energii.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpcJ2_3_opt.png}
-    \caption{Zoptymalizowany regulator MPC-J2 ($R_{\mathrm{abs}}=0$).}
+    \caption{Zoptymalizowany regulator MPC-J2 ($R_{\mathrm{abs}}=1$).}
     \label{fig:mpcj2_opt}
 \end{figure}
 
 Algorytm optymalizacyjny wskazał, że dla tego zadania najlepszym rozwiązaniem jest
-całkowite wyłączenie kary za~bezwzględną wartość sterowania ($R_{\mathrm{abs}}=0$,
-Rys.~\ref{fig:mpcj2_opt}). Pozostała jedynie kara za~przyrosty sterowania 
-$R_{\Delta}=0.0001$, która zapewnia gładkość sygnału sterującego bez ograniczania
+zastosowanie niewielkiej, ale niezerowej kary za~bezwzględną wartość sterowania ($R_{\mathrm{abs}}=1$,
+Rys.~\ref{fig:mpcj2_opt}). Tak dobrana waga pozwala uniknąć bierności regulatora,
+jednocześnie ograniczając nadmierne zużycie energii. W~połączeniu z~karą za~przyrosty sterowania 
+$R_{\Delta}=0.001$, zapewniono gładkość sygnału sterującego bez ograniczania
 zdolności regulatora do~szybkiej reakcji. Uzyskano optymalny kompromis, w~którym układ
 stabilizuje się szybko, a~sterowanie pozbawione jest zbędnych oscylacji
 wysokoczęstotliwościowych.
 
 \subsection{Liniowy regulator MPC (LMPC)}
 
-Zaimplementowano również wariant Liniowego MPC (LMPC) w klasie \texttt{LinearMPCController} (plik \texttt{lmpc.py}). W odróżnieniu od nieliniowego MPC, ten regulator wykorzystuje uproszczony, zlinearyzowany model obiektu wokół punktu równowagi górnej ($\theta = 0$).
+Zaimplementowano również wariant Liniowego MPC (LMPC) w~klasie. 
+Główna idea polega na wykorzystaniu zlinearyzowanego modelu
+obiektu wokół punktu równowagi górnej ($\theta = 0$) w~celu uproszczenia
+obliczeń optymalizacyjnych.
 
-Dyskretny model liniowy uzyskiwany jest metodą ZOH (Zero-Order Hold). Problem sterowania sprowadza się do minimalizacji kwadratowej funkcji kosztu przy uwzględnieniu ograniczeń na sygnał sterujący. Dzięki linearyzacji, problem optymalizacji jest prostszy obliczeniowo niż w przypadku NMPC, co pozwala na szybsze wyznaczanie sterowania, choć odbywa się to kosztem dokładności modelu w większej odległości od punktu pracy. W implementacji wykorzystano solver \texttt{L-BFGS-B} do obsługi ograniczeń. LMPC stanowi kompromis pomiędzy klasycznym LQR (model liniowy, brak saturacji) a nieliniowym MPC (model dokładny, pełna obsługa ograniczeń).
+Model ciągły $\dot{x} = Ax + Bu$ poddano dyskretyzacji metodą ZOH, uzyskując
+równanie stanu $x_{k+1} = A_d x_k + B_d u_k$. Dzięki temu predykcja
+stanu (w~przeciwieństwie do NMPC) sprowadza się do szybkich operacji macierzowych,
+bez konieczności numerycznego całkowania równań różniczkowych.
+Problem sterowania rozwiązano jako zadanie programowania kwadratowego (QP)
+przy użyciu solvera \texttt{L-BFGS-B}, uwzględniając ograniczenia na~wartość
+sygnału sterującego.
+
+\subsubsection{Dobór parametrów i~analiza działania}
+
+Proces strojenia regulatora LMPC przebiegł sprawnie, wykorzystując doświadczenia
+z~uruchomienia regulatorów LQR oraz NMPC. Przyjęcie wag zbliżonych do~tych
+stosowanych w~LQR pozwoliło na~uzyskanie poprawnych wyników już w~pierwszych próbach.
+Ostatecznie zdecydowano się na~następującą konfigurację:
+\begin{itemize}
+    \item Horyzont predykcji: $N=12$ (identyczny jak w~NMPC),
+    \item Horyzont sterowania: $N_u=4$,
+    \item Macierz wag stanu: $Q = \text{diag}([15,0,\; 1,0,\; 10,0,\; 1,0])$,
+    \item Waga sterowania: $R = 0,1$.
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/lmpc_opt.png}
+    \caption{Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, 
+    $Q=\text{diag}([15, 1, 10, 1])$, $R=0,1$).}
+    \label{fig:lmpc_opt}
+\end{figure}
+
+Na~Rys.~\ref{fig:lmpc_opt} przedstawiono odpowiedź układu na~skokową zmianę pozycji
+zadanej wózka. Układ zachowuje się stabilnie, płynnie dochodząc do~wartości
+zadanej. Widoczne jest działanie ograniczeń sygnału sterującego (nasycenie)
+w~początkowej fazie ruchu, co jest kluczową przewagą nad klasycznym LQR.
+Mimo zastosowania uproszczonego modelu liniowego, regulator poprawnie radzi sobie
+ze~stabilizacją w~otoczeniu punktu równowagi.
 
 \subsection{Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}
 
-Ostatnim zbadanym układem jest sterownik hybrydowy o~strukturze równoległej \texttt{TSFuzzyController}
-(plik \texttt{fuzzy\_lqr.py}), łączący klasyczny, liniowy regulator LQR z~nieliniowym systemem
+Ostatnim zbadanym układem jest sterownik hybrydowy o~strukturze równoległej, 
+łączący klasyczny, liniowy regulator LQR z~nieliniowym systemem
 wnioskowania rozmytego typu Takagi-Sugeno (T-S). W~przeciwieństwie do~układów typu
 ,,Gain Scheduling'' modyfikujących parametry jednego regulatora, tutaj zastosowano
 bezpośrednie sumowanie sygnałów sterujących z~dwóch niezależnych bloków (Rys.~\ref{fig:diagram_fuzzy}).

@@ -22,16 +22,16 @@
 \contentsline {section}{\numberline {4\relax .\enspace }Algorytmy sterowania}{23}{section.4}%
 \contentsline {subsection}{\numberline {4.1\relax .\enspace }Równoległy regulator PID}{23}{subsection.4.1}%
 \contentsline {subsubsection}{\numberline {4.1.1\relax .\enspace }Proces doboru nastaw oraz analiza PD}{24}{subsubsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PID-LQR}{26}{subsection.4.2}%
-\contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace }Ograniczenia czystego regulatora LQR}{27}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2\relax .\enspace }Struktura hybrydowa PD-LQR}{29}{subsubsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.3\relax .\enspace }Dobór wag macierzy Q i R}{30}{subsubsection.4.2.3}%
-\contentsline {subsubsection}{\numberline {4.2.4\relax .\enspace }Analiza wpływu członu całkującego w~układzie PID-LQR}{32}{subsubsection.4.2.4}%
-\contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{34}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PID-LQR}{27}{subsection.4.2}%
+\contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace }Ograniczenia czystego regulatora LQR}{28}{subsubsection.4.2.1}%
+\contentsline {subsubsection}{\numberline {4.2.2\relax .\enspace }Struktura hybrydowa PID-LQR}{30}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3\relax .\enspace }Dobór wag macierzy Q i R}{31}{subsubsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{33}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace }Dobór horyzontu i wag funkcji celu}{35}{subsubsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}{38}{subsection.4.4}%
-\contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace }Dobór parametrów i analiza wpływu kary za energię}{39}{subsubsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.5\relax .\enspace }Liniowy regulator MPC (LMPC)}{42}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}{37}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace }Dobór parametrów i analiza wpływu kary za energię}{38}{subsubsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.5\relax .\enspace }Liniowy regulator MPC (LMPC)}{41}{subsection.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór parametrów i~analiza działania}{42}{subsubsection.4.5.1}%
 \contentsline {subsection}{\numberline {4.6\relax .\enspace }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{43}{subsection.4.6}%
 \contentsline {subsubsection}{\numberline {4.6.1\relax .\enspace }Dobór reguł i funkcji przynależności}{45}{subsubsection.4.6.1}%
 \contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{49}{section.5}%
@@ -52,7 +52,7 @@
 \contentsline {subsection}{\numberline {7.1\relax .\enspace }Wnioski końcowe}{67}{subsection.7.1}%
 \contentsline {subsection}{\numberline {7.2\relax .\enspace }Ograniczenia pracy}{67}{subsection.7.2}%
 \contentsline {subsection}{\numberline {7.3\relax .\enspace }Kierunki dalszych badań}{68}{subsection.7.3}%
-\contentsline {section}{Bibliografia}{69}{section*.51}%
-\contentsline {section}{Wykaz symboli i skrótów}{71}{section*.52}%
-\contentsline {section}{Spis rysunków}{73}{section*.52}%
-\contentsline {section}{Spis tabel}{74}{section*.52}%
+\contentsline {section}{Bibliografia}{69}{section*.52}%
+\contentsline {section}{Wykaz symboli i skrótów}{71}{section*.53}%
+\contentsline {section}{Spis rysunków}{73}{section*.53}%
+\contentsline {section}{Spis tabel}{74}{section*.53}%

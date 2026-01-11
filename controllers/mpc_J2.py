@@ -85,7 +85,7 @@ if __name__ == "__main__":
 
     ctrl = MPCControllerJ2(
         pars=plant, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.01
+        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.001, r_abs=1
     )
 
     X, U, Fw_tr, ctrl_time_total, sim_time_wall = simulate_mpc(plant, ctrl, x0, x_ref, T, dt, wind=wind)
