@@ -52,9 +52,6 @@ class TSParams16:
     gain_scale: float
 
 #def starter_ts_params16(u_sat: float, base_th=15.0, base_thd=5.0, base_x=5.0, base_xd=1.0) -> TSParams16:
-# def starter_ts_params16(u_sat: float, base_th=5.2, base_thd=4.5, base_x=20.9, base_xd=18.6) -> TSParams16:
-# Optimized Params for Disturbance Rejection (Automated Optimization)
-# Best Cost: 0.1007 | Wind: Enabled
 def starter_ts_params16(u_sat: float, base_th=100.0, base_thd=5.27, base_x=19.82, base_xd=19.25):
     th_small  = (-0.15, 0.0, 0.15)
     thd_small = (-1.0, 0.0, 1.0)

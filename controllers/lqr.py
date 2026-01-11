@@ -62,7 +62,7 @@ if __name__ == "__main__":
     # wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
 
     # LQR gains - optimized for position tracking
-    lqr_gains = {"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0}
+    lqr_gains = {"Q": [1.0, 1.0, 1.0, 1.0], "R": 1.0}
 
     ctrl = LQRController(
         pars=plant, dt=dt, 
