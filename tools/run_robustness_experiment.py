@@ -29,6 +29,7 @@ plt.rcParams.update({
 # Add parent directory to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../controllers')))
+from controllers.lmpc import LinearMPCController
 
 from controllers.pd_pd import PDPDController
 from controllers.pd_lqr import PDLQRController
@@ -335,26 +336,31 @@ def main():
     controllers = {}
     
     # 1. PD-PD
+    # 1. PD-PD
     controllers['PD-PD'] = PDPDController(PLANT, dt,
-                                          ang_pid={"Kp": -95.0, "Ki": 0.0, "Kd": -14.0},
-                                          cart_pid={"Kp": -16.0, "Ki": 0.0, "Kd": -14.0})
+                                            ang_pid = {"Kp": -40.0, "Ki": -1.0, "Kd": -8.0},
+                                            cart_pid = {"Kp": -1.0, "Ki": -0.1, "Kd": -3.0})
     
     # 2. PD-LQR
     controllers['PD-LQR'] = PDLQRController(PLANT, dt,
-                                            pid_gains={"Kp": -1.5, "Ki": 0.0, "Kd": -5.0},
-                                            lqr_gains={"Q": [1.0, 1.0, 500.0, 250.0], "R": 1.0})
+                                                pid_gains = {"Kp": -1.5, "Ki": 0.1, "Kd": -1.0},
+                                                lqr_gains = {"Q": [1.0, 1.0, 1.0, 1.0], "R": 1.0})
+
+    # 3. LMPC
+    controllers['LMPC'] = LinearMPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+                                              Q=np.diag([15.0, 1.0, 10.0, 1.0]), R=0.1)
     
-    # 3. MPC
+    # 4. MPC
     controllers['MPC'] = MPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
                                        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592)
     
-    # 4. MPC-J2
+    # 5. MPC-J2
     controllers['MPC-J2'] = MPCControllerJ2(
         pars=PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
         Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.001
     )
     
-    # 5. Fuzzy-LQR
+    # 6. Fuzzy-LQR
     K_lqr = lqr_from_plant(PLANT)
     p_opt = starter_ts_params16(u_sat)
     controllers['Fuzzy-LQR'] = TSFuzzyController(PLANT, p_opt, K_lqr, dt, du_max=800.0, ramp_T=1.0)
