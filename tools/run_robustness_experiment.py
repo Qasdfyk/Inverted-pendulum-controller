@@ -46,10 +46,10 @@ RESULTS_FILE = os.path.join(os.path.dirname(__file__), 'robustness_results.json'
 os.makedirs(SAVE_DIR, exist_ok=True)
 
 # Define perturbed plant parameters (10% more pendulum mass)
-MASS_PERTURBATION = 0.10  # 10% increase
+MASS_PERTURBATION = 1.0  # 100% increase
 PLANT_PERTURBED = {
     "M": PLANT["M"],                          # Cart mass unchanged
-    "m": PLANT["m"] * (1 + MASS_PERTURBATION),  # Pendulum mass +10%
+    "m": PLANT["m"] * (1 + MASS_PERTURBATION),  # Pendulum mass +100%
     "l": PLANT["l"],                          # Length unchanged
     "g": PLANT["g"]                           # Gravity unchanged
 }

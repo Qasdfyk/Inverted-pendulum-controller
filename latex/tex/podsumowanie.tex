@@ -23,8 +23,9 @@ sformułowanie szeregu istotnych wniosków:
     utrzymanie punktu pracy (np. w~robotyce precyzyjnej), najlepsze wyniki osiągnął
     system rozmyty Fuzzy-LQR. Sterownik ten potrafił niemal całkowicie zniwelować
     wpływ losowych zakłóceń, utrzymując wahadło w~pionie z~maksymalnym wychyleniem
-    zaledwie $0{,}05$ rad. Jest to jednak rozwiązanie bardzo kosztowne energetycznie
-    ($E_u \approx 86$ --- ponad 7-krotnie więcej niż MPC).
+    zaledwie $0{,}05$ rad. W~warunkach nominalnych jest to rozwiązanie bardziej kosztowne
+    energetycznie ($E_u \approx 2{,}86$) od klasycznych metod, jednak w~obecności zakłóceń
+    okazuje się najbardziej efektywne ($E_u \approx 10{,}1$), tłumiąc błędy w~zarodku.
     
     \item \textbf{Najlepsza ekonomia: MPC.} Sterowanie predykcyjne okazało się
     najbardziej ekonomicznym rozwiązaniem w~warunkach nominalnych ($E_u \approx 0{,}56$).
@@ -34,8 +35,8 @@ sformułowanie szeregu istotnych wniosków:
     
     \item \textbf{Uniwersalność PD-LQR.} Regulator hybrydowy PD-LQR, po~odpowiednim
     doborze wag ($Q_x = 500$), okazał się rozwiązaniem bardzo uniwersalnym.
-    W~warunkach zakłóceń zewnętrznych osiągnął lepsze wyniki niż MPC pod~względem trzymania
-    pozycji i~zużycia energii, przy znacznie niższej złożoności obliczeniowej.
+    W~warunkach zakłóceń zewnętrznych osiągnął on wyniki porównywalne z~najlepszymi regulatorami,
+    zużywając mniej energii ($E_u \approx 10{,}5$) niż sterowanie predykcyjne MPC ($E_u \approx 12{,}4$).
     
     \item \textbf{Wrażliwość na~funkcję kosztu.} Analiza wariantu MPC-J2 wykazała,
     że dobór funkcji kosztu ma krytyczny wpływ na~odporność układu. Zbyt restrykcyjna

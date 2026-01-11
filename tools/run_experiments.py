@@ -142,12 +142,12 @@ def main():
     controllers = {}
     
     # 1. PD-PD
-    controllers['PD-PD'] = PDPDController(PLANT, dt,
+    controllers['PID-PID'] = PDPDController(PLANT, dt,
                                             ang_pid = {"Kp": -40.0, "Ki": -1.0, "Kd": -8.0},
                                             cart_pid = {"Kp": -1.0, "Ki": -0.1, "Kd": -3.0})
     
     # 2. PD-LQR
-    controllers['PD-LQR'] = PDLQRController(PLANT, dt,
+    controllers['PID-LQR'] = PDLQRController(PLANT, dt,
                                                 pid_gains = {"Kp": -1.5, "Ki": 0.1, "Kd": -1.0},
                                                 lqr_gains = {"Q": [1.0, 1.0, 1.0, 1.0], "R": 1.0})
     
@@ -158,7 +158,7 @@ def main():
     # 4. MPC-J2 Variants
     controllers['MPC-J2'] = MPCControllerJ2(
         pars=PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.01
+        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.001, r_abs=1
     )
     
     # 5. Fuzzy-LQR
@@ -196,11 +196,11 @@ def main():
     print(f"Results saved to {RESULTS_FILE}")
 
     # Define Controller Groups
-    group_classical = ['PD-PD', 'PD-LQR']
-    group_advanced = ['MPC', 'MPC-J2', 'MPC-J2', 'Fuzzy-LQR']
-    group_mpc_study = ['MPC-J2', 'MPC-J2']
-    group_all = ['PD-PD', 'PD-LQR', 'MPC', 'MPC-J2', 'Fuzzy-LQR']
-    group_all_lmpc = ['PD-PD', 'PD-LQR', 'MPC', 'MPC-J2', 'Fuzzy-LQR', 'LMPC']
+    group_classical = ['PID-PID', 'PID-LQR']
+    group_advanced = ['MPC', 'MPC-J2', 'LMPC', 'Fuzzy-LQR']
+    group_mpc_study = ['MPC-J2']
+    group_all = ['PID-PID', 'PID-LQR', 'MPC', 'MPC-J2', 'Fuzzy-LQR', 'LMPC']
+    group_all_lmpc = ['PID-PID', 'PID-LQR', 'MPC', 'MPC-J2', 'Fuzzy-LQR', 'LMPC']
 
     # Helper function for grouped plots
     def plot_group(group_names, trajectories, title_suffix, filename_suffix, scenario_title, signal_type='theta'):
@@ -301,7 +301,7 @@ def main():
         """
         # Define desired order
         # User requested: pd-pd pd-lqr lmpc mpc mpc-j2 fuzzy
-        desired_order = ['PD-PD', 'PD-LQR', 'LMPC', 'MPC', 'MPC-J2', 'Fuzzy-LQR']
+        desired_order = ['PID-PID', 'PID-LQR', 'LMPC', 'MPC', 'MPC-J2', 'Fuzzy-LQR']
         
         # Filter controllers to only include those in desired_order that actually exist
         ordered_keys = [k for k in desired_order if k in controllers]

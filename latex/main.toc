@@ -43,16 +43,15 @@
 \contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{52}{subsubsection.6.1.1}%
 \contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{55}{subsubsection.6.1.2}%
 \contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{57}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3\relax .\enspace }Analiza odporności na zmianę parametrów modelu}{58}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1\relax .\enspace }Analiza wrażliwości na zakres perturbacji}{63}{subsubsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.4\relax .\enspace }Szczegółowe zestawienie ilościowe}{63}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5\relax .\enspace }Analiza wpływu kary za sterowanie w MPC z alternatywną funkcją kosztu}{65}{subsection.6.5}%
-\contentsline {subsection}{\numberline {6.6\relax .\enspace }Porównanie złożoności obliczeniowej}{65}{subsection.6.6}%
-\contentsline {section}{\numberline {7\relax .\enspace }Podsumowanie}{67}{section.7}%
-\contentsline {subsection}{\numberline {7.1\relax .\enspace }Wnioski końcowe}{67}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2\relax .\enspace }Ograniczenia pracy}{67}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3\relax .\enspace }Kierunki dalszych badań}{68}{subsection.7.3}%
-\contentsline {section}{Bibliografia}{69}{section*.52}%
-\contentsline {section}{Wykaz symboli i skrótów}{71}{section*.53}%
-\contentsline {section}{Spis rysunków}{73}{section*.53}%
-\contentsline {section}{Spis tabel}{74}{section*.53}%
+\contentsline {subsection}{\numberline {6.3\relax .\enspace }Analiza odporności na zmianę parametrów modelu}{61}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1\relax .\enspace }Analiza wrażliwości na zakres zmian}{64}{subsubsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.4\relax .\enspace }Szczegółowe zestawienie ilościowe}{65}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5\relax .\enspace }Porównanie złożoności obliczeniowej}{66}{subsection.6.5}%
+\contentsline {section}{\numberline {7\relax .\enspace }Podsumowanie}{68}{section.7}%
+\contentsline {subsection}{\numberline {7.1\relax .\enspace }Wnioski końcowe}{68}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2\relax .\enspace }Ograniczenia pracy}{69}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3\relax .\enspace }Kierunki dalszych badań}{69}{subsection.7.3}%
+\contentsline {section}{Bibliografia}{71}{section*.52}%
+\contentsline {section}{Wykaz symboli i skrótów}{73}{section*.53}%
+\contentsline {section}{Spis rysunków}{75}{section*.53}%
+\contentsline {section}{Spis tabel}{76}{section*.53}%

@@ -71,9 +71,10 @@ wspomagany regulatorem LQR (Fuzzy-LQR). Badania przeprowadzono w środowisku ję
 Skuteczność algorytmów zweryfikowano w dwóch scenariuszach: stabilizacji w punkcie pracy oraz pracy w warunkach 
 zakłóceń zewnętrznych. Analiza wyników wykazała, że nie istnieje jeden uniwersalny regulator
 dla wszystkich zastosowań. Sterownik Fuzzy-LQR zapewnił najwyższą precyzję stabilizacji i odporność na 
-zakłócenia, jednak odbyło się to kosztem bardzo wysokiego zużycia energii sterowania. Z kolei regulator 
-MPC okazał się rozwiązaniem najbardziej ekonomicznym, zapewniając płynność ruchu i uwzględnienie ograniczeń
-fizycznych napędu, co jest kluczowe w systemach rzeczywistych. Układ PID-LQR stanowił kompromis między 
+zakłócenia. W~warunkach nominalnych wiązało się to z~podwyższonym zużyciem energii, jednak przy 
+silnych zakłóceniach regulator ten okazał się najbardziej efektywny energetycznie. Z kolei regulator 
+MPC okazał się rozwiązaniem najbardziej ekonomicznym w stanie ustalonym, zapewniając płynność ruchu
+i uwzględnienie ograniczeń fizycznych napędu. Układ PID-LQR stanowił kompromis ciekawy między
 złożonością obliczeniową a jakością regulacji, przewyższając klasyczne podejście PID.
 \slowakluczowe odwrócone wahadło,\allowbreak regulator PID,\allowbreak regulator LQR,\allowbreak regulator MPC,\allowbreak Takagi\allowbreak--\allowbreak Sugeno,\allowbreak sterowanie predykcyjne,\allowbreak sterowanie optymalne,\allowbreak zakłócenia,\allowbreak stabilizacja,\allowbreak symulacja,\allowbreak układ nieliniowy
 
@@ -87,23 +88,17 @@ złożonością obliczeniową a jakością regulacji, przewyższając klasyczne 
 % For each controller, numerical simulations were performed under nominal conditions and under horizontal disturbance forces acting on the cart. The responses of the pendulum angle and cart position were analyzed, and several performance indices were calculated: mean squared error (MSE), mean absolute error (MAE), settling time, overshoot, control energy, and average computation time. The results were visualized in plots and summarized in tables, allowing a comprehensive comparison of control quality and computational efficiency.
 
 % The obtained results show that introducing optimal and predictive control significantly improves system stability and robustness compared to classical PID regulation. The MPC controller provided the fastest stabilization with a moderate control effort, while the Takagi--Sugeno fuzzy controller demonstrated good adaptability under varying operating conditions. The developed simulation environment constitutes a solid foundation for further research on nonlinear control, particularly on hybrid combinations of fuzzy, optimal, and predictive methods.
-The aim of this thesis was to develop a set of simulation scripts and 
-conduct a multi-criteria comparative analysis of control algorithms for a 
-nonlinear inverted pendulum system on a cart. As part of the research, six 
-control strategies were implemented and tested: a classical parallel PID 
-controller, a hybrid PID-LQR system, Model Predictive Control 
-(Linear MPC, Nonlinear MPC and MPC-J2 with an extended cost function), and a Takagi-Sugeno fuzzy 
-controller supported by LQR (Fuzzy-LQR). The study was conducted in a Python environment using a full 
-nonlinear model of the object. The effectiveness of the algorithms was verified 
-in two scenarios: stabilization at the operating point and operation under external 
-disturbances (simulated wind). The analysis of the results showed that there is 
-no single universal controller for all applications. The Fuzzy-LQR controller 
-provided the highest stabilization precision and robustness to disturbances, but 
-at the cost of very high control energy consumption. On the other hand, the MPC 
-controller proved to be the most economical solution, ensuring smooth motion and 
-compliance with physical drive constraints, which is crucial in real-world systems. 
-The PID-LQR system represented a compromise between computational complexity and control 
-quality, outperforming the classical PID approach.
+The objective of this thesis was to develop simulation scripts and perform a multi-criteria comparison of 
+control algorithms for a nonlinear inverted pendulum on a cart. The study involved implementing six control 
+strategies: a classical PID controller, a hybrid PID-LQR system, Model Predictive Control (Linear, 
+Nonlinear, and MPC-J2), and a Takagi-Sugeno fuzzy controller supported by LQR (Fuzzy-LQR). Simulations 
+were conducted in Python using a full nonlinear model. The algorithms were tested in two scenarios: 
+stabilization at the operating point and operation under external disturbances. The results show that no 
+single controller is universal. The Fuzzy-LQR controller provided the highest precision and robustness. 
+While it consumed more energy under nominal conditions, it proved to be the most energy-efficient solution 
+under strong disturbances. The MPC controller was the most economical for steady-state operation, ensuring 
+smooth motion and compliance with physical constraints. The PID-LQR system offered a valuable compromise 
+between computational complexity and control quality, outperforming the classical PID approach.
 \keywords inverted pendulum, PID controller, LQR controller, MPC controller, Takagi\allowbreak--\allowbreak Sugeno, predictive control, optimal control, disturbances, stabilization, nonlinear system, simulation
 
 %--------------------------------------
