@@ -187,39 +187,39 @@ równania Riccatiego (CARE):
 skąd $K = R^{-1} B^T P$. Macierze $A$ i~$B$ pochodzą z~linearyzacji modelu wahadła 
 wokół górnego punktu równowagi ($\theta = 0$).
 
-\subsubsection{Ograniczenia czystego regulatora LQR}
+% \subsubsection{Ograniczenia czystego regulatora LQR}
 
-Przed przystąpieniem do~analizy struktury hybrydowej, zbadano działanie czystego 
-regulatora LQR.
+% Przed przystąpieniem do~analizy struktury hybrydowej, zbadano działanie czystego 
+% regulatora LQR.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/lqr_1_baseline.png}
-    \caption{Czysty regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$).}
-    \label{fig:lqr_baseline}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1.0\textwidth]{images/tuning/lqr_1_baseline.png}
+%     \caption{Czysty regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$).}
+%     \label{fig:lqr_baseline}
+% \end{figure}
 
-Na~Rysunku~\ref{fig:lqr_baseline} przedstawiono odpowiedź układu z~czystym regulatorem 
-LQR przy zastosowaniu jednostkowych macierzy wag ($Q=I$, $R=1$). Mimo poprawnej 
-stabilizacji wahadła (mały błąd kątowy), widoczne są istotne ograniczenia tej 
-konfiguracji. Jednostkowe wagi traktują 1~rad błędu kąta tak samo jak 1~m błędu 
-pozycji, co jest fizycznie nieuzasadnione i~prowadzi do~powolnego osiągania zadanej 
-pozycji wózka.
+% Na~Rysunku~\ref{fig:lqr_baseline} przedstawiono odpowiedź układu z~czystym regulatorem 
+% LQR przy zastosowaniu jednostkowych macierzy wag ($Q=I$, $R=1$). Mimo poprawnej 
+% stabilizacji wahadła (mały błąd kątowy), widoczne są istotne ograniczenia tej 
+% konfiguracji. Jednostkowe wagi traktują 1~rad błędu kąta tak samo jak 1~m błędu 
+% pozycji, co jest fizycznie nieuzasadnione i~prowadzi do~powolnego osiągania zadanej 
+% pozycji wózka.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/lqr_2_opt.png}
-    \caption{Czysty regulator LQR z~wagami zoptymalizowanymi ($Q=\mathrm{diag}([1, 1, 500, 250])$, $R=1$).}
-    \label{fig:lqr_opt_2}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[width=1.0\textwidth]{images/tuning/lqr_2_opt.png}
+%     \caption{Czysty regulator LQR z~wagami zoptymalizowanymi ($Q=\mathrm{diag}([1, 1, 500, 250])$, $R=1$).}
+%     \label{fig:lqr_opt_2}
+% \end{figure}
 
-Zwiększenie wag dla pozycji i~prędkości wózka ($Q_x=500$, $Q_{\dot{x}}=250$) prowadzi 
-do~znaczącej poprawy jakości śledzenia wartości zadanej (Rys.~\ref{fig:lqr_opt_2}). 
-Wyższe kary za~błąd pozycji wymuszają na~regulatorze intensywniejszą reakcję, 
-co skutkuje szybszym osiągnięciem zadanego punktu. Jednak sygnał sterujący dla 
-tak skonfigurowanego regulatora LQR jest bardzo słabej jakości. Widoczny są gwałtowne, 
-nieciągłe zmiany sygnału sterującego, które są kosztowne energetycznie i mogą być niebezpieczne dla układu.
-Motywuje to rozszerzenie struktury o~dodatkową pętlę PID z~możliwością włączenia członu całkującego.
+% Zwiększenie wag dla pozycji i~prędkości wózka ($Q_x=500$, $Q_{\dot{x}}=250$) prowadzi 
+% do~znaczącej poprawy jakości śledzenia wartości zadanej (Rys.~\ref{fig:lqr_opt_2}). 
+% Wyższe kary za~błąd pozycji wymuszają na~regulatorze intensywniejszą reakcję, 
+% co skutkuje szybszym osiągnięciem zadanego punktu. Jednak sygnał sterujący dla 
+% tak skonfigurowanego regulatora LQR jest bardzo słabej jakości. Widoczny są gwałtowne, 
+% nieciągłe zmiany sygnału sterującego, które są kosztowne energetycznie i mogą być niebezpieczne dla układu.
+% Motywuje to rozszerzenie struktury o~dodatkową pętlę PID z~możliwością włączenia członu całkującego.
 
 \subsubsection{Struktura hybrydowa PID-LQR}
 
@@ -317,9 +317,9 @@ Składnik LQR realizuje stabilizację wokół punktu pracy:
 \end{equation}
 Zastosowane wagi optymalne to:
 \begin{equation}
-    Q = \text{diag}([1,\; 1,\; 500,\; 250]), \quad R = 1.
+    Q = \text{diag}([200,\; 3,\; 35,\; 40]), \quad R = 1.
 \end{equation}
-Dodatkowy człon PD na~pętli pozycji (zrealizowany analogicznie do wzoru
+Dodatkowy człon PID na~pętli pozycji (zrealizowany analogicznie do wzoru
 \ref{eq:pd_x}) ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
 $x_{\mathrm{ref}}$, co jest częstą praktyką w~aplikacjach praktycznych, gdzie LQR
 zapewnia stabilność, a~regulator zewnętrzny dba o~uchyb w~stanie ustalonym
@@ -446,7 +446,7 @@ w~popularnych dystrybucjach środowisk naukowych (Anaconda, pip) oraz zdolności
 do~obsługi ograniczeń nierównościowych (wymaganych dla saturacji sterowania). Zadanie zdefiniowane jest
 następująco:
 \begin{equation}
-    \min_{\Delta U} J = \sum_{k=1}^{N} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) + R \sum_{k=0}^{N_u-1} (\Delta u_k)^2,
+    \min_{\Delta U} J = \sum_{k=1}^{N} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) + R \sum_{k=1}^{N_u} (\Delta u_k)^2,
 \end{equation}
 przy ograniczeniach:
 \begin{align}
@@ -471,16 +471,6 @@ Kluczową zaletę MPC, podkreślaną w~pracach \cite{Mills2009} oraz
 \cite{Jezierski2017}, jest możliwość bezpośredniego uwzględnienia ograniczeń
 (saturacji) już na~etapie wyliczania sterowania, co zapobiega zjawisku
 nasycenia elementu wykonawczego, które mogłoby mieć miejsce w~przypadku LQR.
-
-Analiza wykazała, że bezpośrednie przeniesienie macierzy wag $Q$ i $R$
-z~regulatora LQR do~sterownika MPC prowadziło do~znaczącego pogorszenia jakości
-sterowania (wydłużenie czasu regulacji z~ok. 3s do~ponad 9s). Wynika to z~faktu,
-że model MPC, dzięki jawnemu uwzględnieniu ograniczeń sygnału sterującego, pozwala
-na~zastosowanie nastaw o~znacznie wyższych wzmocnieniach (większych kar za~błędy stanu),
-które w~liniowym regulatorze LQR powodowałyby nasycenie i~potencjalną niestabilność.
-Dlatego zdecydowano się na~niezależną optymalizację parametrów obu regulatorów,
-aby porównywać ich najlepsze możliwe konfiguracje, a~nie identyczne, ale
-nieoptymalne nastawy.
 
 \subsubsection{Dobór horyzontu i wag funkcji celu}
 Dla regulatora MPC kluczowym zagadnieniem był dobór horyzontu predykcji oraz
@@ -542,7 +532,7 @@ o~dodatkowy składnik karzący bezwzględną wartość sygnału sterującego
 
 Zmodyfikowana funkcja celu przyjmuje postać:
 \begin{equation}
-    J = \sum_{k=1}^{N} (x_k - x_{\mathrm{ref}})^T Q (x_k - x_{\mathrm{ref}}) \;+\; R_{\Delta} \sum_{k=0}^{N_u-1} (\Delta u_k)^2 \;+\; R_{\mathrm{abs}} \sum_{k=0}^{N-1} (u_k)^2.
+    J = \sum_{k=1}^{N} (x_k - x_{\mathrm{ref}})^T Q (x_k - x_{\mathrm{ref}}) \;+\; R_{\Delta} \sum_{k=1}^{N_u} (\Delta u_k)^2 \;+\; R_{\mathrm{abs}} \sum_{k=1}^{N_u} (u_k)^2.
 \end{equation}
 Wprowadzenie parametru $R_{\mathrm{abs}}$ pozwala na~bezpośrednie minimalizowanie
 zużycia energii sterowania, co jest podejściem powszechnie stosowanym
@@ -558,8 +548,24 @@ jakość regulacji.
 \subsubsection{Dobór parametrów i analiza wpływu kary za energię}
 W~przypadku wariantu MPC-J2 analizowano nieliniowy wpływ parametru $R_{\mathrm{abs}}$
 na~zachowanie układu. Eksperymenty przeprowadzono przy stałych wagach stanu
-$Q = \text{diag}([158 , 41 , 43 , 20])$, zmieniając 
-jedynie wartość kary za~bezwzględną wartość sterowania.
+ oraz przy bardzo niskiej karze za~przyrosty
+sterowania $R_{\Delta} = 0{,}001$, zmieniając jedynie wartość kary za~bezwzględną 
+wartość sterowania.
+
+Wprowadzenie członu $R_{\mathrm{abs}} \sum_{k=1}^{N_u} u_k^2$ do~funkcji celu ma 
+fundamentalnie inny charakter niż kara za~przyrosty sterowania $R_{\Delta}$. 
+Podczas gdy $R_{\Delta}$ promuje gładkość sygnału sterującego (ogranicza szybkie
+zmiany), parametr $R_{\mathrm{abs}}$ bezpośrednio penalizuje amplitudę siły, 
+co przekłada się na~redukcję zużycia energii. Z~punktu widzenia optymalizatora,
+przy wysokich wartościach $R_{\mathrm{abs}}$, każdy niuton siły generuje istotny
+koszt, co może prowadzić do~nadmiernie zachowawczego działania regulatora.
+
+Zależność między wartością $R_{\mathrm{abs}}$ a~jakością regulacji ma charakter 
+silnie nieliniowy. Dla~zbyt dużych wartości ($R_{\mathrm{abs}} > 5$) optymalizator
+preferuje minimalizację energii kosztem jakości regulacji, co w~skrajnych przypadkach
+prowadzi do~utraty stabilności. Dla~zbyt małych wartości ($R_{\mathrm{abs}} \approx 0$)
+układ zachowuje się identycznie jak podstawowy MPC, tracąc potencjalne korzyści
+z~oszczędności energetycznej.
 
 \begin{figure}[H]
     \centering
@@ -791,7 +797,14 @@ w~porównaniu do~klasycznego LQR \cite{Nguyen2024}.
 
 \subsubsection{Dobór reguł i funkcji przynależności}
 Strojenie rozmytego regulatora Fuzzy-LQR jest zadaniem złożonym ze względu na~dużą
-liczbę parametrów definiujących bazę reguł i~funkcje przynależności.
+liczbę parametrów definiujących bazę reguł i~funkcje przynależności. 
+W~przeciwieństwie do~klasycznego regulatora LQR, gdzie dobór sprowadza się do~ustalenia 
+wag w~macierzach $Q$ i~$R$, tutaj należy podjąć szereg decyzji 
+dotyczących kształtu, rozmieszczenia i~liczby funkcji przynależności dla każdej 
+ze~zmiennych stanu. Ponadto, konieczne jest zdefiniowanie reguł wnioskowania, 
+które determinują zachowanie układu w~poszczególnych obszarach przestrzeni stanu. 
+Niewłaściwy dobór tych parametrów może prowadzić do~niestabilności, gwałtownych 
+przełączeń sterowania lub braku pożądanej poprawy dynamiki względem regulatora bazowego.
 
 \begin{figure}[H]
     \centering
@@ -841,20 +854,19 @@ dla kąta ($F_{\theta}=100.0$), przy jednoczesnym zmniejszeniu globalnego wzmocn
 ($G=0.36$). Uzyskano nieliniową powierzchnię sterowania, która łączy zalety miękkiego 
 sterowania LQR w~pobliżu zera z~maksymalną siłą reakcji przy dużych wychyleniach.
 
-\paragraph{Trudności w~strojeniu regulatora rozmytego}
 Strojenie regulatora Fuzzy-LQR okazało się zadaniem znacznie bardziej wymagającym 
 niż w~przypadku pozostałych badanych algorytmów. Wynika to z~kilku czynników:
 \begin{itemize}
-    \item \textbf{Wysoka wymiarowość przestrzeni parametrów} --- dla 16 reguł, 
+    \item Wysoka wymiarowość przestrzeni parametrów --- dla 16 reguł, 
     z~których każda definiuje 4 wzmocnienia, plus parametry funkcji przynależności 
     i~wzmocnienie globalne, łączna liczba stopni swobody sięga kilkudziesięciu.
-    \item \textbf{Silne sprzężenia między parametrami} --- zmiana jednego wzmocnienia 
+    \item Silne sprzężenia między parametrami --- zmiana jednego wzmocnienia 
     wpływa na~zachowanie całej bazy reguł poprzez mechanizm interpolacji rozmytej, 
     co utrudnia intuicyjne strojenie metodą prób i~błędów.
-    \item \textbf{Wrażliwość na~warunki początkowe optymalizacji} --- algorytm 
+    \item Wrażliwość na~warunki początkowe optymalizacji --- algorytm 
     ewolucji różnicowej wielokrotnie zbiegał do~różnych minimów lokalnych, 
     dając rozwiązania o~znacząco odmiennych charakterystykach.
-    \item \textbf{Zależność od~scenariusza testowego} --- parametry zoptymalizowane 
+    \item Zależność od~scenariusza testowego --- parametry zoptymalizowane 
     dla warunków nominalnych mogą dawać gorsze wyniki przy zakłóceniach i~odwrotnie.
 \end{itemize}
 Z~powyższych powodów proces strojenia regulatora rozmytego wymagał wielokrotnego 

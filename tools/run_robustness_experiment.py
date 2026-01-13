@@ -259,7 +259,7 @@ def plot_sensitivity_analysis(perturbations, sensitivity_results, filename):
     # Convert perturbations to percentages for X axis
     pert_percent = [p * 100 for p in perturbations]
     
-    markers = ['o', 's', '^', 'D', 'v']
+    markers = ['o', 's', '^', 'D', 'v', 'P', 'X', '*']
     
     for (name, results), marker in zip(sensitivity_results.items(), markers):
         iae_values = [results.get(p, np.nan) for p in perturbations]
