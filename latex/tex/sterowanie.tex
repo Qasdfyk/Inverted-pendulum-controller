@@ -17,8 +17,8 @@ implementacyjne zbadanych struktur sterowania.
 \subsection{Równoległy regulator PID}
 
 Pierwszym zaimplementowanym układem jest regulator o~strukturze równoległej,
-wykorzystujący klasyczne sprzężenie zwrotne typu PID
-(Proporcjonalno-Różniczkujące)~\cite{Ogata2010}. W~literaturze podejście to jest często
+wykorzystujący klasyczne sprzężenie zwrotne typu PID~\cite{Prasad2014}. 
+W~literaturze podejście to jest często
 stosowane jako punkt odniesienia dla bardziej zaawansowanych metod
 \cite{Moreno2023, Prasad2014}.
 
@@ -114,14 +114,6 @@ wózku wymaga bardzo precyzyjnych nastaw, a dobór parametrów metodą prób i b
 Konieczne było balansowanie między agresywnym członem różniczkującym dla stabilizacji kąta, 
 a członem całkującym dla eliminacji uchybu pozycji, co często prowadziło do niestabilności układu.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_1_manual.png}
-    \caption{Regulator PID nastawiony ręcznie ($K_{p,\theta}=-10$, $K_{i,\theta}=-1$,$K_{d,\theta}=-3$, 
-    $K_{p,x}=-1$, $K_{i,x}=-0,1$, $K_{d,x}=-3$).}
-    \label{fig:pid_manual}
-\end{figure}
-
 Wstępne próby doboru metodą prób i~błędów (Rys.~\ref{fig:pid_manual}), oparte 
 na~dekompozycji problemu (najpierw stabilizacja wahadła, potem pozycja wózka), 
 nie pozwoliły uzyskać stabilności i jakość regulacji była niezadowalająca. 
@@ -129,22 +121,25 @@ Układ charakteryzował się znacznymi oscylacjami.
 Wzmocnienia proporcjonalne ($K_p=-10$ dla kąta) były niewystarczające,
 aby szybko tłumić odchylenia od~pionu.
 
-Aby wyeliminować subiektywność strojenia ręcznego, zastosowano algorytm
-Ewolucji Różnicowej~\cite{StornPrice1997}, zaimplementowany 
-w~module \texttt{scipy.optimize}. Zdefiniowano globalną funkcję kosztu $J$, która
-umożliwia porównanie wszystkich badanych regulatorów w~ujednoliconych warunkach:
-\begin{equation}
-    J = w_{\theta} \cdot \text{MSE}(\theta) + w_{x} \cdot \text{MSE}(x) + w_{u} \cdot \text{RMS}(u),
-\end{equation}
-gdzie przyjęto wagi $w_{\theta}=4,0$ (priorytet stabilizacji), $w_{x}=1,0$
-(dokładność pozycjonowania) oraz $w_{u}=0,01$ (koszt energii). Algorytm operował
-na~populacji 10 osobników przez 20 generacji, co pozwoliło uniknąć minimów
-lokalnych.
+Aby wyeliminować subiektywność strojenia ręcznego, zastosowano metodę 
+przeszukiwania siatki (ang.~\textit{grid search}). Metoda ta polega na~systematycznym 
+przeglądaniu zdefiniowanej przestrzeni parametrów, ewaluując błąd $MSE$ dla każdej 
+kombinacji wartości z~zadanego zbioru dyskretnego. Przeszukano siatkę 
+wartości dla każdego z~sześciu parametrów ($K_p$, $K_i$, $K_d$ dla obu pętli), 
+wybierając konfigurację minimalizującą błąd średniokwadratowy.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_1_manual.png}
+    \caption{Źle dostrojony regulator PID ($K_{p,\theta}=-10$, $K_{i,\theta}=-1$,$K_{d,\theta}=-3$, 
+    $K_{p,x}=-1$, $K_{i,x}=-0,1$, $K_{d,x}=-3$).}
+    \label{fig:pid_manual}
+\end{figure}
+
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_3_opt.png}
-    \caption{Zoptymalizowany regulator PID ($K_{p,\theta}=-95$, $K_{i,\theta}=0$, $K_{d,\theta}=-14$, 
+    \caption{Regulator PID z nastawami z przeszukiwania siatki ($K_{p,\theta}=-95$, $K_{i,\theta}=0$, $K_{d,\theta}=-14$, 
     $K_{p,x}=-16$, $K_{i,x}=0$, $K_{d,x}=-14$).}
     \label{fig:pdpd_opt}
 \end{figure}
@@ -154,7 +149,7 @@ wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-10$) oraz $K_{p,x
 (vs. $-1$). W~wyniku optymalizacji ustalono, że intensywna reakcja na~błąd pozycji wózka pośrednio
 stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii. Jednak w tym przypadku jakość 
 sygnału sterującego była niezadowalająca i ostateczne strojenie znów wykonano ręcznie, tym razem biorąc 
-już pod uwagę wyniki uzyskane podczas strojenia z wykorzystaniem algorytmu ewolucyjnego.
+już pod uwagę wyniki uzyskane podczas przeszukiwania siatki.
 
 \begin{figure}[H]
     \centering
@@ -376,10 +371,10 @@ a~reakcja na~zakłócenia powolna.
 \end{figure}
 
 W~ostatnim etapie zastosowano optymalizację numeryczną (Rys.~\ref{fig:lqr_opt}). 
-Algorytm genetyczny poszukiwał optymalnych elementów diagonalnych macierzy $Q$ 
+Metoda przeszukiwania siatki poszukiwała optymalnych elementów diagonalnych macierzy $Q$ 
 oraz skalara $R$, minimalizując wskaźnik jakości. Zoptymalizowane wagi 
 sprawiają, że regulator bardzo 
-intensywnie koryguje pozycję wózka, co pośrednio wymusza stabilne utrzymanie wahadła. 
+intensywnie koryguje wychylenia wahadła, co wymusza stabilne utrzymanie kąta wychylenia. 
 Należy zauważyć, że optymalizator wyznaczył strategię dość intuicyjną: 
 kara głównie kąt ($Q_{\theta}$), zamiast kłaść nacisk na~pozycję ($Q_x$), 
 co zmusza obiekt do~szybkich korekt stabilizujących wahadło.
@@ -652,11 +647,11 @@ Funkcja kosztu przyjmuje postać analogiczną do~NMPC:
 gdzie $\Delta u_k = u_k - u_{k-1}$ oznacza przyrost sterowania, a~dla $k \geq N_u$ 
 stosuje się blokowanie sterowania ($\Delta u_k = 0$).
 
-Użyto solvera \texttt{L-BFGS-B} z~biblioteki \texttt{scipy.optimize} do rozwiązania problemu sterowania. 
-Wybór tego solvera (zamiast \texttt{SLSQP} stosowanego 
-w~NMPC) podyktowany był charakterem zadania -- przy braku dodatkowych ograniczeń 
-nierównościowych (poza ograniczeniami typu \textit{box} na~sygnał sterujący) 
-algorytm \texttt{L-BFGS-B} wykazuje wyższą efektywność obliczeniową.
+Do rozwiązania problemu sterowania użyto solvera \texttt{SLSQP} z~biblioteki 
+\texttt{scipy.optimize}, identycznego jak w~przypadku nieliniowego MPC. 
+Zastosowanie tego samego solvera dla obu wariantów MPC pozwala na~bezpośrednie 
+porównanie wpływu uproszczenia modelu (liniowy vs. nieliniowy) na~jakość regulacji, 
+eliminując różnice wynikające z~wyboru algorytmu optymalizacji.
 
 \subsubsection{Dobór parametrów i~analiza działania}
 
