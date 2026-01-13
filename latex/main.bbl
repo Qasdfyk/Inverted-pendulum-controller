@@ -601,73 +601,6 @@
       \field{title}{Metody numeryczne}
       \field{year}{2015}
     \endentry
-    \entry{Ogata2010}{book}{}{}
-      \name{author}{1}{}{%
-        {{hash=72cb1e667ce543119df1b777c0db24de}{%
-           family={Ogata},
-           familyi={O\bibinitperiod},
-           given={Katsuhiko},
-           giveni={K\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {Upper Saddle River, NJ}%
-      }
-      \list{publisher}{1}{%
-        {Pearson}%
-      }
-      \strng{namehash}{72cb1e667ce543119df1b777c0db24de}
-      \strng{fullhash}{72cb1e667ce543119df1b777c0db24de}
-      \strng{fullhashraw}{72cb1e667ce543119df1b777c0db24de}
-      \strng{bibnamehash}{72cb1e667ce543119df1b777c0db24de}
-      \strng{authorbibnamehash}{72cb1e667ce543119df1b777c0db24de}
-      \strng{authornamehash}{72cb1e667ce543119df1b777c0db24de}
-      \strng{authorfullhash}{72cb1e667ce543119df1b777c0db24de}
-      \strng{authorfullhashraw}{72cb1e667ce543119df1b777c0db24de}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{edition}{5}
-      \field{isbn}{978-0-13-615673-4}
-      \field{title}{Modern Control Engineering}
-      \field{year}{2010}
-    \endentry
-    \entry{StornPrice1997}{article}{}{}
-      \name{author}{2}{}{%
-        {{hash=87ff7bd4305b95a067c44bc7243d8128}{%
-           family={Storn},
-           familyi={S\bibinitperiod},
-           given={Rainer},
-           giveni={R\bibinitperiod}}}%
-        {{hash=96e607982973d9cb076455039a368fa5}{%
-           family={Price},
-           familyi={P\bibinitperiod},
-           given={Kenneth},
-           giveni={K\bibinitperiod}}}%
-      }
-      \strng{namehash}{5dfb836e07d40eb2d1cef5fbe8334415}
-      \strng{fullhash}{5dfb836e07d40eb2d1cef5fbe8334415}
-      \strng{fullhashraw}{5dfb836e07d40eb2d1cef5fbe8334415}
-      \strng{bibnamehash}{5dfb836e07d40eb2d1cef5fbe8334415}
-      \strng{authorbibnamehash}{5dfb836e07d40eb2d1cef5fbe8334415}
-      \strng{authornamehash}{5dfb836e07d40eb2d1cef5fbe8334415}
-      \strng{authorfullhash}{5dfb836e07d40eb2d1cef5fbe8334415}
-      \strng{authorfullhashraw}{5dfb836e07d40eb2d1cef5fbe8334415}
-      \field{sortinit}{3}
-      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{journaltitle}{Journal of Global Optimization}
-      \field{number}{4}
-      \field{title}{Differential Evolution -- A Simple and Efficient Heuristic for Global Optimization over Continuous Spaces}
-      \field{volume}{11}
-      \field{year}{1997}
-      \field{pages}{341\bibrangedash 359}
-      \range{pages}{19}
-      \verb{doi}
-      \verb 10.1023/A:1008202821328
-      \endverb
-    \endentry
     \entry{Lewis2012}{book}{}{}
       \name{author}{3}{}{%
         {{hash=e8b2d327ef78200b45c2158053b96ca0}{%
@@ -780,8 +713,8 @@
       \strng{authornamehash}{5b8fd28f6245ae8b0af119560622fa4f}
       \strng{authorfullhash}{5b8fd28f6245ae8b0af119560622fa4f}
       \strng{authorfullhashraw}{5b8fd28f6245ae8b0af119560622fa4f}
-      \field{sortinit}{4}
-      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{2}

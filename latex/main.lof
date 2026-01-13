@@ -6,8 +6,8 @@
 \contentsline {figure}{\numberline {3.2}{\ignorespaces Przykładowa realizacja stochastycznego procesu zakłócenia zewnętrznego działającego na wahadło w czasie symulacji.}}{21}{figure.caption.6}%
 \contentsline {figure}{\numberline {3.3}{\ignorespaces Zrzut ekranu z animacji realizowanej w środowisku Python (biblioteka Matplotlib). Widoczny wózek, wahadło oraz zakres ruchu.}}{22}{figure.caption.7}%
 \contentsline {figure}{\numberline {4.1}{\ignorespaces Schemat blokowy regulatora PID o~strukturze równoległej.}}{23}{figure.caption.8}%
-\contentsline {figure}{\numberline {4.2}{\ignorespaces Regulator PID nastawiony ręcznie ($K_{p,\theta }=-10$, $K_{i,\theta }=-1$,$K_{d,\theta }=-3$, $K_{p,x}=-1$, $K_{i,x}=-0,1$, $K_{d,x}=-3$).}}{25}{figure.caption.9}%
-\contentsline {figure}{\numberline {4.3}{\ignorespaces Zoptymalizowany regulator PID ($K_{p,\theta }=-95$, $K_{i,\theta }=0$, $K_{d,\theta }=-14$, $K_{p,x}=-16$, $K_{i,x}=0$, $K_{d,x}=-14$).}}{26}{figure.caption.10}%
+\contentsline {figure}{\numberline {4.2}{\ignorespaces Źle dostrojony regulator PID ($K_{p,\theta }=-10$, $K_{i,\theta }=-1$,$K_{d,\theta }=-3$, $K_{p,x}=-1$, $K_{i,x}=-0,1$, $K_{d,x}=-3$).}}{25}{figure.caption.9}%
+\contentsline {figure}{\numberline {4.3}{\ignorespaces Regulator PID z nastawami z przeszukiwania siatki ($K_{p,\theta }=-95$, $K_{i,\theta }=0$, $K_{d,\theta }=-14$, $K_{p,x}=-16$, $K_{i,x}=0$, $K_{d,x}=-14$).}}{26}{figure.caption.10}%
 \contentsline {figure}{\numberline {4.4}{\ignorespaces Regulator PID nastawiony ręcznie ($K_{p,\theta }=-40$, $K_{i,\theta }=-1$, $K_{d,\theta }=-8$, $K_{p,x}=-1$, $K_{p,x}=-0,1$, $K_{d,x}=-3$).}}{27}{figure.caption.11}%
 \contentsline {figure}{\numberline {4.5}{\ignorespaces Czysty regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$).}}{28}{figure.caption.12}%
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Czysty regulator LQR z~wagami zoptymalizowanymi ($Q=\mathrm {diag}([1, 1, 500, 250])$, $R=1$).}}{29}{figure.caption.13}%

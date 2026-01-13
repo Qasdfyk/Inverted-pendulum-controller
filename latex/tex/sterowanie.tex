@@ -144,7 +144,7 @@ wybierając konfigurację minimalizującą błąd średniokwadratowy.
     \label{fig:pdpd_opt}
 \end{figure}
 
-Zoptymalizowane nastawy (Rys.~\ref{fig:pdpd_opt}) charakteryzują się znacznie wyższymi
+Nastawy dobrane przy pomocy metody siatki (Rys.~\ref{fig:pdpd_opt}) charakteryzują się znacznie wyższymi
 wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-10$) oraz $K_{p,x}=-16$ 
 (vs. $-1$). W~wyniku optymalizacji ustalono, że intensywna reakcja na~błąd pozycji wózka pośrednio
 stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii. Jednak w tym przypadku jakość 
@@ -219,7 +219,7 @@ Wyższe kary za~błąd pozycji wymuszają na~regulatorze intensywniejszą reakcj
 co skutkuje szybszym osiągnięciem zadanego punktu. Jednak sygnał sterujący dla 
 tak skonfigurowanego regulatora LQR jest bardzo słabej jakości. Widoczny są gwałtowne, 
 nieciągłe zmiany sygnału sterującego, które są kosztowne energetycznie i mogą być niebezpieczne dla układu.
-Motywuje to rozszerzenie struktury o~dodatkową pętlę PD z~możliwością włączenia członu całkującego.
+Motywuje to rozszerzenie struktury o~dodatkową pętlę PID z~możliwością włączenia członu całkującego.
 
 \subsubsection{Struktura hybrydowa PID-LQR}
 
