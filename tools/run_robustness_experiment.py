@@ -348,7 +348,7 @@ def main():
 
     # 3. LMPC
     controllers['LMPC'] = LinearMPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-                                              Q=np.diag([15.0, 1.0, 10.0, 1.0]), R=0.1)
+                                              Q=np.diag([15.0, 1.0, 15.0, 1.0]), R=0.1)
     
     # 4. MPC
     controllers['MPC'] = MPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,

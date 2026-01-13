@@ -88,11 +88,10 @@ class LinearMPCController:
         bounds = [(du_min, du_max)] * self.Nu
         du0 = np.zeros(self.Nu, dtype=float)
 
-        # Zmieniamy tylko solver: SLSQP -> L-BFGS-B (dobry do samych bounds)
         res = minimize(
             self._cost, du0,
             args=(x0, x_ref, u_prev),
-            method="L-BFGS-B",
+            method="SLSQP",
             bounds=bounds,
             options={"maxiter": 200, "ftol": 1e-6, "disp": False},
         )
@@ -117,7 +116,7 @@ if __name__ == "__main__":
 
     ctrl = LinearMPCController(
         pars=plant, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-        Q=np.diag([15.0, 1.0, 10.0, 1.0]),
+        Q=np.diag([15.0, 1.0, 15.0, 1.0]),
         R=0.1
     )
 

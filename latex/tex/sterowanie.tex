@@ -104,7 +104,7 @@ nastawy dobrane eksperymentalnie:
     \item Tor pozycji: $K_{p,x} = -1,0$, $K_{i,x} = -0,1$, $K_{d,x} = -3,0$.
 \end{itemize}
 
-\subsubsection{Proces doboru nastaw oraz analiza PD}
+\subsubsection{Proces doboru nastaw oraz analiza PID}
 Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo, przechodząc
 od metod heurystycznych do pełnej optymalizacji numerycznej.
 Najpierw próbowano metodą prób i błędów nastroić regulator w taki sposób, aby 
@@ -118,7 +118,7 @@ a członem całkującym dla eliminacji uchybu pozycji, co często prowadziło do
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_1_manual.png}
     \caption{Regulator PID nastawiony ręcznie ($K_{p,\theta}=-10$, $K_{i,\theta}=-1$,$K_{d,\theta}=-3$, 
-    $K_{p,x}=-1$, $K_{d,x}=-0,1$, $K_{d,x}=-3$).}
+    $K_{p,x}=-1$, $K_{i,x}=-0,1$, $K_{d,x}=-3$).}
     \label{fig:pid_manual}
 \end{figure}
 
@@ -144,13 +144,13 @@ lokalnych.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_3_opt.png}
-    \caption{Zoptymalizowany regulator PID ($K_{p,\theta}=-95$, $K_{d,\theta}=-14$, 
-    $K_{p,x}=-16$, $K_{d,x}=-14$).}
+    \caption{Zoptymalizowany regulator PID ($K_{p,\theta}=-95$, $K_{i,\theta}=0$, $K_{d,\theta}=-14$, 
+    $K_{p,x}=-16$, $K_{i,x}=0$, $K_{d,x}=-14$).}
     \label{fig:pdpd_opt}
 \end{figure}
 
 Zoptymalizowane nastawy (Rys.~\ref{fig:pdpd_opt}) charakteryzują się znacznie wyższymi
-wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-40$) oraz $K_{p,x}=-16$ 
+wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-10$) oraz $K_{p,x}=-16$ 
 (vs. $-1$). W~wyniku optymalizacji ustalono, że intensywna reakcja na~błąd pozycji wózka pośrednio
 stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii. Jednak w tym przypadku jakość 
 sygnału sterującego była niezadowalająca i ostateczne strojenie znów wykonano ręcznie, tym razem biorąc 
@@ -536,7 +536,7 @@ jako optimum dla tego modelu dyskretnego, zapewniając stabilność przy akcepto
 wagi $Q$ znacząco różnią się od~intuicyjnych proporcji -- wysoka kara za~kąt 
 ($Q_{\theta}=158$) w~połączeniu z~niską karą za~zmianę sterowania ($R=0,086$)
 zapewnia szybką, ale gładką stabilizację.
-
+\newpage
 \subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}
 
 Zaimplementowano sterownik \texttt{MPCControllerJ2} jako wariant badawczy algorytmu predykcyjnego. 
@@ -557,7 +557,7 @@ Ograniczenie amplitudy sygnału sterującego nie tylko redukuje wydatek energety
 elementów wykonawczych, co wpływa na~żywotność napędu.
 
 W~badaniach przyjęto zoptymalizowane wagi: $Q = \text{diag}([158 , 41 , 43 , 20])$,
-przy czym $R_{\Delta}=0.08592$ i~$R_{\mathrm{abs}}=0.01$ dla wariantu priorytetyzującego 
+przy czym $R_{\Delta}=0{,}01$ i~$R_{\mathrm{abs}}=1$ dla wariantu priorytetyzującego 
 jakość regulacji.
 
 \subsubsection{Dobór parametrów i analiza wpływu kary za energię}
@@ -602,7 +602,7 @@ między jakością regulacji a~oszczędnością energii.
     \label{fig:mpcj2_opt}
 \end{figure}
 
-Algorytm optymalizacyjny wskazał, że dla tego zadania najlepszym rozwiązaniem jest
+Kolejne próby zmniejszania kary za bezwzględną wartość wskazały, że dla tego zadania najlepszym rozwiązaniem jest
 zastosowanie niewielkiej, ale niezerowej kary za~bezwzględną wartość sterowania ($R_{\mathrm{abs}}=1$,
 Rys.~\ref{fig:mpcj2_opt}). Tak dobrana waga pozwala uniknąć bierności regulatora,
 jednocześnie ograniczając nadmierne zużycie energii. W~połączeniu z~karą za~przyrosty sterowania 
@@ -613,18 +613,50 @@ wysokoczęstotliwościowych.
 
 \subsection{Liniowy regulator MPC (LMPC)}
 
-Zaimplementowano również wariant Liniowego MPC (LMPC) w~klasie. 
-Główna idea polega na wykorzystaniu zlinearyzowanego modelu
-obiektu wokół punktu równowagi górnej ($\theta = 0$) w~celu uproszczenia
+Zaimplementowano również wariant Liniowego MPC (LMPC), którego implementacja 
+została oparta na~strukturze regulatora NMPC, z~zastąpieniem modelu nieliniowego 
+modelem zlinearyzowanym. Główna idea polega na~wykorzystaniu zlinearyzowanego modelu 
+obiektu wokół punktu równowagi górnej ($\theta = 0$) w~celu uproszczenia 
 obliczeń optymalizacyjnych.
 
-Model ciągły $\dot{x} = Ax + Bu$ poddano dyskretyzacji metodą ZOH, uzyskując
-równanie stanu $x_{k+1} = A_d x_k + B_d u_k$. Dzięki temu predykcja
-stanu (w~przeciwieństwie do NMPC) sprowadza się do szybkich operacji macierzowych,
-bez konieczności numerycznego całkowania równań różniczkowych.
-Problem sterowania rozwiązano jako zadanie programowania kwadratowego (QP)
-przy użyciu solvera \texttt{L-BFGS-B}, uwzględniając ograniczenia na~wartość
-sygnału sterującego.
+Linearyzacja modelu wahadła odwróconego prowadzi do~układu w~postaci 
+przestrzeni stanów:
+\begin{equation}
+    \dot{x} = A_c x + B_c u,
+\end{equation}
+gdzie macierze $A_c$ i~$B_c$ wyznaczono analitycznie (metodą Jacobiego) dla~punktu 
+równowagi $\theta = 0$, $\dot{\theta} = 0$. Model ciągły poddano następnie 
+dyskretyzacji metodą ekstrapolatora zerowego rzędu (ZOH -- Zero-Order Hold), 
+uzyskując równanie stanu w~postaci dyskretnej:
+\begin{equation}
+    x_{k+1} = A_d x_k + B_d u_k.
+\end{equation}
+Dyskretyzacja ZOH zakłada, że~sygnał sterujący $u$ pozostaje stały w~przedziale 
+$[k \cdot dt, (k+1) \cdot dt]$, co odpowiada rzeczywistemu działaniu cyfrowego 
+układu sterowania. Do~wyznaczenia macierzy $A_d$ i~$B_d$ wykorzystano funkcję 
+\texttt{cont2discrete} z~biblioteki \texttt{scipy.signal}.
+
+Dzięki zastosowaniu modelu liniowego, predykcja trajektorii stanu (w~przeciwieństwie 
+do~NMPC) sprowadza się do~szybkich operacji macierzowych, bez konieczności 
+numerycznego całkowania równań różniczkowych metodą Rungego-Kutty. Dla~zadanej 
+sekwencji sterowania $\{u_0, u_1, \ldots, u_{N-1}\}$ predykcja ma postać:
+\begin{equation}
+    \hat{x}_{k+1} = A_d \hat{x}_k + B_d u_k, \quad k = 0, \ldots, N-1.
+\end{equation}
+
+Funkcja kosztu przyjmuje postać analogiczną do~NMPC:
+\begin{equation}
+    J = \sum_{k=1}^{N} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) 
+    + R \sum_{k=0}^{N_u-1} (\Delta u_k)^2,
+\end{equation}
+gdzie $\Delta u_k = u_k - u_{k-1}$ oznacza przyrost sterowania, a~dla $k \geq N_u$ 
+stosuje się blokowanie sterowania ($\Delta u_k = 0$).
+
+Użyto solvera \texttt{L-BFGS-B} z~biblioteki \texttt{scipy.optimize} do rozwiązania problemu sterowania. 
+Wybór tego solvera (zamiast \texttt{SLSQP} stosowanego 
+w~NMPC) podyktowany był charakterem zadania -- przy braku dodatkowych ograniczeń 
+nierównościowych (poza ograniczeniami typu \textit{box} na~sygnał sterujący) 
+algorytm \texttt{L-BFGS-B} wykazuje wyższą efektywność obliczeniową.
 
 \subsubsection{Dobór parametrów i~analiza działania}
 
@@ -635,7 +667,7 @@ Ostatecznie zdecydowano się na~następującą konfigurację:
 \begin{itemize}
     \item Horyzont predykcji: $N=12$ (identyczny jak w~NMPC),
     \item Horyzont sterowania: $N_u=4$,
-    \item Macierz wag stanu: $Q = \text{diag}([15,0,\; 1,0,\; 10,0,\; 1,0])$,
+    \item Macierz wag stanu: $Q = \text{diag}([15,0,\; 1,0,\; 15,0,\; 1,0])$,
     \item Waga sterowania: $R = 0,1$.
 \end{itemize}
 
@@ -643,7 +675,7 @@ Ostatecznie zdecydowano się na~następującą konfigurację:
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/lmpc_opt.png}
     \caption{Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, 
-    $Q=\text{diag}([15, 1, 10, 1])$, $R=0,1$).}
+    $Q=\text{diag}([15, 1, 15, 1])$, $R=0,1$).}
     \label{fig:lmpc_opt}
 \end{figure}
 

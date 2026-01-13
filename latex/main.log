@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  13 JAN 2026 12:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  13 JAN 2026 13:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1705,9 +1705,6 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 [36 <./images/tuning/mpc_2_manual.png>]
-Underfull \vbox (badness 2005) has occurred while \output is active []
-
-
 
 [37 <./images/tuning/mpc_3_opt.png>]
 Overfull \hbox (57.43442pt too wide) in paragraph at lines 564--568
@@ -1752,85 +1749,91 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 <images/tuning/lmpc_opt.png, id=681, 1011.78pt x 867.24pt>
 File: images/tuning/lmpc_opt.png Graphic file (type png)
 <use images/tuning/lmpc_opt.png>
-Package pdftex.def Info: images/tuning/lmpc_opt.png  used on input line 644.
+Package pdftex.def Info: images/tuning/lmpc_opt.png  used on input line 676.
 (pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
 
-Underfull \hbox (badness 1776) in paragraph at lines 646--646
+Underfull \hbox (badness 1776) in paragraph at lines 678--678
 []\T1/futs/b/n/10.95 (+20) Rysunek 4.18. |\T1/futs/m/n/10.95 (+20) Prze-biegi cza-sowe dla li-nio-wego re-gu-la-tora MPC ($\FML/futmi/m/it/10.95 N \FMS/futm/m/n/10.95 Å \T1/futs/m/n/10.95 (+20) 12$, $\FML/futmi/m/it/10.95 N[] \FMS/futm/m/n/10.95 Å \T1/futs/m/n/10.95 (+20) 4$, $\FML/futmi/m/it/10.95 Q \FMS/futm/m/n/10.95 Å
  []
 
 
 
-[42 <./images/tuning/lmpc_opt.png>]
-<images/diagrams/fuzzy_membership.png, id=691, 953.964pt x 664.884pt>
+[42]
+
+[43 <./images/tuning/lmpc_opt.png>]
+<images/diagrams/fuzzy_membership.png, id=701, 953.964pt x 664.884pt>
 File: images/diagrams/fuzzy_membership.png Graphic file (type png)
 <use images/diagrams/fuzzy_membership.png>
-Package pdftex.def Info: images/diagrams/fuzzy_membership.png  used on input line 734.
+Package pdftex.def Info: images/diagrams/fuzzy_membership.png  used on input line 766.
 (pdftex.def)             Requested size: 416.2625pt x 290.12514pt.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-[43]
 
 [44 <./images/diagrams/fuzzy_membership.png>]
-<images/tuning/fuzzy_1_bad.png, id=709, 1011.78pt x 867.24pt>
+<images/tuning/fuzzy_1_bad.png, id=710, 1011.78pt x 867.24pt>
 File: images/tuning/fuzzy_1_bad.png Graphic file (type png)
 <use images/tuning/fuzzy_1_bad.png>
-Package pdftex.def Info: images/tuning/fuzzy_1_bad.png  used on input line 771.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-<images/tuning/fuzzy_2_manual.png, id=711, 1011.78pt x 867.24pt>
-File: images/tuning/fuzzy_2_manual.png Graphic file (type png)
-<use images/tuning/fuzzy_2_manual.png>
-Package pdftex.def Info: images/tuning/fuzzy_2_manual.png  used on input line 788.
-(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
-
-
-[45 <./images/tuning/fuzzy_1_bad.png>]
-<images/tuning/fuzzy_3_opt.png, id=720, 1011.78pt x 867.24pt>
-File: images/tuning/fuzzy_3_opt.png Graphic file (type png)
-<use images/tuning/fuzzy_3_opt.png>
-Package pdftex.def Info: images/tuning/fuzzy_3_opt.png  used on input line 804.
+Package pdftex.def Info: images/tuning/fuzzy_1_bad.png  used on input line 803.
 (pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[46 <./images/tuning/fuzzy_2_manual.png>]
+[45]
+<images/tuning/fuzzy_2_manual.png, id=719, 1011.78pt x 867.24pt>
+File: images/tuning/fuzzy_2_manual.png Graphic file (type png)
+<use images/tuning/fuzzy_2_manual.png>
+Package pdftex.def Info: images/tuning/fuzzy_2_manual.png  used on input line 820.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[46 <./images/tuning/fuzzy_1_bad.png>]
+<images/tuning/fuzzy_3_opt.png, id=728, 1011.78pt x 867.24pt>
+File: images/tuning/fuzzy_3_opt.png Graphic file (type png)
+<use images/tuning/fuzzy_3_opt.png>
+Package pdftex.def Info: images/tuning/fuzzy_3_opt.png  used on input line 836.
+(pdftex.def)             Requested size: 438.17247pt x 375.57901pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+[47 <./images/tuning/fuzzy_2_manual.png>]
 Underfull \vbox (badness 2293) has occurred while \output is active []
 
 
 
-[47 <./images/tuning/fuzzy_3_opt.png>])
+[48 <./images/tuning/fuzzy_3_opt.png>])
 
-[48] (tex/eksperymenty.tex
+[49] (tex/eksperymenty.tex
 
-[49]
+[50]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[50])
+[51])
 
-[51] (tex/badania_wyniki.tex
+[52] (tex/badania_wyniki.tex
 
-[52]
-<images/experiments/combined_nominal_classical.png, id=780, 867.24pt x 578.16pt>
+[53]
+<images/experiments/combined_nominal_classical.png, id=788, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_classical.png Graphic file (type png)
 <use images/experiments/combined_nominal_classical.png>
 Package pdftex.def Info: images/experiments/combined_nominal_classical.png  used on input line 59.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
 
 
-[53 <./images/experiments/combined_nominal_classical.png>]
-<images/experiments/combined_nominal_pos_classical.png, id=786, 867.24pt x 578.16pt>
+[54 <./images/experiments/combined_nominal_classical.png>]
+<images/experiments/combined_nominal_pos_classical.png, id=794, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_pos_classical.png Graphic file (type png)
 <use images/experiments/combined_nominal_pos_classical.png>
 Package pdftex.def Info: images/experiments/combined_nominal_pos_classical.png  used on input line 66.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_nominal_control_classical.png, id=787, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_control_classical.png, id=795, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_control_classical.png Graphic file (type png)
 <use images/experiments/combined_nominal_control_classical.png>
 Package pdftex.def Info: images/experiments/combined_nominal_control_classical.png  used on input line 73.
@@ -1840,20 +1843,20 @@ Underfull \vbox (badness 2547) has occurred while \output is active []
 
 
 
-[54 <./images/experiments/combined_nominal_pos_classical.png> <./images/experiments/combined_nominal_control_classical.png>]
+[55 <./images/experiments/combined_nominal_pos_classical.png> <./images/experiments/combined_nominal_control_classical.png>]
 
-[55]
-<images/experiments/combined_nominal_advanced.png, id=805, 867.24pt x 578.16pt>
+[56]
+<images/experiments/combined_nominal_advanced.png, id=813, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_advanced.png Graphic file (type png)
 <use images/experiments/combined_nominal_advanced.png>
 Package pdftex.def Info: images/experiments/combined_nominal_advanced.png  used on input line 111.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_nominal_pos_advanced.png, id=806, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_pos_advanced.png, id=814, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_pos_advanced.png Graphic file (type png)
 <use images/experiments/combined_nominal_pos_advanced.png>
 Package pdftex.def Info: images/experiments/combined_nominal_pos_advanced.png  used on input line 118.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_nominal_control_advanced.png, id=807, 867.24pt x 578.16pt>
+<images/experiments/combined_nominal_control_advanced.png, id=815, 867.24pt x 578.16pt>
 File: images/experiments/combined_nominal_control_advanced.png Graphic file (type png)
 <use images/experiments/combined_nominal_control_advanced.png>
 Package pdftex.def Info: images/experiments/combined_nominal_control_advanced.png  used on input line 125.
@@ -1867,30 +1870,25 @@ Underfull \vbox (badness 2547) has occurred while \output is active []
 
 
 
-[56 <./images/experiments/combined_nominal_advanced.png> <./images/experiments/combined_nominal_pos_advanced.png>]
-Overfull \hbox (12.70251pt too wide) in paragraph at lines 154--161
-[]\T1/futs/m/n/12 (-20) W gru-pie za-awan-so-wa-nej (Rys. [][]6.9[][] i [][]6.10[][]) naj-lep-sze re-zul-taty osi°-gn°™ re-gu-la-tor Fuzzy-LQR.
- []
-
-
+[57 <./images/experiments/combined_nominal_advanced.png> <./images/experiments/combined_nominal_pos_advanced.png>]
 Underfull \vbox (badness 4608) has occurred while \output is active []
 
 
 
-[57 <./images/experiments/combined_nominal_control_advanced.png>]
+[58 <./images/experiments/combined_nominal_control_advanced.png>]
 
-[58]
-<images/experiments/combined_wind_classical.png, id=835, 867.24pt x 578.16pt>
+[59]
+<images/experiments/combined_wind_classical.png, id=843, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind_classical.png Graphic file (type png)
 <use images/experiments/combined_wind_classical.png>
 Package pdftex.def Info: images/experiments/combined_wind_classical.png  used on input line 180.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_wind_pos_classical.png, id=836, 867.24pt x 578.16pt>
+<images/experiments/combined_wind_pos_classical.png, id=844, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind_pos_classical.png Graphic file (type png)
 <use images/experiments/combined_wind_pos_classical.png>
 Package pdftex.def Info: images/experiments/combined_wind_pos_classical.png  used on input line 187.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images/experiments/combined_wind_advanced.png, id=837, 867.24pt x 578.16pt>
+<images/experiments/combined_wind_advanced.png, id=845, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind_advanced.png Graphic file (type png)
 <use images/experiments/combined_wind_advanced.png>
 Package pdftex.def Info: images/experiments/combined_wind_advanced.png  used on input line 194.
@@ -1899,7 +1897,7 @@ Package pdftex.def Info: images/experiments/combined_wind_advanced.png  used on 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/experiments/combined_wind_pos_advanced.png, id=838, 867.24pt x 578.16pt>
+<images/experiments/combined_wind_pos_advanced.png, id=846, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind_pos_advanced.png Graphic file (type png)
 <use images/experiments/combined_wind_pos_advanced.png>
 Package pdftex.def Info: images/experiments/combined_wind_pos_advanced.png  used on input line 201.
@@ -1907,7 +1905,7 @@ Package pdftex.def Info: images/experiments/combined_wind_pos_advanced.png  used
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/experiments/combined_wind_control_classical.png, id=839, 867.24pt x 578.16pt>
+<images/experiments/combined_wind_control_classical.png, id=847, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind_control_classical.png Graphic file (type png)
 <use images/experiments/combined_wind_control_classical.png>
 Package pdftex.def Info: images/experiments/combined_wind_control_classical.png  used on input line 208.
@@ -1915,7 +1913,7 @@ Package pdftex.def Info: images/experiments/combined_wind_control_classical.png 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/experiments/combined_wind_control_advanced.png, id=840, 867.24pt x 578.16pt>
+<images/experiments/combined_wind_control_advanced.png, id=848, 867.24pt x 578.16pt>
 File: images/experiments/combined_wind_control_advanced.png Graphic file (type png)
 <use images/experiments/combined_wind_control_advanced.png>
 Package pdftex.def Info: images/experiments/combined_wind_control_advanced.png  used on input line 215.
@@ -1928,18 +1926,18 @@ Underfull \vbox (badness 2547) has occurred while \output is active []
 
 
 
-[59 <./images/experiments/combined_wind_classical.png> <./images/experiments/combined_wind_pos_classical.png>]
+[60 <./images/experiments/combined_wind_classical.png> <./images/experiments/combined_wind_pos_classical.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[60 <./images/experiments/combined_wind_advanced.png> <./images/experiments/combined_wind_pos_advanced.png>]
+[61 <./images/experiments/combined_wind_advanced.png> <./images/experiments/combined_wind_pos_advanced.png>]
 Overfull \vbox (13.07047pt too high) has occurred while \output is active []
 
 
 
-[61 <./images/experiments/combined_wind_control_classical.png> <./images/experiments/combined_wind_control_advanced.png>]
-<images_odpornosc/robustness_theta.png, id=865, 867.24pt x 578.16pt>
+[62 <./images/experiments/combined_wind_control_classical.png> <./images/experiments/combined_wind_control_advanced.png>]
+<images_odpornosc/robustness_theta.png, id=873, 867.24pt x 578.16pt>
 File: images_odpornosc/robustness_theta.png Graphic file (type png)
 <use images_odpornosc/robustness_theta.png>
 Package pdftex.def Info: images_odpornosc/robustness_theta.png  used on input line 268.
@@ -1950,13 +1948,13 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[62]
-<images_odpornosc/robustness_x.png, id=873, 867.24pt x 578.16pt>
+[63]
+<images_odpornosc/robustness_x.png, id=881, 867.24pt x 578.16pt>
 File: images_odpornosc/robustness_x.png Graphic file (type png)
 <use images_odpornosc/robustness_x.png>
 Package pdftex.def Info: images_odpornosc/robustness_x.png  used on input line 275.
 (pdftex.def)             Requested size: 416.2625pt x 277.51364pt.
-<images_odpornosc/robustness_u.png, id=874, 867.24pt x 578.16pt>
+<images_odpornosc/robustness_u.png, id=882, 867.24pt x 578.16pt>
 File: images_odpornosc/robustness_u.png Graphic file (type png)
 <use images_odpornosc/robustness_u.png>
 Package pdftex.def Info: images_odpornosc/robustness_u.png  used on input line 282.
@@ -1970,17 +1968,17 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[63 <./images_odpornosc/robustness_theta.png> <./images_odpornosc/robustness_x.png>]
+[64 <./images_odpornosc/robustness_theta.png> <./images_odpornosc/robustness_x.png>]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[64 <./images_odpornosc/robustness_u.png>]
+[65 <./images_odpornosc/robustness_u.png>]
 Overfull \hbox (7.58386pt too wide) in paragraph at lines 317--321
 []\T1/futs/m/n/12 (-20) Analiza ta po-ka-zuje, ªe re-gu-la-tory wy-ko-rzy-stu-j°ce me-cha-ni-zmy ad-ap-ta-cyjne (Fuzzy-LQR)
  []
 
-<images_odpornosc/robustness_sensitivity.png, id=888, 867.24pt x 578.16pt>
+<images_odpornosc/robustness_sensitivity.png, id=896, 867.24pt x 578.16pt>
 File: images_odpornosc/robustness_sensitivity.png Graphic file (type png)
 <use images_odpornosc/robustness_sensitivity.png>
 Package pdftex.def Info: images_odpornosc/robustness_sensitivity.png  used on input line 324.
@@ -1996,7 +1994,7 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 
-[65 <./images_odpornosc/robustness_sensitivity.png>]
+[66 <./images_odpornosc/robustness_sensitivity.png>]
 Overfull \hbox (1.58801pt too wide) in paragraph at lines 393--398
 []\T1/futs/m/n/12 (-20) Istotnym kry-te-rium oceny re-gu-la-to-rÛw, szcze-gÛl-nie w kon-tek-±cie im-ple-men-ta-cji na plat-
  []
@@ -2006,37 +2004,39 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 )
 
-[66]
+[67]
 
-[67] (tex/podsumowanie.tex
+[68] (tex/podsumowanie.tex
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[68])
-
-[69]
+[69])
 
 [70]
 
-[71
+[71]
+
+[72
 
 
 ]
+
+[73]
 Overfull \hbox (21.25104pt too wide) in paragraph at lines 147--147
 \T1/futs/m/it/12 (-20) tion, and De-sign\T1/futs/m/n/12 (-20) , 2 wyd. Ma-di-son, WI: Nob Hill Pu-bli-shing, 2017, \T1/futs/m/sc/12 (-20) isbn\T1/futs/m/n/12 (-20) : 978-0-9759377-3-4. 
  []
 
 
 
-[72]
+[74]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[73] (main.lof
+[75] (main.lof
 
-[74])
+[76])
 \tf@lof=\write7
 \openout7 = `main.lof'.
 
@@ -2045,35 +2045,35 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-[75])
+[77])
 \tf@lot=\write8
 \openout8 = `main.lot'.
 
 
 
-[76] (main.aux)
+[78] (main.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-10-09>
  ***********
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: AC7E436CD4E4EE634C4EFB20061453CC;11577.
+(rerunfilecheck)             Checksum: 9EA766297B32EC270CF444F65BB3F29B;11582.
 Package logreq Info: Writing requests to 'main.run.xml'.
 \openout1 = `main.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 45815 strings out of 468080
- 933777 string characters out of 5425772
- 2037769 words of memory out of 5000000
+ 45817 strings out of 468080
+ 933792 string characters out of 5425772
+ 2037795 words of memory out of 5000000
  72858 multiletter control sequences out of 15000+600000
- 835903 words of font info for 611 fonts, out of 8000000 for 9000
+ 835755 words of font info for 608 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,17n,121p,1047b,2806s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (76 pages, 3916729 bytes).
+Output written on main.pdf (78 pages, 3913537 bytes).
 PDF statistics:
- 1208 PDF objects out of 1440 (max. 8388607)
- 281 named destinations out of 1000 (max. 500000)
+ 1222 PDF objects out of 1440 (max. 8388607)
+ 287 named destinations out of 1000 (max. 500000)
  119962 words of extra memory for PDF output out of 128383 (max. 10000000)
 

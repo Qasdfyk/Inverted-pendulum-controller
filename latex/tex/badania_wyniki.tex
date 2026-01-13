@@ -93,8 +93,8 @@ Mimo wolniejszej reakcji, charakteryzuje się bardzo niskim kosztem energetyczny
 ustępując pod tym względem jedynie wariantowi J2 i PID-LQR.
 
 Liniowy regulator predykcyjny LMPC plasuje się pośrodku stawki.
-Osiąga czas regulacji $T_s \approx 1.4$~s przy zużyciu energii $E_u \approx 0.75$.
-Gorsze wyniki energetyczne w porównaniu do nieliniowych wariantów MPC ($0.75$ vs $0.51-0.56$)
+Osiąga czas regulacji $T_s \approx 1.3$~s przy zużyciu energii $E_u \approx 0.79$.
+Gorsze wyniki energetyczne w porównaniu do nieliniowych wariantów MPC ($0.79$ vs $0.51-0.56$)
 wynikają z uproszczeń modelu liniowego, który nie odwzorowuje idealnie dynamiki obiektu
 nawet w pobliżu punktu pracy, wymuszając częstsze korekty sterowania.
 
@@ -152,7 +152,7 @@ niż regulator PID-PID ($22.8$). Świadczy to o tym, że szybka i zdecydowana re
 pojawiające się zakłócenie jest bardziej ekonomiczna niż długotrwała walka z oscylacjami.
 
 W grupie zaawansowanej (Rys. \ref{fig:wind_advanced} i \ref{fig:wind_pos_advanced})
-najlepsze rezultaty osiągnął regulator Fuzzy-LQR.
+najlepsze rezultaty osiągnął Fuzzy-LQR.
 Uzyskał on najlepsze wyniki we wszystkich rozpatrywanych kategoriach: najmniejsze wychylenie kątowe
 ($Max |\theta| \approx 0.052$~rad), najmniejszy dryf wózka ($Max |x| \approx 0.34$ m)
 oraz najniższe zużycie energii ($E_u \approx 10.1$). Przeczy to wcześniejszym obserwacjom sugerującym
@@ -167,9 +167,9 @@ co skutkowało największym dryfem wózka w grupie ($Max |x| \approx 0.57$ m), p
 Mimo to, jego zużycie energii pozostało na umiarkowanym poziomie ($12.3$).
 
 Regulator LMPC dobrze poradził sobie ze stabilizacją. Jednak gorzej poradził sobie jeśli chodzi o 
-koszt energetyczny ($E_u \approx 20.5$), zbliżony do wyniku regulatora PID-PID.
+koszt energetyczny ($E_u \approx 22.7$), zbliżony do wyniku regulatora PID-PID.
 Ograniczenia modelu liniowego w obliczu silnych zakłóceń wymusiły mniejszą efektywność sterowania,
-co widać również w nieco gorszej stabilizacji kąta ($0.078$ rad) w porównaniu
+co widać również w nieco gorszej stabilizacji kąta ($0.085$ rad) w porównaniu
 do nieliniowego MPC.
 
 Porównanie sygnałów sterujących dla obu grup przedstawiono na Rysunkach \ref{fig:wind_control_classical}
@@ -341,13 +341,13 @@ oraz stabilizacji wózka (pozycja).
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR & LMPC \\ \hline
         $MSE_\theta$ & 0.00011 & 0.00006 & 0.00006 & 0.00007 & 0.00017 & 0.00008 \\ \hline
-        $IAE_\theta$ & 0.04567 & 0.02431 & 0.02323 & 0.02848 & 0.04935 & 0.03108 \\ \hline
-        $T_{s, \theta}$ [s] & 1.60000 & 0.40000 & 1.20000 & 0.40000 & 1.50000 & 1.40000 \\ \hline
+        $IAE_\theta$ & 0.04567 & 0.02431 & 0.02323 & 0.02848 & 0.04935 & 0.02992 \\ \hline
+        $T_{s, \theta}$ [s] & 1.60000 & 0.40000 & 1.20000 & 0.40000 & 1.50000 & 1.30000 \\ \hline
         \hline
-        $MSE_x$ & 0.00051 & 0.00054 & 0.00038 & 0.00073 & 0.00093 & 0.00046 \\ \hline
-        $T_{s, x}$ [s] & 2.00000 & 3.90000 & 2.20000 & 4.30000 & 3.30000 & 2.80000 \\ \hline
+        $MSE_x$ & 0.00051 & 0.00054 & 0.00038 & 0.00073 & 0.00093 & 0.00039 \\ \hline
+        $T_{s, x}$ [s] & 2.00000 & 3.90000 & 2.20000 & 4.30000 & 3.30000 & 2.10000 \\ \hline
         \hline
-        $E_{u}$ & 0.95046 & 0.50770 & 0.55762 & 0.51499 & 2.85957 & 0.75393 \\ \hline
+        $E_{u}$ & 0.95046 & 0.50770 & 0.55762 & 0.51499 & 2.85957 & 0.78994 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -358,14 +358,14 @@ oraz stabilizacji wózka (pozycja).
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR & LMPC \\ \hline
-        $MSE_\theta$ & 0.00146 & 0.00048 & 0.00058 & 0.00063 & 0.00037 & 0.00107 \\ \hline
-        $IAE_\theta$ & 0.30988 & 0.16018 & 0.18151 & 0.18607 & 0.14246 & 0.26220 \\ \hline
-        $Max |\theta|$ [rad] & 0.09006 & 0.05913 & 0.06246 & 0.06715 & 0.05189 & 0.07792 \\ \hline
+        $MSE_\theta$ & 0.00146 & 0.00048 & 0.00058 & 0.00063 & 0.00037 & 0.00118 \\ \hline
+        $IAE_\theta$ & 0.30988 & 0.16018 & 0.18151 & 0.18607 & 0.14246 & 0.27259 \\ \hline
+        $Max |\theta|$ [rad] & 0.09006 & 0.05913 & 0.06246 & 0.06715 & 0.05189 & 0.08539 \\ \hline
         \hline
-        $MSE_x$ & 0.04382 & 0.02881 & 0.01843 & 0.04383 & 0.01059 & 0.02164 \\ \hline
-        $Max |x|$ [m] & 0.55997 & 0.46877 & 0.40938 & 0.56993 & 0.33723 & 0.44876 \\ \hline
+        $MSE_x$ & 0.04382 & 0.02881 & 0.01843 & 0.04383 & 0.01059 & 0.01551 \\ \hline
+        $Max |x|$ [m] & 0.55997 & 0.46877 & 0.40938 & 0.56993 & 0.33723 & 0.39981 \\ \hline
         \hline
-        $E_{u}$ & 22.77583 & 10.52055 & 12.43920 & 12.26560 & 10.06415 & 20.51316 \\ \hline
+        $E_{u}$ & 22.77583 & 10.52055 & 12.43920 & 12.26560 & 10.06415 & 22.74390 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -377,13 +377,13 @@ oraz stabilizacji wózka (pozycja).
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-J2 & Fuzzy-LQR & LMPC \\ \hline
         $MSE_\theta$ & 0.00015 & 0.00006 & 0.00007 & 0.00007 & 0.00020 & 0.00009 \\ \hline
-        $IAE_\theta$ & 0.06524 & 0.02570 & 0.02517 & 0.02530 & 0.05480 & 0.03566 \\ \hline
-        $T_{s, \theta}$ [s] & 2.80000 & 0.40000 & 1.30000 & 1.30000 & 1.60000 & 1.50000 \\ \hline
+        $IAE_\theta$ & 0.06524 & 0.02570 & 0.02517 & 0.02530 & 0.05480 & 0.03379 \\ \hline
+        $T_{s, \theta}$ [s] & 2.80000 & 0.40000 & 1.30000 & 1.30000 & 1.60000 & 1.40000 \\ \hline
         \hline
-        $MSE_x$ & 0.00065 & 0.00054 & 0.00038 & 0.00038 & 0.00111 & 0.00046 \\ \hline
-        $T_{s, x}$ [s] & 3.10000 & 3.70000 & 2.00000 & 2.00000 & 3.30000 & 2.30000 \\ \hline
+        $MSE_x$ & 0.00065 & 0.00054 & 0.00038 & 0.00038 & 0.00111 & 0.00040 \\ \hline
+        $T_{s, x}$ [s] & 3.10000 & 3.70000 & 2.00000 & 2.00000 & 3.30000 & 1.90000 \\ \hline
         \hline
-        $E_{u}$ & 1.49205 & 0.55718 & 0.64753 & 0.64818 & 3.74712 & 0.96762 \\ \hline
+        $E_{u}$ & 1.49205 & 0.55718 & 0.64753 & 0.64818 & 3.74712 & 1.01039 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -406,9 +406,9 @@ zmierzone na~komputerze z~procesorem Intel Core i5-8250U (1.6 GHz).
         PID-PID & $< 0{,}02$ & $1\times$ \\ \hline
         PID-LQR & $< 0{,}02$ & $1\times$ \\ \hline
         Fuzzy-LQR & $0{,}04$ & $2\times$ \\ \hline
-        LMPC & $7{,}0$ & $350\times$ \\ \hline
-        MPC-J2 & $11{,}0$ & $550\times$ \\ \hline
-        MPC & $12{,}0$ & $600\times$ \\ \hline
+        LMPC & $2{,}8$ & $140\times$ \\ \hline
+        MPC & $11{,}3$ & $565\times$ \\ \hline
+        MPC-J2 & $14{,}7$ & $735\times$ \\ \hline
     \end{tabular}
 \end{table}
 
@@ -418,7 +418,7 @@ algebraicznej --- wyznaczenie sterowania sprowadza się do~mnożenia macierzy
 i~prostych operacji arytmetycznych.
 
 W~przypadku regulatorów predykcyjnych czas obliczeń jest o~blisko trzy rzędy wielkości wyższy
-(ok. 7--12 ms), co wynika z~konieczności rozwiązywania w~każdym kroku
+(ok. 3--15 ms), co wynika z~konieczności rozwiązywania w~każdym kroku
 zadania optymalizacji nieliniowej (lub kwadratowej dla LMPC). Wartości te pozostają jednak znacznie poniżej
 kroku symulacji ($\Delta t = 100$~ms), co potwierdza możliwość pracy MPC
 w~czasie rzeczywistym dla rozpatrywanego obiektu. Należy jednak pamiętać,

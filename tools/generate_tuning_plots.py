@@ -248,7 +248,7 @@ def generate_lmpc():
 
     # One plot only as requested
     ctrl_opt = LinearMPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
-                                   Q=np.diag([15.0, 1.0, 10.0, 1.0]), R=0.1)
+                                   Q=np.diag([15.0, 1.0, 15.0, 1.0]), R=0.1)
     run_simulation(ctrl_opt, "LMPC", "lmpc_opt", "Optimized")
     
 if __name__ == "__main__":
