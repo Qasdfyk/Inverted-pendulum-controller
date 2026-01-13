@@ -77,16 +77,14 @@ W~projekcie wykorzystano następujące biblioteki i narzędzia:
 \subsection{Konfiguracja symulacji}
 
 Symulator opiera~się na~numerycznym całkowaniu wyprowadzonych wcześniej
-nieliniowych równań dynamiki. Zaimplementowano procedurę całkowania metodą
-Rungego-Kutty czwartego rzędu (RK4)~\cite{Fortuna2015}. Wybór tej metody podyktowany 
+nieliniowych równań dynamiki. Wybrano procedurę całkowania metodą
+Runge-Kutta czwartego rzędu (RK4)~\cite{Fortuna2015}. Wybór tej metody podyktowany 
 był kilkoma czynnikami: w~odróżnieniu od~prostszej metody Eulera, RK4 
 charakteryzuje się błędem lokalnym rzędu $\mathcal{O}(\Delta t^5)$, 
 co zapewnia wysoką dokładność przy umiarkowanym koszcie obliczeniowym. 
 Jednocześnie, w~przeciwieństwie do~metod adaptacyjnych (np. \texttt{ode45}), 
 stały krok czasowy gwarantuje deterministyczne taktowanie pętli sterowania, 
 co jest istotne przy porównywaniu regulatorów.
-Przyjęto stały krok symulacji oraz sterowania wynoszący
-\(\Delta t = 0{,}1\,\text{s}\).
 
 \begin{table}[H]
 	\centering

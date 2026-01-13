@@ -107,10 +107,10 @@ nastawy dobrane eksperymentalnie:
 \subsubsection{Proces doboru nastaw oraz analiza PID}
 Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo, przechodząc
 od metod heurystycznych do pełnej optymalizacji numerycznej.
-Najpierw próbowano metodą prób i błędów nastroić regulator w taki sposób, aby 
-metryki $MSE$ i $MAE$ były jak najmniejsze oraz, żeby jakość sygnału sterującego była odpowiednia.
-Pierwsze próby doboru parametrów metodą prób i błędów dawały bardzo słabe wyniki, gdyż obiekt wahadła na 
-wózku wymaga bardzo precyzyjnych nastaw, a dobór parametrów metodą prób i błędów jest czasochłonny i nie gwarantuje optymalnych rezultatów. 
+Wstępny dobór nastaw przeprowadzono metodą eksperymentalną, 
+jednak nie pozwoliła ona na uzyskanie zadowalających wskaźników jakości
+, gdyż obiekt wahadła na wózku wymaga bardzo precyzyjnych nastaw, 
+a dobór parametrów metodą prób i błędów jest czasochłonny i nie gwarantuje optymalnych rezultatów. 
 Konieczne było balansowanie między agresywnym członem różniczkującym dla stabilizacji kąta, 
 a członem całkującym dla eliminacji uchybu pozycji, co często prowadziło do niestabilności układu.
 
@@ -130,7 +130,7 @@ wybierając konfigurację minimalizującą błąd średniokwadratowy.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/pdpd_1_manual.png}
-    \caption{Źle dostrojony regulator PID ($K_{p,\theta}=-10$, $K_{i,\theta}=-1$,$K_{d,\theta}=-3$, 
+    \caption{Przebiegi sygnałów dla regulatora PID przy nieoptymalnych nastawach ($K_{p,\theta}=-10$, $K_{i,\theta}=-1$,$K_{d,\theta}=-3$, 
     $K_{p,x}=-1$, $K_{i,x}=-0,1$, $K_{d,x}=-3$).}
     \label{fig:pid_manual}
 \end{figure}
@@ -326,8 +326,20 @@ zapewnia stabilność, a~regulator zewnętrzny dba o~uchyb w~stanie ustalonym
 \cite{Varghese2017}.
 
 \subsubsection{Dobór wag macierzy Q i R}
-Dobór wag dla regulatora LQR również charakteryzował się ewolucyjnym podejściem
-do~problemu optymalizacji wskaźnika jakości.
+Dobór wartości elementów macierzy wag $Q$ i~$R$ zrealizowano w~sposób
+wieloetapowy, ewoluując od~konfiguracji bazowej do~rozwiązania
+zoptymalizowanego. W~pierwszej kolejności zbadano zachowanie układu dla nastaw
+jednostkowych, co pozwoliło zidentyfikować podstawowe ograniczenia stabilności.
+Następnie, wykorzystując wiedzę o~dynamice obiektu, przeprowadzono strojenie
+ręczne, by~w~końcowym etapie wykorzystać algorytmy numeryczne do~finalnego
+dostrojenia parametrów i~maksymalizacji wskaźnika jakości regulacji.
+
+W~pierwszej fazie przyjęcie jednostkowej macierzy diagonalnej $Q=I$ oraz $R=1$
+(Rys.~\ref{fig:lqr_bad}) okazało się niewystarczające. Mimo teoretycznej stabilności 
+wynikającej z~rozwiązania równania CARE, wahadło wykonywało bardzo duże wychylenia, 
+a~wózek wielokrotnie wyjeżdżał poza dopuszczalny zakres roboczy toru. Problem wynikał
+z~faktu, że jednostkowe wagi traktują 1~rad błędu kąta tak samo jak 1~m błędu pozycji
+i~1~N$^2$ kosztu sterowania -- co jest fizycznie nieuzasadnione.
 
 \begin{figure}[H]
     \centering
@@ -336,13 +348,6 @@ do~problemu optymalizacji wskaźnika jakości.
     PID: $K_{p,x}=-4,5$, $K_{i,x}=0$, $K_{d,x}=-3$).}
     \label{fig:lqr_bad}
 \end{figure}
-
-W~pierwszej fazie przyjęcie jednostkowej macierzy diagonalnej $Q=I$ oraz $R=1$
-(Rys.~\ref{fig:lqr_bad}) okazało się niewystarczające. Mimo teoretycznej stabilności 
-wynikającej z~rozwiązania równania CARE, wahadło wykonywało bardzo duże wychylenia, 
-a~wózek wielokrotnie wyjeżdżał poza dopuszczalny zakres roboczy toru. Problem wynikał
-z~faktu, że jednostkowe wagi traktują 1~rad błędu kąta tak samo jak 1~m błędu pozycji
-i~1~N$^2$ kosztu sterowania -- co jest fizycznie nieuzasadnione.
 
 \begin{figure}[H]
     \centering

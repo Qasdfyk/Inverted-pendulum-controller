@@ -337,12 +337,12 @@ def main():
     
     # 1. PD-PD
     # 1. PD-PD
-    controllers['PD-PD'] = PDPDController(PLANT, dt,
+    controllers['PID-PID'] = PDPDController(PLANT, dt,
                                             ang_pid = {"Kp": -40.0, "Ki": -1.0, "Kd": -8.0},
                                             cart_pid = {"Kp": -1.0, "Ki": -0.1, "Kd": -3.0})
     
     # 2. PD-LQR
-    controllers['PD-LQR'] = PDLQRController(PLANT, dt,
+    controllers['PID-LQR'] = PDLQRController(PLANT, dt,
                                             pid_gains = {"Kp": -7.0, "Ki": 0.1, "Kd": -3.0},
                                             lqr_gains = {"Q": [200.0, 3.0, 35.0, 40.0], "R": 1.0})
 
