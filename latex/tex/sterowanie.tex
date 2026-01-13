@@ -153,8 +153,8 @@ Zoptymalizowane nastawy (Rys.~\ref{fig:pdpd_opt}) charakteryzują się znacznie 
 wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-40$) oraz $K_{p,x}=-16$ 
 (vs. $-1$). W~wyniku optymalizacji ustalono, że intensywna reakcja na~błąd pozycji wózka pośrednio
 stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii. Jednak w tym przypadku jakość 
-sygnału sterujjącego była niezadowa i ostateczne strojenie znów wykonano ręcznie, tym razem biorąc 
-juz pod uwagę wyniki uzyskane podczas strojenia z wykorzystaniem algorytmu ewolucyjnego.
+sygnału sterującego była niezadowalająca i ostateczne strojenie znów wykonano ręcznie, tym razem biorąc 
+już pod uwagę wyniki uzyskane podczas strojenia z wykorzystaniem algorytmu ewolucyjnego.
 
 \begin{figure}[H]
     \centering
@@ -468,7 +468,7 @@ Gdzie:
     Technika ta redukuje liczbę zmiennych decyzyjnych z~$N$ do~$N_u$, 
     przyspieszając obliczenia przy zachowaniu długiego horyzontu predykcji,
     \item $f(\cdot)$ -- nieliniowy model dyskretny obiektu (całkowanie metodą
-    Rungego-Kutt 4. rzędu),
+    Rungego-Kutty 4. rzędu),
     \item $Q = \text{diag}([158,\; 41,\; 43,\; 20])$ -- macierz kar stanu,
     \item $R = 0,086$ -- współczynnik kary za~zmianę sterowania ($\Delta u$).
 \end{itemize}
