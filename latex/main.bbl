@@ -45,7 +45,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{MATEC Web of Conferences}
-      \field{title}{The Segway as an Inverted Pendulum in Two-Wheels}
+      \field{title}{The Secrets of Segway Revealed to Students: Revisiting the Inverted Pendulum}
       \field{volume}{211}
       \field{year}{2018}
       \field{pages}{15003}
@@ -355,6 +355,7 @@
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{edition}{2}
+      \field{isbn}{978-83-7798-239-0}
       \field{title}{Sterowanie zaawansowane obiektów przemysłowych: struktury i~algorytmy}
       \field{year}{2016}
     \endentry
