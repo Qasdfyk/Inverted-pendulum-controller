@@ -128,11 +128,46 @@ a generuje straty energii. Jego zalety mogą ujawnić się dopiero w trudniejszy
     \label{fig:nom_control_advanced}
 \end{figure}
 
+\newpage
+\subsubsection{Zestawienie wyników}
+
+W~celu bezpośredniego porównania wszystkich zaimplementowanych strategii sterowania, 
+na~Rysunkach \ref{fig:nom_advanced_all}--\ref{fig:nom_control_advanced_all} zestawiono 
+przebiegi czasowe dla wszystkich regulatorów. Wykresy te potwierdzają, że w~idealnych 
+warunkach nominalnych najlepszą dynamikę oferują regulatory PID-LQR oraz MPC, 
+które najszybciej sprowadzają wahadło do~pionu przy umiarkowanym przemieszczeniu wózka. 
+Widać wyraźny kontrast między metodami szybkimi a~zachowawczym regulatorem PID-PID, 
+który charakteryzuje się znacznie dłuższym czasem regulacji. Zestawienie to uwidacznia 
+również różnicę w~charakterystyce sygnałów sterujących -- od~gładkich przebiegów dla MPC, 
+po~bardziej agresywne działania Fuzzy-LQR, co przekłada się na~omówione wcześniej różnice 
+w~kosztach energetycznych.
+
+\newpage
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_nominal_all_lmpc_theta.png}
+    \caption{Przebieg kąta $\theta$ dla regulatorów zaawansowanych (Warunki nominalne).}
+    \label{fig:nom_advanced_all}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_nominal_all_lmpc_pos.png}
+    \caption{Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}
+    \label{fig:nom_pos_advanced_all}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_nominal_all_lmpc_u.png}
+    \caption{Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}
+    \label{fig:nom_control_advanced_all}
+\end{figure}
 
 \subsection{Analiza odporności na zakłócenia}
 
-Drugi scenariusz badawczy stanowił bardziej wymagający test. Do układu wprowadzono sygnał
-zakłócający, modelujący losowe zakłócenia zewnętrzne o zmiennej sile i kierunku. Test ten miał na
+Drugi scenariusz badawczy polegał na wprowadzeniu do układu sygnału
+zakłócającego, modelującego losowe zakłócenia zewnętrzne o zmiennej sile i kierunku. Test ten miał na
 celu sprawdzenie odporności regulatorów na zakłócenia zewnętrzne, czyli ich zdolności do
 utrzymania stabilności mimo działania nieznanych, zewnętrznych sił.
 
@@ -143,7 +178,9 @@ przeciwdziałający zakłóceniu. Oznacza to, że skuteczna kompensacja wychylen
 prowadzi do przemieszczania się wózka (dryfu). Istotą problemu jest znalezienie kompromisu --- jak
 bardzo pozwolić wózkowi uciec, by utrzymać wahadło w pionie.
 
-W grupie klasycznej (Rys. \ref{fig:wind_classical} i \ref{fig:wind_pos_classical}) nastąpiła
+\subsubsection{Charakterystyka regulatorów klasycznych}
+
+W grupie klasycznej (Rys. \ref{fig:wind_classical}--\ref{fig:wind_control_classical}) nastąpiła
 istotna zmiana w stosunku do wcześniejszych analiz. Nowe strojenie PID-LQR, nastawione na
 karę za zmianę pozycji, przyniosło znakomite rezultaty. Regulator ten znacząco poprawił
 stabilizację kąta ($Max |\theta| \approx 0.062$ vs $0.090$~rad dla PID-PID) oraz
@@ -152,7 +189,30 @@ Co kluczowe, osiągnął to przy niemal dwukrotnie niższym zużyciu energii ($E
 niż regulator PID-PID ($22.78$). Świadczy to o tym, że szybka i zdecydowana reakcja na
 pojawiające się zakłócenie jest bardziej ekonomiczna niż długotrwała walka z oscylacjami.
 
-W grupie zaawansowanej (Rys. \ref{fig:wind_advanced} i \ref{fig:wind_pos_advanced})
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_classical.png}
+    \caption{Przebieg kąta $\theta$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}
+    \label{fig:wind_classical}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_pos_classical.png}
+    \caption{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}
+    \label{fig:wind_pos_classical}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_control_classical.png}
+    \caption{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}
+    \label{fig:wind_control_classical}
+\end{figure}
+
+\subsubsection{Charakterystyka regulatorów zaawansowanych}
+
+W grupie zaawansowanej (Rys. \ref{fig:wind_advanced}--\ref{fig:wind_control_advanced})
 najlepsze rezultaty osiągnął Fuzzy-LQR.
 Uzyskał on najlepsze wyniki we wszystkich rozpatrywanych kategoriach: najmniejsze wychylenie kątowe
 ($Max |\theta| \approx 0.052$~rad), najmniejszy dryf wózka ($Max |x| \approx 0.34$ m)
@@ -173,23 +233,6 @@ Ograniczenia modelu liniowego w obliczu silnych zakłóceń wymusiły mniejszą 
 co widać również w nieco gorszej stabilizacji kąta ($0.085$ rad) w porównaniu
 do nieliniowego MPC.
 
-Porównanie sygnałów sterujących dla obu grup przedstawiono na Rysunkach \ref{fig:wind_control_classical}
-i \ref{fig:wind_control_advanced}.
-\newpage
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_classical.png}
-    \caption{Przebieg kąta $\theta$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}
-    \label{fig:wind_classical}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_pos_classical.png}
-    \caption{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}
-    \label{fig:wind_pos_classical}
-\end{figure}
-
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_advanced.png}
@@ -206,16 +249,44 @@ i \ref{fig:wind_control_advanced}.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_control_classical.png}
-    \caption{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}
-    \label{fig:wind_control_classical}
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_control_advanced.png}
+    \caption{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}
+    \label{fig:wind_control_advanced}
+\end{figure}
+
+\newpage
+\subsubsection{Zestawienie wyników}
+
+Analogicznie do warunków nominalnych, przeprowadzono zbiorcze 
+zestawienie wyników dla wszystkich badanych regulatorów w obecności 
+zakłóceń (Rys. \ref{fig:wind_all_theta}--\ref{fig:wind_all_u}).
+Wykresy te dobitnie pokazują przewagę regulatora Fuzzy-LQR oraz PID-LQR 
+w tłumieniu zakłóceń.
+Widać wyraźnie, że metody te utrzymują oscylacje wahadła w najwęższym paśmie, 
+podczas gdy klasyczny PID-PID oraz predykcyjne MPC pozwalają na znacznie większe wychylenia.
+Zestawienie sygnałów sterujących ujawnia koszt tej precyzji - Fuzzy-LQR charakteryzuje 
+się najbardziej aktywnym sterowaniem, co jednak w ogólnym rozrachunku (dzięki szybkiej stabilizacji) 
+nie prowadzi do najgorszego zużycia energii.
+\newpage
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_all_lmpc_theta.png}
+    \caption{Przebieg kąta $\theta$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}
+    \label{fig:wind_all_theta}
 \end{figure}
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_control_advanced.png}
-    \caption{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}
-    \label{fig:wind_control_advanced}
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_all_lmpc_pos.png}
+    \caption{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}
+    \label{fig:wind_all_pos}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{images/experiments/combined_wind_all_lmpc_u.png}
+    \caption{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}
+    \label{fig:wind_all_u}
 \end{figure}
 
 \subsection{Analiza odporności na zmianę parametrów modelu}

@@ -32,13 +32,19 @@
 \contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{56}{figure.caption.32}%
 \contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{56}{figure.caption.33}%
 \contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{57}{figure.caption.34}%
-\contentsline {figure}{\numberline {6.7}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{59}{figure.caption.35}%
-\contentsline {figure}{\numberline {6.8}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{59}{figure.caption.36}%
-\contentsline {figure}{\numberline {6.9}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{60}{figure.caption.37}%
-\contentsline {figure}{\numberline {6.10}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{60}{figure.caption.38}%
-\contentsline {figure}{\numberline {6.11}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{61}{figure.caption.39}%
-\contentsline {figure}{\numberline {6.12}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{61}{figure.caption.40}%
-\contentsline {figure}{\numberline {6.13}{\ignorespaces Przebieg kąta $\theta $ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{63}{figure.caption.41}%
-\contentsline {figure}{\numberline {6.14}{\ignorespaces Przebieg pozycji $x$ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{63}{figure.caption.42}%
-\contentsline {figure}{\numberline {6.15}{\ignorespaces Sygnał sterujący $u$ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{64}{figure.caption.43}%
-\contentsline {figure}{\numberline {6.16}{\ignorespaces Analiza wrażliwości: zależność wskaźnika $IAE_\theta $ od~zmiany masy wahadła dla poszczególnych regulatorów. Linia pionowa oznacza warunki nominalne.}}{65}{figure.caption.44}%
+\contentsline {figure}{\numberline {6.7}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{58}{figure.caption.35}%
+\contentsline {figure}{\numberline {6.8}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{58}{figure.caption.36}%
+\contentsline {figure}{\numberline {6.9}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{59}{figure.caption.37}%
+\contentsline {figure}{\numberline {6.10}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{60}{figure.caption.38}%
+\contentsline {figure}{\numberline {6.11}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{60}{figure.caption.39}%
+\contentsline {figure}{\numberline {6.12}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{61}{figure.caption.40}%
+\contentsline {figure}{\numberline {6.13}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{62}{figure.caption.41}%
+\contentsline {figure}{\numberline {6.14}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{62}{figure.caption.42}%
+\contentsline {figure}{\numberline {6.15}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{63}{figure.caption.43}%
+\contentsline {figure}{\numberline {6.16}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}}{64}{figure.caption.44}%
+\contentsline {figure}{\numberline {6.17}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}}{64}{figure.caption.45}%
+\contentsline {figure}{\numberline {6.18}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}}{65}{figure.caption.46}%
+\contentsline {figure}{\numberline {6.19}{\ignorespaces Przebieg kąta $\theta $ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{66}{figure.caption.47}%
+\contentsline {figure}{\numberline {6.20}{\ignorespaces Przebieg pozycji $x$ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{67}{figure.caption.48}%
+\contentsline {figure}{\numberline {6.21}{\ignorespaces Sygnał sterujący $u$ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{67}{figure.caption.49}%
+\contentsline {figure}{\numberline {6.22}{\ignorespaces Analiza wrażliwości: zależność wskaźnika $IAE_\theta $ od~zmiany masy wahadła dla poszczególnych regulatorów. Linia pionowa oznacza warunki nominalne.}}{69}{figure.caption.50}%
