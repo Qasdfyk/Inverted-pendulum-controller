@@ -788,24 +788,23 @@ zużycie mechaniczne i~hałas.
 Opierając się na~literaturze \cite{Nguyen2024}, dobrano ręcznie szerokości trójkątnych
 funkcji przynależności tak, aby przejście między strefami było płynne 
 (Rys.~\ref{fig:fuzzy_manual}). Rozszerzenie zakresu do~$[-0.2, 0.2]$~rad wyeliminowało
-drgania przełączeniowe, jednak wzmocnienia reguł były zbyt słabe ($F_{\theta}=20$ vs. optymalne $100.0$).
+drgania przełączeniowe, jednak wzmocnienia reguł były zbyt słabe ($F_{\theta}=20$).
 Układ uzyskał stabilność asymptotyczną, jednak nie wykorzystywał w~pełni potencjału 
 szybkiej reakcji na~duże zakłócenia, działając zachowawczo.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/fuzzy_3_opt.png}
-    \caption{Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta}=100.0$, 
-    $F_{\dot{\theta}}=5.27$, $F_x=19.82$, $F_{\dot{x}}=19.25$, $G=0.36$).}
+    \caption{Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta}=40$, 
+    $F_{\dot{\theta}}=1$, $F_x=15$, $F_{\dot{x}}=20$, $G=0.36$).}
     \label{fig:fuzzy_opt}
 \end{figure}
 
 Ostatecznie, dedykowany skrypt \texttt{tune\_fuzzy\_lqr.py} posłużył do~optymalizacji
 wag pojedynczych reguł oraz parametrów kształtu funkcji przynależności 
-(Rys.~\ref{fig:fuzzy_opt}). Algorytm wyznaczył znacznie wyższą wartość wzmocnienia
-dla kąta ($F_{\theta}=100.0$), przy jednoczesnym zmniejszeniu globalnego wzmocnienia
-($G=0.36$). Uzyskano nieliniową powierzchnię sterowania, która łączy zalety miękkiego 
-sterowania LQR w~pobliżu zera z~maksymalną siłą reakcji przy dużych wychyleniach.
+(Rys.~\ref{fig:fuzzy_opt}). Algorytm wyznaczył wartość wzmocnienia
+dla kąta ($F_{\theta}=40.0$) i zmniejszył globalne wzmocnienie
+($G=0.36$).
 
 Strojenie regulatora Fuzzy-LQR okazało się zadaniem znacznie bardziej wymagającym 
 niż w~przypadku pozostałych badanych algorytmów. Wynika to z~kilku czynników:
@@ -822,7 +821,5 @@ niż w~przypadku pozostałych badanych algorytmów. Wynika to z~kilku czynników
     \item Zależność od~scenariusza testowego --- parametry zoptymalizowane 
     dla warunków nominalnych mogą dawać gorsze wyniki przy zakłóceniach i~odwrotnie.
 \end{itemize}
-Z~powyższych powodów proces strojenia regulatora rozmytego wymagał wielokrotnego 
-uruchamiania optymalizacji z~różnymi punktami startowymi oraz manualnej weryfikacji 
-uzyskanych rozwiązań. Stanowi to istotną wadę praktyczną w~porównaniu z~regulatorami 
-LQR czy MPC, gdzie przestrzeń parametrów jest znacznie mniejsza i~bardziej interpretowalna.
+Ostatecznie użyty zestaw parametrów to: $F_{\theta}=40$, 
+    $F_{\dot{\theta}}=1$, $F_x=15$, $F_{\dot{x}}=20$, $G=0.36$.

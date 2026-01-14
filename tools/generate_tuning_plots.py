@@ -220,7 +220,7 @@ def generate_fuzzy():
     
     # 1. Bad (Chatter - Narrow MF)
     # Defining very narrow "small" region causes rapid switching between LQR and Aggressive rules.
-    p_bad = starter_ts_params16(u_sat)
+    p_bad = starter_ts_params16(u_sat, base_th=80.0, base_thd=15.0, base_x=10.0, base_xd=10.0)
     p_bad.th_small = (-0.02, 0.0, 0.02) # Extremely narrow
     ctrl_bad = TSFuzzyController(PLANT, p_bad, K_lqr, dt, du_max=800.0)
     run_simulation(ctrl_bad, "Fuzzy-LQR", "fuzzy_1_bad", "Narrow MFs (Chatter)")

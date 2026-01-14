@@ -27,7 +27,7 @@
 \contentsline {figure}{\numberline {4.19}{\ignorespaces Trójkątne funkcje przynależności dla czterech zmiennych stanu regulatora Fuzzy-LQR. Każda zmienna posiada dwa zbiory rozmyte: ,,Mały błąd'' (aktywny w~pobliżu zera) oraz ,,Duży błąd'' (aktywny przy większych odchyleniach od~punktu równowagi).}}{42}{figure.caption.28}%
 \contentsline {figure}{\numberline {4.20}{\ignorespaces Regulator Fuzzy-LQR z~wąskimi funkcjami przynależności (zakres ,,mały błąd'' dla $\theta $: $[-0.02, 0.02]$~rad).}}{44}{figure.caption.29}%
 \contentsline {figure}{\numberline {4.21}{\ignorespaces Regulator Fuzzy-LQR z~ręcznie dobranymi parametrami ($F_{\theta }=20$, $F_{\dot {\theta }}=5$, $F_x=10$, $F_{\dot {x}}=2$, zakres: $[-0.2, 0.2]$~rad).}}{45}{figure.caption.30}%
-\contentsline {figure}{\numberline {4.22}{\ignorespaces Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta }=100.0$, $F_{\dot {\theta }}=5.27$, $F_x=19.82$, $F_{\dot {x}}=19.25$, $G=0.36$).}}{46}{figure.caption.31}%
+\contentsline {figure}{\numberline {4.22}{\ignorespaces Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta }=40$, $F_{\dot {\theta }}=1$, $F_x=15$, $F_{\dot {x}}=20$, $G=0.36$).}}{46}{figure.caption.31}%
 \contentsline {figure}{\numberline {6.1}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne).}}{52}{figure.caption.32}%
 \contentsline {figure}{\numberline {6.2}{\ignorespaces Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}}{53}{figure.caption.33}%
 \contentsline {figure}{\numberline {6.3}{\ignorespaces Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}}{53}{figure.caption.34}%
