@@ -2409,8 +2409,7 @@
     <bcf:citekey order="32" intorder="1">Jezierski2017</bcf:citekey>
     <bcf:citekey order="33" intorder="1">Camacho2007</bcf:citekey>
     <bcf:citekey order="34" intorder="1">Nguyen2024</bcf:citekey>
-    <bcf:citekey order="35" intorder="1">Nguyen2024</bcf:citekey>
-    <bcf:citekey order="36" intorder="1">Prasad2014</bcf:citekey>
+    <bcf:citekey order="35" intorder="1">Prasad2014</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="none">

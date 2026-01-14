@@ -100,12 +100,11 @@ wynikają z uproszczeń modelu liniowego, który nie odwzorowuje idealnie dynami
 nawet w pobliżu punktu pracy, wymuszając częstsze korekty sterowania.
 
 Zdecydowanie odmienną charakterystykę prezentuje regulator Fuzzy-LQR.
-W tym zestawieniu okazuje się rozwiązaniem najbardziej kosztownym energetycznie ($E_u \approx 2.86$),
-zużywając ponad 5-krotnie więcej energii niż MPC-alt. Co ciekawe, ten duży wydatek energetyczny
-nie przekłada się na najkrótszy czas regulacji ($T_s \approx 1.5$~s).
-Sugeruje to, że w idealnych warunkach nominalnych, złożona struktura reguł rozmytych może wprowadzać
-niepotrzebną nerwowość sygnału sterującego, która nie jest konieczna do stabilizacji małych wychyleń,
-a generuje straty energii. Jego zalety mogą ujawnić się dopiero w trudniejszych warunkach pracy.
+W tym zestawieniu uzyskuje on umiarkowany wynik energetyczny ($E_u \approx 0.78$),
+zbliżony do regulatora LMPC, choć wciąż wyższy od najbardziej oszczędnych MPC i PID-LQR.
+Wyróżnia się jednak bardzo krótkim czasem regulacji ($T_s \approx 0.6$~s), ustępując jedynie PID-LQR i MPC-alt.
+Sugeruje to, że w warunkach nominalnych, hybrydowa struktura regulatora pozwala na dynamiczną
+reakcję, zachowując rozsądny balans między szybkością a kosztem sterowania.
 \newpage
 \begin{figure}[h!]
     \centering
@@ -213,12 +212,13 @@ pojawiające się zakłócenie jest bardziej ekonomiczna niż długotrwała walk
 \subsubsection{Charakterystyka regulatorów zaawansowanych}
 
 W grupie zaawansowanej (Rys. \ref{fig:wind_advanced}--\ref{fig:wind_control_advanced})
-najlepsze rezultaty osiągnął Fuzzy-LQR.
-Uzyskał on najlepsze wyniki we wszystkich rozpatrywanych kategoriach: najmniejsze wychylenie kątowe
-($Max |\theta| \approx 0.052$~rad), najmniejszy dryf wózka ($Max |x| \approx 0.34$ m)
-oraz najniższe zużycie energii ($E_u \approx 10.1$). Przeczy to wcześniejszym obserwacjom sugerującym
-wysoką energochłonność tego rozwiązania. Okazuje się, że inteligentne dostosowywanie wzmocnień pozwala
-na precyzyjne interwencje, które tłumią zakłócenia w fazie początkowej, zanim wymuszą one duży wydatek energetyczny.
+W grupie zaawansowanej (Rys. \ref{fig:wind_advanced}--\ref{fig:wind_control_advanced})
+Fuzzy-LQR potwierdza swoją skuteczność, choć nie dominuje już we wszystkich kategoriach.
+Uzyskał on bardzo dobre wyniki stabilizacji: małe wychylenie kątowe ($Max |\theta| \approx 0.063$~rad)
+oraz niski dryf wózka ($Max |x| \approx 0.31$ m).
+Pod względem zużycia energii ($E_u \approx 13.97$) ustępuje on jednak nieco regulatorom MPC i PID-LQR.
+Mimo to, niskie wartości wskaźników całkowych błędu ($IAE_\theta$) świadczą o wysokiej jakości regulacji
+i zdolności do szybkiego tłumienia zakłóceń.
 
 Regulator MPC wykazał zrównoważoną charakterystykę. Pozwolił na nieco większy dryf ($0.41$ m)
 i zużył więcej energii ($12.44$) niż Fuzzy-LQR.
@@ -326,10 +326,13 @@ co prowadzi do powolnego i oscylacyjnego dochodzenia do równowagi.
 Regulator LMPC plasuje się pośrodku stawki – radzi sobie lepiej niż PID-PID,
 ale ustępuje nieliniowym odpowiednikom MPC, co wynika z ograniczeń modelu liniowego.
 
-Regulator Fuzzy-LQR, mimo że zachowuje stabilność, wyróżnia się
-najwyższym wydatkiem energetycznym ($E_u \approx 3.75$).
-Złożona struktura sterownika w obliczu stałej zmiany parametrów prowadzi do agresywnych reakcji,
-co generuje duży koszt sterowania, choć pozwala na szybszą stabilizację niż w przypadku PID-PID.
+Regulator Fuzzy-LQR w tym scenariuszu prezentuje się znakomicie.
+Osiąga najkrótszy czas regulacji ($T_s \approx 0.6$~s) oraz bardzo niski uchyb całkowy ($IAE_\theta \approx 0.016$),
+przewyższając pod tym względem nawet PID-LQR.
+Co ważne, jego zużycie energii ($E_u \approx 0.80$) jest niskie i porównywalne z innymi regulatorami,
+co stanowi znaczącą poprawę w stosunku do historycznych wyników.
+Elastyczność logiki rozmytej pozwala na skuteczną adaptację do zmienionej dynamiki obiektu
+bez ponoszenia nadmiernych kosztów sterowania.
 
 Na~wykresie sterowania (Rys.~\ref{fig:robust_u}) widać wzrost amplitudy sygnałów sterujących
 dla wszystkich regulatorów, co jest fizyczną koniecznością przy sterowaniu obiektem o większej bezwładności.
@@ -412,14 +415,14 @@ oraz stabilizacji wózka (pozycja).
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-alt & Fuzzy-LQR & LMPC \\ \hline
-        $MSE_\theta$ & \cellcolor{red!25}0,00011 & 0,00005 & 0,00006 & 0,00007 & \cellcolor{green!25}0,00004 & 0,00008 \\ \hline
-        $IAE_\theta$ & \cellcolor{red!25}0,04567 & 0,01805 & 0,02323 & 0,02848 & \cellcolor{green!25}0,01412 & 0,02992 \\ \hline
-        $T_{s, \theta}$ & \cellcolor{red!25}1,60000 & 0,30000 & 1,20000 & 0,40000 & \cellcolor{green!25}0,20000 & 1,30000 \\ \hline
+        $MSE_\theta$ & \cellcolor{red!25}0,00011 & 0,00005 & 0,00006 & 0,00007 & \cellcolor{green!25}0,00005 & 0,00008 \\ \hline
+        $IAE_\theta$ & \cellcolor{red!25}0,04567 & 0,01805 & 0,02323 & 0,02848 & \cellcolor{green!25}0,01578 & 0,02992 \\ \hline
+        $T_{s, \theta}$ & \cellcolor{red!25}1,60000 & \cellcolor{green!25}0,30000 & 1,20000 & 0,40000 & 0,60000 & 1,30000 \\ \hline
         \hline
-        $MSE_x$ & 0,00051 & 0,00038 & \cellcolor{green!25}0,00038 & \cellcolor{red!25}0,00073 & 0,00045 & 0,00039 \\ \hline
-        $T_{s, x}$ & 2,00000 & \cellcolor{green!25}1,20000 & 2,20000 & \cellcolor{red!25}4,30000 & 1,50000 & 2,10000 \\ \hline
+        $MSE_x$ & 0,00051 & \cellcolor{green!25}0,00038 & \cellcolor{green!25}0,00038 & \cellcolor{red!25}0,00073 & 0,00043 & 0,00039 \\ \hline
+        $T_{s, x}$ & 2,00000 & \cellcolor{green!25}1,20000 & 2,20000 & \cellcolor{red!25}4,30000 & 1,80000 & 2,10000 \\ \hline
         \hline
-        $E_{u}$ & 0,95046 & 0,59229 & 0,55762 & \cellcolor{green!25}0,51499 & \cellcolor{red!25}1,16977 & 0,78994 \\ \hline
+        $E_{u}$ & \cellcolor{red!25}0,95046 & 0,59229 & 0,55762 & \cellcolor{green!25}0,51499 & 0,77627 & 0,78994 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -430,14 +433,14 @@ oraz stabilizacji wózka (pozycja).
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-alt & Fuzzy-LQR & LMPC \\ \hline
-        $MSE_\theta$ & \cellcolor{red!25}0,00146 & 0,00057 & 0,00058 & 0,00063 & \cellcolor{green!25}0,00037 & 0,00118 \\ \hline
-        $IAE_\theta$ & \cellcolor{red!25}0,30988 & 0,18541 & 0,18151 & 0,18607 & \cellcolor{green!25}0,14246 & 0,27259 \\ \hline
-        $Max |\theta|$ & \cellcolor{red!25}0,09006 & 0,06187 & 0,06246 & 0,06715 & \cellcolor{green!25}0,05189 & 0,08539 \\ \hline
+        $MSE_\theta$ & \cellcolor{red!25}0,00146 & 0,00057 & 0,00058 & 0,00063 & \cellcolor{green!25}0,00054 & 0,00118 \\ \hline
+        $IAE_\theta$ & \cellcolor{red!25}0,30988 & 0,18541 & 0,18151 & 0,18607 & \cellcolor{green!25}0,17797 & 0,27259 \\ \hline
+        $Max |\theta|$ & \cellcolor{red!25}0,09006 & \cellcolor{green!25}0,06187 & 0,06246 & 0,06715 & 0,06344 & 0,08539 \\ \hline
         \hline
-        $MSE_x$ & 0,04382 & \cellcolor{green!25}0,00522 & 0,01843 & \cellcolor{red!25}0,04383 & 0,01059 & 0,01551 \\ \hline
-        $Max |x|$ & 0,55997 & \cellcolor{green!25}0,26817 & 0,40938 & \cellcolor{red!25}0,56993 & 0,33723 & 0,39981 \\ \hline
+        $MSE_x$ & 0,04382 & \cellcolor{green!25}0,00522 & 0,01843 & \cellcolor{red!25}0,04383 & 0,00859 & 0,01551 \\ \hline
+        $Max |x|$ & 0,55997 & \cellcolor{green!25}0,26817 & 0,40938 & \cellcolor{red!25}0,56993 & 0,31153 & 0,39981 \\ \hline
         \hline
-        $E_{u}$ & \cellcolor{red!25}22,77583 & 12,56274 & 12,43920 & 12,26560 & \cellcolor{green!25}10,06415 & 22,74390 \\ \hline
+        $E_{u}$ & \cellcolor{red!25}22,77583 & 12,56274 & 12,43920 & \cellcolor{green!25}12,26560 & 13,96835 & 22,74390 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -448,14 +451,14 @@ oraz stabilizacji wózka (pozycja).
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-alt & Fuzzy-LQR & LMPC \\ \hline
-        $MSE_\theta$ & \cellcolor{red!25}0,00015 & 0,00005 & 0,00007 & 0,00007 & \cellcolor{green!25}0,00004 & 0,00009 \\ \hline
-        $IAE_\theta$ & \cellcolor{red!25}0,06524 & 0,01854 & 0,02517 & 0,02530 & \cellcolor{green!25}0,01440 & 0,03379 \\ \hline
-        $T_{s, \theta}$ & \cellcolor{red!25}2,80000 & 0,90000 & 1,30000 & 1,30000 & \cellcolor{green!25}0,20000 & 1,40000 \\ \hline
+        $MSE_\theta$ & \cellcolor{red!25}0,00015 & 0,00005 & 0,00007 & 0,00007 & \cellcolor{green!25}0,00005 & 0,00009 \\ \hline
+        $IAE_\theta$ & \cellcolor{red!25}0,06524 & 0,01854 & 0,02517 & 0,02530 & \cellcolor{green!25}0,01620 & 0,03379 \\ \hline
+        $T_{s, \theta}$ & \cellcolor{red!25}2,80000 & 0,90000 & 1,30000 & 1,30000 & \cellcolor{green!25}0,60000 & 1,40000 \\ \hline
         \hline
-        $MSE_x$ & \cellcolor{red!25}0,00065 & \cellcolor{green!25}0,00038 & 0,00038 & 0,00038 & 0,00044 & 0,00040 \\ \hline
-        $T_{s, x}$& \cellcolor{red!25}3,10000 & \cellcolor{green!25}1,10000 & 2,00000 & 2,00000 & 1,40000 & 1,90000 \\ \hline
+        $MSE_x$ & \cellcolor{red!25}0,00065 & \cellcolor{green!25}0,00038 & 0,00038 & 0,00038 & 0,00043 & 0,00040 \\ \hline
+        $T_{s, x}$& \cellcolor{red!25}3,10000 & \cellcolor{green!25}1,10000 & 2,00000 & 2,00000 & 1,80000 & 1,90000 \\ \hline
         \hline
-        $E_{u}$ & \cellcolor{red!25}1,49205 & \cellcolor{green!25}0,62520 & 0,64753 & 0,64818 & 1,12048 & 1,01039 \\ \hline
+        $E_{u}$ & \cellcolor{red!25}1,49205 & \cellcolor{green!25}0,62520 & 0,64753 & 0,64818 & 0,79775 & 1,01039 \\ \hline
     \end{tabular}
 \end{table}
 

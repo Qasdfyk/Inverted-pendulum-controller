@@ -708,19 +708,20 @@ generuje dodatkowy sygnał korekcyjny, aktywujący się silniej przy większych 
     \caption{Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową.}
     \label{fig:diagram_fuzzy}
 \end{figure}
-Sygnał sterujący:
+
+Sygnał sterujący opisuje równanie:
 \begin{equation}
-    u(t) = \text{sat}\left( u_{LQR}(t) + G \cdot u_{Fuzzy}(t) \right),
+    u(t) =  u_{LQR}(t) + G \cdot u_{Fuzzy}(t),
 \end{equation}
 gdzie $G$ to globalne wzmocnienie skalujące część rozmytą, a funkcja $\text{sat}(\cdot)$ reprezentuje fizyczne ograniczenie siły napędu.
+
 Część rozmyta $u_{\mathrm{Fuzzy}}(t)$ wykorzystuje bazę reguł postaci:
 \begin{quote}
-    JEŚLI $e_\theta$ jest $A_i$ ORAZ $\dot{\theta}$ jest $B_i$ ... TO $u_i = f_i(x)$,
+    JEŚLI $e_\theta$ jest $A_i$ ORAZ $\dot{\theta}$ jest $B_i$ ... TO $u_i = -K^{(i)} \cdot x$,
 \end{quote}
-gdzie $f_i(x)$ jest liniową funkcją stanu (lokalny regulator
-liniowy). Zastosowano funkcje przynależności trójkątne dla zmiennych stanu,
-dzieląc przestrzeń na~obszary ,,Mały błąd'' i~,,Duży błąd''.
-Kształt zastosowanych funkcji przynależności przedstawiono na~Rys.~\ref{fig:fuzzy_membership}.
+gdzie $K^{(i)}$ jest wektorem wzmocnień lokalnego regulatora liniowego. 
+Zastosowano trójkątne funkcje przynależności (Rys.~\ref{fig:fuzzy_membership}), 
+przyjmując zakresy strefy ,,Małego błędu'' na poziomie $\pm 0.15$ rad dla kąta oraz $\pm 0.30$ m dla pozycji.
 
 \begin{figure}[H]
     \centering
@@ -732,28 +733,20 @@ Kształt zastosowanych funkcji przynależności przedstawiono na~Rys.~\ref{fig:f
     \label{fig:fuzzy_membership}
 \end{figure}
 
-Baza wiedzy składa się z~16 reguł ($2^4$ kombinacji dla 4 zmiennych stanu).
-Wyjście sterownika obliczane jest jako średnia ważona:
+Baza wiedzy składa się z~16 reguł ($2^4$ kombinacji). Wyjście sterownika obliczane jest jako średnia ważona:
 \begin{equation}
     u_{\mathrm{Fuzzy}} = G \cdot \frac{\sum_{i=1}^{16} w_i(x) \cdot u_i}{\sum_{i=1}^{16} w_i(x)},
 \end{equation}
-gdzie $w_i$ to stopień aktywacji $i$-tej reguły, a~$G = 0.36$ to globalne
-wzmocnienie skalujące (po optymalizacji).
+gdzie $w_i$ to stopień aktywacji $i$-tej reguły, a~$G = 0.36$ to globalne wzmocnienie skalujące.
 
-Zastosowana struktura równoległa pozwala na~uzyskanie efektu tożsamego z~nieliniowym
-kształtowaniem wzmocnienia (ang. \textit{nonlinear gain shaping}), mimo że bazowy regulator LQR posiada stałe nastawy.
-Mechanizm ten działa dwutorowo:
-\begin{enumerate}
-    \item W~pobliżu punktu równowagi (małe błędy) dominuje człon LQR. Udział sterownika rozmytego
-    jest marginalny, co wynika z~definicji funkcji przynależności dla małych błędów (zerowe lub bardzo małe wzmocnienia dodatkowe).
-    Gwarantuje to wysoką kulturę pracy i~brak drgań wokół zera.
-    \item W~sytuacjach krytycznych (duże wychylenia) sterownik rozmyty generuje
-    silny, dodatkowy sygnał sterujący (wynikający z~reguł \texttt{F\_rules} dla ,,Dużych błędów''),
-    który sumuje się z~sygnałem LQR.
-\end{enumerate} 
-W~efekcie, całkowita sztywność układu regulacji rośnie wraz z~amplitudą błędu, co
-pozwala na~skuteczne rozszerzenie obszaru stabilności (ang. \textit{basin of attraction})
-w~porównaniu do~klasycznego LQR \cite{Nguyen2024}.
+Zastosowana struktura równoległa pozwala na~uzyskanie efektu nieliniowego kształtowania wzmocnienia. 
+W~zaimplementowanym algorytmie wzmocnienia $K^{(i)}$ nie są stałe, lecz zależą od stopnia krytyczności danej reguły:
+\begin{equation}
+    K^{(i)} = K_{base} + \alpha \cdot L_i,
+\end{equation}
+gdzie $L_i \in \{0, \dots, 4\}$ to liczba zmiennych stanu znajdujących się w strefie ,,Dużego błędu''.
+Przykładowo, dla kąta $\theta$ wzmocnienie bazowe wynosi $100.0$, ale każda zmienna w stanie ,,Dużym'' dodaje do niego wartość $\alpha=20.0$.
+Dzięki temu, w sytuacjach awaryjnych (duże wychylenia i prędkości), efektywne wzmocnienie układu wzrasta drastycznie (nawet o 80\%), zapewniając silną reakcję powrotną, podczas gdy wokół zera układ zachowuje się łagodnie.
 
 \subsubsection{Dobór reguł i funkcji przynależności}
 Strojenie rozmytego regulatora Fuzzy-LQR jest zadaniem złożonym ze względu na~dużą
