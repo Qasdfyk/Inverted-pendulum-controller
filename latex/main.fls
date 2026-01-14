@@ -532,7 +532,6 @@ INPUT .\tex\wstep.tex
 INPUT .\tex\wstep.tex
 INPUT .\tex\wstep.tex
 INPUT tex\wstep.tex
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futri8t.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futr8t.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futr8t.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futmii.tfm
@@ -556,9 +555,6 @@ INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-bb.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-bb.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-bb.tfm
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futri8t.vf
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futri8r.tfm
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-alt-ita.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futsy.vf
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-ms.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-mcl.tfm
@@ -567,6 +563,7 @@ INPUT .\tex\matma.tex
 INPUT .\tex\matma.tex
 INPUT .\tex\matma.tex
 INPUT tex\matma.tex
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futri8t.tfm
 INPUT .\images\diagrams\model.png
 INPUT .\images\diagrams\model.png
 INPUT .\images\diagrams\model.png
@@ -576,6 +573,9 @@ INPUT .\images\diagrams\model.png
 INPUT .\images\diagrams\model.png
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futr8t.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futb8t.tfm
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futri8t.vf
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futri8r.tfm
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-alt-ita.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futmii.vf
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-mlit.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-ml.tfm

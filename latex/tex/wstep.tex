@@ -1,16 +1,5 @@
 % !TEX encoding = utf8
 \section{Wstęp}
-Odwrócone wahadło na~wózku jest klasycznym przykładem nieliniowego, 
-niestabilnego układu mechanicznego, wykorzystywanym powszechnie 
-zarówno w~dydaktyce, jak i~w~badaniach nad zaawansowanymi technikami 
-sterowania. Mimo że geometria i~parametry fizyczne obiektu są stosunkowo 
-proste, układ ten wymaga zaawansowanych metod stabilizacji oraz 
-precyzyjnej regulacji w~czasie rzeczywistym. Jego charakterystyczna cecha 
---- podwzbudność (ang. \textit{underactuated system}), oznaczająca mniejszą 
-liczbę wejść sterujących niż wyjść oraz silna wrażliwość 
-na~zakłócenia sprawiają, że nawet niewielkie odchylenia mogą prowadzić 
-do~gwałtownego narastania błędów i~utraty równowagi.
-
 Odwrócone wahadło na~wózku służy jako kanoniczny układ testowy 
 dla metod sterowania i~estymacji stanu, ponieważ łączy w~sobie trudności 
 typowe dla systemów rzeczywistych: nieliniowość, niestabilność 
@@ -40,13 +29,10 @@ złożonych lub kosztownych systemach.
 W~literaturze odwrócone wahadło na~wózku traktowane jest 
 powszechnie jako wzorcowy układ testowy 
 dla weryfikacji algorytmów sterowania układami niestabilnymi. 
-K ompletny model nieliniowy obiektu przedstawiono w~pracy~\cite{Prasad2014}, 
-uwzględniający zakłócenia stochastyczne, na~podstawie którego 
-przeprowadzono analizę porównawczą regulatorów PID, LQR oraz ich 
-konfiguracji hybrydowych. Wyniki te wskazują, że włączenie komponentu 
-LQR znacząco poprawia szybkość i~płynność odpowiedzi w~stosunku 
-do~klasycznej regulacji PID, szczególnie w~zakresie stabilizacji 
-kątowej wahadła.
+Kompletny model nieliniowy obiektu przedstawiono w~pracy~\cite{Prasad2014}, 
+uwzględniający zakłócen, na~podstawie którego 
+przeprowadzono analizę porównawczą regulatorów PID, LQR w 
+konfiguracjach hybrydowych.
 
 Rozszerzenie zakresu badań o~sterowanie predykcyjne (MPC) zaprezentowano 
 w~pozycji~\cite{Varghese2017}. Autorzy stworzyli jednorodne środowisko symulacyjne, 
@@ -82,11 +68,6 @@ w~nowszych publikacjach~\cite{Mills2009}. Natomiast w~obszarze
 sterowania rozmytego cennym źródłem wiedzy metodycznej są opracowania 
 dotyczące modeli Takagi--Sugeno i~ich porównań z~podejściami 
 klasycznymi~\cite{Roose2017}.
-
-Przeprowadzona analiza literatury wskazuje na~ewolucję podejść sterowania: 
-od~klasycznych paradygmatów PID i~LQR~\cite{Prasad2014}, przez ujęcia 
-predykcyjne~\cite{Varghese2017}, aż po~zaawansowane metody 
-hybrydowe~\cite{Nguyen2024}.
 
 \subsection{Cel i zakres pracy}
 

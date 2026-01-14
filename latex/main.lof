@@ -1,5 +1,5 @@
 \babel@toc {polish}{}\relax 
-\contentsline {figure}{\numberline {2.1}{\ignorespaces Źródło: \blx@tocontentsinit {0}\cite {Prasad2014}. Schemat układu odwróconego wahadła na wózku.}}{11}{figure.caption.1}%
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Diagram układu odwróconego wahadła na wózku.}}{11}{figure.caption.1}%
 \contentsline {figure}{\numberline {2.2}{\ignorespaces Schemat blokowy nieliniowego modelu wahadła w~przestrzeni stanów.}}{14}{figure.caption.2}%
 \contentsline {figure}{\numberline {2.3}{\ignorespaces Symulacja odpowiedzi swobodnej układu (z uwzględnionym tłumieniem) na małe wychylenie początkowe. Układ opuszcza niestabilny punkt równowagi ($\theta \approx 0$) i stabilizuje się w pozycji wiszącej ($\theta = \pi $).}}{16}{figure.caption.3}%
 \contentsline {figure}{\numberline {3.1}{\ignorespaces Schemat blokowy pętli symulacyjnej (rdzeń obliczeniowy).}}{17}{figure.caption.4}%
@@ -18,13 +18,13 @@
 \contentsline {figure}{\numberline {4.10}{\ignorespaces Regulator MPC z~krótkim horyzontem ($N=5$, $N_u=2$, $Q=\mathrm {diag}([10, 1, 10, 1])$, $R=0.1$).}}{32}{figure.caption.19}%
 \contentsline {figure}{\numberline {4.11}{\ignorespaces Regulator MPC z~ręcznie dobranymi wagami ($N=10$, $N_u=3$, $Q=\mathrm {diag}([50, 10, 50, 10])$, $R=0.1$).}}{33}{figure.caption.20}%
 \contentsline {figure}{\numberline {4.12}{\ignorespaces Zoptymalizowany regulator MPC ($N=12$, $N_u=4$, $Q=\mathrm {diag}([158, 41, 43, 20])$, $R=0,086$).}}{34}{figure.caption.21}%
-\contentsline {figure}{\numberline {4.13}{\ignorespaces Regulator MPC-J2 z~wysoką karą za~energię ($R_{\mathrm {abs}}=10$).}}{36}{figure.caption.22}%
-\contentsline {figure}{\numberline {4.14}{\ignorespaces Regulator MPC-J2 z~ręcznie zmniejszoną karą ($R_{\mathrm {abs}}=5$).}}{37}{figure.caption.23}%
-\contentsline {figure}{\numberline {4.15}{\ignorespaces Zoptymalizowany regulator MPC-J2 ($R_{\mathrm {abs}}=1$).}}{38}{figure.caption.24}%
+\contentsline {figure}{\numberline {4.13}{\ignorespaces Regulator MPC-alt z~wysoką karą za~energię ($R_{\mathrm {abs}}=10$).}}{36}{figure.caption.22}%
+\contentsline {figure}{\numberline {4.14}{\ignorespaces Regulator MPC-alt z~ręcznie zmniejszoną karą ($R_{\mathrm {abs}}=5$).}}{37}{figure.caption.23}%
+\contentsline {figure}{\numberline {4.15}{\ignorespaces Zoptymalizowany regulator MPC-alt ($R_{\mathrm {abs}}=1$).}}{38}{figure.caption.24}%
 \contentsline {figure}{\numberline {4.16}{\ignorespaces Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, $Q=\text {diag}([1, 1, 1, 1])$, $R=0,1$).}}{40}{figure.caption.25}%
 \contentsline {figure}{\numberline {4.17}{\ignorespaces Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, $Q=\text {diag}([15, 1, 15, 1])$, $R=0,1$).}}{41}{figure.caption.26}%
 \contentsline {figure}{\numberline {4.18}{\ignorespaces Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową.}}{42}{figure.caption.27}%
-\contentsline {figure}{\numberline {4.19}{\ignorespaces Trójkątne funkcje przynależności dla czterech zmiennych stanu regulatora Fuzzy-LQR. Każda zmienna posiada dwa zbiory rozmyte: ,,Mały błąd'' (aktywny w~pobliżu zera) oraz ,,Duży błąd'' (aktywny przy większych odchyleniach od~punktu równowagi).}}{43}{figure.caption.28}%
+\contentsline {figure}{\numberline {4.19}{\ignorespaces Trójkątne funkcje przynależności dla czterech zmiennych stanu regulatora Fuzzy-LQR. Każda zmienna posiada dwa zbiory rozmyte: ,,Mały błąd'' (aktywny w~pobliżu zera) oraz ,,Duży błąd'' (aktywny przy większych odchyleniach od~punktu równowagi).}}{42}{figure.caption.28}%
 \contentsline {figure}{\numberline {4.20}{\ignorespaces Regulator Fuzzy-LQR z~wąskimi funkcjami przynależności (zakres ,,mały błąd'' dla $\theta $: $[-0.02, 0.02]$~rad).}}{44}{figure.caption.29}%
 \contentsline {figure}{\numberline {4.21}{\ignorespaces Regulator Fuzzy-LQR z~ręcznie dobranymi parametrami ($F_{\theta }=20$, $F_{\dot {\theta }}=5$, $F_x=10$, $F_{\dot {x}}=2$, zakres: $[-0.2, 0.2]$~rad).}}{45}{figure.caption.30}%
 \contentsline {figure}{\numberline {4.22}{\ignorespaces Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta }=100.0$, $F_{\dot {\theta }}=5.27$, $F_x=19.82$, $F_{\dot {x}}=19.25$, $G=0.36$).}}{46}{figure.caption.31}%

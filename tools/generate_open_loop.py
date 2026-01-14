@@ -83,8 +83,8 @@ def generate_open_loop_plot():
     ax.text(0.2, 0.2, 'Start (0.1 rad)', fontsize=9)
     
     # ax.set_title("Odpowiedź układu w pętli otwartej (bez sterowania)")
-    ax.set_xlabel("Czas [s]")
-    ax.set_ylabel("Kąt wychylenia [rad]")
+    ax.set_xlabel("t [s]")
+    ax.set_ylabel(r'$\theta(t)$[rad]')
     ax.grid(True, alpha=0.3)
     ax.legend(loc='lower right')
     

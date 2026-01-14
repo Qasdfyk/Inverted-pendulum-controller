@@ -274,7 +274,7 @@ Składnik LQR realizuje stabilizację wokół punktu pracy:
 \begin{equation}
     u_{\mathrm{LQR}}(t) = -K \cdot (x(t) - x_{\mathrm{ref}}).
 \end{equation}
-Dodatkowy człon PID na~pętli pozycji (zrealizowany analogicznie do Rów~\ref{eq:pd_x}) 
+Dodatkowy człon PID na~pętli pozycji (zrealizowany analogicznie do Rów.~\ref{eq:pd_x}) 
 ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
 $x_{\mathrm{ref}}$, co jest częstą praktyką w~aplikacjach praktycznych, gdzie LQR
 zapewnia stabilność, a~regulator zewnętrzny dba o~uchyb w~stanie ustalonym
@@ -491,7 +491,7 @@ jako optimum dla tego modelu dyskretnego, zapewniając stabilność przy akcepto
 Ostateczne nastawy regulatora MPC to:
 $Q=\mathrm{diag}([158, 41, 43, 20])$, $R=0,086$.
 
-\subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}
+\subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-alt)}
 
 Dodatkowo zaimplementowano regulator MPC z alternatywną funkcją kosztu. 
 Jego struktura jest zbliżona do~podstawowego MPC, jednak funkcja kosztu została rozbudowana
@@ -513,7 +513,7 @@ Ograniczenie amplitudy sygnału sterującego nie tylko redukuje wydatek energety
 elementów wykonawczych, co wpływa na~żywotność napędu.
 
 \subsubsection{Dobór parametrów i analiza wpływu kary za energię}
-W~przypadku wariantu MPC-J2 analizowano nieliniowy wpływ parametru $R_{\mathrm{abs}}$
+W~przypadku wariantu MPC-alt analizowano nieliniowy wpływ parametru $R_{\mathrm{abs}}$
 na~zachowanie układu. Eksperymenty przeprowadzono przy stałych wagach stanu takich samych jak dla MPC:
 \begin{equation} 
 Q=\mathrm{diag}([158, 41, 43, 20])
@@ -531,7 +531,7 @@ co przekłada się na~redukcję zużycia energii.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpcJ2_1_bad.png}
-    \caption{Regulator MPC-J2 z~wysoką karą za~energię ($R_{\mathrm{abs}}=10$).}
+    \caption{Regulator MPC-alt z~wysoką karą za~energię ($R_{\mathrm{abs}}=10$).}
     \label{fig:mpcj2_bad}
 \end{figure}
 
@@ -546,7 +546,7 @@ kątowego w~funkcji celu.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpcJ2_2_manual.png}
-    \caption{Regulator MPC-J2 z~ręcznie zmniejszoną karą ($R_{\mathrm{abs}}=5$).}
+    \caption{Regulator MPC-alt z~ręcznie zmniejszoną karą ($R_{\mathrm{abs}}=5$).}
     \label{fig:mpcj2_manual}
 \end{figure}
 
@@ -560,7 +560,7 @@ między jakością regulacji a~oszczędnością energii.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/mpcJ2_3_opt.png}
-    \caption{Zoptymalizowany regulator MPC-J2 ($R_{\mathrm{abs}}=1$).}
+    \caption{Zoptymalizowany regulator MPC-alt ($R_{\mathrm{abs}}=1$).}
     \label{fig:mpcj2_opt}
 \end{figure}
 
@@ -645,13 +645,9 @@ Układ zachowuje się stabilnie, płynnie dochodząc do~wartości
 zadanej.
 Mimo zastosowania uproszczonego modelu liniowego, regulator poprawnie radzi sobie
 ze~stabilizacją w~otoczeniu punktu równowagi.
-Wybrane parametry regulatora LMPC:
-\begin{itemize}
-    \item Horyzont predykcji: $N=12$ (identyczny jak w~NMPC),
-    \item Horyzont sterowania: $N_u=4$,
-    \item Macierz wag stanu: $Q = \text{diag}([15,0,\; 1,0,\; 15,0,\; 1,0])$,
-    \item Waga sterowania: $R = 0,1$.
-\end{itemize}
+Wybrane parametry dla regulatora LMPC:
+horyzont predykcji: $N=12$, horyzont sterowania: $N_u=4$,
+macierz wag stanu: $Q = \text{diag}([15,0,\; 1,0,\; 15,0,\; 1,0])$, waga sterowania: $R = 0,1$.
 
 \subsection{Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}
 
@@ -712,11 +708,11 @@ generuje dodatkowy sygnał korekcyjny, aktywujący się silniej przy większych 
     \caption{Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową.}
     \label{fig:diagram_fuzzy}
 \end{figure}
-
-Sygnał sterujący jest sumą:
+Sygnał sterujący:
 \begin{equation}
-    u(t) = u_{\mathrm{LQR}}(t) + u_{\mathrm{Fuzzy}}(t).
+    u(t) = \text{sat}\left( u_{LQR}(t) + G \cdot u_{Fuzzy}(t) \right),
 \end{equation}
+gdzie $G$ to globalne wzmocnienie skalujące część rozmytą, a funkcja $\text{sat}(\cdot)$ reprezentuje fizyczne ograniczenie siły napędu.
 Część rozmyta $u_{\mathrm{Fuzzy}}(t)$ wykorzystuje bazę reguł postaci:
 \begin{quote}
     JEŚLI $e_\theta$ jest $A_i$ ORAZ $\dot{\theta}$ jest $B_i$ ... TO $u_i = f_i(x)$,

@@ -51,7 +51,6 @@ class TSParams16:
     flip_u: bool
     gain_scale: float
 
-#def starter_ts_params16(u_sat: float, base_th=15.0, base_thd=5.0, base_x=5.0, base_xd=1.0) -> TSParams16:
 def starter_ts_params16(u_sat: float, base_th=100.0, base_thd=5.27, base_x=19.82, base_xd=19.25):
     th_small  = (-0.15, 0.0, 0.15)
     thd_small = (-1.0, 0.0, 1.0)
@@ -137,10 +136,6 @@ class TSFuzzyController:
         u_ts = self._u_ts(th, thd, ex, exd)
 
         u = u_lqr + u_ts
-
-        if self.ramp_T > 0:
-            alpha = min(1.0, t / self.ramp_T)
-            u *= (0.25 + 0.75 * alpha)
 
         du = np.clip(u - self.u_prev, -self.du_max * self.dt, self.du_max * self.dt)
         u_limited = self.u_prev + du
