@@ -20,7 +20,7 @@ Pierwszym zaimplementowanym układem jest regulator o~strukturze równoległej,
 wykorzystujący klasyczne sprzężenie zwrotne typu PID~\cite{Prasad2014}. 
 W~literaturze podejście to jest często
 stosowane jako punkt odniesienia dla bardziej zaawansowanych metod
-\cite{Moreno2023, Prasad2014}.
+\cite{Prasad2014}.
 
 W~klasie \texttt{PDPDController} zastosowano strukturę równoległą, w~której
 całkowity sygnał sterujący jest sumą reakcji na~błąd kąta oraz błąd pozycji.
@@ -167,7 +167,7 @@ zaawansowanych strategii sterowania.
 \subsection{Układ hybrydowy PID-LQR}
 
 Regulator liniowo-kwadratowy (LQR) stanowi fundamentalną metodę sterowania optymalnego
-dla systemów liniowych wielowymiarowych MIMO~\cite{Lewis2012, Jezierski2017}. 
+dla systemów liniowych wielowymiarowych MIMO~\cite{Jezierski2017}. 
 W~odróżnieniu od~regulatorów PID, które wymagają empirycznego doboru wzmocnień 
 dla każdej zmiennej stanu, LQR wyznacza optymalne wzmocnienia automatycznie 
 na~podstawie modelu liniowego obiektu oraz macierzy wag $Q$ i~$R$ definiujących 
@@ -180,7 +180,7 @@ minimalizuje wskaźnik jakości:
 \end{equation}
 gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą sterowania. 
 Optymalna macierz wzmocnień $K$ wyznaczana jest poprzez rozwiązanie algebraicznego 
-równania Riccatiego (CARE):
+równania Riccatiego:
 \begin{equation}
     A^T P + P A - P B R^{-1} B^T P + Q = 0,
 \end{equation}
@@ -221,9 +221,7 @@ wokół górnego punktu równowagi ($\theta = 0$).
 % nieciągłe zmiany sygnału sterującego, które są kosztowne energetycznie i mogą być niebezpieczne dla układu.
 % Motywuje to rozszerzenie struktury o~dodatkową pętlę PID z~możliwością włączenia członu całkującego.
 
-\subsubsection{Struktura hybrydowa PID-LQR}
-
-Klasa \texttt{PDLQRController} implementuje sterowanie
+Klasa \texttt{PIDLQRController} implementuje sterowanie
 oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PID dla uchybu
 pozycji, co tworzy strukturę hybrydową opisaną m.in. w~\cite{Prasad2014} oraz
 \cite{Nguyen2024} (w~kontekście porównawczym). Schemat blokowy tego układu 
@@ -297,8 +295,8 @@ $u(t) = -K x(t)$, które minimalizuje wskaźnik jakości:
     J = \int_{0}^{\infty} \left( x(t)^T Q x(t) + u(t)^T R u(t) \right) dt,
 \end{equation}
 gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą
-sterowania~\cite{Lewis2012}. Optymalna macierz wzmocnień $K$ wyznaczana jest poprzez
-rozwiązanie algebraicznego równania Riccatiego (CARE):
+sterowania. Optymalna macierz wzmocnień $K$ wyznaczana jest poprzez
+rozwiązanie algebraicznego równania Riccatiego:
 \begin{equation}
     A^T P + P A - P B R^{-1} B^T P + Q = 0,
 \end{equation}
@@ -336,7 +334,7 @@ dostrojenia parametrów i~maksymalizacji wskaźnika jakości regulacji.
 
 W~pierwszej fazie przyjęcie jednostkowej macierzy diagonalnej $Q=I$ oraz $R=1$
 (Rys.~\ref{fig:lqr_bad}) okazało się niewystarczające. Mimo teoretycznej stabilności 
-wynikającej z~rozwiązania równania CARE, wahadło wykonywało bardzo duże wychylenia, 
+wynikającej z~rozwiązania równania, wahadło wykonywało bardzo duże wychylenia, 
 a~wózek wielokrotnie wyjeżdżał poza dopuszczalny zakres roboczy toru. Problem wynikał
 z~faktu, że jednostkowe wagi traktują 1~rad błędu kąta tak samo jak 1~m błędu pozycji
 i~1~N$^2$ kosztu sterowania -- co jest fizycznie nieuzasadnione.
@@ -388,7 +386,7 @@ co zmusza obiekt do~szybkich korekt stabilizujących wahadło.
 
 Algorytm MPC (Model Predictive Control) stanowi zaawansowaną metodę sterowania,
 która w~odróżnieniu od~LQR, uwzględnia wprost ograniczenia sygnału sterującego
-oraz nieliniową dynamikę obiektu \cite{Camacho2007, Rawlings2017}.
+oraz nieliniową dynamikę obiektu \cite{Camacho2007}.
 Zaimplementowany w~klasie \texttt{MPCController} 
 algorytm rozwiązuje w~każdym kroku symulacji problem optymalizacji dynamicznej
 nieliniowej (NMPC). Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:diagram_mpc}.
@@ -445,7 +443,7 @@ nieliniowej (NMPC). Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:di
 \end{figure}
 
 Zadanie optymalizacji rozwiązywane jest numerycznie metodą SQP (Sequential
-Quadratic Programming)~\cite{Nocedal2006} przy użyciu solwera \texttt{SLSQP} z~biblioteki 
+Quadratic Programming) przy użyciu solwera \texttt{SLSQP} z~biblioteki 
 \texttt{scipy.optimize}. Wybór tego solwera podyktowany był jego dostępnością 
 w~popularnych dystrybucjach środowisk naukowych (Anaconda, pip) oraz zdolnością 
 do~obsługi ograniczeń nierównościowych (wymaganych dla saturacji sterowania). Zadanie zdefiniowane jest
@@ -541,7 +539,7 @@ Zmodyfikowana funkcja celu przyjmuje postać:
 \end{equation}
 Wprowadzenie parametru $R_{\mathrm{abs}}$ pozwala na~bezpośrednie minimalizowanie
 zużycia energii sterowania, co jest podejściem powszechnie stosowanym
-w~praktycznych implementacjach algorytmów predykcyjnych \cite{Camacho2007, Rawlings2017}.
+w~praktycznych implementacjach algorytmów predykcyjnych \cite{Camacho2007}.
 Ograniczenie amplitudy sygnału sterującego nie tylko redukuje wydatek energetyczny
 (istotny w~aplikacjach mobilnych), ale także zmniejsza obciążenie mechaniczne
 elementów wykonawczych, co wpływa na~żywotność napędu.
