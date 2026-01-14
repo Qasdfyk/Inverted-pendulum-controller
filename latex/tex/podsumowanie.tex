@@ -22,16 +22,8 @@ większego zużycia energii. Z kolei w warunkach nominalnych najbardziej
 ekonomicznym i bezpiecznym dla mechaniki układu rozwiązaniem okazało się
 sterowanie predykcyjne MPC, które w sposób jawny uwzględnia ograniczenia
 fizyczne napędu. Jako rozwiązanie uniwersalne, łączące zalety obu podejść,
-wskazać można regulator hybrydowy PD-LQR, oferujący dobry balans między
+wskazać można regulator hybrydowy PID-LQR, oferujący dobry balans między
 wydajnością a energochłonnością. Badania potwierdziły również, że kluczowym
 czynnikiem wpływającym na stabilność i odporność układu jest właściwy
 dobór funkcji kosztu i parametrów regulatora.
 
-Należy jednak pamiętać, że przedstawione wyniki mają charakter symulacyjny
-i podlegają pewnym ograniczeniom. W badaniach przyjęto założenia o dostępności
-pełnego wektora stanu bez szumów pomiarowych oraz zastosowano uproszczone
-modele dynamiki aktuatora i zakłóceń środowiskowych. W rzeczywistych
-warunkach implementacyjnych konieczne byłoby uwzględnienie dodatkowych
-aspektów, takich jak estymacja stanu za pomocą obserwatorów, opóźnienia
-w torze sterowania oraz bardziej złożona charakterystyka zakłóceń, co
-stanowi naturalny kierunek dalszych prac badawczych.
