@@ -38,7 +38,7 @@ def run_simulation(ctrl, name, filename_suffix, title_suffix):
     dt, T = SIM["dt"], SIM["T"]
     # Extend T for manual tuning plots to show settling if slow
     if "manual" in filename_suffix and "mpc" not in filename_suffix:
-         T = 8.0 
+         T = 10.0 
     
     x0, x_ref, u_sat = SIM["x0"], SIM["x_ref"], SIM["u_sat"]
     plant = PLANT
@@ -245,6 +245,9 @@ def generate_lmpc():
     print("\n--- LMPC ---")
     dt = SIM["dt"]
     u_sat = SIM["u_sat"]
+    ctrl_bad = LinearMPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
+                                   Q=np.diag([1.0, 1.0, 1.0, 1.0]), R=0.1)
+    run_simulation(ctrl_bad, "LMPC", "lmpc_bad", "Slow")
 
     # One plot only as requested
     ctrl_opt = LinearMPCController(PLANT, dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,

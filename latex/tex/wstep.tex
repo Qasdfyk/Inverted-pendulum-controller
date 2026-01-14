@@ -14,7 +14,7 @@ do~gwałtownego narastania błędów i~utraty równowagi.
 Odwrócone wahadło na~wózku służy jako kanoniczny układ testowy 
 dla metod sterowania i~estymacji stanu, ponieważ łączy w~sobie trudności 
 typowe dla systemów rzeczywistych: nieliniowość, niestabilność 
-w~otwartym układzie sterowania, ograniczenia aktuatora oraz niepewność 
+w~otwartym układzie sterowania, ograniczenia urządzenia wykonawczego oraz niepewność 
 parametrów. Umożliwia to weryfikację algorytmów w~sytuacjach, 
 w~których klasyczne założenia teorii liniowej przestają obowiązywać, 
 a~układ wymaga adaptacji lub podejścia optymalnego.
@@ -35,107 +35,12 @@ Ze~względu na~powyższe zastosowania, problem stabilizacji odwróconego wahadł
 traktowany jest jako uproszczony model systemów rzeczywistych o~zbliżonej 
 dynamice. Badania symulacyjne na~tym obiekcie pozwalają na~wstępną walidację 
 skuteczności algorytmów sterowania przed ich implementacją w~bardziej 
-złożonych lub kosztownych systemach. Z~tego powodu układ ten od~dziesięcioleci 
-stanowi punkt odniesienia w~rozwoju nowoczesnych metod regulacji --- 
-od~klasycznych regulatorów PID (regulatory proporcjonalno-różniczkująco-całkujące) i~LQR (liniowy regulator kwadratowy), po~sterowanie predykcyjne (MPC), LMPC, 
-adaptacyjne i~rozmyte.
+złożonych lub kosztownych systemach.
 
-Prostota modelu matematycznego w~połączeniu z~łatwością interpretacji wyników 
-(analiza kąta wychylenia i~pozycji wózka) sprawiają, że odwrócone wahadło 
-łączy złożoność teoretyczną z~praktycznymi wyzwaniami inżynierskimi. 
-Stanowi tym samym uniwersalne narzędzie do~nauki, testowania i~rozwijania 
-metod stabilizacji systemów nieliniowych.
-
-\subsection{Cel i~zakres pracy}
-
-Celem pracy jest zaprojektowanie i~realizacja 
-środowiska symulacyjnego oraz przeprowadzenie w~nim wielokryterialnej 
-analizy porównawczej algorytmów sterowania dla nieliniowego układu 
-odwróconego wahadła.
-
-Aby zrealizować ten cel, zdefiniowano szereg wymagań funkcjonalnych 
-i~niefunkcjonalnych stawianych opracowywanemu systemowi. W~warstwie 
-funkcjonalnej środowisko musi wiernie odwzorowywać dynamikę układu wózka 
-z~wahadłem w~oparciu o~nieliniowe równania ruchu, a~także umożliwiać 
-elastyczne przełączanie pomiędzy zaimplementowanymi strategiami sterowania 
-(PID-PID, PID-LQR, MPC, MPC-J2, Fuzzy-LQR, LMPC). Kluczowa jest również możliwość weryfikacji 
-odporności regulatorów poprzez generowanie addytywnych zakłóceń 
-zewnętrznych. System powinien oferować narzędzia 
-do~wizualizacji przebiegów oraz animacji ruchu obiektu, a~także 
-automatycznie archiwizować wyniki eksperymentów w~celu późniejszego 
-wyznaczenia wskaźników jakości (MSE, MAE, energia sterowania).
-
-W~zakresie wymagań niefunkcjonalnych przyjęto, że oprogramowanie zostanie 
-zrealizowane w~języku Python 3 z~wykorzystaniem bibliotek numerycznych 
-\texttt{NumPy} i~\texttt{SciPy}. Projekt musi charakteryzować się wysoką 
-modularnością, separującą logikę sterowania od~silnika symulacyjnego, 
-co ułatwi jego dalszą rozbudowę. Ponadto, zaimplementowane algorytmy 
-powinny cechować się wydajnością umożliwiającą pracę w~czasie zbliżonym 
-do~rzeczywistego.
-
-W~niniejszej pracy postanowiono porównać ze~sobą trzy zupełnie różne podejścia:
-\begin{itemize}
-  \item klasyczne (PID-PID),
-  \item optymalne i~predykcyjne (PID-LQR, MPC, LMPC),
-  \item sterowanie rozmyte (Fuzzy).
-\end{itemize}
-
-Wszystkie te algorytmy zostały uruchomione 
-w~tym samym środowisku symulacyjnym. Dzięki temu możliwe było ich 
-porównanie w~ujednoliconych warunkach testowych. Sprawdzono nie tylko, jak precyzyjnie 
-utrzymują wahadło w~pionie, ale także jak radzą sobie z~zakłóceniami 
-zewnętrznymi oraz ile energii zużywają podczas pracy.
-
-W~ramach projektu zaimplementowano i~poddano badaniom następujące struktury:
-\begin{enumerate}
-    \item \textbf{Regulator PID-PID} --- reprezentujący klasyczne 
-    podejście inżynierskie. Układ składa się z~dwóch równoległych pętli 
-    sprzężenia zwrotnego typu PID (stabilizacja kąta i~pozycji), bez członu 
-    całkującego ($K_i=0$).
-    
-    \item \textbf{Hybrydowy układ PID-LQR} --- struktura łącząca regulator 
-    PID (w~pętli regulacji pozycji) z~optymalnym regulatorem stanu LQR 
-    (w~pętli stabilizacji wahadła). Metoda ta stanowi punkt odniesienia 
-    dla oceny skuteczności metod bazujących na~modelu liniowym.
-    
-    \item \textbf{Regulator MPC} --- wariant 
-    podstawowy sterowania predykcyjnego z~kwadratową funkcją kosztu. 
-    Służy on w~pracy jako nowoczesny punkt odniesienia, pozwalający ocenić, 
-    jakie korzyści daje uwzględnienie ograniczeń sterowania i~dynamiki 
-    układu bezpośrednio w~procesie optymalizacji.
-
-    \item \textbf{Regulator LMPC} --- liniowy wariant sterowania predykcyjnego
-    korzystający z modelu zlinearyzowanego, stanowiący kompromis obliczeniowy.
-
-    \item \textbf{Regulator MPC z~rozszerzonym wskaźnikiem jakości} --- 
-    wariant badawczy metody predykcyjnej, w~którym przeanalizowano wpływ 
-    dodatkowych kar w~funkcji celu (za~gwałtowne zmiany sterowania 
-    oraz jego amplitudę) na~płynność regulacji i~zużycie energii.
-    
-    \item \textbf{Regulator rozmyty (Fuzzy Logic)} --- metoda sterowania 
-    inteligentnego, wykorzystująca zbiór reguł wnioskowania, stanowiąca 
-    alternatywę dla metod analitycznych.
-
-\end{enumerate}
-
-Kluczowym elementem pracy jest weryfikacja działania regulatorów w~zadaniu 
-stabilizacji wahadła w~pozycji pionowej (punkt pracy) w~obecności zakłóceń 
-zewnętrznych. W~celu obiektywnego porównania metod przyjęto zestaw wskaźników 
-ilościowych. Jakość stabilizacji weryfikowana jest w~oparciu o~metryki całkowe 
-błędu (ISE, IAE) dla kąta wychylenia oraz pozycji wózka. Równolegle ocenie 
-poddano ekonomię sterowania, wyznaczając koszt energetyczny poprzez normy 
-\(L_1\) i~\(L_2\) sygnału sterującego. Całość uzupełnia analiza odporności 
-układu na~zakłócenia (szumy, siły zewnętrzne). 
-Tak dobrane kryteria pozwalają na~wszechstronne wskazanie mocnych i~słabych 
-stron badanych metod.
-
-
-\subsection{Przegląd literatury}
-
-W~literaturze przedmiotu odwrócone wahadło na~wózku traktowane jest 
-powszechnie jako wzorcowy układ testowy (ang. \textit{testbed}) 
+W~literaturze odwrócone wahadło na~wózku traktowane jest 
+powszechnie jako wzorcowy układ testowy 
 dla weryfikacji algorytmów sterowania układami niestabilnymi. 
-W~pracy~\cite{Prasad2014} przedstawiono kompletny model nieliniowy obiektu, 
+K ompletny model nieliniowy obiektu przedstawiono w~pracy~\cite{Prasad2014}, 
 uwzględniający zakłócenia stochastyczne, na~podstawie którego 
 przeprowadzono analizę porównawczą regulatorów PID, LQR oraz ich 
 konfiguracji hybrydowych. Wyniki te wskazują, że włączenie komponentu 
@@ -153,8 +58,7 @@ uwzględniania ograniczeń fizycznych nałożonych na~wielkości sterujące.
 
 Współczesne prace badawcze coraz częściej integrują metody optymalne 
 z~metodami sztucznej inteligencji. Artykuł~\cite{Nguyen2024} opisuje rozwiązanie 
-hybrydowe, łączące regulator LQR z~modelem rozmytym Takagi--Sugeno 
-(z~kompensacją PDC) oraz obserwatorem stanu. Podejście to pozwala 
+hybrydowe, łączące regulator LQR z~modelem rozmytym Takagi--Sugeno oraz obserwatorem stanu. Podejście to pozwala 
 na~przyspieszenie zbieżności błędu regulacji do~zera oraz poprawę 
 jakości estymacji zmiennych w~obecności szumów pomiarowych 
 i~niepewności parametrycznej modelu.
@@ -184,35 +88,42 @@ od~klasycznych paradygmatów PID i~LQR~\cite{Prasad2014}, przez ujęcia
 predykcyjne~\cite{Varghese2017}, aż po~zaawansowane metody 
 hybrydowe~\cite{Nguyen2024}.
 
+\subsection{Cel i zakres pracy}
+
+Głównym celem niniejszej pracy jest zaprojektowanie oraz weryfikacja efektywności układu stabilizacji odwróconego wahadła na wózku. Obiekt ten, ze względu na swoje właściwości dynamiczne, stanowi klasyczny przykład układu nieliniowego i niestabilnego, co czyni go doskonałą platformą testową do analizy porównawczej różnorodnych strategii sterowania.
+
+Aby zrealizować ten cel, zakres pracy obejmuje opracowanie autorskiego środowiska symulacyjnego, które wiernie odwzorowuje fizykę i dynamikę ruchu wózka z wahadłem. Środowisko to posłuży do implementacji i testowania wybranych algorytmów regulacji, reprezentujących przekrój współczesnej automatyki. W pracy rozważone zostaną trzy zasadnicze grupy metod:
+\begin{itemize}
+    \item podejście klasyczne, oparte na konwencjonalnych pętlach sprzężenia zwrotnego,
+    \item metody sterowania optymalnego i predykcyjnego, uwzględniające model obiektu oraz ograniczenia sterowania,
+    \item metody sterowania inteligentnego, wykorzystujące logikę rozmytą.
+\end{itemize}
+
+Kluczowym elementem pracy jest przeprowadzenie wielokryterialnej oceny działania zaprojektowanych układów. Analiza porównawcza nie ogranicza się jedynie do sprawdzenia zdolności utrzymania wahadła w pionie. Badania obejmują również weryfikację jakości regulacji w stanach przejściowych, analizę energochłonności poszczególnych rozwiązań oraz sprawdzenie ich odporności na zakłócenia zewnętrzne i niepewność parametrów modelu. Szczegółowe definicje algorytmów oraz matematyczne sformułowanie wskaźników jakości zostały przedstawione w kolejnych rozdziałach pracy.
+
 \subsection{Układ pracy}
 
 Układ pracy został podzielony na~rozdziały, których treść odpowiada 
 kolejnym etapom realizacji projektu.
-
 Rozdział drugi przedstawia szczegółowe wyprowadzenie modelu matematycznego 
 odwróconego wahadła na~wózku. Zawiera on opis fizyczny obiektu, 
 równania dynamiki sformułowane w~oparciu o~prawa mechaniki, a~także 
 linearyzację modelu niezbędną do~syntezy wybranych regulatorów.
-
 Rozdział trzeci poświęcony jest opisowi zrealizowanego środowiska
 symulacyjnego. Przedstawiono w~nim narzędzia programistyczne, metody 
 numeryczne wykorzystane do~rozwiązywania równań różniczkowych 
 oraz sposób modelowania zakłóceń zewnętrznych.
-
 Rozdział czwarty zawiera charakterystykę zaimplementowanych algorytmów 
 sterowania. Omówiono w~nim podstawy teoretyczne oraz szczegóły 
 implementacyjne regulatorów: klasycznego PID-PID, optymalnego PID-LQR, 
 predykcyjnego MPC/LMPC oraz rozmytego Takagi--Sugeno.
-
 Rozdział piąty opisuje metodykę badań symulacyjnych. Zdefiniowano w~nim 
 scenariusze testowe, przyjęte wskaźniki jakości oraz procedurę strojenia 
 regulatorów, ze~szczególnym uwzględnieniem doboru wag macierzy LQR 
-oraz nastaw regulatora PD.
-
+oraz nastaw regulatora PID.
 Rozdział szósty prezentuje wyniki przeprowadzonych eksperymentów. 
 Zawiera on szczegółową analizę przebiegów czasowych, zestawienie tabelaryczne 
 błędów regulacji w~warunkach nominalnych i~zakłóconych, oraz dyskusję 
 porównawczą skuteczności badanych metod.
-
 Pracę kończy podsumowanie, zawierające wnioski końcowe oraz 
 kierunki dalszego rozwoju projektu.

@@ -5,52 +5,78 @@ przygotowano zestaw skryptów symulacyjnych zrealizowanych w~języku
 Python 3. Wybór tego języka podyktowany był jego powszechnością
 w~zastosowaniach naukowych, dostępnością bibliotek do~obliczeń numerycznych
 i~optymalizacji, a~także łatwością prototypowania złożonych struktur sterowania.
-Ogólną architekturę środowiska przedstawiono na~Rys.~\ref{fig:diagram_env}.
+Ogólną architekturę środowiska przedstawiono na~Rys.~\ref{fig:control_loop} i na~Rys.~\ref{fig:app_architecture}.
 
+% --- DIAGRAM 1: PĘTLA SYMULACYJNA (RDZEŃ MATEMATYCZNY) ---
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[auto, node distance=1.4cm, >=Stealth,
-        module/.style={draw, fill=blue!10, rectangle, minimum height=2.2em, 
-                       minimum width=6.5em, rounded corners=3pt, align=center, font=\small}]
+    \begin{tikzpicture}[auto, node distance=2cm, >=stealth,
+        block/.style={draw, rectangle, minimum height=2.5em, minimum width=4em, rounded corners=3pt, align=center, font=\small, thick},
+        line/.style={draw, thick, ->},
+        sum/.style={draw, circle, inner sep=0pt, minimum size=6mm, thick}]
+
+        % Węzły (Nodes)
+        \node [block, fill=orange!15] (controller) {Regulator};
+        \node [sum, right=1.5cm of controller] (sum) {+};
+        \node [block, right=1.0cm of sum, fill=yellow!20] (model) {Model nieliniowy\\$f(x, u, F_w)$};
+        \node [block, right=1.5cm of model, fill=blue!15] (integrator) {Integrator\\RK4};
         
-        % Górny rząd
-        \node [module, fill=orange!15] (controller) {Regulator};
-        \node [module, left=2cm of controller, fill=yellow!20] (model) {Model $f(x,u)$};
-        \node [module, left=2cm of model, fill=green!15] (params) {Parametry};
+        % Zakłócenia (powyżej sumatora/modelu)
+        \node [block, above=1.2cm of sum, fill=red!10] (dist) {Generator\\zakłóceń $F_w$};
+
+        % Połączenia (Paths)
+        % 1. Regulator -> Sumator (u)
+        \draw [line] (controller) -- node[above] {$u(t)$} (sum);
         
-        % Środkowy rząd
-        \node [module, below=1.3cm of controller, fill=blue!15] (integrator) {Integrator RK4};
-        \node [module, below=1.3cm of model, fill=red!10] (disturbance) {Zakłócenia $F_w$};
+        % 2. Zakłócenia -> Sumator
+        \draw [line] (dist) -- node[right] {$F_w(t)$} (sum);
         
-        % Dolny rząd
-        \node [module, below=1.3cm of integrator, fill=purple!10] (logger) {Logger};
-        \node [module, left=2cm of logger, fill=gray!15] (viz) {Wizualizacja};
+        % 3. Sumator -> Model
+        \draw [line] (sum) -- (model);
         
-        % Połączenia główne (góra)
-        \draw [arrow] (params) -- (model);
-        \draw [arrow] (model) -- (controller);
+        % 4. Model -> Integrator (dx)
+        \draw [line] (model) -- node[above] {$\dot{x}(t)$} (integrator);
         
-        % Regulator -> Integrator
-        \draw [arrow] (controller) -- node[right, font=\scriptsize] {$u$} (integrator);
+        % 5. Sprzężenie zwrotne (x) - z dołu
+        % Wychodzi z integratora w prawo, w dół, w lewo pod spodem, do regulatora i modelu
+        \draw [line] (integrator.east) -- ++(0.5,0) |- ++(0,-1.5) -| node[pos=0.35, above] {$x(t)$} (controller.south);
         
-        % Zakłócenia -> Model
-        \draw [arrow, dashed] (disturbance) -- (model);
-        
-        % Integrator -> Logger
-        \draw [arrow] (integrator) -- node[right, font=\scriptsize] {$x(t)$} (logger);
-        
-        % Logger -> Wizualizacja  
-        \draw [arrow] (logger) -- (viz);
-        
-        % Integrator -> Model (stan)
-        \draw [arrow] (integrator.west) -- ++(-0.5,0) |- node[pos=0.25, left, font=\scriptsize] {$x$} (model.south);
-        
-        % Sprzężenie zwrotne do regulatora (po prawej stronie - ciągła linia)
-        \draw [arrow] (integrator.east) -- ++(0.6,0) |- node[pos=0.25, right, font=\scriptsize] {$x(t)$} (controller.east);
-        
+        % Dodatkowa strzałka stanu wchodząca do modelu (dla kompletności matematycznej)
+        %\draw [line] ($(controller.south) + (2.5,-1.5)$) -- ++(0, 0.6) -| (model.south);
+        \draw [line] (integrator.east) -- ++(0.5,0) |- ++(0,-1.5) -| node[pos=0.25, above] {$x(t)$} (model.south);
+
     \end{tikzpicture}
-    \caption{Architektura środowiska symulacyjnego.}
-    \label{fig:diagram_env}
+    \caption{Schemat blokowy pętli symulacyjnej (rdzeń obliczeniowy).}
+    \label{fig:control_loop}
+\end{figure}
+
+% --- DIAGRAM 2: ARCHITEKTURA APLIKACJI (PIPELINE DANYCH) ---
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[auto, node distance=1.5cm, >=stealth,
+        module/.style={draw, rectangle, minimum height=2.5em, minimum width=7em, rounded corners=3pt, align=center, font=\small, fill=white},
+        container/.style={draw, dashed, inner sep=0.5cm, rounded corners=5pt, fill=gray!5, label={above:\textit{#1}}}]
+
+        % Węzły
+        \node [module, fill=green!15] (config) {Parametry};
+        \node [module, right=1.5cm of config, fill=blue!10, text width=2.5cm] (sim) {Pętla główna};
+        \node [module, right=1.5cm of sim, fill=purple!15] (logger) {Zapis historii};
+        
+        % Rozwidlenie na końcu
+        \node [module, above right=0.5cm and 1.0cm of logger, fill=gray!20] (viz) {Animacja};
+        \node [module, below right=0.5cm and 1.0cm of logger, fill=gray!20] (analysis) {Analiza wyników};
+
+        % Połączenia
+        \draw [line, thick, ->] (config) -- node[above, font=\scriptsize] {Inicjalizacja} (sim);
+        \draw [line, thick, ->] (sim) -- node[above, font=\scriptsize] {$x(t), u(t)$} (logger);
+        
+        % Wyjścia z loggera
+        \draw [line, thick, ->] (logger.east) -- ++(0.5,0) |- (viz.west);
+        \draw [line, thick, ->] (logger.east) -- ++(0.5,0) |- (analysis.west);
+
+    \end{tikzpicture}
+    \caption{Architektura przepływu danych w zrealizowanej aplikacji.}
+    \label{fig:app_architecture}
 \end{figure}
 
 \subsection{Narzędzia programistyczne}
@@ -108,15 +134,16 @@ pozycji wózka.
 
 \textbf{Warunki początkowe:}
 \[
-\mathbf{x}_0 = [\theta, \dot{\theta}, x, \dot{x}]^T = [0{,}05, 0, 0, 0]^T
+x_0 = [\theta, \dot{\theta}, x, \dot{x}]^T = [\theta_0, 0, 0, 0]^T
 \]
+gdzie $\mathrm{\theta_0}$ to $0,05$[rad].
 Oznacza to niewielkie (ok. $2{,}86^\circ$) początkowe wychylenie wahadła, które
 regulator musi zniwelować.
 
 \textbf{Wartości zadane:}
 Celem układu jest osiągnięcie stanu
-$\mathbf{x}_\mathrm{ref} = [0, 0, x_\mathrm{ref}, 0]^T$, gdzie
-$x_\mathrm{ref}$ (np. $0{,}10$ m) jest zadaną nową pozycją wózka, przy
+$x_\mathrm{ref} = [0, 0, x_\mathrm{ref}, 0]^T$, gdzie
+$x_\mathrm{ref}$ ($0{,}10$ m) jest zadaną nową pozycją wózka, przy
 jednoczesnym utrzymaniu pionowej pozycji wahadła ($\theta = 0$).
 
 \subsection{Modelowanie zakłóceń}
@@ -126,7 +153,7 @@ zakłóceń zewnętrznych działających na~wahadło. Generator ten działa
 w~sposób dyskretny, realizując w~każdym kroku symulacji $k$ następujące
 operacje:
 
-\textbf{1. Dyskretne próbkowanie szumu:}
+\textbf{1. Próbkowanie szumu:}
 \begin{equation}
     w_k \sim \mathcal{N}\!\left(0,\;\sigma^2\right),
 \end{equation}
@@ -135,14 +162,14 @@ W~przeprowadzonych eksperymentach przyjęto $\sigma = 2{,}2$~N, co oznacza,
 że wartość skuteczna (RMS) siły zakłócającej wynosi około $2{,}2$~N, 
 a~chwilowe wartości szczytowe mogą osiągać $\pm 6{,}6$~N (przedział $3\sigma$).
 Parametr ten dobrano empirycznie tak, aby zakłócenia stanowiły znaczące obciążenie 
-dla układu sterowania (porównywalne z~kilkoma procentami maksymalnej siły aktuatora 
+dla układu sterowania (porównywalne z~kilkoma procentami maksymalnej siły urządzenia wykonawczego 
 $F_{\max}=100$~N), lecz nie przekraczały możliwości kompensacyjnych badanych regulatorów.
 
 \textbf{2. Wygładzanie (ruchoma średnia):}
 \begin{equation}
-    F_{\mathrm{w},k}=\frac{1}{N_{\mathrm{s}}}\sum_{i=0}^{N_{\mathrm{s}}-1} w_{k-i},
+    F_{\mathrm{w}}(t)=\frac{1}{N_{\mathrm{s}}}\sum_{i=0}^{N_{\mathrm{s}}-1} w_{k-i},
 \end{equation}
-gdzie $F_{\mathrm{w},k}$ to wypadkowa siła zakłócająca w~chwili $k$, a~$N_{\mathrm{s}}$ to długość okna
+gdzie $F_{\mathrm{w}}(t)$ to wypadkowa siła zakłócająca w danej chwili, a~$N_{\mathrm{s}}$ to długość okna
 uśredniającego (przyjęto $N_{\mathrm{s}}=10$). Takie podejście pozwala na~uzyskanie
 ciągłego, wolnozmiennego sygnału lepiej odwzorowującego rzeczywiste zakłócenia zewnętrzne.
 Przykładowy przebieg wygenerowanego sygnału przedstawiono na~Rys.

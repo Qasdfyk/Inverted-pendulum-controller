@@ -17,7 +17,7 @@ z~wózka poruszającego się wzdłuż poziomej osi oraz pręta z~masą skupioną
 zamocowanego przegubowo do~wózka.
 
 Przyjęto następujące parametry fizyczne modelu, zgodne z~oznaczeniami 
-stosowanymi w~pracach badawczych~\cite{Prasad2014}:
+stosowanymi w~pracy badawczej~\cite{Prasad2014}:
 \begin{itemize}
     \item \(M\) --- masa wózka [kg],
     \item \(m\) --- masa wahadła (traktowana jako masa punktowa na~końcu pręta) [kg],
@@ -64,8 +64,7 @@ przemieszczenia wózka oraz rzutu geometrycznego ramienia wahadła~\cite{Prasad2
     y_{\mathrm{G}}(t) = l \cos\theta(t).
     \label{eq:pos_y}
 \end{equation}
-
-Gdzie \(x_{\mathrm{G}}\) to pozioma współrzędna masy wahadła, a~\(y_{\mathrm{G}}\) to jej 
+gdzie \(x_{\mathrm{G}}\) to pozioma współrzędna masy wahadła, a~\(y_{\mathrm{G}}\) to jej 
 współrzędna pionowa (odległość od~osi wózka).
 
 Aby zastosować drugą zasadę dynamiki Newtona dla masy \(m\), konieczne jest 
@@ -100,29 +99,25 @@ całkowitego przyspieszenia w~przestrzeni, a~nie tylko od~kąta wychylenia.
 
 Model dynamiczny wyprowadzono, rozpatrując siły działające na~wózek oraz 
 na~wahadło osobno, a~następnie składając je w~układ równań sprzężonych.
-
-\subsubsection{Bilans sił w~kierunku poziomym}
 Zgodnie z~drugą zasadą dynamiki Newtona, suma sił zewnętrznych działających 
 na~cały układ w~kierunku osi \(x\) musi równać się zmianie pędu układu. 
 Siłami zewnętrznymi są: siła sterująca \(u(t)\) przyłożona do~wózka oraz 
 siła zakłócająca \(F_{\mathrm{w}}(t)\) przyłożona do~masy wahadła~\cite{Prasad2014}.
 
+\subsubsection{Bilans sił w~kierunku poziomym}
 Równanie równowagi sił dla całego układu (masy \(M\) i~\(m\)) 
 przyjmuje postać:
 \begin{equation}
     M \ddot{x}(t) + m \ddot{x}_G(t) = u(t) + F_{\mathrm{w}}(t).
     \label{eq:force_balance_raw}
 \end{equation}
-
 Podstawiając wyznaczone wcześniej przyspieszenie poziome środka masy 
 wahadła (\ref{eq:acc_x}) do~równania (\ref{eq:force_balance_raw}), 
 otrzymujemy:
 \begin{equation}
     M \ddot{x}(t) + m \left( \ddot{x}(t) + l \cos\theta(t) \cdot \ddot{\theta}(t) - l \sin\theta(t) \cdot \dot{\theta}^2(t) \right) = u(t) + F_{\mathrm{w}}(t).
 \end{equation}
-
-Po~uporządkowaniu wyrazów i~wyciągnięciu \(\ddot{x}\) przed nawias, 
-otrzymujemy pierwsze równanie różniczkowe opisujące ruch postępowy układu:
+Po~przekształceniu, otrzymujemy pierwsze równanie różniczkowe opisujące ruch postępowy układu:
 \begin{equation}
     (M + m)\ddot{x}(t) + m l \cos\theta(t) \cdot \ddot{\theta}(t) - m l \sin\theta(t) \cdot \dot{\theta}^2(t) = u(t) + F_{\mathrm{w}}(t).
     \label{eq:dynamic_translation}
@@ -188,24 +183,34 @@ oraz zakłócenia \(F_{\mathrm{w}}\), przyjmują postać~\cite{Prasad2014}:
     \label{eq:x_dd_final}
 \end{equation}
 
+% Definicja pomocnicza (można dać w tekście przed równaniem lub jako osobne równanie)
 \begin{equation}
-    \ddot{\theta}(t) = \frac{(M + m) g \sin\theta(t) - u(t) \cos\theta(t) - m l \sin\theta(t) \cos\theta(t) \cdot \dot{\theta}^2(t) - \frac{M}{m} F_{\mathrm{w}}(t) \cos\theta(t) + F_{\mathrm{w}}(t) \cos\theta(t)}{l (M + m - m \cos^2\theta(t))}.
-    \label{eq:theta_dd_final}
+    M_{T} = M + m, \quad D(t) = l (M_{T} - m \cos^2\theta(t))
+    \label{eq:defs}
 \end{equation}
 
-Definiując wektor stanu \(\mathbf{x} = [\theta, \dot{\theta}, x, \dot{x}]^T\), 
+% Równanie główne
+\begin{equation}
+\begin{split}
+    \ddot{\theta}(t) = \frac{1}{D(t)} \biggl[ & M_{T} g \sin\theta(t) - \cos\theta(t) \biggl( u(t) + \\
+    & + m l \sin\theta(t) \dot{\theta}^2(t) + F_{\mathrm{w}}(t)\left(\frac{M}{m} - 1\right) \biggr) \biggr].
+\end{split}
+\label{eq:theta_dd_final_short}
+\end{equation}
+
+Definiując wektor stanu \(x(t) = [\theta(t), \dot{\theta}(t), x(t), \dot{x}(t)]^T\), 
 model w~przestrzeni stanów zapisujemy jako układ czterech równań 
 różniczkowych pierwszego rzędu:
 
 \begin{equation}
     \begin{bmatrix}
-    \dot{x}_1 \\ \dot{x}_2 \\ \dot{x}_3 \\ \dot{x}_4
+    \dot{x}_1(t) \\ \dot{x}_2(t) \\ \dot{x}_3(t) \\ \dot{x}_4(t)
     \end{bmatrix}
     =
     \begin{bmatrix}
-    x_2 \\
+    x_2(t) \\
     \frac{(M + m) g \sin x_1 - u \cos x_1 - m l (\sin x_1 \cos x_1) x_2^2 - F_{\mathrm{w}} \left(\frac{M}{m} \cos x_1 - \cos x_1\right)}{l ( M + m - m \cos^2 x_1 )} \\
-    x_4 \\
+    x_4(t) \\
     \frac{u + m l (\sin x_1) x_2^2 - m g \sin x_1 \cos x_1 + F_{\mathrm{w}} \sin^2 x_1}{M + m - m \cos^2 x_1}
     \end{bmatrix}.
 \end{equation}
@@ -221,8 +226,8 @@ sterowania i~zakłóceń, przedstawiono na~Rys.~\ref{fig:diagram_model}.
         \node [below=1.2cm of u_in, input] (fw_in) {};
         
         % Macierze B
-        \node [block, right=0.8cm of u_in, minimum width=2em] (B) {$B$};
-        \node [block, right=0.8cm of fw_in, minimum width=2em] (Bd) {$B_d$};
+        \node [block, right=0.8cm of u_in, minimum width=2em] (B) {$\mathrm{B}$};
+        \node [block, right=0.8cm of fw_in, minimum width=2em] (Bd) {$\mathrm{B_{dist}}$};
         
         % Suma
         \node [sum, right=1cm of B, yshift=-0.6cm] (sum1) {\tiny $+$};
@@ -235,19 +240,19 @@ sterowania i~zakłóceń, przedstawiono na~Rys.~\ref{fig:diagram_model}.
         \node [output, right=1.5cm of int] (output) {};
         
         % Macierz A (sprzężenie zwrotne - poniżej)
-        \node [block, below=1.2cm of sum1, xshift=0.6cm, minimum width=2em] (A) {$A$};
+        \node [block, below=1.2cm of sum1, xshift=0.6cm, minimum width=2em] (A) {$\mathrm{A}$};
         
         % --- Połączenia ---
         % Wejścia -> Macierze B
-        \draw [arrow] (u_in) -- node[above, font=\scriptsize] {$u$} (B);
-        \draw [arrow] (fw_in) -- node[above, font=\scriptsize] {$F_w$} (Bd);
+        \draw [arrow] (u_in) -- node[above, font=\scriptsize] {$\mathrm{u(t)}$} (B);
+        \draw [arrow] (fw_in) -- node[above, font=\scriptsize] {$\mathrm{F_w(t)}$} (Bd);
         
         % Macierze B -> Suma
         \draw [arrow] (B.east) -| (sum1.north);
         \draw [arrow] (Bd.east) -| (sum1.west);
         
         % Suma -> Integrator -> Wyjście
-        \draw [arrow] (sum1) -- node[above, font=\scriptsize] {$\dot{x}$} (int);
+        \draw [arrow] (sum1) -- node[above, font=\scriptsize] {$\dot{x}(t)$} (int);
         \draw [arrow] (int) -- node[above, font=\scriptsize] {$x(t)$} (output);
         
         % Sprzężenie przez A (na dole) - ciągła linia z pętlą
@@ -266,7 +271,7 @@ chwiejnej (\(\theta=0\)). Dla małych wychyleń zastosowano przybliżenia
 \(\sin\theta \approx \theta\), \(\cos\theta \approx 1\), a~wyrazy wyższego 
 rzędu (\(\dot{\theta}^2\), \(\sin^2\theta\)) pominięto.
 
-Liniowy model układu w~postaci \(\dot{\mathbf{x}} = A \mathbf{x} + B u + B_{\mathrm{dist}} F_{\mathrm{w}}\) 
+Liniowy model układu w~postaci \(\dot{x} = A x + B u + B_{\mathrm{dist}} F_{\mathrm{w}}\) 
 opisują macierze wyznaczone zgodnie z~literaturą~\cite{Prasad2014}:
 
 \begin{equation}
@@ -315,7 +320,7 @@ wielomian charakterystyczny \(\det(\lambda I - A) = 0\) przyjmuje postać:
 \end{equation}
 Rozwiązując powyższe równanie, otrzymujemy cztery wartości własne:
 \begin{equation}
-    \lambda_{1,2} = 0, \quad \lambda_3 \approx -5{,}49, \quad \lambda_4 \approx +5{,}49.
+    \lambda_{1,2} = 0, \quad \lambda_3 \approx -5{,}49, \quad \lambda_4 \approx 5{,}49.
 \end{equation}
 Obecność dodatniej wartości własnej \(\lambda_4 > 0\) potwierdza, że układ 
 w~pętli otwartej jest niestabilny --- każde, nawet minimalne odchylenie 

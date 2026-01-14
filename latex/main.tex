@@ -62,45 +62,23 @@
 % Dla każdego z rozważanych regulatorów wykonano symulacje numeryczne w warunkach nominalnych oraz w obecności zakłóceń poziomych działających na wózek. Analizie poddano przebiegi kątów i położeń, a także obliczono wskaźniki jakości regulacji: średni błąd kwadratowy (MSE), średni błąd bezwzględny (MAE), czas regulacji, przeregulowanie, energię sygnału sterującego oraz średni czas obliczeń. Wyniki przedstawiono w postaci wykresów i tabel umożliwiających obiektywne porównanie metod.
 
 % Otrzymane rezultaty wskazują, że włączenie metod optymalnych i predykcyjnych pozwala znacząco poprawić stabilność oraz odporność układu w porównaniu z klasycznym sterowaniem PID. Regulator MPC zapewniał najkrótszy czas stabilizacji przy zachowaniu umiarkowanego kosztu sterowania, natomiast regulator rozmyty Takagi--Sugeno wykazał dobrą adaptacyjność przy zmiennych warunkach pracy. Opracowane środowisko może stanowić podstawę do dalszych badań nad sterowaniem nieliniowym, w tym nad integracją metod rozmytych, optymalnych i predykcyjnych.
-Celem pracy było opracowanie zestawu skryptów symulacyjnych oraz przeprowadzenie 
-wielokryterialnej analizy porównawczej algorytmów sterowania dla nieliniowego układu odwróconego
-wahadła na wózku. W ramach badań zaimplementowano i przetestowano sześć strategii sterowania: 
-klasyczny regulator równoległy PID, układ hybrydowy PID-LQR, sterowanie predykcyjne 
-(Liniowe MPC, Nieliniowe MPC oraz MPC-J2 z~rozszerzoną funkcją kosztu) oraz sterownik rozmyty typu Takagi-Sugeno 
-wspomagany regulatorem LQR (Fuzzy-LQR). Badania przeprowadzono w środowisku języka Python, wykorzystując pełny model nieliniowy obiektu. 
-Skuteczność algorytmów zweryfikowano w dwóch scenariuszach: stabilizacji w punkcie pracy oraz pracy w warunkach 
-zakłóceń zewnętrznych. Analiza wyników wykazała, że nie istnieje jeden uniwersalny regulator
-dla wszystkich zastosowań. Sterownik Fuzzy-LQR zapewnił najwyższą precyzję stabilizacji i odporność na 
-zakłócenia. W~warunkach nominalnych wiązało się to z~podwyższonym zużyciem energii, jednak przy 
-silnych zakłóceniach regulator ten okazał się najbardziej efektywny energetycznie. Z kolei regulator 
-MPC okazał się rozwiązaniem najbardziej ekonomicznym w stanie ustalonym, zapewniając płynność ruchu
-i uwzględnienie ograniczeń fizycznych napędu. Układ PID-LQR stanowił kompromis ciekawy między
-złożonością obliczeniową a jakością regulacji, przewyższając klasyczne podejście PID.
-\slowakluczowe odwrócone wahadło,\allowbreak regulator PID,\allowbreak regulator LQR,\allowbreak regulator MPC,\allowbreak Takagi\allowbreak--\allowbreak Sugeno,\allowbreak sterowanie predykcyjne,\allowbreak sterowanie optymalne,\allowbreak zakłócenia,\allowbreak stabilizacja,\allowbreak symulacja,\allowbreak układ nieliniowy
+Praca poświęcona jest zagadnieniu sterowania nieliniowym układem odwróconego wahadła na wózku. Jej głównym celem było zaprojektowanie efektywnego układu stabilizacji oraz przeprowadzenie wielokryterialnej analizy porównawczej różnych algorytmów sterowania, w tym klasycznych (PID, PID-LQR), predykcyjnych (MPC, LMPC) oraz rozmytych (Fuzzy-LQR).
 
+Etapy pracy obejmowały wyprowadzenie modelu matematycznego dynamiki układu, implementację środowiska symulacyjnego oraz syntezę i strojenie sześciu struktur sterowania. W trakcie realizacji rozwiązano problemy związane z nieliniowością i niestabilnością obiektu, a także wyzwania dotyczące doboru nastaw dla zaawansowanych algorytmów, w szczególności regulatora rozmytego i predykcyjnego, gdzie kluczowe było znalezienie kompromisu między horyzontem predykcji a stabilnością. Przeprowadzono również testy odporności układów na losowe zakłócenia zewnętrzne oraz zmiany parametrów fizycznych modelu.
+
+Analiza wyników wykazała, że nie istnieje jeden uniwersalny regulator idealny w każdym aspekcie; metody rozmyte (Fuzzy-LQR) najlepiej tłumią zakłócenia, podczas gdy sterowanie predykcyjne (MPC) jest najbardziej ekonomiczne energetycznie w warunkach nominalnych. Hybrydowy regulator PID-LQR stanowi optymalny kompromis, oferując dobry balans między wydajnością a energochłonnością. Potwierdzono również, że kluczowym czynnikiem dla stabilności układu jest właściwy dobór funkcji kosztu i precyzyjne strojenie parametrów.
+\slowakluczowe odwrócone wahadło,\allowbreak regulator PID,\allowbreak regulator LQR,\allowbreak regulator MPC,\allowbreak Takagi\allowbreak--\allowbreak Sugeno
 %--------------------------------------
 % Streszczenie po angielsku
 %--------------------------------------
 \newpage
 \abstract
-% This thesis presents the analysis and comparison of several control methods for an inverted pendulum on a cart — a classical benchmark of nonlinear and unstable dynamics. The aim of the study was to develop a simulation framework enabling an objective evaluation of different control algorithms and their robustness to external disturbances. The implemented control strategies included a classical cascade PID--PID controller, a combined PID--LQR scheme, a full-state LQR controller, a model predictive controller without constraints (MPC\_NO) with alternative cost functions, and a fuzzy Takagi--Sugeno controller.
+The thesis focuses on the control of a nonlinear inverted pendulum system on a cart. Its main objective was to design an effective stabilization system and perform a multi-criteria comparative analysis of various control algorithms, including classical (PID, PID-LQR), predictive (MPC, LMPC), and fuzzy (Fuzzy-LQR) methods.
 
-% For each controller, numerical simulations were performed under nominal conditions and under horizontal disturbance forces acting on the cart. The responses of the pendulum angle and cart position were analyzed, and several performance indices were calculated: mean squared error (MSE), mean absolute error (MAE), settling time, overshoot, control energy, and average computation time. The results were visualized in plots and summarized in tables, allowing a comprehensive comparison of control quality and computational efficiency.
+The stages of the work involved deriving the mathematical model of the system dynamics, implementing the simulation environment, and synthesizing and tuning six control structures. During the implementation, problems related to the nonlinearity and instability of the object were solved, as well as challenges concerning the tuning of advanced algorithms, particularly the fuzzy and predictive controllers, where finding a trade-off between the prediction horizon and stability was crucial. Tests were also conducted to verify the systems' robustness against random external disturbances and changes in the physical parameters of the model.
 
-% The obtained results show that introducing optimal and predictive control significantly improves system stability and robustness compared to classical PID regulation. The MPC controller provided the fastest stabilization with a moderate control effort, while the Takagi--Sugeno fuzzy controller demonstrated good adaptability under varying operating conditions. The developed simulation environment constitutes a solid foundation for further research on nonlinear control, particularly on hybrid combinations of fuzzy, optimal, and predictive methods.
-The objective of this thesis was to develop simulation scripts and do a multi-criteria comparison of 
-control algorithms for a nonlinear inverted pendulum on a cart. The study involved implementing six control 
-strategies: a classical PID controller, a hybrid PID-LQR system, Model Predictive Control (Linear, 
-Nonlinear, and MPC-J2), and a Takagi-Sugeno fuzzy controller supported by LQR (Fuzzy-LQR). Simulations 
-were conducted in Python using a full nonlinear model. The algorithms were tested in two scenarios: 
-stabilization at the operating point and operation under external disturbances. The results show that no 
-single controller is universal. The Fuzzy-LQR controller provided the highest precision and robustness. 
-While it consumed more energy under nominal conditions, it proved to be the most energy-efficient solution 
-under strong disturbances. The MPC controller was the most economical for steady-state operation, ensuring 
-smooth motion and compliance with physical constraints. The PID-LQR system offered a valuable compromise 
-between computational complexity and control quality, outperforming the classical PID approach.
-\keywords inverted pendulum, PID controller, LQR controller, MPC controller, Takagi\allowbreak--\allowbreak Sugeno, predictive control, optimal control, disturbances, stabilization, nonlinear system, simulation
-
+The analysis of the results showed that there is no single universal controller perfect for every aspect; fuzzy methods (Fuzzy-LQR) are best at suppressing disturbances, while predictive control (MPC) is the most energy-efficient under nominal conditions. The hybrid PID-LQR controller represents an optimal compromise, offering a good balance between performance and energy consumption. It was also confirmed that the proper selection of the cost function and precise parameter tuning are key factors for system stability. 
+\keywords inverted pendulum, PID controller, LQR controller, MPC controller, Takagi\allowbreak--\allowbreak Sugeno, 
 %--------------------------------------
 % Oświadczenie o autorstwie
 %--------------------------------------
@@ -190,7 +168,7 @@ between computational complexity and control quality, outperforming the classica
 \acronym{$N_p$}{horyzont predykcji (MPC)}
 \acronym{$Q$}{macierz wag stanu}
 \acronym{$R$}{macierz wag sterowania}
-\acronym{$R_{\mathrm{abs}}$}{kara za bezwzględną wartość sterowania (MPC-J2)}
+\acronym{$R_{\mathrm{abs}}$}{kara za bezwzględną wartość sterowania}
 \acronym{$R_{\Delta}$}{kara za przyrosty sterowania}
 \acronym{$t_s$}{czas ustalania [s]}
 \acronym{$u$}{sygnał sterujący (siła działająca na wózek) [N]}
@@ -206,7 +184,6 @@ between computational complexity and control quality, outperforming the classica
 \acronym{MAE}{Mean Absolute Error -- średni błąd bezwzględny}
 \acronym{MPC}{Model Predictive Control -- sterowanie predykcyjne}
 \acronym{MSE}{Mean Squared Error -- średni błąd kwadratowy}
-\acronym{PD}{regulator proporcjonalno-różniczkujący}
 \acronym{PID}{regulator proporcjonalno-całkująco-różniczkujący}
 \acronym{LMPC}{Linear Model Predictive Control -- liniowe sterowanie predykcyjne}
 \acronym{SLSQP}{Sequential Least Squares Programming -- algorytm optymalizacji}

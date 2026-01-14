@@ -4,7 +4,7 @@ W~niniejszym rozdziale przedstawiono szczegółowy opis algorytmów sterowania
 zaimplementowanych i~przeanalizowanych w~ramach pracy. Kod regulatorów został
 zrealizowany w~języku Python w~postaci klas dziedziczących wspólną strukturę,
 co zapewnia modularność i~łatwą wymienność w~pętli symulacyjnej. Każdy
-regulator wyznacza sygnał sterujący $u(t)$ (siłę przyłożoną do wózka)
+regulator wyznacza sygnał sterujący $\mathrm{u(t)}$ (siłę przyłożoną do wózka)
 na~podstawie aktualnego wektora stanu
 $x(t) = [\theta, \dot{\theta}, x, \dot{x}]^T$ oraz wartości zadanych
 $x_{\mathrm{ref}}$.
@@ -62,12 +62,12 @@ pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}
         \draw [arrow] (sum_x) -- (pd_x);
         
         % PD do sumy sterowania (rozdzielone wejścia: góra i dół)
-        \draw [arrow] (pd_theta.east) -| node[above, font=\scriptsize] {$u_p$} (sum_u.north);
-        \draw [arrow] (pd_x.east) -| node[below, font=\scriptsize] {$u_c$} (sum_u.south);
+        \draw [arrow] (pd_theta.east) -| node[above, font=\scriptsize] {$\mathrm{u_p}$} (sum_u.north);
+        \draw [arrow] (pd_x.east) -| node[below, font=\scriptsize] {$\mathrm{u_c}$} (sum_u.south);
         
         % Suma -> sat -> plant -> wyjście
-        \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$u$} (plant);
-        \draw [arrow] (plant) -- node[above, font=\scriptsize] {$\theta,x$} (out);
+        \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$\mathrm{u}$} (plant);
+        \draw [arrow] (plant) -- node[above, font=\scriptsize] {$\mathrm{\theta,x}$} (out);
         
         % Sprzężenie zwrotne (na dole) - ciągła linia
         \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,+1.8) -| (sum_theta.north);
@@ -80,13 +80,11 @@ pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}
     \caption{Schemat blokowy regulatora PID o~strukturze równoległej.}
     \label{fig:diagram_pdpd}
 \end{figure}
-
 Prawo sterowania wyraża się wzorem:
 \begin{equation}
-    u(t) = \mathrm{sat}_{u_{\mathrm{max}}} \left( u_{\theta}(t) + u_{x}(t) \right),
+    \mathrm{u(t)} = u_{\theta}(t) + u_{x}(t),
 \end{equation}
-gdzie funkcja nasycenia $\mathrm{sat}(\cdot)$ wynika z~ograniczeń fizycznych
-siłownika. Definiując uchyby regulacji jako $e_{\theta}(t) = \theta_{\mathrm{ref}} - \theta(t)$ 
+Definiując uchyby regulacji jako $e_{\theta}(t) = \theta_{\mathrm{ref}} - \theta(t)$ 
 oraz $e_x(t) = x_{\mathrm{ref}} - x(t)$, prawo sterowania dla poszczególnych pętli 
 można zapisać w~ogólnej postaci regulatora PID:
 \begin{align}
@@ -95,14 +93,6 @@ można zapisać w~ogólnej postaci regulatora PID:
 \end{align}
 W~powyższych równaniach przyjęto upraszczające założenie, że docelowe
 prędkości ($\dot{\theta}_{\mathrm{ref}}, \dot{x}_{\mathrm{ref}}$) wynoszą zero.
-
-W~implementacji programowej przyjęto następujące
-nastawy dobrane eksperymentalnie:
-\begin{itemize}
-    \item Tor stabilizacji kąta: $K_{p,\theta} = -40,0$, $K_{i,\theta} = -1,0$, $K_{d,\theta} = -8,0$.
-    Ujemne znaki wynikają z~przyjętej konwencji układu współrzędnych i~zwrotu siły.
-    \item Tor pozycji: $K_{p,x} = -1,0$, $K_{i,x} = -0,1$, $K_{d,x} = -3,0$.
-\end{itemize}
 
 \subsubsection{Proces doboru nastaw oraz analiza PID}
 Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo, przechodząc
@@ -164,6 +154,13 @@ ale nie powoduje nasycenia siłownika ani niebezpiecznych oscylacji. Czas regula
 zostały zminimalizowane, co czyni ten regulator solidnym punktem odniesienia dla bardziej 
 zaawansowanych strategii sterowania. 
 
+W~implementacji programowej przyjęto następujące
+nastawy:
+\begin{itemize}
+    \item Tor stabilizacji kąta: $K_{p,\theta} = -40,0$, $K_{i,\theta} = -1,0$, $K_{d,\theta} = -8,0$.
+    Ujemne znaki wynikają z~przyjętej konwencji układu współrzędnych i~zwrotu siły.
+    \item Tor pozycji: $K_{p,x} = -1,0$, $K_{i,x} = -0,1$, $K_{d,x} = -3,0$.
+\end{itemize}
 \subsection{Układ hybrydowy PID-LQR}
 
 Regulator liniowo-kwadratowy (LQR) stanowi fundamentalną metodę sterowania optymalnego
@@ -172,7 +169,6 @@ W~odróżnieniu od~regulatorów PID, które wymagają empirycznego doboru wzmocn
 dla każdej zmiennej stanu, LQR wyznacza optymalne wzmocnienia automatycznie 
 na~podstawie modelu liniowego obiektu oraz macierzy wag $Q$ i~$R$ definiujących 
 kompromis między jakością regulacji a~zużyciem energii.
-
 Problem LQR polega na~znalezieniu prawa sterowania $u(t) = -K x(t)$, które 
 minimalizuje wskaźnik jakości:
 \begin{equation}
@@ -186,41 +182,6 @@ równania Riccatiego:
 \end{equation}
 skąd $K = R^{-1} B^T P$. Macierze $A$ i~$B$ pochodzą z~linearyzacji modelu wahadła 
 wokół górnego punktu równowagi ($\theta = 0$).
-
-% \subsubsection{Ograniczenia czystego regulatora LQR}
-
-% Przed przystąpieniem do~analizy struktury hybrydowej, zbadano działanie czystego 
-% regulatora LQR.
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=1.0\textwidth]{images/tuning/lqr_1_baseline.png}
-%     \caption{Czysty regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$).}
-%     \label{fig:lqr_baseline}
-% \end{figure}
-
-% Na~Rysunku~\ref{fig:lqr_baseline} przedstawiono odpowiedź układu z~czystym regulatorem 
-% LQR przy zastosowaniu jednostkowych macierzy wag ($Q=I$, $R=1$). Mimo poprawnej 
-% stabilizacji wahadła (mały błąd kątowy), widoczne są istotne ograniczenia tej 
-% konfiguracji. Jednostkowe wagi traktują 1~rad błędu kąta tak samo jak 1~m błędu 
-% pozycji, co jest fizycznie nieuzasadnione i~prowadzi do~powolnego osiągania zadanej 
-% pozycji wózka.
-
-% \begin{figure}[H]
-%     \centering
-%     \includegraphics[width=1.0\textwidth]{images/tuning/lqr_2_opt.png}
-%     \caption{Czysty regulator LQR z~wagami zoptymalizowanymi ($Q=\mathrm{diag}([1, 1, 500, 250])$, $R=1$).}
-%     \label{fig:lqr_opt_2}
-% \end{figure}
-
-% Zwiększenie wag dla pozycji i~prędkości wózka ($Q_x=500$, $Q_{\dot{x}}=250$) prowadzi 
-% do~znaczącej poprawy jakości śledzenia wartości zadanej (Rys.~\ref{fig:lqr_opt_2}). 
-% Wyższe kary za~błąd pozycji wymuszają na~regulatorze intensywniejszą reakcję, 
-% co skutkuje szybszym osiągnięciem zadanego punktu. Jednak sygnał sterujący dla 
-% tak skonfigurowanego regulatora LQR jest bardzo słabej jakości. Widoczny są gwałtowne, 
-% nieciągłe zmiany sygnału sterującego, które są kosztowne energetycznie i mogą być niebezpieczne dla układu.
-% Motywuje to rozszerzenie struktury o~dodatkową pętlę PID z~możliwością włączenia członu całkującego.
-
 Klasa \texttt{PIDLQRController} implementuje sterowanie
 oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PID dla uchybu
 pozycji, co tworzy strukturę hybrydową opisaną m.in. w~\cite{Prasad2014} oraz
@@ -237,7 +198,7 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
         \node [sum, right=0.8cm of in] (sum_lqr) {\tiny $+$};
         
         % Blok LQR
-        \node [block, right=0.8cm of sum_lqr] (lqr) {LQR $(-K)$};
+        \node [block, right=0.8cm of sum_lqr] (lqr) {LQR};
         
         % Suma sterowania
         \node [sum, right=1.2cm of lqr] (sum_u) {\tiny $+$};
@@ -313,12 +274,8 @@ Składnik LQR realizuje stabilizację wokół punktu pracy:
 \begin{equation}
     u_{\mathrm{LQR}}(t) = -K \cdot (x(t) - x_{\mathrm{ref}}).
 \end{equation}
-Zastosowane wagi optymalne to:
-\begin{equation}
-    Q = \text{diag}([200,\; 3,\; 35,\; 40]), \quad R = 1.
-\end{equation}
-Dodatkowy człon PID na~pętli pozycji (zrealizowany analogicznie do wzoru
-\ref{eq:pd_x}) ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
+Dodatkowy człon PID na~pętli pozycji (zrealizowany analogicznie do Rów~\ref{eq:pd_x}) 
+ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
 $x_{\mathrm{ref}}$, co jest częstą praktyką w~aplikacjach praktycznych, gdzie LQR
 zapewnia stabilność, a~regulator zewnętrzny dba o~uchyb w~stanie ustalonym
 \cite{Varghese2017}.
@@ -381,7 +338,10 @@ intensywnie koryguje wychylenia wahadła, co wymusza stabilne utrzymanie kąta w
 Należy zauważyć, że optymalizator wyznaczył strategię dość intuicyjną: 
 kara głównie kąt ($Q_{\theta}$), zamiast kłaść nacisk na~pozycję ($Q_x$), 
 co zmusza obiekt do~szybkich korekt stabilizujących wahadło.
-
+Zastosowane wagi optymalne to:
+\begin{equation}
+    Q = \text{diag}([200,\; 3,\; 35,\; 40]), \quad R = 1.
+\end{equation}
 \subsection{Nieliniowe sterowanie predykcyjne (MPC)}
 
 Algorytm MPC (Model Predictive Control) stanowi zaawansowaną metodę sterowania,
@@ -441,39 +401,45 @@ nieliniowej (NMPC). Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:di
     \caption{Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym.}
     \label{fig:diagram_mpc}
 \end{figure}
-
-Zadanie optymalizacji rozwiązywane jest numerycznie metodą SQP (Sequential
-Quadratic Programming) przy użyciu solwera \texttt{SLSQP} z~biblioteki 
-\texttt{scipy.optimize}. Wybór tego solwera podyktowany był jego dostępnością 
-w~popularnych dystrybucjach środowisk naukowych (Anaconda, pip) oraz zdolnością 
-do~obsługi ograniczeń nierównościowych (wymaganych dla saturacji sterowania). Zadanie zdefiniowane jest
-następująco:
+W każdym kroku algorytmu regulacji predykcyjnej zostaje wyznaczona przyszła sekwencja sygnału sterującego, przedstawiona jako wektor przyrostów sygnału sterującego:
 \begin{equation}
-    \min_{\Delta U} J = \sum_{k=1}^{N} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) + R \sum_{k=1}^{N_u} (\Delta u_k)^2,
+\Delta u(k) = \left[ \Delta u(k|k) \quad \Delta u(k+1|k) \quad \dots \quad \Delta u(k+N_{u}-1|k) \right]^{T}
+\end{equation}
+\begin{equation} \tag{15}
+\Delta u_{p}(k)=\Delta u(k+p|k)
+\end{equation}
+klasyczna funkcja kosztu dla MPC prezentuje się w następujący sposób:
+\begin{equation}
+e_{p}(k)={x}_{\mathrm{ref}}(k+p|k) - \hat{x}(k+p|k)
+\end{equation}
+\begin{equation} 
+J(k)=\sum_{p=1}^{N}e_{p}(k)^{T}Q~e_{p}(k)+\sum_{p=0}^{N_{u}-1}\Delta u_{p}(k)^{T}R\Delta u_{p}(k)
 \end{equation}
 przy ograniczeniach:
 \begin{align}
     \hat{x}_{k+1} &= f(\hat{x}_k, u_k), \quad k=0,\dots,N-1 \\
     u_{\mathrm{min}} &\le u_k \le u_{\mathrm{max}}, \\
-    u_k &= u_{k-1} + \Delta u_k.
 \end{align}
-Gdzie:
+gdzie:
 \begin{itemize}
-    \item $N = 12$ -- horyzont predykcji,
-    \item $N_u = 4$ -- horyzont sterowania. Dla kroków $k \ge N_u$ 
-    stosowane jest tzw.~\textit{blokowanie sterowania}, co oznacza, że przyrosty 
-    sterowania $\Delta u_k = 0$ i~sygnał sterujący pozostaje stały: $u_k = u_{N_u-1}$. 
-    Technika ta redukuje liczbę zmiennych decyzyjnych z~$N$ do~$N_u$, 
-    przyspieszając obliczenia przy zachowaniu długiego horyzontu predykcji,
+    \item $N $ -- horyzont predykcji,
+    \item $N_u$ -- horyzont sterowania. 
     \item $f(\cdot)$ -- nieliniowy model dyskretny obiektu (całkowanie metodą
     Rungego-Kutty 4. rzędu),
-    \item $Q = \text{diag}([158,\; 41,\; 43,\; 20])$ -- macierz kar stanu,
-    \item $R = 0,086$ -- współczynnik kary za~zmianę sterowania ($\Delta u$).
+    \item $Q $ -- macierz kar stanu,
+    \item $R$-- współczynnik kary za~zmianę sterowania ($\Delta u$).
 \end{itemize}
 Kluczową zaletę MPC, podkreślaną w~pracach \cite{Mills2009} oraz
 \cite{Jezierski2017}, jest możliwość bezpośredniego uwzględnienia ograniczeń
 (saturacji) już na~etapie wyliczania sterowania, co zapobiega zjawisku
 nasycenia elementu wykonawczego, które mogłoby mieć miejsce w~przypadku LQR.
+
+Zadanie optymalizacji rozwiązywane jest numerycznie metodą SQP (Sequential
+Quadratic Programming) przy użyciu solwera \texttt{SLSQP} z~biblioteki 
+\texttt{scipy.optimize}. Wybór tego solwera podyktowany był jego dostępnością 
+w~popularnych dystrybucjach środowisk naukowych (Anaconda, pip) oraz zdolnością 
+do~obsługi ograniczeń nierównościowych.
+
 
 \subsubsection{Dobór horyzontu i wag funkcji celu}
 Dla regulatora MPC kluczowym zagadnieniem był dobór horyzontu predykcji oraz
@@ -490,8 +456,8 @@ macierzy wag, determinujących zachowanie układu w~stanie nieustalonym.
 Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N = 5$,
 Rys.~\ref{fig:mpc_bad}) prowadziło do~niestabilności układu zamkniętego. Horyzont 
 predykcji był zbyt krótki, aby regulator mógł uwzględnić, że rozpędzając wózek 
-w~celu korekcji kąta, nie zdąży wyhamować przed upadkiem wahadła lub osiągnięciem końca toru. Horyzont pięciu kroków (przy
-$\Delta t=0{,}1$~s daje zaledwie $0{,}5$~s predykcji) jest niewystarczający, aby uchwycić pełną
+w~celu korekcji kąta, nie zdąży wyhamować przed upadkiem wahadła lub osiągnięciem końca toru. Horyzont pięciu 
+kroków jest niewystarczający, aby uchwycić pełną
 dynamikę wahadła i~zaplanować odpowiedni manewr powrotny.
 
 \begin{figure}[H]
@@ -520,23 +486,25 @@ przeregulowania.
 Automatyzacja procesu strojenia przy użyciu skryptu \texttt{tune\_mpc.py} pozwoliła
 na~znalezienie kompromisu między długością horyzontu a~wagami (Rys.~\ref{fig:mpc_opt}).
 Algorytm optymalizacyjny wskazał $N=12$ (co odpowiada $1{,}2$~s predykcji) 
-jako optimum dla tego modelu dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń. Zoptymalizowane
-wagi $Q$ znacząco różnią się od~intuicyjnych proporcji -- wysoka kara za~kąt 
-($Q_{\theta}=158$) w~połączeniu z~niską karą za~zmianę sterowania ($R=0,086$)
-zapewnia szybką, ale gładką stabilizację.
-\newpage
+jako optimum dla tego modelu dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń. 
+
+Ostateczne nastawy regulatora MPC to:
+$Q=\mathrm{diag}([158, 41, 43, 20])$, $R=0,086$.
+
 \subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-J2)}
 
-Zaimplementowano sterownik \texttt{MPCControllerJ2} jako wariant badawczy algorytmu predykcyjnego. 
-Jego struktura jest
-zbliżona do~podstawowego MPC, jednak funkcja kosztu została rozbudowana
-o~dodatkowy składnik karzący bezwzględną wartość sygnału sterującego
-(energię), a~nie tylko jego przyrosty.
+Dodatkowo zaimplementowano regulator MPC z alternatywną funkcją kosztu. 
+Jego struktura jest zbliżona do~podstawowego MPC, jednak funkcja kosztu została rozbudowana
+o~dodatkowy składnik karzący bezwzględną wartość sygnału sterującego (energię).
 
-Zmodyfikowana funkcja celu przyjmuje postać:
+Zmodyfikowana funkcja celu:
 \begin{equation}
-    J = \sum_{k=1}^{N} (x_k - x_{\mathrm{ref}})^T Q (x_k - x_{\mathrm{ref}}) \;+\; R_{\Delta} \sum_{k=1}^{N_u} (\Delta u_k)^2 \;+\; R_{\mathrm{abs}} \sum_{k=1}^{N_u} (u_k)^2.
+e_{p}(k)={x}_{\mathrm{ref}}(k+p|k) - \hat{x}(k+p|k)
 \end{equation}
+\begin{equation} 
+J(k)=\sum_{p=1}^{N}e_{p}(k)^{T}Q~e_{p}(k)+\sum_{p=0}^{N_{u}-1}\Delta u_{p}(k)^{T}R\Delta u_{p}(k) + \sum_{p=0}^{N_{u}-1} u_{p}(k)^{T}R_{abs} u_{p}(k)
+\end{equation}
+
 Wprowadzenie parametru $R_{\mathrm{abs}}$ pozwala na~bezpośrednie minimalizowanie
 zużycia energii sterowania, co jest podejściem powszechnie stosowanym
 w~praktycznych implementacjach algorytmów predykcyjnych \cite{Camacho2007}.
@@ -544,31 +512,21 @@ Ograniczenie amplitudy sygnału sterującego nie tylko redukuje wydatek energety
 (istotny w~aplikacjach mobilnych), ale także zmniejsza obciążenie mechaniczne
 elementów wykonawczych, co wpływa na~żywotność napędu.
 
-W~badaniach przyjęto zoptymalizowane wagi: $Q = \text{diag}([158 , 41 , 43 , 20])$,
-przy czym $R_{\Delta}=0{,}01$ i~$R_{\mathrm{abs}}=1$ dla wariantu priorytetyzującego 
-jakość regulacji.
-
 \subsubsection{Dobór parametrów i analiza wpływu kary za energię}
 W~przypadku wariantu MPC-J2 analizowano nieliniowy wpływ parametru $R_{\mathrm{abs}}$
-na~zachowanie układu. Eksperymenty przeprowadzono przy stałych wagach stanu
- oraz przy bardzo niskiej karze za~przyrosty
+na~zachowanie układu. Eksperymenty przeprowadzono przy stałych wagach stanu takich samych jak dla MPC:
+\begin{equation} 
+Q=\mathrm{diag}([158, 41, 43, 20])
+\end{equation}
+oraz przy bardzo niskiej karze za~przyrosty
 sterowania $R_{\Delta} = 0{,}001$, zmieniając jedynie wartość kary za~bezwzględną 
 wartość sterowania.
 
-Wprowadzenie członu $R_{\mathrm{abs}} \sum_{k=1}^{N_u} u_k^2$ do~funkcji celu ma 
+Wprowadzenie członu $\sum_{p=0}^{N_{u}-1} u_{p}(k)^{T}R_{abs} u_{p}(k)$ do~funkcji celu ma 
 fundamentalnie inny charakter niż kara za~przyrosty sterowania $R_{\Delta}$. 
 Podczas gdy $R_{\Delta}$ promuje gładkość sygnału sterującego (ogranicza szybkie
-zmiany), parametr $R_{\mathrm{abs}}$ bezpośrednio penalizuje amplitudę siły, 
-co przekłada się na~redukcję zużycia energii. Z~punktu widzenia optymalizatora,
-przy wysokich wartościach $R_{\mathrm{abs}}$, każdy niuton siły generuje istotny
-koszt, co może prowadzić do~nadmiernie zachowawczego działania regulatora.
-
-Zależność między wartością $R_{\mathrm{abs}}$ a~jakością regulacji ma charakter 
-silnie nieliniowy. Dla~zbyt dużych wartości ($R_{\mathrm{abs}} > 5$) optymalizator
-preferuje minimalizację energii kosztem jakości regulacji, co w~skrajnych przypadkach
-prowadzi do~utraty stabilności. Dla~zbyt małych wartości ($R_{\mathrm{abs}} \approx 0$)
-układ zachowuje się identycznie jak podstawowy MPC, tracąc potencjalne korzyści
-z~oszczędności energetycznej.
+zmiany), parametr $R_{\mathrm{abs}}$ bezpośrednio kara za amplitudę siły, 
+co przekłada się na~redukcję zużycia energii.
 
 \begin{figure}[H]
     \centering
@@ -612,8 +570,7 @@ Rys.~\ref{fig:mpcj2_opt}). Tak dobrana waga pozwala uniknąć bierności regulat
 jednocześnie ograniczając nadmierne zużycie energii. W~połączeniu z~karą za~przyrosty sterowania 
 $R_{\Delta}=0.001$, zapewniono gładkość sygnału sterującego bez ograniczania
 zdolności regulatora do~szybkiej reakcji. Uzyskano optymalny kompromis, w~którym układ
-stabilizuje się szybko, a~sterowanie pozbawione jest zbędnych oscylacji
-wysokoczęstotliwościowych.
+stabilizuje się szybko, a~sterowanie pozbawione jest zbędnych oscylacji.
 
 \subsection{Liniowy regulator MPC (LMPC)}
 
@@ -648,13 +605,13 @@ sekwencji sterowania $\{u_0, u_1, \ldots, u_{N-1}\}$ predykcja ma postać:
     \hat{x}_{k+1} = A_d \hat{x}_k + B_d u_k, \quad k = 0, \ldots, N-1.
 \end{equation}
 
-Funkcja kosztu przyjmuje postać analogiczną do~NMPC:
+funkcja kosztu przyjmuje postać analogiczną do nieliniowego MPC:
 \begin{equation}
-    J = \sum_{k=1}^{N} (\hat{x}_k - x_{\mathrm{ref}})^T Q (\hat{x}_k - x_{\mathrm{ref}}) 
-    + R \sum_{k=0}^{N_u-1} (\Delta u_k)^2,
+e_{p}(k)={x}_{\mathrm{ref}}(k+p|k) - \hat{x}(k+p|k)
 \end{equation}
-gdzie $\Delta u_k = u_k - u_{k-1}$ oznacza przyrost sterowania, a~dla $k \geq N_u$ 
-stosuje się blokowanie sterowania ($\Delta u_k = 0$).
+\begin{equation} 
+J(k)=\sum_{p=1}^{N}e_{p}(k)^{T}Q~e_{p}(k)+\sum_{p=0}^{N_{u}-1}\Delta u_{p}(k)^{T}R\Delta u_{p}(k)
+\end{equation}
 
 Do rozwiązania problemu sterowania użyto solvera \texttt{SLSQP} z~biblioteki 
 \texttt{scipy.optimize}, identycznego jak w~przypadku nieliniowego MPC. 
@@ -664,17 +621,17 @@ eliminując różnice wynikające z~wyboru algorytmu optymalizacji.
 
 \subsubsection{Dobór parametrów i~analiza działania}
 
-Proces strojenia regulatora LMPC przebiegł sprawnie, wykorzystując doświadczenia
-z~uruchomienia regulatorów LQR oraz NMPC. Przyjęcie wag zbliżonych do~tych
-stosowanych w~LQR pozwoliło na~uzyskanie poprawnych wyników już w~pierwszych próbach.
-Ostatecznie zdecydowano się na~następującą konfigurację:
-\begin{itemize}
-    \item Horyzont predykcji: $N=12$ (identyczny jak w~NMPC),
-    \item Horyzont sterowania: $N_u=4$,
-    \item Macierz wag stanu: $Q = \text{diag}([15,0,\; 1,0,\; 15,0,\; 1,0])$,
-    \item Waga sterowania: $R = 0,1$.
-\end{itemize}
-
+Regulator LMPC dostrojono ręcznie metodą prób i błędów.
+Najpierw przetestowano zestaw wag $Q=\text{diag}([1, 1, 1, 1])$, $R=0,1$.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/lmpc_bad.png}
+    \caption{Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, 
+    $Q=\text{diag}([1, 1, 1, 1])$, $R=0,1$).}
+    \label{fig:lmpc_bad}
+\end{figure}
+Na~Rys.~\ref{fig:lmpc_opt} widać, że pozycja wózka nie stabilizuje się wystarczająco szybko.
+Zdecydowano się w kolejnym kroku zwiększyć wagi w macierzy $Q$.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/lmpc_opt.png}
@@ -683,12 +640,18 @@ Ostatecznie zdecydowano się na~następującą konfigurację:
     \label{fig:lmpc_opt}
 \end{figure}
 
-Na~Rys.~\ref{fig:lmpc_opt} przedstawiono odpowiedź układu na~skokową zmianę pozycji
-zadanej wózka. Układ zachowuje się stabilnie, płynnie dochodząc do~wartości
-zadanej. Widoczne jest działanie ograniczeń sygnału sterującego (nasycenie)
-w~początkowej fazie ruchu, co jest kluczową przewagą nad klasycznym LQR.
+Na~Rys.~\ref{fig:lmpc_opt} przedstawiono proces stabilizacji wahadła. 
+Układ zachowuje się stabilnie, płynnie dochodząc do~wartości
+zadanej.
 Mimo zastosowania uproszczonego modelu liniowego, regulator poprawnie radzi sobie
 ze~stabilizacją w~otoczeniu punktu równowagi.
+Wybrane parametry regulatora LMPC:
+\begin{itemize}
+    \item Horyzont predykcji: $N=12$ (identyczny jak w~NMPC),
+    \item Horyzont sterowania: $N_u=4$,
+    \item Macierz wag stanu: $Q = \text{diag}([15,0,\; 1,0,\; 15,0,\; 1,0])$,
+    \item Waga sterowania: $R = 0,1$.
+\end{itemize}
 
 \subsection{Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}
 
@@ -710,7 +673,7 @@ generuje dodatkowy sygnał korekcyjny, aktywujący się silniej przy większych 
         \node [sum, right=0.8cm of in] (sum_e) {\tiny $+$};
         
         % Blok LQR (góra)
-        \node [block, right=1.8cm of sum_e, yshift=0.7cm] (lqr) {LQR $(-K)$};
+        \node [block, right=1.8cm of sum_e, yshift=0.7cm] (lqr) {LQR};
         
         % Blok Fuzzy (dół)
         \node [draw, fill=purple!15, rectangle, minimum height=2.2em, minimum width=4em,
@@ -720,8 +683,7 @@ generuje dodatkowy sygnał korekcyjny, aktywujący się silniej przy większych 
         \node [sum, right=1.5cm of lqr, yshift=-0.7cm] (sum_u) {\tiny $+$};
         
         % Saturacja i obiekt
-        \node [block, right=0.7cm of sum_u, minimum width=2.5em] (sat) {sat};
-        \node [bigblock, right=0.8cm of sat] (plant) {Wahadło};
+        \node [bigblock, right=1.8cm of sum_u] (plant) {Wahadło};
         
         % Wyjście
         \node [output, right=1.2cm of plant] (out) {};
@@ -740,8 +702,7 @@ generuje dodatkowy sygnał korekcyjny, aktywujący się silniej przy większych 
         \draw [arrow] (fuzzy.east) -| (sum_u.south);
         
         % Reszta toru
-        \draw [arrow] (sum_u) -- (sat);
-        \draw [arrow] (sat) -- node[above, font=\scriptsize] {$u$} (plant);
+        \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$u$} (plant);
         \draw [arrow] (plant) -- node[above, font=\scriptsize] {$x$} (out);
         
         % Sprzężenie zwrotne - ciągła strzałka
