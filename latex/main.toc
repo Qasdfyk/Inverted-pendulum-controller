@@ -1,7 +1,5 @@
 \babel@toc {polish}{}\relax 
 \contentsline {section}{\numberline {1\relax .\enspace }Wstęp}{7}{section.1}%
-\contentsline {subsection}{\numberline {1.1\relax .\enspace }Cel i zakres pracy}{8}{subsection.1.1}%
-\contentsline {subsection}{\numberline {1.2\relax .\enspace }Układ pracy}{8}{subsection.1.2}%
 \contentsline {section}{\numberline {2\relax .\enspace }Model matematyczny układu}{10}{section.2}%
 \contentsline {subsection}{\numberline {2.1\relax .\enspace }Opis fizyczny i~założenia upraszczające}{10}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2\relax .\enspace }Analiza kinematyczna}{11}{subsection.2.2}%
