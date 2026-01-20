@@ -81,7 +81,7 @@ Definiując uchyby regulacji w $k$-tej chwili próbkowania jako $e_{\theta}(k) =
 oraz $e_x(k) = x_{\mathrm{ref}} - x(k)$, prawo sterowania w implementacji cyfrowej
 przyjmuje postać dyskretną.
 \begin{align}
-    u_{\theta}(k) = K_{p,\theta} e_{\theta}(k) + K_{i,\theta} \sum_{j=0}^{k} e_{\theta}(j) T - K_{d,\theta} \frac{\theta(k) - \theta(k-1)}{\Delta t}, \label{eq:pd_theta} \\
+    u_{\theta}(k) = K_{p,\theta} e_{\theta}(k) + K_{i,\theta} \sum_{j=0}^{k} e_{\theta}(j) T - K_{d,\theta} \frac{\theta(k) - \theta(k-1)}{T}, \label{eq:pd_theta} \\
     u_{x}(k) = K_{p,x} e_x(k) + K_{i,x} \sum_{j=0}^{k} e_x(j) T - K_{d,x} \frac{x(k) - x(k-1)}{T}. \label{eq:pd_x}
 \end{align}
 gdzie $T$ oznacza okres próbkowania.
@@ -281,6 +281,10 @@ co zmusza obiekt do~szybkich korekt stabilizujących wahadło.
         Optymalne & $\mathrm{diag}([200, 3, 35, 40])$ & $1{,}0$ & $-7{,}0, 0{,}1, -3$ \\ \hline
     \end{tabular}
 \end{table}
+Ostatecznie zastosowane wagi to:
+\begin{equation}
+    Q = \text{diag}([200,\; 3,\; 35,\; 40]), \quad R = 1,  K_p=-7{,}0, K_i=0{,}1, K_d=-3{,}0.
+\end{equation}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_pdlqr.png}
@@ -288,10 +292,7 @@ co zmusza obiekt do~szybkich korekt stabilizujących wahadło.
     \label{fig:combined_pdlqr}
 \end{figure}
 
-Ostatecznie zastosowane wagi to:
-\begin{equation}
-    Q = \text{diag}([200,\; 3,\; 35,\; 40]), \quad R = 1.
-\end{equation}
+
 
 
 \subsection{Nieliniowe sterowanie predykcyjne (MPC)}
@@ -425,17 +426,14 @@ Algorytm wyznaczył jeszcze lepsze nastawy regulatora MPC $N=12$ przy $N_u=4$ or
         Optymalne & 12 & 4 & $\mathrm{diag}([158, 41, 43, 20])$ & $0{,}086$ \\ \hline
     \end{tabular}
 \end{table}
-
+Ostateczne nastawy regulatora MPC to:
+$Q=\mathrm{diag}([158, 41, 43, 20])$, $R=0,086$.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_mpc.png}
     \caption{Porównanie nastaw regulatora MPC.}
     \label{fig:combined_mpc}
 \end{figure}
-
-
-Ostateczne nastawy regulatora MPC to:
-$Q=\mathrm{diag}([158, 41, 43, 20])$, $R=0,086$.
 
 \subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-alt)}
 
@@ -498,18 +496,16 @@ Tak dobrana waga pozwala uniknąć bierności regulatora, jednocześnie ogranicz
         Optymalna & $1{,}0$ & Najlepsza dynamika \\ \hline
     \end{tabular}
 \end{table}
-
+Ostateczne nastawy regulatora MPC-alt to:
+\begin{equation}
+    Q=\mathrm{diag}([158, 41, 43, 20]), R=0,001, R_{abs}=1.
+\end{equation}
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_mpcj2.png}
     \caption{Analiza wpływu kary za energię $R_{abs}$ w sterowaniu MPC-alt.}
     \label{fig:combined_mpcj2}
 \end{figure}
-
-Ostateczne nastawy regulatora MPC-alt to:
-\begin{equation}
-    Q=\mathrm{diag}([158, 41, 43, 20]), R=0,001, R_{abs}=1.
-\end{equation}
 
 \subsection{Liniowy regulator MPC (LMPC)}
 
@@ -584,9 +580,7 @@ zadanej.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_lmpc.png}
-    \caption{Strojenie liniowego regulatora MPC.
-    1. Słabe wagi (czerwony): $Q=I$.
-    2. Optymalne (zielony): $Q_{theta}=15$.}
+    \caption{Strojenie liniowego regulatora MPC.}
     \label{fig:combined_lmpc}
 \end{figure}
 

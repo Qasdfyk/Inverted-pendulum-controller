@@ -13,7 +13,7 @@
 \contentsline {figure}{\numberline {4.5}{\ignorespaces Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym.}}{27}{figure.caption.15}%
 \contentsline {figure}{\numberline {4.6}{\ignorespaces Porównanie nastaw regulatora MPC.}}{29}{figure.caption.18}%
 \contentsline {figure}{\numberline {4.7}{\ignorespaces Analiza wpływu kary za energię $R_{abs}$ w sterowaniu MPC-alt.}}{31}{figure.caption.20}%
-\contentsline {figure}{\numberline {4.8}{\ignorespaces Strojenie liniowego regulatora MPC. 1. Słabe wagi (czerwony): $Q=I$. 2. Optymalne (zielony): $Q_{theta}=15$.}}{33}{figure.caption.22}%
+\contentsline {figure}{\numberline {4.8}{\ignorespaces Strojenie liniowego regulatora MPC.}}{33}{figure.caption.22}%
 \contentsline {figure}{\numberline {4.9}{\ignorespaces Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową.}}{34}{figure.caption.23}%
 \contentsline {figure}{\numberline {4.10}{\ignorespaces Trójkątne funkcje przynależności dla czterech zmiennych stanu regulatora Fuzzy-LQR. Każda zmienna posiada dwa zbiory rozmyte: ,,Mały błąd'' (aktywny w~pobliżu zera) oraz ,,Duży błąd'' (aktywny przy większych odchyleniach od~punktu równowagi).}}{35}{figure.caption.24}%
 \contentsline {figure}{\numberline {4.11}{\ignorespaces Strojenie regulatora Fuzzy-LQR.}}{37}{figure.caption.26}%
