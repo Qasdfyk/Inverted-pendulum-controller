@@ -20,9 +20,6 @@ Pierwszym zaimplementowanym układem jest regulator o~strukturze równoległej,
 wykorzystujący klasyczne sprzężenie zwrotne typu PID~\cite{Prasad2014}. 
 Zastosowano strukturę równoległą, w~której
 całkowity sygnał sterujący jest sumą reakcji na~błąd kąta oraz błąd pozycji.
-Jest to podejście dekomponujące problem na~dwa podzadania:
-stabilizację wahadła w~pozycji pionowej oraz doprowadzenie wózka do~zadanej
-pozycji.
 
 \begin{figure}[H]
     \centering
@@ -84,10 +81,10 @@ Definiując uchyby regulacji w $k$-tej chwili próbkowania jako $e_{\theta}(k) =
 oraz $e_x(k) = x_{\mathrm{ref}} - x(k)$, prawo sterowania w implementacji cyfrowej
 przyjmuje postać dyskretną.
 \begin{align}
-    u_{\theta}(k) = K_{p,\theta} e_{\theta}(k) + K_{i,\theta} \sum_{j=0}^{k} e_{\theta}(j) \Delta t - K_{d,\theta} \frac{\theta(k) - \theta(k-1)}{\Delta t}, \label{eq:pd_theta} \\
-    u_{x}(k) = K_{p,x} e_x(k) + K_{i,x} \sum_{j=0}^{k} e_x(j) \Delta t - K_{d,x} \frac{x(k) - x(k-1)}{\Delta t}. \label{eq:pd_x}
+    u_{\theta}(k) = K_{p,\theta} e_{\theta}(k) + K_{i,\theta} \sum_{j=0}^{k} e_{\theta}(j) T - K_{d,\theta} \frac{\theta(k) - \theta(k-1)}{\Delta t}, \label{eq:pd_theta} \\
+    u_{x}(k) = K_{p,x} e_x(k) + K_{i,x} \sum_{j=0}^{k} e_x(j) T - K_{d,x} \frac{x(k) - x(k-1)}{T}. \label{eq:pd_x}
 \end{align}
-gdzie $\Delta t$ oznacza okres próbkowania.
+gdzie $T$ oznacza okres próbkowania.
 \subsubsection{Proces doboru nastaw oraz analiza PID}
 Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo, przechodząc
 od metod heurystycznych do pełnej optymalizacji numerycznej.

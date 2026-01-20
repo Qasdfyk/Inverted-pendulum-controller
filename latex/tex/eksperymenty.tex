@@ -66,32 +66,32 @@ błędów, obliczane dla zdyskretyzowanych przebiegów kąta $\theta(k)$
 \begin{itemize}
     \item \textbf{MSE (Mean Squared Error)} -- Średni błąd kwadratowy, karający silniej duże odchyłki.
     \begin{equation}
-        \mathrm{MSE} = \frac{1}{N}\sum_{k=1}^{N} (y[k] - y_{\mathrm{ref}}[k])^2
+        \mathrm{MSE} = \frac{1}{N}\sum_{k=1}^{N} (y(k) - y_{\mathrm{ref}}(k))^2
     \end{equation}
 
     \item \textbf{MAE (Mean Absolute Error)} -- Średni błąd bezwzględny, informujący o przeciętnym uchybie.
     \begin{equation}
-        \mathrm{MAE} = \frac{1}{N}\sum_{k=1}^{N} |y[k] - y_{\mathrm{ref}}[k]|
+        \mathrm{MAE} = \frac{1}{N}\sum_{k=1}^{N} |y(k) - y_{\mathrm{ref}}(k)|
     \end{equation}
 
-    \item \textbf{ISE (Integral of Squared Error)} -- Całkowe kryterium kwadratowe, będące miarą energii uchybu w czasie ciągłym.
+    \item \textbf{ISE (Integral of Squared Error)} -- Sumaryczne kryterium kwadratowe, będące miarą energii uchybu.
     \begin{equation}
-        \mathrm{ISE} = \int_{0}^{T} (y(t) - y_{\mathrm{ref}}(t))^2 \, dt
+        \mathrm{ISE} = \sum_{k=1}^{N} (y(k) - y_{\mathrm{ref}}(k))^2
     \end{equation}
 
-    \item \textbf{IAE (Integral of Absolute Error)} -- Całkowe kryterium modułu błędu, akumulujące całkowity uchyb w czasie.
+    \item \textbf{IAE (Integral of Absolute Error)} -- Sumaryczne kryterium modułu błędu, akumulujące całkowity uchyb.
     \begin{equation}
-        \mathrm{IAE} = \int_{0}^{T} |y(t) - y_{\mathrm{ref}}(t)| \, dt
+        \mathrm{IAE} = \sum_{k=1}^{N} |y(k) - y_{\mathrm{ref}}(k)|
     \end{equation}
 
     \item \textbf{Energia sterowania L2 ($E_{u, L2}$)} -- Koszt kwadratowy sterowania, powiązany z energią elektryczną/mechaniczną.
     \begin{equation}
-        E_{u, L2} = \int_{0}^{T} u(t)^2 \, dt
+        E_{u, L2} = \sum_{k=1}^{N} u(k)^2
     \end{equation}
 
     \item \textbf{Energia sterowania L1 ($E_{u, L1}$)} -- Koszt absolutny sterowania (zużycie paliwa/zasobów).
     \begin{equation}
-        E_{u, L1} = \int_{0}^{T} |u(t)| \, dt
+        E_{u, L1} = \sum_{k=1}^{N} |u(k)|
     \end{equation}
 
     \item \textbf{Czas regulacji $t_s$ (Settling Time)} -- Czas, po którym sygnał wyjściowy trwale wchodzi w~kanał tolerancji i~już go nie opuszcza. W~niniejszej pracy przyjęto tolerancję $\varepsilon = 2\%$ wartości początkowego wychylenia, tj. $|\theta| < 0{,}001$ rad dla kąta oraz $|x| < 0{,}002$ m dla pozycji.
