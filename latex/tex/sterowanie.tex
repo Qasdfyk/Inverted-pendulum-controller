@@ -4,9 +4,9 @@ W~niniejszym rozdziale przedstawiono szczegółowy opis algorytmów sterowania
 zaimplementowanych i~przeanalizowanych w~ramach pracy. Kod regulatorów został
 zrealizowany w~języku Python w~postaci klas dziedziczących wspólną strukturę,
 co zapewnia modularność i~łatwą wymienność w~pętli symulacyjnej. Każdy
-regulator wyznacza sygnał sterujący $\mathrm{u(t)}$ (siłę przyłożoną do wózka)
+regulator wyznacza sygnał sterujący $\mathrm{u(k)}$ (siłę przyłożoną do wózka)
 na~podstawie aktualnego wektora stanu
-$x(t) = [\theta, \dot{\theta}, x, \dot{x}]^T$ oraz wartości zadanych
+$x(k) = [\theta, \dot{\theta}, x, \dot{x}]^T$ oraz wartości zadanych
 $x_{\mathrm{ref}}$.
 
 W~literaturze problem sterowania wahadłem odwróconym jest szeroko omawiany
@@ -18,15 +18,11 @@ implementacyjne zbadanych struktur sterowania.
 
 Pierwszym zaimplementowanym układem jest regulator o~strukturze równoległej,
 wykorzystujący klasyczne sprzężenie zwrotne typu PID~\cite{Prasad2014}. 
-W~literaturze podejście to jest często
-stosowane jako punkt odniesienia dla bardziej zaawansowanych metod
-\cite{Prasad2014}.
-
 Zastosowano strukturę równoległą, w~której
 całkowity sygnał sterujący jest sumą reakcji na~błąd kąta oraz błąd pozycji.
-Jest to podejście intuicyjne, dekomponujące problem na~dwa podzadania:
+Jest to podejście dekomponujące problem na~dwa podzadania:
 stabilizację wahadła w~pozycji pionowej oraz doprowadzenie wózka do~zadanej
-pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}.
+pozycji.
 
 \begin{figure}[H]
     \centering
@@ -82,16 +78,16 @@ pozycji. Schemat blokowy regulatora przedstawiono na~Rys.~\ref{fig:diagram_pdpd}
 \end{figure}
 Prawo sterowania wyraża się wzorem:
 \begin{equation}
-    \mathrm{u(t)} = u_{\theta}(t) + u_{x}(t),
+    u(k) = u_{\theta}(k) + u_{x}(k),
 \end{equation}
-Definiując uchyby regulacji jako $e_{\theta}(t) = \theta_{\mathrm{ref}} - \theta(t)$ 
-oraz $e_x(t) = x_{\mathrm{ref}} - x(t)$, prawo sterowania dla poszczególnych pętli 
-można zapisać w~ogólnej postaci regulatora PID:
+Definiując uchyby regulacji w $k$-tej chwili próbkowania jako $e_{\theta}(k) = \theta_{\mathrm{ref}} - \theta(k)$ 
+oraz $e_x(k) = x_{\mathrm{ref}} - x(k)$, prawo sterowania w implementacji cyfrowej
+przyjmuje postać dyskretną.
 \begin{align}
-    u_{\theta}(t) &= K_{p,\theta} e_{\theta}(t) + K_{i,\theta} \int_0^t e_{\theta}(\tau)\,d\tau + K_{d,\theta} \frac{d e_{\theta}(t)}{dt}, \label{eq:pd_theta} \\
-    u_{x}(t) &= K_{p,x} e_x(t) + K_{i,x} \int_0^t e_x(\tau)\,d\tau + K_{d,x} \frac{d e_x(t)}{dt}. \label{eq:pd_x}
+    u_{\theta}(k) = K_{p,\theta} e_{\theta}(k) + K_{i,\theta} \sum_{j=0}^{k} e_{\theta}(j) \Delta t - K_{d,\theta} \frac{\theta(k) - \theta(k-1)}{\Delta t}, \label{eq:pd_theta} \\
+    u_{x}(k) = K_{p,x} e_x(k) + K_{i,x} \sum_{j=0}^{k} e_x(j) \Delta t - K_{d,x} \frac{x(k) - x(k-1)}{\Delta t}. \label{eq:pd_x}
 \end{align}
-
+gdzie $\Delta t$ oznacza okres próbkowania.
 \subsubsection{Proces doboru nastaw oraz analiza PID}
 Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo, przechodząc
 od metod heurystycznych do pełnej optymalizacji numerycznej.
@@ -153,6 +149,7 @@ nastawy:
     Ujemne znaki wynikają z~przyjętej konwencji układu współrzędnych i~zwrotu siły.
     \item Tor pozycji: $K_{p,x} = -1,0$, $K_{i,x} = -0,1$, $K_{d,x} = -3,0$.
 \end{itemize}
+
 \subsection{Układ hybrydowy PID-LQR}
 
 Regulator liniowo-kwadratowy (LQR) stanowi fundamentalną metodę sterowania optymalnego
@@ -161,10 +158,10 @@ W~odróżnieniu od~regulatorów PID, które wymagają empirycznego doboru wzmocn
 dla każdej zmiennej stanu, LQR wyznacza optymalne wzmocnienia automatycznie 
 na~podstawie modelu liniowego obiektu oraz macierzy wag $Q$ i~$R$ definiujących 
 kompromis między jakością regulacji a~zużyciem energii.
-Problem LQR polega na~znalezieniu prawa sterowania $u(t) = -K x(t)$, które 
+Problem LQR polega na~znalezieniu prawa sterowania $u(k) = -K x(k)$, które 
 minimalizuje wskaźnik jakości:
 \begin{equation}
-    J = \int_{0}^{\infty} \left( x(t)^T Q x(t) + u(t)^T R u(t) \right) dt,
+    J = \sum_{0}^{\infty} \left( x(k)^T Q x(k) + u(k)^T R u(k) \right),
 \end{equation}
 gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą sterowania. 
 Optymalna macierz wzmocnień $K$ wyznaczana jest poprzez rozwiązanie algebraicznego 
@@ -242,29 +239,14 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
     \label{fig:diagram_pdlqr}
 \end{figure}
 
-Problem LQR polega na~znalezieniu prawa sterowania
-$u(t) = -K x(t)$, które minimalizuje wskaźnik jakości:
-\begin{equation}
-    J = \int_{0}^{\infty} \left( x(t)^T Q x(t) + u(t)^T R u(t) \right) dt,
-\end{equation}
-gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą
-sterowania. Optymalna macierz wzmocnień $K$ wyznaczana jest poprzez
-rozwiązanie algebraicznego równania Riccatiego:
-\begin{equation}
-    A^T P + P A - P B R^{-1} B^T P + Q = 0,
-\end{equation}
-skąd $K = R^{-1} B^T P$. Macierze $A$
-i~$B$ pochodzą z~linearyzacji modelu wahadła wokół punktu równowagi
-górnej ($\theta = 0$).
-
 W~zaimplementowanym rozwiązaniu, sygnał sterujący
 składa się z~dwóch komponentów:
 \begin{equation}
-    u(t) = u_{\mathrm{LQR}}(t) + u_{\mathrm{PID,pos}}(t).
+    u(k) = u_{\mathrm{LQR}}(k) + u_{\mathrm{PID,pos}}(k).
 \end{equation}
 Składnik LQR realizuje stabilizację wokół punktu pracy:
 \begin{equation}
-    u_{\mathrm{LQR}}(t) = -K \cdot (x(t) - x_{\mathrm{ref}}).
+    u_{\mathrm{LQR}}(k) = -K \cdot (x(k) - x_{\mathrm{ref}}).
 \end{equation}
 Dodatkowy człon PID na~pętli pozycji (zrealizowany analogicznie do Rów.~\ref{eq:pd_x}) 
 ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
@@ -643,7 +625,7 @@ Ostatnim zbadanym układem jest sterownik hybrydowy o~strukturze równoległej,
 wnioskowania rozmytego typu Takagi-Sugeno (T-S). W~przeciwieństwie do~układów typu
 ,,Gain Scheduling'' modyfikujących parametry jednego regulatora, tutaj zastosowano
 bezpośrednie sumowanie sygnałów sterujących z~dwóch niezależnych bloków (Rys.~\ref{fig:diagram_fuzzy}).
-LQR zapewnia optymalną stabilizację w~pobliżu punktu pracy (działa w~sposób ciągły), natomiast człon rozmyty
+LQR zapewnia optymalną stabilizację w~pobliżu punktu pracy, natomiast człon rozmyty
 generuje dodatkowy sygnał korekcyjny, aktywujący się silniej przy większych uchybach.
 
 \begin{figure}[H]
@@ -698,11 +680,11 @@ generuje dodatkowy sygnał korekcyjny, aktywujący się silniej przy większych 
 
 Sygnał sterujący opisuje równanie:
 \begin{equation}
-    u(t) =  u_{LQR}(t) + G \cdot u_{Fuzzy}(t),
+    u(t) =  u_{LQR}(k) + G \cdot u_{Fuzzy}(k),
 \end{equation}
-gdzie $G$ to globalne wzmocnienie skalujące część rozmytą, a funkcja $\text{sat}(\cdot)$ reprezentuje fizyczne ograniczenie siły napędu.
+gdzie $G$ to globalne wzmocnienie skalujące część rozmytą.
 
-Część rozmyta $u_{\mathrm{Fuzzy}}(t)$ wykorzystuje bazę reguł postaci:
+Część rozmyta $u_{\mathrm{Fuzzy}}(k)$ wykorzystuje bazę reguł postaci:
 \begin{quote}
     JEŚLI $e_\theta$ jest $A_i$ ORAZ $\dot{\theta}$ jest $B_i$ ... TO $u_i = -K^{(i)} \cdot x$,
 \end{quote}
