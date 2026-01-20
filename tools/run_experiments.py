@@ -107,24 +107,25 @@ def run_single_experiment(ctrl, name, wind_enabled=False):
     fig, axes = plt.subplots(3, 1, figsize=(10, 10), sharex=True)
     
     # Angle
-    axes[0].plot(t, X[:, 0], label=r'$\theta$')
-    axes[0].plot(t, np.zeros_like(t), 'k--', alpha=0.5, label='Wartość zadana')
+    # Angle
+    axes[0].plot(t*10, X[:, 0], label=r'$\theta$')
+    axes[0].plot(t*10, np.zeros_like(t), 'k--', alpha=0.5, label='Wartość zadana')
     axes[0].set_ylabel(r'Kąt $\theta$ [rad]')
     axes[0].set_title(f'{name} - {scenario_name}')
     axes[0].grid(True)
     
     # Position
-    axes[1].plot(t, X[:, 2], label=r'$x$')
+    axes[1].plot(t*10, X[:, 2], label=r'$x$')
     # --- ZMIANA: Rysowanie linii referencyjnej x_ref[2] (0.1) zamiast x0[2] ---
-    axes[1].plot(t, np.ones_like(t)*x_ref[2], 'k--', alpha=0.5, label='Wartość zadana')
+    axes[1].plot(t*10, np.ones_like(t)*x_ref[2], 'k--', alpha=0.5, label='Wartość zadana')
     axes[1].set_ylabel(r'Pozycja $x$ [m]')
     axes[1].grid(True)
     axes[1].legend()
     
     # Control
-    axes[2].plot(tf, U, label=r'$u$')
+    axes[2].plot(tf*10, U, label=r'$u$')
     axes[2].set_ylabel(r'Siła sterująca $u$ [N]')
-    axes[2].set_xlabel('Czas [s]')
+    axes[2].set_xlabel('k')
     axes[2].grid(True)
     
     plt.tight_layout()
@@ -217,22 +218,22 @@ def main():
                 tf = t[:-1] # For control signal
                 
                 if signal_type == 'theta':
-                    ax.plot(t, X[:, 0], label=name, linewidth=3)
+                    ax.plot(t*10, X[:, 0], label=name, linewidth=3)
                     ylabel = r'$\theta$ [rad]'
                     # Reference
-                    t_ref = t
+                    t_ref = t*10
                     ref_val = np.zeros_like(t_ref)
                     plot_ref = True
                 elif signal_type == 'x':
-                    ax.plot(t, X[:, 2], label=name, linewidth=3)
+                    ax.plot(t*10, X[:, 2], label=name, linewidth=3)
                     ylabel = r'x [m]'
                     # Reference
-                    t_ref = t
+                    t_ref = t*10
                     # --- ZMIANA: Wartość zadana na wykresie zbiorczym to 0.1 ---
                     ref_val = np.ones_like(t_ref) * 0.1 
                     plot_ref = True
                 elif signal_type == 'u':
-                    ax.plot(tf, U, label=name, linewidth=3)
+                    ax.plot(tf*10, U, label=name, linewidth=3)
                     ylabel = r'u [N]'
                     plot_ref = False
         
@@ -241,7 +242,7 @@ def main():
 
         #ax.set_title(f"Porównanie: {scenario_title}")
         ax.set_ylabel(ylabel)
-        ax.set_xlabel('Czas [s]')
+        ax.set_xlabel('k')
         ax.grid(True)
         ax.legend()
         plt.tight_layout()

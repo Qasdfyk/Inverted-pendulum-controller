@@ -40,9 +40,9 @@ def main():
     
     # Plot
     fig, ax = plt.subplots(figsize=(10, 5))
-    ax.plot(t, wind_signal, label='Wiatr', linewidth=3)
+    ax.plot(t*10, wind_signal, label='Wiatr', linewidth=3)
     ax.set_ylabel(r'$F_w$[N]')
-    ax.set_xlabel('t [s]')
+    ax.set_xlabel('k')
     ax.grid(True)
     
     plt.tight_layout()

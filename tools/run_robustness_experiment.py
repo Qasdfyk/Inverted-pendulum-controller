@@ -171,19 +171,19 @@ def plot_combined(trajectories, signal_type, filename, title):
         tf = t[:-1]
         
         if signal_type == 'theta':
-            ax.plot(t, X[:, 0], label=name, linewidth=3)
+            ax.plot(t*10, X[:, 0], label=name, linewidth=3)
             ylabel = r'$\theta$ [rad]'
-            t_ref = t
+            t_ref = t*10
             ref_val = np.zeros_like(t_ref)
             plot_ref = True
         elif signal_type == 'x':
-            ax.plot(t, X[:, 2], label=name, linewidth=3)
+            ax.plot(t*10, X[:, 2], label=name, linewidth=3)
             ylabel = r'x [m]'
-            t_ref = t
+            t_ref = t*10
             ref_val = np.zeros_like(t_ref)
             plot_ref = True
         elif signal_type == 'u':
-            ax.plot(tf, U, label=name, linewidth=3)
+            ax.plot(tf*10, U, label=name, linewidth=3)
             ylabel = r'u [N]'
             plot_ref = False
     
@@ -192,7 +192,7 @@ def plot_combined(trajectories, signal_type, filename, title):
         ax.plot(t_ref, ref_val, 'k--', alpha=0.3, linewidth=2, label='Wartość zadana')
     
     ax.set_ylabel(ylabel)
-    ax.set_xlabel('Czas [s]')
+    ax.set_xlabel('k')
     ax.grid(True)
     ax.legend()
     

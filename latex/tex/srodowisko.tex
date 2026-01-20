@@ -155,7 +155,7 @@ operacje:
 
 \textbf{1. Próbkowanie szumu:}
 \begin{equation}
-    w_k \sim \mathcal{N}\!\left(0,\;\sigma^2\right),
+    w(k) \sim \mathcal{N}\!\left(0,\;\sigma^2\right),
 \end{equation}
 gdzie $\sigma$ jest odchyleniem standardowym siły zakłócającej wyrażonym w~niutonach.
 W~przeprowadzonych eksperymentach przyjęto $\sigma = 2{,}2$~N, co oznacza,
@@ -167,9 +167,9 @@ $F_{\max}=100$~N), lecz nie przekraczały możliwości kompensacyjnych badanych 
 
 \textbf{2. Wygładzanie (ruchoma średnia):}
 \begin{equation}
-    F_{\mathrm{w}}(t)=\frac{1}{N_{\mathrm{s}}}\sum_{i=0}^{N_{\mathrm{s}}-1} w_{k-i},
+    F_{\mathrm{w}}(k)=\frac{1}{N_{\mathrm{s}}}\sum_{i=0}^{N_{\mathrm{s}}-1} w_{k-i},
 \end{equation}
-gdzie $F_{\mathrm{w}}(t)$ to wypadkowa siła zakłócająca w danej chwili, a~$N_{\mathrm{s}}$ to długość okna
+gdzie $F_{\mathrm{w}}(k)$ to wypadkowa siła zakłócająca w danej chwili, a~$N_{\mathrm{s}}$ to długość okna
 uśredniającego (przyjęto $N_{\mathrm{s}}=10$). Takie podejście pozwala na~uzyskanie
 ciągłego, wolnozmiennego sygnału lepiej odwzorowującego rzeczywiste zakłócenia zewnętrzne.
 Przykładowy przebieg wygenerowanego sygnału przedstawiono na~Rys.
