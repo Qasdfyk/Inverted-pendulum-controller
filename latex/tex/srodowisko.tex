@@ -26,24 +26,24 @@ Ogólną architekturę środowiska przedstawiono na~Rys.~\ref{fig:control_loop} 
 
         % Połączenia (Paths)
         % 1. Regulator -> Sumator (u)
-        \draw [line] (controller) -- node[above] {$u(t)$} (sum);
+        \draw [line] (controller) -- node[above] {$u$} (sum);
         
         % 2. Zakłócenia -> Sumator
-        \draw [line] (dist) -- node[right] {$F_w(t)$} (sum);
+        \draw [line] (dist) -- node[right] {$F_w$} (sum);
         
         % 3. Sumator -> Model
         \draw [line] (sum) -- (model);
         
         % 4. Model -> Integrator (dx)
-        \draw [line] (model) -- node[above] {$\dot{x}(t)$} (integrator);
+        \draw [line] (model) -- node[above] {$\dot{x}$} (integrator);
         
         % 5. Sprzężenie zwrotne (x) - z dołu
         % Wychodzi z integratora w prawo, w dół, w lewo pod spodem, do regulatora i modelu
-        \draw [line] (integrator.east) -- ++(0.5,0) |- ++(0,-1.5) -| node[pos=0.35, above] {$x(t)$} (controller.south);
+        \draw [line] (integrator.east) -- ++(0.5,0) |- ++(0,-1.5) -| node[pos=0.35, above] {$x$} (controller.south);
         
         % Dodatkowa strzałka stanu wchodząca do modelu (dla kompletności matematycznej)
         %\draw [line] ($(controller.south) + (2.5,-1.5)$) -- ++(0, 0.6) -| (model.south);
-        \draw [line] (integrator.east) -- ++(0.5,0) |- ++(0,-1.5) -| node[pos=0.25, above] {$x(t)$} (model.south);
+        \draw [line] (integrator.east) -- ++(0.5,0) |- ++(0,-1.5) -| node[pos=0.25, above] {$x$} (model.south);
 
     \end{tikzpicture}
     \caption{Schemat blokowy pętli symulacyjnej (rdzeń obliczeniowy).}
@@ -68,7 +68,7 @@ Ogólną architekturę środowiska przedstawiono na~Rys.~\ref{fig:control_loop} 
 
         % Połączenia
         \draw [line, thick, ->] (config) -- node[above, font=\scriptsize] {Inicjalizacja} (sim);
-        \draw [line, thick, ->] (sim) -- node[above, font=\scriptsize] {$x(t), u(t)$} (logger);
+        \draw [line, thick, ->] (sim) -- node[above, font=\scriptsize] {$x, u$} (logger);
         
         % Wyjścia z loggera
         \draw [line, thick, ->] (logger.east) -- ++(0.5,0) |- (viz.west);
