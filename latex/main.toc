@@ -19,34 +19,34 @@
 \contentsline {section}{\numberline {4\relax .\enspace }Algorytmy sterowania}{21}{section.4}%
 \contentsline {subsection}{\numberline {4.1\relax .\enspace }Równoległy regulator PID}{21}{subsection.4.1}%
 \contentsline {subsubsection}{\numberline {4.1.1\relax .\enspace }Proces doboru nastaw oraz analiza PID}{22}{subsubsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PID-LQR}{24}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.2\relax .\enspace }Układ hybrydowy PID-LQR}{23}{subsection.4.2}%
 \contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace }Dobór wag macierzy Q i R}{25}{subsubsection.4.2.1}%
-\contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{28}{subsection.4.3}%
-\contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace }Dobór horyzontu i wag funkcji celu}{29}{subsubsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-alt)}{32}{subsection.4.4}%
-\contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace }Dobór parametrów i analiza wpływu kary za energię}{32}{subsubsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.5\relax .\enspace }Liniowy regulator MPC (LMPC)}{35}{subsection.4.5}%
-\contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór parametrów i~analiza działania}{35}{subsubsection.4.5.1}%
-\contentsline {subsection}{\numberline {4.6\relax .\enspace }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{37}{subsection.4.6}%
-\contentsline {subsubsection}{\numberline {4.6.1\relax .\enspace }Dobór reguł i funkcji przynależności}{39}{subsubsection.4.6.1}%
-\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{42}{section.5}%
-\contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{42}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2\relax .\enspace }Wskaźniki jakości regulacji}{43}{subsection.5.2}%
-\contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników}{45}{section.6}%
-\contentsline {subsection}{\numberline {6.1\relax .\enspace }Stabilizacja w warunkach nominalnych}{45}{subsection.6.1}%
-\contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{45}{subsubsection.6.1.1}%
-\contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{48}{subsubsection.6.1.2}%
-\contentsline {subsubsection}{\numberline {6.1.3\relax .\enspace }Zestawienie wyników}{50}{subsubsection.6.1.3}%
-\contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{52}{subsection.6.2}%
-\contentsline {subsubsection}{\numberline {6.2.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{52}{subsubsection.6.2.1}%
-\contentsline {subsubsection}{\numberline {6.2.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{54}{subsubsection.6.2.2}%
-\contentsline {subsubsection}{\numberline {6.2.3\relax .\enspace }Zestawienie wyników}{56}{subsubsection.6.2.3}%
-\contentsline {subsection}{\numberline {6.3\relax .\enspace }Analiza odporności na zmianę parametrów modelu}{58}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1\relax .\enspace }Analiza wrażliwości na zakres zmian}{61}{subsubsection.6.3.1}%
-\contentsline {subsection}{\numberline {6.4\relax .\enspace }Szczegółowe zestawienie ilościowe}{61}{subsection.6.4}%
-\contentsline {subsection}{\numberline {6.5\relax .\enspace }Porównanie złożoności obliczeniowej}{63}{subsection.6.5}%
-\contentsline {section}{\numberline {7\relax .\enspace }Podsumowanie}{64}{section.7}%
-\contentsline {section}{Bibliografia}{65}{section*.58}%
-\contentsline {section}{Wykaz symboli i skrótów}{66}{section*.59}%
-\contentsline {section}{Spis rysunków}{69}{section*.59}%
-\contentsline {section}{Spis tabel}{69}{section*.59}%
+\contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{26}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace }Dobór horyzontu i wag funkcji celu}{28}{subsubsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-alt)}{29}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace }Dobór parametrów i analiza wpływu kary za energię}{30}{subsubsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.5\relax .\enspace }Liniowy regulator MPC (LMPC)}{31}{subsection.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór parametrów i~analiza działania}{32}{subsubsection.4.5.1}%
+\contentsline {subsection}{\numberline {4.6\relax .\enspace }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{34}{subsection.4.6}%
+\contentsline {subsubsection}{\numberline {4.6.1\relax .\enspace }Dobór reguł i funkcji przynależności}{36}{subsubsection.4.6.1}%
+\contentsline {section}{\numberline {5\relax .\enspace }Eksperymenty}{38}{section.5}%
+\contentsline {subsection}{\numberline {5.1\relax .\enspace }Plan eksperymentów}{38}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2\relax .\enspace }Wskaźniki jakości regulacji}{39}{subsection.5.2}%
+\contentsline {section}{\numberline {6\relax .\enspace }Analiza wyników}{41}{section.6}%
+\contentsline {subsection}{\numberline {6.1\relax .\enspace }Stabilizacja w warunkach nominalnych}{41}{subsection.6.1}%
+\contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{41}{subsubsection.6.1.1}%
+\contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{44}{subsubsection.6.1.2}%
+\contentsline {subsubsection}{\numberline {6.1.3\relax .\enspace }Zestawienie wyników}{46}{subsubsection.6.1.3}%
+\contentsline {subsection}{\numberline {6.2\relax .\enspace }Analiza odporności na zakłócenia}{48}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1\relax .\enspace }Charakterystyka regulatorów klasycznych}{48}{subsubsection.6.2.1}%
+\contentsline {subsubsection}{\numberline {6.2.2\relax .\enspace }Charakterystyka regulatorów zaawansowanych}{50}{subsubsection.6.2.2}%
+\contentsline {subsubsection}{\numberline {6.2.3\relax .\enspace }Zestawienie wyników}{52}{subsubsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.3\relax .\enspace }Analiza odporności na zmianę parametrów modelu}{54}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1\relax .\enspace }Analiza wrażliwości na zakres zmian}{57}{subsubsection.6.3.1}%
+\contentsline {subsection}{\numberline {6.4\relax .\enspace }Szczegółowe zestawienie ilościowe}{57}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5\relax .\enspace }Porównanie złożoności obliczeniowej}{59}{subsection.6.5}%
+\contentsline {section}{\numberline {7\relax .\enspace }Podsumowanie}{60}{section.7}%
+\contentsline {section}{Bibliografia}{61}{section*.53}%
+\contentsline {section}{Wykaz symboli i skrótów}{62}{section*.54}%
+\contentsline {section}{Spis rysunków}{64}{section*.54}%
+\contentsline {section}{Spis tabel}{64}{section*.54}%

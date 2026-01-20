@@ -1,6 +1,12 @@
 \babel@toc {polish}{}\relax 
 \contentsline {table}{\numberline {3.1}{\ignorespaces Parametry fizyczne modelu przyjęte w~symulacji}}{18}{table.caption.6}%
-\contentsline {table}{\numberline {6.1}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - warunki nominalne}}{62}{table.caption.54}%
-\contentsline {table}{\numberline {6.2}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - zakłócenia zewnętrzne}}{62}{table.caption.55}%
-\contentsline {table}{\numberline {6.3}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - odporność na zmianę parametrów modelu (+100\% masy wahadła)}}{63}{table.caption.56}%
-\contentsline {table}{\numberline {6.4}{\ignorespaces Średni czas obliczeń jednej iteracji pętli sterowania}}{63}{table.caption.57}%
+\contentsline {table}{\numberline {4.1}{\ignorespaces Zestawienie parametrów strojenia regulatora PID-PID.}}{22}{table.caption.10}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Zestawienie parametrów strojenia regulatora PID-LQR.}}{25}{table.caption.13}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Zestawienie parametrów strojenia regulatora MPC.}}{28}{table.caption.17}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Analiza wpływu kary energetycznej w MPC-alt (przy stałych $Q$ i $R_{\Delta }$).}}{30}{table.caption.19}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Zestawienie parametrów strojenia LMPC.}}{33}{table.caption.21}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Parametry regulatora Fuzzy-LQR.}}{36}{table.caption.25}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - warunki nominalne}}{58}{table.caption.49}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - zakłócenia zewnętrzne}}{58}{table.caption.50}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - odporność na zmianę parametrów modelu (+100\% masy wahadła)}}{59}{table.caption.51}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces Średni czas obliczeń jednej iteracji pętli sterowania}}{59}{table.caption.52}%

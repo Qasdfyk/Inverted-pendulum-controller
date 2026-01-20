@@ -86,66 +86,58 @@ przyjmuje postać dyskretną.
 \end{align}
 gdzie $T$ oznacza okres próbkowania.
 \subsubsection{Proces doboru nastaw oraz analiza PID}
-Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo, przechodząc
-od metod heurystycznych do pełnej optymalizacji numerycznej.
-Wstępny dobór nastaw przeprowadzono metodą eksperymentalną, 
+Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo.
+Wstępny dobór nastaw przeprowadzono metodą eksperymentalną prób i błędów, 
 jednak nie pozwoliła ona na uzyskanie zadowalających wskaźników jakości
 , gdyż obiekt wahadła na wózku wymaga bardzo precyzyjnych nastaw, 
 a dobór parametrów metodą prób i błędów jest czasochłonny i nie gwarantuje optymalnych rezultatów. 
 
-Wstępne próby doboru metodą prób i~błędów (Rys.~\ref{fig:pid_manual}).
-Wzmocnienia proporcjonalne ($K_p=-10$ dla kąta) były niewystarczające,
-aby szybko tłumić odchylenia od~pionu.
+Wstępne próby doboru metodą prób i~błędów (Rys.~\ref{fig:combined_pdpd}, linia czerwona) 
+wskazały, że początkowe wzmocnienia ($K_{p,\theta}=-60$ dla kąta) zapewniały pewną stabilność,
+ale nie były wystarczające do dynamicznego tłumienia zakłóceń.
 Następnie aby wyeliminować subiektywność strojenia ręcznego, zastosowano metodę 
-przeszukiwania siatki (ang.~\textit{grid search}). Metoda ta polega na~systematycznym 
-przeglądaniu zdefiniowanej przestrzeni parametrów, ewaluując błąd $MSE$ dla każdej 
-kombinacji wartości z~zadanego zbioru dyskretnego. Przeszukano siatkę 
-wartości dla każdego z~sześciu parametrów ($K_p$, $K_i$, $K_d$ dla obu pętli), 
-wybierając konfigurację minimalizującą błąd średniokwadratowy.
-\begin{figure}[H]
+przeszukiwania siatki (ang.~\textit{grid search}).
+Przeszukano siatkę wartości dla każdego z~sześciu parametrów.
+Wyniki dla najlepszej konfiguracji z siatki przedstawiono linią niebieską na Rys.~\ref{fig:combined_pdpd}.
+Charakteryzują się one znacznie wyższymi wzmocnieniami ($K_{p,\theta}=-95$, $K_{p,x}=-60$).
+Jednak w tym przypadku jakość sygnału sterującego była niezadowalająca.
+Ostateczne strojenie (linia zielona) wykonano ręcznie, biorąc pod uwagę wyniki z siatki.
+Ostateczny regulator PID charakteryzuje się szybkim osiąganiem wartości zadanej oraz wysoką jakością sygnału sterującego. 
+Ujemne znaki nastaw regulatora PID wynikają z~przyjętej konwencji układu współrzędnych i~zwrotu siły.
+Analiza porównawcza wykazuje, że redukcja wzmocnienia $K_{p,\theta}$ w~strojeniu ręcznym, mimo zmniejszenia sztywności układu, jest kluczowa dla ograniczenia oscylacji.
+Pozwala to na~uzyskanie gładkiego przebiegu sygnału sterującego, co jest pożądane ze~względu na~trwałość elementów mechanicznych.
+
+\begin{table}[H]
     \centering
-    \includegraphics[width=1.0\textwidth, height=12cm]{images/tuning/pdpd_1_manual.png}
-    \caption{Przebiegi sygnałów dla regulatora PID przy nieoptymalnych nastawach ($K_{p,\theta}=-10$, $K_{i,\theta}=-1$,$K_{d,\theta}=-3$, 
-    $K_{p,x}=-1$, $K_{i,x}=-0,1$, $K_{d,x}=-3$).}
-    \label{fig:pid_manual}
-\end{figure}
+    \caption{Zestawienie parametrów strojenia regulatora PID-PID.}
+    \label{tab:params_pid}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Wariant} & \textbf{Tor Kąta ($K_p, K_i, K_d$)} & \textbf{Tor Pozycji ($K_p, K_i, K_d$)} \\
+        \hline
+        Wstępne & $-60, -2, -9$ & $-2, -1, -1$ \\ \hline
+        Siatka & $-95, 0, -14$ & $-16, 0, -14$ \\ \hline
+        Optymalne & $-40, -1, -8$ & $-1, -0{,}1, -3$ \\ \hline
+    \end{tabular}
+\end{table}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth, height=10cm]{images/tuning/pdpd_3_opt.png}
-    \caption{Regulator PID z nastawami z przeszukiwania siatki ($K_{p,\theta}=-95$, $K_{i,\theta}=0$, $K_{d,\theta}=-14$, 
-    $K_{p,x}=-16$, $K_{i,x}=0$, $K_{d,x}=-14$).}
-    \label{fig:pdpd_opt}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth, height=10cm]{images/tuning/pdpd_2_integral_bad.png}
-    \caption{Regulator PID z optymalnymi nastawami ($K_{p,\theta}=-40$, $K_{i,\theta}=-1$, $K_{d,\theta}=-8$, 
-    $K_{p,x}=-1$, $K_{p,x}=-0,1$, $K_{d,x}=-3$).}
-    \label{fig:pid_final}
-\end{figure}
-
-Nastawy dobrane przy pomocy metody siatki (Rys.~\ref{fig:pdpd_opt}) charakteryzują się znacznie wyższymi
-wzmocnieniami niż dobrane ręcznie: $K_{p,\theta}=-95$ (vs. $-10$) oraz $K_{p,x}=-16$ 
-(vs. $-1$). W~wyniku optymalizacji ustalono, że intensywna reakcja na~błąd pozycji wózka pośrednio
-stabilizuje wahadło, ponieważ wymusza szybkie korekty trajektorii. Jednak w tym przypadku jakość 
-sygnału sterującego była niezadowalająca i ostateczne strojenie znów wykonano ręcznie, tym razem biorąc 
-już pod uwagę wyniki uzyskane podczas przeszukiwania siatki.
-
-Ostateczny regulator PID charakteryzuje się szybkim osiąganiem wartości zadanej, małymi błędami $MSE$ i $MAE$
-oraz wysoką jakością sygnału sterującego. Udało się uzyskać kompromis, w którym sterowanie jest dynamiczne, 
-ale nie powoduje nasycenia siłownika ani niebezpiecznych oscylacji. Czas regulacji oraz przeregulowania 
-zostały zminimalizowane, co czyni ten regulator solidnym punktem odniesienia dla bardziej 
-zaawansowanych strategii sterowania. 
-
-W~implementacji programowej przyjęto następujące
-nastawy:
+W~implementacji programowej przyjęto następujące nastawy:
 \begin{itemize}
     \item Tor stabilizacji kąta: $K_{p,\theta} = -40,0$, $K_{i,\theta} = -1,0$, $K_{d,\theta} = -8,0$.
-    Ujemne znaki wynikają z~przyjętej konwencji układu współrzędnych i~zwrotu siły.
     \item Tor pozycji: $K_{p,x} = -1,0$, $K_{i,x} = -0,1$, $K_{d,x} = -3,0$.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_pdpd.png}
+    \caption{Zestawienie przebiegów strojenia regulatora PID.}
+    \label{fig:combined_pdpd}
+\end{figure}
+
+
+
+
+
 
 \subsection{Układ hybrydowy PID-LQR}
 
@@ -251,68 +243,57 @@ $x_{\mathrm{ref}}$, co jest częstą praktyką w~aplikacjach praktycznych, gdzie
 zapewnia stabilność, a~regulator zewnętrzny dba o~uchyb w~stanie ustalonym
 \cite{Varghese2017}.
 
+\newpage
 \subsubsection{Dobór wag macierzy Q i R}
 Dobór wartości elementów macierzy wag $Q$ i~$R$ zrealizowano w~sposób
 wieloetapowy, ewoluując od~konfiguracji bazowej do~rozwiązania
 zoptymalizowanego. W~pierwszej kolejności zbadano zachowanie układu dla nastaw
 jednostkowych, co pozwoliło zidentyfikować podstawowe ograniczenia stabilności.
 Następnie, wykorzystując wiedzę o~dynamice obiektu, przeprowadzono strojenie
-ręczne, by~w~końcowym etapie wykorzystać algorytmy numeryczne do~finalnego
+ręczne, by~w~końcowym etapie wykorzystać algorytm przeszukiwania po siatce do~finalnego
 dostrojenia parametrów i~maksymalizacji wskaźnika jakości regulacji.
 
-W~pierwszej fazie przyjęcie jednostkowej macierzy diagonalnej $Q=I$ oraz $R=1$
-(Rys.~\ref{fig:lqr_bad}) okazało się niewystarczające. Mimo teoretycznej stabilności 
-wynikającej z~rozwiązania równania, wahadło wykonywało bardzo duże wychylenia, 
-a~wózek wielokrotnie wyjeżdżał poza dopuszczalny zakres roboczy toru. Problem wynikał
-z~faktu, że jednostkowe wagi traktują 1~rad błędu kąta tak samo jak 1~m błędu pozycji
-i~1~N$^2$ kosztu sterowania co jest fizycznie nieuzasadnione.
+W~pierwszej fazie (Rys.~\ref{fig:combined_pdlqr}, linia czerwona) przyjęcie jednostkowej macierzy diagonalnej $Q=I$ oraz $R=1$ okazało się niewystarczające.
+Takie podejście traktuje wszystkie uchyby (kąta w~radianach i~pozycji w~metrach) jednakowo, co jest fizycznie nieuzasadnione, gdyż dopuszczalne odchylenia kąta są znacznie mniejsze niż pozycji.
+Skutkowało to wolną reakcją regulatora, który nie priorytetyzował stabilizacji wahadła, pozwalając na~duże wychylenia.
 
-Następnie przeprowadzono strojenie ręczne metodą prób i~błędów, inspirując się
-regułą Brysona (Rys.~\ref{fig:lqr_manual}). Reguła ta postuluje, że elementy 
-diagonalne macierzy $Q$ i~$R$ powinny być odwrotnie proporcjonalne do~kwadratów 
-maksymalnych dopuszczalnych wartości odpowiednich zmiennych stanu i~sterowania, 
-tj. $Q_{ii} = 1/x_{i,\max}^2$ oraz $R = 1/u_{\max}^2$. Ręczne zwiększanie kar 
-za~wychylenie kąta ($Q_{\theta}=25$) poprawiło sztywność wahadła. Udało się ustalić 
-zestaw wag zapewniający stabilną pracę.
+Następnie przeprowadzono strojenie ręczne oparte na~regule Brysona (linia niebieska).
+Założono, że maksymalne dopuszczalne wychylenie kąta wynosi ok. $0{,}2$~rad, co zgodnie ze~wzorem $Q_{ii} = 1/x_{i,\text{max}}^2$ dało wagę $Q_{\theta}=25$.
+Jednocześnie zwiększono karę za~sterowanie ($R=10$), aby uniknąć nasycenia sygnału.
+Zabieg ten znacząco poprawił sztywność wahadła, jednak czas ustalania wciąż nie był satysfakcjonujący.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth, height=12cm]{images/tuning/pdlqr_1_bad.png}
-    \caption{Regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$, 
-    PID: $K_{p,x}=-4,5$, $K_{i,x}=0$, $K_{d,x}=-3$).}
-    \label{fig:lqr_bad}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth, height=10cm]{images/tuning/pdlqr_2_manual.png}
-    \caption{Regulator LQR strojony metodą Brysona ($Q=\mathrm{diag}([25, 1, 4, 1])$, 
-    $R=10$, PID: $K_{p,x}=-4.5$, $K_{p,x}=0$, $K_{d,x}=-3$).}
-    \label{fig:lqr_manual}
-\end{figure}
-
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth, height=10cm]{images/tuning/pdlqr_3_opt.png}
-    \caption{Zoptymalizowany regulator PID-LQR bez członu całkującego 
-    ($Q=\mathrm{diag}([200, 3, 35, 40])$, $R=1$, PID: $K_{p,x}=-7{,}0$, 
-    $K_{i,x}=0{,}1$, $K_{d,x}=-3{,}0$).}
-    \label{fig:lqr_opt}
-\end{figure}
-
-W~ostatnim etapie zastosowano optymalizację numeryczną (Rys.~\ref{fig:lqr_opt}). 
-Metoda przeszukiwania siatki poszukiwała optymalnych elementów diagonalnych macierzy $Q$ 
-oraz skalara $R$, minimalizując wskaźnik jakości. Zoptymalizowane wagi 
-sprawiają, że regulator bardzo 
-intensywnie koryguje wychylenia wahadła, co wymusza stabilne utrzymanie kąta wychylenia. 
+W~ostatnim etapie zastosowano optymalizację numeryczną metodą przeszukiwania siatki (linia zielona).
+Wyniki wskazały na~konieczność drastycznego zwiększenia kary za~błąd kąta ($Q_{\theta}=200$) oraz prędkości ($Q_{\dot{\theta}}=3, Q_{\dot{x}}=40$) przy jednoczesnym obniżeniu kary za~sterowanie do~$R=1$.
+Taka konfiguracja wymusza bardzo agresywną reakcję układu na~nawet najmniejsze odchylenia, wykorzystując pełną dynamikę napędu do~szybkiej stabilizacji.
 Należy zauważyć, że optymalizator wyznaczył strategię dość intuicyjną: 
 kara głównie kąt ($Q_{\theta}$), zamiast kłaść nacisk na~pozycję ($Q_x$), 
 co zmusza obiekt do~szybkich korekt stabilizujących wahadło.
-Zastosowane wagi optymalne to:
+\begin{table}[H]
+    \centering
+    \caption{Zestawienie parametrów strojenia regulatora PID-LQR.}
+    \label{tab:params_pdlqr}
+    \begin{tabular}{|l|c|c|c|}
+        \hline
+        \textbf{Wariant} & \textbf{Macierz Q} & \textbf{Waga R} & \textbf{PID ($K_p, K_i, K_d$)} \\
+        \hline
+        Jednostkowe & $\mathrm{diag}([1, 1, 1, 1])$ & $1{,}0$ & $-4{,}5, 0, -3$ \\ \hline
+        Bryson & $\mathrm{diag}([25, 1, 4, 1])$ & $10{,}0$ & $-4{,}5, 0, -3$ \\ \hline
+        Optymalne & $\mathrm{diag}([200, 3, 35, 40])$ & $1{,}0$ & $-7{,}0, 0{,}1, -3$ \\ \hline
+    \end{tabular}
+\end{table}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_pdlqr.png}
+    \caption{Porównanie nastaw regulatora PID-LQR.}
+    \label{fig:combined_pdlqr}
+\end{figure}
+
+Ostatecznie zastosowane wagi to:
 \begin{equation}
     Q = \text{diag}([200,\; 3,\; 35,\; 40]), \quad R = 1.
 \end{equation}
+
+
 \subsection{Nieliniowe sterowanie predykcyjne (MPC)}
 
 Algorytm MPC (Model Predictive Control) stanowi zaawansowaną metodę sterowania,
@@ -413,49 +394,45 @@ do~obsługi ograniczeń nierównościowych.
 
 
 \subsubsection{Dobór horyzontu i wag funkcji celu}
-Dla regulatora MPC kluczowym zagadnieniem był dobór horyzontu predykcji oraz
-macierzy wag, determinujących zachowanie układu w~stanie nieustalonym.
-Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N = 5$,
-Rys.~\ref{fig:mpc_bad}) prowadziło do~niestabilności układu zamkniętego. Horyzont 
-predykcji był zbyt krótki, aby regulator mógł uwzględnić, że rozpędzając wózek 
-w~celu korekcji kąta, nie zdąży wyhamować przed upadkiem wahadła lub osiągnięciem końca toru. Horyzont pięciu 
-kroków jest niewystarczający, aby uchwycić pełną
-dynamikę wahadła i~zaplanować odpowiedni manewr powrotny.
+Dla regulatora MPC kluczowym zagadnieniem był dobór horyzontu predykcji $N$,
+horyzontu sterowania $N_u$ oraz macierzy wag, determinujących zachowanie układu
+w~stanie nieustalonym.
+Początkowe ustawienie zbyt krótkiego horyzontu predykcji ($N = 7$) przy małym
+horyzoncie sterowania ($N_u=3$, Rys.~\ref{fig:combined_mpc}, linia czerwona)
+prowadziło do oscylacji układu zamkniętego. Horyzont był zbyt krótki,
+aby regulator mógł uwzględnić, że rozpędzając wózek w~celu korekcji kąta,
+nie zdąży wyhamować przed odchyleniem się wahadła.
+
+Zwiększenie horyzontu do~$N=10$ (przy $N_u=3$) w~ramach korekty ręcznej
+(linia niebieska) bardzo polepszyło jakość trajektorii. Dłuższy horyzont umożliwił dalszą predykcję.
+Dodatkowa manipulacja wagami $Q$ pozwoliła na~uzyskanie poprawnego
+sterowania.
+
+Aby zweryfikować dobrane nastawy znów zastosowano algorytm do automatyzacja procesu strojenia, 
+który pozwolił na~znalezienie nowych nastaw (linia zielona).
+Algorytm wyznaczył jeszcze lepsze nastawy regulatora MPC $N=12$ przy $N_u=4$ oraz nowe wartości macierzy $Q$ i skalara $R$.
+
+\begin{table}[H]
+    \centering
+    \caption{Zestawienie parametrów strojenia regulatora MPC.}
+    \label{tab:params_mpc}
+    \begin{tabular}{|l|c|c|c|c|}
+        \hline
+        \textbf{Wariant} & \textbf{Horyzont N} & \textbf{Ster. $N_u$} & \textbf{Macierz Q} & \textbf{Waga R} \\
+        \hline
+        Krótki & 7 & 3 & $\mathrm{diag}([10, 1, 10, 1])$ & $0{,}1$ \\ \hline
+        Ręczne & 10 & 3 & $\mathrm{diag}([50, 10, 50, 10])$ & $0{,}1$ \\ \hline
+        Optymalne & 12 & 4 & $\mathrm{diag}([158, 41, 43, 20])$ & $0{,}086$ \\ \hline
+    \end{tabular}
+\end{table}
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth, height=10cm]{images/tuning/mpc_1_bad.png}
-    \caption{Regulator MPC z~krótkim horyzontem ($N=5$, $N_u=2$, 
-    $Q=\mathrm{diag}([10, 1, 10, 1])$, $R=0.1$).}
-    \label{fig:mpc_bad}
+    \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_mpc.png}
+    \caption{Porównanie nastaw regulatora MPC.}
+    \label{fig:combined_mpc}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth, height=10cm]{images/tuning/mpc_2_manual.png}
-    \caption{Regulator MPC z~ręcznie dobranymi wagami ($N=10$, $N_u=3$, 
-    $Q=\mathrm{diag}([50, 10, 50, 10])$, $R=0.1$).}
-    \label{fig:mpc_manual}
-\end{figure}
-
-Zwiększenie horyzontu do~$N=10$ w~ramach korekty ręcznej 
-(Rys.~\ref{fig:mpc_manual}) ustabilizowało proces. Dłuższy horyzont umożliwił 
-predykcję na~$1{,}0$~s, co pozwoliło na~antycypację skutków podejmowanych działań 
-sterujących. Dodatkowa manipulacja wagami $Q$ pozwoliła na~uzyskanie poprawnego 
-sterowania, jednak odpowiedź dynamiczna była powolna, a~przebiegi wykazywały
-przeregulowania.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/mpc_3_opt.png}
-    \caption{Zoptymalizowany regulator MPC ($N=12$, $N_u=4$, 
-    $Q=\mathrm{diag}([158, 41, 43, 20])$, $R=0,086$).}
-    \label{fig:mpc_opt}
-\end{figure}
-
-Automatyzacja procesu strojenia przy użyciu skryptu \texttt{tune\_mpc.py} pozwoliła
-na~znalezienie kompromisu między długością horyzontu a~wagami (Rys.~\ref{fig:mpc_opt}).
-Algorytm optymalizacyjny wskazał $N=12$ (co odpowiada $1{,}2$~s predykcji) 
-jako optimum dla tego modelu dyskretnego, zapewniając stabilność przy akceptowalnym czasie obliczeń. 
 
 Ostateczne nastawy regulatora MPC to:
 $Q=\mathrm{diag}([158, 41, 43, 20])$, $R=0,086$.
@@ -496,48 +473,43 @@ zmiany), parametr $R_{\mathrm{abs}}$ bezpośrednio kara za amplitudę siły,
 co przekłada się na~redukcję zużycia energii.
 
 Przyjęcie zbyt dużej wartości kary za~sterowanie bezwzględne ($R_{\mathrm{abs}}=10$,
-Rys.~\ref{fig:mpcj2_bad}) spowodowało, że regulator wykazywał tendencję do~pasywności.
+Rys.~\ref{fig:combined_mpcj2}, linia czerwona) spowodowało, że regulator wykazywał tendencję do~pasywności.
 Funkcja kosztu karała każdy niuton siły na~tyle intensywnie, że wartość funkcji celu
-faworyzowała bardzo wolną regulację kosztem uniknięcia wysokiego wydatku energetycznego. W~efekcie układ
-nie był w~stanie ustabilizować się -- wahadło oscylowało w okolicy punktu pracy, ponieważ koszt 
-energetyczny utrzymania go w~pionie przewyższał zysk wynikający z~małego błędu 
-kątowego w~funkcji celu.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth, height=10.5cm]{images/tuning/mpcJ2_1_bad.png}
-    \caption{Regulator MPC-alt z~wysoką karą za~energię ($R_{\mathrm{abs}}=10$).}
-    \label{fig:mpcj2_bad}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth, height=10.5cm]{images/tuning/mpcJ2_2_manual.png}
-    \caption{Regulator MPC-alt z~ręcznie zmniejszoną karą ($R_{\mathrm{abs}}=5$).}
-    \label{fig:mpcj2_manual}
-\end{figure}
+faworyzowała bardzo wolną regulację.
 
 Stopniowe, ręczne zmniejszanie parametru $R_{\mathrm{abs}}$ do~wartości $5$
-(Rys.~\ref{fig:mpcj2_manual}) pozwoliło delikatnie polepszyć jakość regulacji, jednak układ
-ostatecznie nie dawał rady się ustabilizować. Regulator działał zbyt zachowawczo -- oszczędzając
-energię, pozwalał wózkowi na~zbyt duży dryf od~pozycji zadanej i za bardzo oszczędzał energię. 
-Taki scenariusz ilustruje typowy problem źle dostrojonego kompromisu
-między jakością regulacji a~oszczędnością energii.
+(linia niebieska) pozwoliło delikatnie polepszyć jakość regulacji, 
+jednak układ działał zbyt zachowawczo.
+
+Kolejne próby zmniejszania kary za bezwzględną wartość wskazały, że dla tego zadania najlepszym rozwiązaniem jest
+zastosowanie niewielkiej, ale niezerowej kary ($R_{\mathrm{abs}}=1$, linia zielona).
+Tak dobrana waga pozwala uniknąć bierności regulatora, jednocześnie ograniczając nadmierne zużycie energii.
+
+\begin{table}[H]
+    \centering
+    \caption{Analiza wpływu kary energetycznej w MPC-alt (przy stałych $Q$ i $R_{\Delta}$).}
+    \label{tab:params_mpcj2}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Wariant} & \textbf{Kara absolutna $R_{abs}$} & \textbf{Uwagi} \\
+        \hline
+        Wysoka & $10{,}0$ & Silne tłumienie sterowania \\ \hline
+        Średnia & $5{,}0$ & Kompromis \\ \hline
+        Optymalna & $1{,}0$ & Najlepsza dynamika \\ \hline
+    \end{tabular}
+\end{table}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/mpcJ2_3_opt.png}
-    \caption{Zoptymalizowany regulator MPC-alt ($R_{\mathrm{abs}}=1$).}
-    \label{fig:mpcj2_opt}
+    \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_mpcj2.png}
+    \caption{Analiza wpływu kary za energię $R_{abs}$ w sterowaniu MPC-alt.}
+    \label{fig:combined_mpcj2}
 \end{figure}
 
-Kolejne próby zmniejszania kary za bezwzględną wartość wskazały, że dla tego zadania najlepszym rozwiązaniem jest
-zastosowanie niewielkiej, ale niezerowej kary za~bezwzględną wartość sterowania ($R_{\mathrm{abs}}=1$,
-Rys.~\ref{fig:mpcj2_opt}). Tak dobrana waga pozwala uniknąć bierności regulatora,
-jednocześnie ograniczając nadmierne zużycie energii. W~połączeniu z~karą za~przyrosty sterowania 
-$R_{\Delta}=0.001$, zapewniono gładkość sygnału sterującego bez ograniczania
-zdolności regulatora do~szybkiej reakcji. Uzyskano optymalny kompromis, w~którym układ
-stabilizuje się szybko, a~sterowanie pozbawione jest zbędnych oscylacji.
+Ostateczne nastawy regulatora MPC-alt to:
+\begin{equation}
+    Q=\mathrm{diag}([158, 41, 43, 20]), R=0,001, R_{abs}=1.
+\end{equation}
 
 \subsection{Liniowy regulator MPC (LMPC)}
 
@@ -587,28 +559,38 @@ porównanie wpływu uproszczenia modelu.
 
 \subsubsection{Dobór parametrów i~analiza działania}
 
-Regulator LMPC dostrojono ręcznie metodą prób i błędów.
-Najpierw przetestowano zestaw wag $Q=\text{diag}([1, 1, 1, 1])$, $R=0,1$. Jednak na~Rys.~\ref{fig:lmpc_opt} widać, że pozycja wózka nie stabilizuje się wystarczająco szybko.
-Zdecydowano się w kolejnym kroku zwiększyć wagi w macierzy $Q$.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth, height=10cm]{images/tuning/lmpc_bad.png}
-    \caption{Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, 
-    $Q=\text{diag}([1, 1, 1, 1])$, $R=0,1$).}
-    \label{fig:lmpc_bad}
-\end{figure}
+Regulator LMPC dostrojono ręcznie metodą prób i błędów (Rys.~\ref{fig:combined_lmpc}).
+Najpierw przetestowano zestaw wag $Q=\text{diag}([1, 1, 1, 1])$, $R=0,1$ (linia czerwona). 
+Widać, że pozycja wózka nie stabilizuje się wystarczająco szybko.
+Zdecydowano się w kolejnym kroku zwiększyć wagi w macierzy $Q$ (linia zielona).
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth, height=10cm]{images/tuning/lmpc_opt.png}
-    \caption{Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, 
-    $Q=\text{diag}([15, 1, 15, 1])$, $R=0,1$).}
-    \label{fig:lmpc_opt}
-\end{figure}
-
-Na~Rys.~\ref{fig:lmpc_opt} przedstawiono proces stabilizacji wahadła. 
-Układ zachowuje się stabilnie, płynnie dochodząc do~wartości
+Na~Rys.~\ref{fig:combined_lmpc} przedstawiono porównanie obu konfiguracji.
+Układ zoptymalizowany zachowuje się stabilnie, płynnie dochodząc do~wartości
 zadanej.
+
+\begin{table}[H]
+    \centering
+    \caption{Zestawienie parametrów strojenia LMPC.}
+    \label{tab:params_lmpc}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Wariant} & \textbf{Macierz Q} & \textbf{Waga R} \\
+        \hline
+        Wagi jedn. & $\mathrm{diag}([1, 1, 1, 1])$ & $0{,}1$ \\ \hline
+        Optymalne & $\mathrm{diag}([15, 1, 15, 1])$ & $0{,}1$ \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_lmpc.png}
+    \caption{Strojenie liniowego regulatora MPC.
+    1. Słabe wagi (czerwony): $Q=I$.
+    2. Optymalne (zielony): $Q_{theta}=15$.}
+    \label{fig:combined_lmpc}
+\end{figure}
+
+
 Mimo zastosowania uproszczonego modelu liniowego, regulator poprawnie radzi sobie
 ze~stabilizacją w~otoczeniu punktu równowagi.
 Wybrane parametry dla regulatora LMPC:
@@ -725,52 +707,14 @@ które determinują zachowanie układu w~poszczególnych obszarach przestrzeni s
 Niewłaściwy dobór tych parametrów może prowadzić do~niestabilności, gwałtownych 
 przełączeń sterowania lub braku pożądanej poprawy dynamiki względem regulatora bazowego.
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/fuzzy_1_bad.png}
-    \caption{Regulator Fuzzy-LQR z~wąskimi funkcjami przynależności 
-    (zakres ,,mały błąd'' dla $\theta$: $[-0.02, 0.02]$~rad).}
-    \label{fig:fuzzy_bad}
-\end{figure}
-
 Błędne zdefiniowanie zbyt wąskich funkcji przynależności dla strefy ,,małego błędu''
-(Rys.~\ref{fig:fuzzy_bad}) skutkowało gwałtownym przełączaniem się regulatora 
-na~reguły o~wysokich wzmocnieniach (drgania przełączeniowe). Zakres $[-0.02, 0.02]$~rad 
-oznacza, że już przy wychyleniu wahadła o~około $1^{\circ}$ regulator przeskakiwał 
-z~trybu o~niskich wzmocnieniach (LQR) na~tryb o~wysokich wzmocnieniach (reguły rozmyte), 
-a~przy powrocie do~pionu natychmiast wracał. Prowadziło to do~silnych drgań wokół punktu równowagi,
-co jest zjawiskiem niepożądanym w~rzeczywistych układach napędowych ze~względu na~
-zużycie mechaniczne i~hałas.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/fuzzy_2_manual.png}
-    \caption{Regulator Fuzzy-LQR z~ręcznie dobranymi parametrami 
-    ($F_{\theta}=20$, $F_{\dot{\theta}}=5$, $F_x=10$, $F_{\dot{x}}=2$, 
-    zakres: $[-0.2, 0.2]$~rad).}
-    \label{fig:fuzzy_manual}
-\end{figure}
-
-Opierając się na~literaturze \cite{Nguyen2024}, dobrano ręcznie szerokości trójkątnych
-funkcji przynależności tak, aby przejście między strefami było płynne 
-(Rys.~\ref{fig:fuzzy_manual}). Rozszerzenie zakresu do~$[-0.2, 0.2]$~rad wyeliminowało
-drgania przełączeniowe, jednak wzmocnienia reguł były zbyt słabe ($F_{\theta}=20$).
-Układ uzyskał stabilność asymptotyczną, jednak nie wykorzystywał w~pełni potencjału 
-szybkiej reakcji na~duże zakłócenia, działając zachowawczo.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/fuzzy_3_opt.png}
-    \caption{Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta}=40$, 
-    $F_{\dot{\theta}}=1$, $F_x=15$, $F_{\dot{x}}=20$, $G=0.36$).}
-    \label{fig:fuzzy_opt}
-\end{figure}
-
-Ostatecznie, dedykowany skrypt \texttt{tune\_fuzzy\_lqr.py} posłużył do~optymalizacji
-wag pojedynczych reguł oraz parametrów kształtu funkcji przynależności 
-(Rys.~\ref{fig:fuzzy_opt}). Algorytm wyznaczył wartość wzmocnienia
+(Rys.~\ref{fig:combined_fuzzy}, linia czerwona) skutkowało gwałtownym przełączaniem się regulatora 
+na~reguły o~wysokich wzmocnieniach (drgania przełączeniowe).
+Opierając się na~literaturze \cite{Nguyen2024}, dobrano ręcznie szerokości funkcji przynależności (linia niebieska).
+Rozszerzenie zakresu wyeliminowało drgania, jednak wzmocnienia reguł były zbyt słabe.
+Ostatecznie, algorytm wyznaczył wartość wzmocnienia
 dla kąta ($F_{\theta}=40.0$) i zmniejszył globalne wzmocnienie
-($G=0.36$).
+($G=0.36$), co przedstawiono linią zieloną na wykresie.
 
 Strojenie regulatora Fuzzy-LQR okazało się zadaniem znacznie bardziej wymagającym 
 niż w~przypadku pozostałych badanych algorytmów. Wynika to z~kilku czynników:
@@ -782,5 +726,28 @@ niż w~przypadku pozostałych badanych algorytmów. Wynika to z~kilku czynników
     \item Zależność od~scenariusza testowego --- parametry zoptymalizowane 
     dla warunków nominalnych mogą dawać gorsze wyniki przy zakłóceniach i~odwrotnie.
 \end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{Parametry regulatora Fuzzy-LQR.}
+    \label{tab:params_fuzzy}
+    \begin{tabular}{|l|c|c|}
+        \hline
+        \textbf{Wariant} & \textbf{Zakres $\theta_{small}$} & \textbf{Wzmocnienia Reguł} \\
+        \hline
+        Wąski & $[-0{,}02; 0{,}02]$ & Standardowe \\ \hline
+        Słabe & $[-0{,}2; 0{,}2]$ & $F_{\theta}=20$ (bazowe) \\ \hline
+        Optymalne & $[-0{,}2; 0{,}2]$ & $F_{\theta}=40, G=0{,}36$ \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_fuzzy.png}
+    \caption{Strojenie regulatora Fuzzy-LQR.}
+    \label{fig:combined_fuzzy}
+\end{figure}
+
+
 Ostatecznie użyty zestaw parametrów to: $F_{\theta}=40$, 
     $F_{\dot{\theta}}=1$, $F_x=15$, $F_{\dot{x}}=20$, $G=0.36$.

@@ -110,151 +110,141 @@
 \newlabel{eq:pd_theta}{{26}{21}{}{equation.26}{}}
 \newlabel{eq:pd_x}{{27}{21}{}{equation.27}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.1.1\relax .\enspace  }Proces doboru nastaw oraz analiza PID}{22}{subsubsection.4.1.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Przebiegi sygnałów dla regulatora PID przy nieoptymalnych nastawach ($K_{p,\theta }=-10$, $K_{i,\theta }=-1$,$K_{d,\theta }=-3$, $K_{p,x}=-1$, $K_{i,x}=-0,1$, $K_{d,x}=-3$).}}{22}{figure.caption.10}\protected@file@percent }
-\newlabel{fig:pid_manual}{{4.2}{22}{Przebiegi sygnałów dla regulatora PID przy nieoptymalnych nastawach ($K_{p,\theta }=-10$, $K_{i,\theta }=-1$,$K_{d,\theta }=-3$, $K_{p,x}=-1$, $K_{i,x}=-0,1$, $K_{d,x}=-3$)}{figure.caption.10}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Regulator PID z nastawami z przeszukiwania siatki ($K_{p,\theta }=-95$, $K_{i,\theta }=0$, $K_{d,\theta }=-14$, $K_{p,x}=-16$, $K_{i,x}=0$, $K_{d,x}=-14$).}}{23}{figure.caption.11}\protected@file@percent }
-\newlabel{fig:pdpd_opt}{{4.3}{23}{Regulator PID z nastawami z przeszukiwania siatki ($K_{p,\theta }=-95$, $K_{i,\theta }=0$, $K_{d,\theta }=-14$, $K_{p,x}=-16$, $K_{i,x}=0$, $K_{d,x}=-14$)}{figure.caption.11}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Regulator PID z optymalnymi nastawami ($K_{p,\theta }=-40$, $K_{i,\theta }=-1$, $K_{d,\theta }=-8$, $K_{p,x}=-1$, $K_{p,x}=-0,1$, $K_{d,x}=-3$).}}{23}{figure.caption.12}\protected@file@percent }
-\newlabel{fig:pid_final}{{4.4}{23}{Regulator PID z optymalnymi nastawami ($K_{p,\theta }=-40$, $K_{i,\theta }=-1$, $K_{d,\theta }=-8$, $K_{p,x}=-1$, $K_{p,x}=-0,1$, $K_{d,x}=-3$)}{figure.caption.12}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.1}{\ignorespaces Zestawienie parametrów strojenia regulatora PID-PID.}}{22}{table.caption.10}\protected@file@percent }
+\newlabel{tab:params_pid}{{4.1}{22}{Zestawienie parametrów strojenia regulatora PID-PID}{table.caption.10}{}}
 \abx@aux@cite{0}{Jezierski2017}
 \abx@aux@segm{0}{0}{Jezierski2017}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.2}{\ignorespaces Zestawienie przebiegów strojenia regulatora PID.}}{23}{figure.caption.11}\protected@file@percent }
+\newlabel{fig:combined_pdpd}{{4.2}{23}{Zestawienie przebiegów strojenia regulatora PID}{figure.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2\relax .\enspace  }Układ hybrydowy PID-LQR}{23}{subsection.4.2}\protected@file@percent }
 \abx@aux@cite{0}{Prasad2014}
 \abx@aux@segm{0}{0}{Prasad2014}
 \abx@aux@cite{0}{Nguyen2024}
 \abx@aux@segm{0}{0}{Nguyen2024}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2\relax .\enspace  }Układ hybrydowy PID-LQR}{24}{subsection.4.2}\protected@file@percent }
 \abx@aux@cite{0}{Varghese2017}
 \abx@aux@segm{0}{0}{Varghese2017}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Schemat blokowy hybrydowego regulatora PID-LQR.}}{25}{figure.caption.13}\protected@file@percent }
-\newlabel{fig:diagram_pdlqr}{{4.5}{25}{Schemat blokowy hybrydowego regulatora PID-LQR}{figure.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.3}{\ignorespaces Schemat blokowy hybrydowego regulatora PID-LQR.}}{24}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:diagram_pdlqr}{{4.3}{24}{Schemat blokowy hybrydowego regulatora PID-LQR}{figure.caption.12}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace  }Dobór wag macierzy Q i R}{25}{subsubsection.4.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$, PID: $K_{p,x}=-4,5$, $K_{i,x}=0$, $K_{d,x}=-3$).}}{26}{figure.caption.14}\protected@file@percent }
-\newlabel{fig:lqr_bad}{{4.6}{26}{Regulator LQR z~wagami jednostkowymi ($Q=I$, $R=1$, PID: $K_{p,x}=-4,5$, $K_{i,x}=0$, $K_{d,x}=-3$)}{figure.caption.14}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Regulator LQR strojony metodą Brysona ($Q=\mathrm  {diag}([25, 1, 4, 1])$, $R=10$, PID: $K_{p,x}=-4.5$, $K_{p,x}=0$, $K_{d,x}=-3$).}}{27}{figure.caption.15}\protected@file@percent }
-\newlabel{fig:lqr_manual}{{4.7}{27}{Regulator LQR strojony metodą Brysona ($Q=\mathrm {diag}([25, 1, 4, 1])$, $R=10$, PID: $K_{p,x}=-4.5$, $K_{p,x}=0$, $K_{d,x}=-3$)}{figure.caption.15}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Zoptymalizowany regulator PID-LQR bez członu całkującego ($Q=\mathrm  {diag}([200, 3, 35, 40])$, $R=1$, PID: $K_{p,x}=-7{,}0$, $K_{i,x}=0{,}1$, $K_{d,x}=-3{,}0$).}}{27}{figure.caption.16}\protected@file@percent }
-\newlabel{fig:lqr_opt}{{4.8}{27}{Zoptymalizowany regulator PID-LQR bez członu całkującego ($Q=\mathrm {diag}([200, 3, 35, 40])$, $R=1$, PID: $K_{p,x}=-7{,}0$, $K_{i,x}=0{,}1$, $K_{d,x}=-3{,}0$)}{figure.caption.16}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4.2}{\ignorespaces Zestawienie parametrów strojenia regulatora PID-LQR.}}{25}{table.caption.13}\protected@file@percent }
+\newlabel{tab:params_pdlqr}{{4.2}{25}{Zestawienie parametrów strojenia regulatora PID-LQR}{table.caption.13}{}}
 \abx@aux@cite{0}{Camacho2007}
 \abx@aux@segm{0}{0}{Camacho2007}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3\relax .\enspace  }Nieliniowe sterowanie predykcyjne (MPC)}{28}{subsection.4.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym.}}{28}{figure.caption.17}\protected@file@percent }
-\newlabel{fig:diagram_mpc}{{4.9}{28}{Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym}{figure.caption.17}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.4}{\ignorespaces Porównanie nastaw regulatora PID-LQR.}}{26}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:combined_pdlqr}{{4.4}{26}{Porównanie nastaw regulatora PID-LQR}{figure.caption.14}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3\relax .\enspace  }Nieliniowe sterowanie predykcyjne (MPC)}{26}{subsection.4.3}\protected@file@percent }
 \abx@aux@cite{0}{Mills2009}
 \abx@aux@segm{0}{0}{Mills2009}
 \abx@aux@cite{0}{Jezierski2017}
 \abx@aux@segm{0}{0}{Jezierski2017}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace  }Dobór horyzontu i wag funkcji celu}{29}{subsubsection.4.3.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Regulator MPC z~krótkim horyzontem ($N=5$, $N_u=2$, $Q=\mathrm  {diag}([10, 1, 10, 1])$, $R=0.1$).}}{30}{figure.caption.19}\protected@file@percent }
-\newlabel{fig:mpc_bad}{{4.10}{30}{Regulator MPC z~krótkim horyzontem ($N=5$, $N_u=2$, $Q=\mathrm {diag}([10, 1, 10, 1])$, $R=0.1$)}{figure.caption.19}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces Regulator MPC z~ręcznie dobranymi wagami ($N=10$, $N_u=3$, $Q=\mathrm  {diag}([50, 10, 50, 10])$, $R=0.1$).}}{30}{figure.caption.20}\protected@file@percent }
-\newlabel{fig:mpc_manual}{{4.11}{30}{Regulator MPC z~ręcznie dobranymi wagami ($N=10$, $N_u=3$, $Q=\mathrm {diag}([50, 10, 50, 10])$, $R=0.1$)}{figure.caption.20}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.12}{\ignorespaces Zoptymalizowany regulator MPC ($N=12$, $N_u=4$, $Q=\mathrm  {diag}([158, 41, 43, 20])$, $R=0,086$).}}{31}{figure.caption.21}\protected@file@percent }
-\newlabel{fig:mpc_opt}{{4.12}{31}{Zoptymalizowany regulator MPC ($N=12$, $N_u=4$, $Q=\mathrm {diag}([158, 41, 43, 20])$, $R=0,086$)}{figure.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.5}{\ignorespaces Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym.}}{27}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:diagram_mpc}{{4.5}{27}{Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym}{figure.caption.15}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace  }Dobór horyzontu i wag funkcji celu}{28}{subsubsection.4.3.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.3}{\ignorespaces Zestawienie parametrów strojenia regulatora MPC.}}{28}{table.caption.17}\protected@file@percent }
+\newlabel{tab:params_mpc}{{4.3}{28}{Zestawienie parametrów strojenia regulatora MPC}{table.caption.17}{}}
 \abx@aux@cite{0}{Camacho2007}
 \abx@aux@segm{0}{0}{Camacho2007}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.4\relax .\enspace  }MPC z~rozszerzonym wskaźnikiem jakości (MPC-alt)}{32}{subsection.4.4}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace  }Dobór parametrów i analiza wpływu kary za energię}{32}{subsubsection.4.4.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.13}{\ignorespaces Regulator MPC-alt z~wysoką karą za~energię ($R_{\mathrm  {abs}}=10$).}}{33}{figure.caption.22}\protected@file@percent }
-\newlabel{fig:mpcj2_bad}{{4.13}{33}{Regulator MPC-alt z~wysoką karą za~energię ($R_{\mathrm {abs}}=10$)}{figure.caption.22}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.14}{\ignorespaces Regulator MPC-alt z~ręcznie zmniejszoną karą ($R_{\mathrm  {abs}}=5$).}}{33}{figure.caption.23}\protected@file@percent }
-\newlabel{fig:mpcj2_manual}{{4.14}{33}{Regulator MPC-alt z~ręcznie zmniejszoną karą ($R_{\mathrm {abs}}=5$)}{figure.caption.23}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.15}{\ignorespaces Zoptymalizowany regulator MPC-alt ($R_{\mathrm  {abs}}=1$).}}{34}{figure.caption.24}\protected@file@percent }
-\newlabel{fig:mpcj2_opt}{{4.15}{34}{Zoptymalizowany regulator MPC-alt ($R_{\mathrm {abs}}=1$)}{figure.caption.24}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5\relax .\enspace  }Liniowy regulator MPC (LMPC)}{35}{subsection.4.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace  }Dobór parametrów i~analiza działania}{35}{subsubsection.4.5.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.16}{\ignorespaces Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, $Q=\text  {diag}([1, 1, 1, 1])$, $R=0,1$).}}{36}{figure.caption.25}\protected@file@percent }
-\newlabel{fig:lmpc_bad}{{4.16}{36}{Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, $Q=\text {diag}([1, 1, 1, 1])$, $R=0,1$)}{figure.caption.25}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.17}{\ignorespaces Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, $Q=\text  {diag}([15, 1, 15, 1])$, $R=0,1$).}}{36}{figure.caption.26}\protected@file@percent }
-\newlabel{fig:lmpc_opt}{{4.17}{36}{Przebiegi czasowe dla liniowego regulatora MPC ($N=12$, $N_u=4$, $Q=\text {diag}([15, 1, 15, 1])$, $R=0,1$)}{figure.caption.26}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.6\relax .\enspace  }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{37}{subsection.4.6}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.18}{\ignorespaces Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową.}}{37}{figure.caption.27}\protected@file@percent }
-\newlabel{fig:diagram_fuzzy}{{4.18}{37}{Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową}{figure.caption.27}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.19}{\ignorespaces Trójkątne funkcje przynależności dla czterech zmiennych stanu regulatora Fuzzy-LQR. Każda zmienna posiada dwa zbiory rozmyte: ,,Mały błąd'' (aktywny w~pobliżu zera) oraz ,,Duży błąd'' (aktywny przy większych odchyleniach od~punktu równowagi).}}{38}{figure.caption.28}\protected@file@percent }
-\newlabel{fig:fuzzy_membership}{{4.19}{38}{Trójkątne funkcje przynależności dla czterech zmiennych stanu regulatora Fuzzy-LQR. Każda zmienna posiada dwa zbiory rozmyte: ,,Mały błąd'' (aktywny w~pobliżu zera) oraz ,,Duży błąd'' (aktywny przy większych odchyleniach od~punktu równowagi)}{figure.caption.28}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.1\relax .\enspace  }Dobór reguł i funkcji przynależności}{39}{subsubsection.4.6.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {4.20}{\ignorespaces Regulator Fuzzy-LQR z~wąskimi funkcjami przynależności (zakres ,,mały błąd'' dla $\theta $: $[-0.02, 0.02]$~rad).}}{39}{figure.caption.29}\protected@file@percent }
-\newlabel{fig:fuzzy_bad}{{4.20}{39}{Regulator Fuzzy-LQR z~wąskimi funkcjami przynależności (zakres ,,mały błąd'' dla $\theta $: $[-0.02, 0.02]$~rad)}{figure.caption.29}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.6}{\ignorespaces Porównanie nastaw regulatora MPC.}}{29}{figure.caption.18}\protected@file@percent }
+\newlabel{fig:combined_mpc}{{4.6}{29}{Porównanie nastaw regulatora MPC}{figure.caption.18}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4\relax .\enspace  }MPC z~rozszerzonym wskaźnikiem jakości (MPC-alt)}{29}{subsection.4.4}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace  }Dobór parametrów i analiza wpływu kary za energię}{30}{subsubsection.4.4.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.4}{\ignorespaces Analiza wpływu kary energetycznej w MPC-alt (przy stałych $Q$ i $R_{\Delta }$).}}{30}{table.caption.19}\protected@file@percent }
+\newlabel{tab:params_mpcj2}{{4.4}{30}{Analiza wpływu kary energetycznej w MPC-alt (przy stałych $Q$ i $R_{\Delta }$)}{table.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.7}{\ignorespaces Analiza wpływu kary za energię $R_{abs}$ w sterowaniu MPC-alt.}}{31}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:combined_mpcj2}{{4.7}{31}{Analiza wpływu kary za energię $R_{abs}$ w sterowaniu MPC-alt}{figure.caption.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5\relax .\enspace  }Liniowy regulator MPC (LMPC)}{31}{subsection.4.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace  }Dobór parametrów i~analiza działania}{32}{subsubsection.4.5.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.5}{\ignorespaces Zestawienie parametrów strojenia LMPC.}}{33}{table.caption.21}\protected@file@percent }
+\newlabel{tab:params_lmpc}{{4.5}{33}{Zestawienie parametrów strojenia LMPC}{table.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.8}{\ignorespaces Strojenie liniowego regulatora MPC. 1. Słabe wagi (czerwony): $Q=I$. 2. Optymalne (zielony): $Q_{theta}=15$.}}{33}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:combined_lmpc}{{4.8}{33}{Strojenie liniowego regulatora MPC. 1. Słabe wagi (czerwony): $Q=I$. 2. Optymalne (zielony): $Q_{theta}=15$}{figure.caption.22}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.6\relax .\enspace  }Regulator rozmyty wspomagany LQR (Fuzzy-LQR)}{34}{subsection.4.6}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4.9}{\ignorespaces Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową.}}{34}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:diagram_fuzzy}{{4.9}{34}{Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową}{figure.caption.23}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.10}{\ignorespaces Trójkątne funkcje przynależności dla czterech zmiennych stanu regulatora Fuzzy-LQR. Każda zmienna posiada dwa zbiory rozmyte: ,,Mały błąd'' (aktywny w~pobliżu zera) oraz ,,Duży błąd'' (aktywny przy większych odchyleniach od~punktu równowagi).}}{35}{figure.caption.24}\protected@file@percent }
+\newlabel{fig:fuzzy_membership}{{4.10}{35}{Trójkątne funkcje przynależności dla czterech zmiennych stanu regulatora Fuzzy-LQR. Każda zmienna posiada dwa zbiory rozmyte: ,,Mały błąd'' (aktywny w~pobliżu zera) oraz ,,Duży błąd'' (aktywny przy większych odchyleniach od~punktu równowagi)}{figure.caption.24}{}}
 \abx@aux@cite{0}{Nguyen2024}
 \abx@aux@segm{0}{0}{Nguyen2024}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.21}{\ignorespaces Regulator Fuzzy-LQR z~ręcznie dobranymi parametrami ($F_{\theta }=20$, $F_{\dot  {\theta }}=5$, $F_x=10$, $F_{\dot  {x}}=2$, zakres: $[-0.2, 0.2]$~rad).}}{40}{figure.caption.30}\protected@file@percent }
-\newlabel{fig:fuzzy_manual}{{4.21}{40}{Regulator Fuzzy-LQR z~ręcznie dobranymi parametrami ($F_{\theta }=20$, $F_{\dot {\theta }}=5$, $F_x=10$, $F_{\dot {x}}=2$, zakres: $[-0.2, 0.2]$~rad)}{figure.caption.30}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {4.22}{\ignorespaces Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta }=40$, $F_{\dot  {\theta }}=1$, $F_x=15$, $F_{\dot  {x}}=20$, $G=0.36$).}}{41}{figure.caption.31}\protected@file@percent }
-\newlabel{fig:fuzzy_opt}{{4.22}{41}{Zoptymalizowany regulator Fuzzy-LQR ($F_{\theta }=40$, $F_{\dot {\theta }}=1$, $F_x=15$, $F_{\dot {x}}=20$, $G=0.36$)}{figure.caption.31}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.6.1\relax .\enspace  }Dobór reguł i funkcji przynależności}{36}{subsubsection.4.6.1}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {4.6}{\ignorespaces Parametry regulatora Fuzzy-LQR.}}{36}{table.caption.25}\protected@file@percent }
+\newlabel{tab:params_fuzzy}{{4.6}{36}{Parametry regulatora Fuzzy-LQR}{table.caption.25}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4.11}{\ignorespaces Strojenie regulatora Fuzzy-LQR.}}{37}{figure.caption.26}\protected@file@percent }
+\newlabel{fig:combined_fuzzy}{{4.11}{37}{Strojenie regulatora Fuzzy-LQR}{figure.caption.26}{}}
 \abx@aux@cite{0}{Prasad2014}
 \abx@aux@segm{0}{0}{Prasad2014}
-\@writefile{toc}{\contentsline {section}{\numberline {5\relax .\enspace  }Eksperymenty}{42}{section.5}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1\relax .\enspace  }Plan eksperymentów}{42}{subsection.5.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2\relax .\enspace  }Wskaźniki jakości regulacji}{43}{subsection.5.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6\relax .\enspace  }Analiza wyników}{45}{section.6}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1\relax .\enspace  }Stabilizacja w warunkach nominalnych}{45}{subsection.6.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace  }Charakterystyka regulatorów klasycznych}{45}{subsubsection.6.1.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne).}}{46}{figure.caption.32}\protected@file@percent }
-\newlabel{fig:nom_classical}{{6.1}{46}{Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne)}{figure.caption.32}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}}{47}{figure.caption.33}\protected@file@percent }
-\newlabel{fig:nom_pos_classical}{{6.2}{47}{Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne)}{figure.caption.33}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}}{47}{figure.caption.34}\protected@file@percent }
-\newlabel{fig:nom_control_classical}{{6.3}{47}{Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne)}{figure.caption.34}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace  }Charakterystyka regulatorów zaawansowanych}{48}{subsubsection.6.1.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{49}{figure.caption.35}\protected@file@percent }
-\newlabel{fig:nom_advanced}{{6.4}{49}{Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.35}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{49}{figure.caption.36}\protected@file@percent }
-\newlabel{fig:nom_pos_advanced}{{6.5}{49}{Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.36}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{50}{figure.caption.37}\protected@file@percent }
-\newlabel{fig:nom_control_advanced}{{6.6}{50}{Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.37}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.3\relax .\enspace  }Zestawienie wyników}{50}{subsubsection.6.1.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{51}{figure.caption.38}\protected@file@percent }
-\newlabel{fig:nom_advanced_all}{{6.7}{51}{Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.38}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{51}{figure.caption.39}\protected@file@percent }
-\newlabel{fig:nom_pos_advanced_all}{{6.8}{51}{Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.39}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{52}{figure.caption.40}\protected@file@percent }
-\newlabel{fig:nom_control_advanced_all}{{6.9}{52}{Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.40}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2\relax .\enspace  }Analiza odporności na zakłócenia}{52}{subsection.6.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1\relax .\enspace  }Charakterystyka regulatorów klasycznych}{52}{subsubsection.6.2.1}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{53}{figure.caption.41}\protected@file@percent }
-\newlabel{fig:wind_classical}{{6.10}{53}{Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne}{figure.caption.41}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{53}{figure.caption.42}\protected@file@percent }
-\newlabel{fig:wind_pos_classical}{{6.11}{53}{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne}{figure.caption.42}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{54}{figure.caption.43}\protected@file@percent }
-\newlabel{fig:wind_control_classical}{{6.12}{54}{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne}{figure.caption.43}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.2\relax .\enspace  }Charakterystyka regulatorów zaawansowanych}{54}{subsubsection.6.2.2}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{55}{figure.caption.44}\protected@file@percent }
-\newlabel{fig:wind_advanced}{{6.13}{55}{Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane}{figure.caption.44}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{55}{figure.caption.45}\protected@file@percent }
-\newlabel{fig:wind_pos_advanced}{{6.14}{55}{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane}{figure.caption.45}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.15}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{56}{figure.caption.46}\protected@file@percent }
-\newlabel{fig:wind_control_advanced}{{6.15}{56}{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane}{figure.caption.46}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.3\relax .\enspace  }Zestawienie wyników}{56}{subsubsection.6.2.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.16}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}}{57}{figure.caption.47}\protected@file@percent }
-\newlabel{fig:wind_all_theta}{{6.16}{57}{Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory}{figure.caption.47}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.17}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}}{57}{figure.caption.48}\protected@file@percent }
-\newlabel{fig:wind_all_pos}{{6.17}{57}{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory}{figure.caption.48}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.18}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}}{58}{figure.caption.49}\protected@file@percent }
-\newlabel{fig:wind_all_u}{{6.18}{58}{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory}{figure.caption.49}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3\relax .\enspace  }Analiza odporności na zmianę parametrów modelu}{58}{subsection.6.3}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.19}{\ignorespaces Przebieg kąta $\theta $ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{59}{figure.caption.50}\protected@file@percent }
-\newlabel{fig:robust_theta}{{6.19}{59}{Przebieg kąta $\theta $ przy zmienionych parametrach modelu (+100\% masy wahadła)}{figure.caption.50}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.20}{\ignorespaces Przebieg pozycji $x$ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{60}{figure.caption.51}\protected@file@percent }
-\newlabel{fig:robust_x}{{6.20}{60}{Przebieg pozycji $x$ przy zmienionych parametrach modelu (+100\% masy wahadła)}{figure.caption.51}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6.21}{\ignorespaces Sygnał sterujący $u$ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{60}{figure.caption.52}\protected@file@percent }
-\newlabel{fig:robust_u}{{6.21}{60}{Sygnał sterujący $u$ przy zmienionych parametrach modelu (+100\% masy wahadła)}{figure.caption.52}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.1\relax .\enspace  }Analiza wrażliwości na zakres zmian}{61}{subsubsection.6.3.1}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.4\relax .\enspace  }Szczegółowe zestawienie ilościowe}{61}{subsection.6.4}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6.22}{\ignorespaces Analiza wrażliwości: zależność wskaźnika $IAE_\theta $ od~zmiany masy wahadła dla poszczególnych regulatorów. Linia pionowa oznacza warunki nominalne.}}{62}{figure.caption.53}\protected@file@percent }
-\newlabel{fig:robust_sensitivity}{{6.22}{62}{Analiza wrażliwości: zależność wskaźnika $IAE_\theta $ od~zmiany masy wahadła dla poszczególnych regulatorów. Linia pionowa oznacza warunki nominalne}{figure.caption.53}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - warunki nominalne}}{62}{table.caption.54}\protected@file@percent }
-\newlabel{tab:results_nominal}{{6.1}{62}{Wskaźniki jakości (Kąt i Pozycja) - warunki nominalne}{table.caption.54}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - zakłócenia zewnętrzne}}{62}{table.caption.55}\protected@file@percent }
-\newlabel{tab:results_wind}{{6.2}{62}{Wskaźniki jakości (Kąt i Pozycja) - zakłócenia zewnętrzne}{table.caption.55}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - odporność na zmianę parametrów modelu (+100\% masy wahadła)}}{63}{table.caption.56}\protected@file@percent }
-\newlabel{tab:results_robustness}{{6.3}{63}{Wskaźniki jakości (Kąt i Pozycja) - odporność na zmianę parametrów modelu (+100\% masy wahadła)}{table.caption.56}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.5\relax .\enspace  }Porównanie złożoności obliczeniowej}{63}{subsection.6.5}\protected@file@percent }
-\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Średni czas obliczeń jednej iteracji pętli sterowania}}{63}{table.caption.57}\protected@file@percent }
-\newlabel{tab:computation_time}{{6.4}{63}{Średni czas obliczeń jednej iteracji pętli sterowania}{table.caption.57}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {7\relax .\enspace  }Podsumowanie}{64}{section.7}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Bibliografia}{65}{section*.58}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Wykaz symboli i skrótów}{66}{section*.59}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Spis rysunków}{69}{section*.59}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{Spis tabel}{69}{section*.59}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5\relax .\enspace  }Eksperymenty}{38}{section.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1\relax .\enspace  }Plan eksperymentów}{38}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2\relax .\enspace  }Wskaźniki jakości regulacji}{39}{subsection.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6\relax .\enspace  }Analiza wyników}{41}{section.6}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1\relax .\enspace  }Stabilizacja w warunkach nominalnych}{41}{subsection.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.1\relax .\enspace  }Charakterystyka regulatorów klasycznych}{41}{subsubsection.6.1.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.1}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne).}}{42}{figure.caption.27}\protected@file@percent }
+\newlabel{fig:nom_classical}{{6.1}{42}{Przebieg kąta $\theta $ dla regulatorów klasycznych (Warunki nominalne)}{figure.caption.27}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.2}{\ignorespaces Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne).}}{43}{figure.caption.28}\protected@file@percent }
+\newlabel{fig:nom_pos_classical}{{6.2}{43}{Przebieg pozycji $x$ dla regulatorów klasycznych (Warunki nominalne)}{figure.caption.28}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.3}{\ignorespaces Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne).}}{43}{figure.caption.29}\protected@file@percent }
+\newlabel{fig:nom_control_classical}{{6.3}{43}{Sygnał sterujący $u$ dla regulatorów klasycznych (Warunki nominalne)}{figure.caption.29}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.2\relax .\enspace  }Charakterystyka regulatorów zaawansowanych}{44}{subsubsection.6.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.4}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{45}{figure.caption.30}\protected@file@percent }
+\newlabel{fig:nom_advanced}{{6.4}{45}{Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.30}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.5}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{45}{figure.caption.31}\protected@file@percent }
+\newlabel{fig:nom_pos_advanced}{{6.5}{45}{Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.31}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.6}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{46}{figure.caption.32}\protected@file@percent }
+\newlabel{fig:nom_control_advanced}{{6.6}{46}{Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.32}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.1.3\relax .\enspace  }Zestawienie wyników}{46}{subsubsection.6.1.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.7}{\ignorespaces Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne).}}{47}{figure.caption.33}\protected@file@percent }
+\newlabel{fig:nom_advanced_all}{{6.7}{47}{Przebieg kąta $\theta $ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.33}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.8}{\ignorespaces Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne).}}{47}{figure.caption.34}\protected@file@percent }
+\newlabel{fig:nom_pos_advanced_all}{{6.8}{47}{Przebieg pozycji $x$ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.34}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.9}{\ignorespaces Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne).}}{48}{figure.caption.35}\protected@file@percent }
+\newlabel{fig:nom_control_advanced_all}{{6.9}{48}{Sygnał sterujący $u$ dla regulatorów zaawansowanych (Warunki nominalne)}{figure.caption.35}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2\relax .\enspace  }Analiza odporności na zakłócenia}{48}{subsection.6.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.1\relax .\enspace  }Charakterystyka regulatorów klasycznych}{48}{subsubsection.6.2.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.10}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{49}{figure.caption.36}\protected@file@percent }
+\newlabel{fig:wind_classical}{{6.10}{49}{Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne}{figure.caption.36}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.11}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{49}{figure.caption.37}\protected@file@percent }
+\newlabel{fig:wind_pos_classical}{{6.11}{49}{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne}{figure.caption.37}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.12}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne.}}{50}{figure.caption.38}\protected@file@percent }
+\newlabel{fig:wind_control_classical}{{6.12}{50}{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory klasyczne}{figure.caption.38}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.2\relax .\enspace  }Charakterystyka regulatorów zaawansowanych}{50}{subsubsection.6.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.13}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{51}{figure.caption.39}\protected@file@percent }
+\newlabel{fig:wind_advanced}{{6.13}{51}{Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane}{figure.caption.39}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.14}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{51}{figure.caption.40}\protected@file@percent }
+\newlabel{fig:wind_pos_advanced}{{6.14}{51}{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane}{figure.caption.40}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.15}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane.}}{52}{figure.caption.41}\protected@file@percent }
+\newlabel{fig:wind_control_advanced}{{6.15}{52}{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- regulatory zaawansowane}{figure.caption.41}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.2.3\relax .\enspace  }Zestawienie wyników}{52}{subsubsection.6.2.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.16}{\ignorespaces Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}}{53}{figure.caption.42}\protected@file@percent }
+\newlabel{fig:wind_all_theta}{{6.16}{53}{Przebieg kąta $\theta $ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory}{figure.caption.42}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.17}{\ignorespaces Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}}{53}{figure.caption.43}\protected@file@percent }
+\newlabel{fig:wind_all_pos}{{6.17}{53}{Dryf pozycji $x$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory}{figure.caption.43}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.18}{\ignorespaces Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory.}}{54}{figure.caption.44}\protected@file@percent }
+\newlabel{fig:wind_all_u}{{6.18}{54}{Sygnał sterujący $u$ pod wpływem zakłóceń zewnętrznych -- wszystkie regulatory}{figure.caption.44}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3\relax .\enspace  }Analiza odporności na zmianę parametrów modelu}{54}{subsection.6.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.19}{\ignorespaces Przebieg kąta $\theta $ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{55}{figure.caption.45}\protected@file@percent }
+\newlabel{fig:robust_theta}{{6.19}{55}{Przebieg kąta $\theta $ przy zmienionych parametrach modelu (+100\% masy wahadła)}{figure.caption.45}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.20}{\ignorespaces Przebieg pozycji $x$ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{56}{figure.caption.46}\protected@file@percent }
+\newlabel{fig:robust_x}{{6.20}{56}{Przebieg pozycji $x$ przy zmienionych parametrach modelu (+100\% masy wahadła)}{figure.caption.46}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6.21}{\ignorespaces Sygnał sterujący $u$ przy zmienionych parametrach modelu (+100\% masy wahadła).}}{56}{figure.caption.47}\protected@file@percent }
+\newlabel{fig:robust_u}{{6.21}{56}{Sygnał sterujący $u$ przy zmienionych parametrach modelu (+100\% masy wahadła)}{figure.caption.47}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.1\relax .\enspace  }Analiza wrażliwości na zakres zmian}{57}{subsubsection.6.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.4\relax .\enspace  }Szczegółowe zestawienie ilościowe}{57}{subsection.6.4}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6.22}{\ignorespaces Analiza wrażliwości: zależność wskaźnika $IAE_\theta $ od~zmiany masy wahadła dla poszczególnych regulatorów. Linia pionowa oznacza warunki nominalne.}}{58}{figure.caption.48}\protected@file@percent }
+\newlabel{fig:robust_sensitivity}{{6.22}{58}{Analiza wrażliwości: zależność wskaźnika $IAE_\theta $ od~zmiany masy wahadła dla poszczególnych regulatorów. Linia pionowa oznacza warunki nominalne}{figure.caption.48}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.1}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - warunki nominalne}}{58}{table.caption.49}\protected@file@percent }
+\newlabel{tab:results_nominal}{{6.1}{58}{Wskaźniki jakości (Kąt i Pozycja) - warunki nominalne}{table.caption.49}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.2}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - zakłócenia zewnętrzne}}{58}{table.caption.50}\protected@file@percent }
+\newlabel{tab:results_wind}{{6.2}{58}{Wskaźniki jakości (Kąt i Pozycja) - zakłócenia zewnętrzne}{table.caption.50}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {6.3}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - odporność na zmianę parametrów modelu (+100\% masy wahadła)}}{59}{table.caption.51}\protected@file@percent }
+\newlabel{tab:results_robustness}{{6.3}{59}{Wskaźniki jakości (Kąt i Pozycja) - odporność na zmianę parametrów modelu (+100\% masy wahadła)}{table.caption.51}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.5\relax .\enspace  }Porównanie złożoności obliczeniowej}{59}{subsection.6.5}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6.4}{\ignorespaces Średni czas obliczeń jednej iteracji pętli sterowania}}{59}{table.caption.52}\protected@file@percent }
+\newlabel{tab:computation_time}{{6.4}{59}{Średni czas obliczeń jednej iteracji pętli sterowania}{table.caption.52}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {7\relax .\enspace  }Podsumowanie}{60}{section.7}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Bibliografia}{61}{section*.53}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Wykaz symboli i skrótów}{62}{section*.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Spis rysunków}{64}{section*.54}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{Spis tabel}{64}{section*.54}\protected@file@percent }
 \abx@aux@read@bbl@mdfivesum{A6C2879471026C5D36DAC0ED962A5063}
 \abx@aux@defaultrefcontext{0}{Segway2018}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{Crane2012}{none/global//global/global/global}
@@ -267,4 +257,4 @@
 \abx@aux@defaultrefcontext{0}{Roose2017}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{Harris2020}{none/global//global/global/global}
 \abx@aux@defaultrefcontext{0}{Virtanen2020}{none/global//global/global/global}
-\gdef \@abspage@last{69}
+\gdef \@abspage@last{64}

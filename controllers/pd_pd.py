@@ -63,8 +63,11 @@ if __name__ == "__main__":
     #wind = Wind(T, seed=23341, Ts=0.01, power=1e-3, smooth=5)
 
     # Gains from config/controllers/pd_pd.yaml
-    ang_pid = {"Kp": -40.0, "Ki": -1.0, "Kd": -8.0}
-    cart_pid = {"Kp": -1.0, "Ki": -0.1, "Kd": -3.0}
+    # ang_pid = {"Kp": -40.0, "Ki": -1.0, "Kd": -8.0}
+    # cart_pid = {"Kp": -1.0, "Ki": -0.1, "Kd": -3.0}
+
+    ang_pid={"Kp": -60.0, "Ki": -2.0, "Kd": -9.0}
+    cart_pid={"Kp": -2.0, "Ki": -1.0, "Kd": -1.0}
 
     # ang_pid = {"Kp": -95.0, "Ki": 0.0, "Kd": -14.0}
     # cart_pid = {"Kp": -16.0, "Ki": 0.0, "Kd": -14.0}
