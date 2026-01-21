@@ -72,7 +72,7 @@ def run_simulation(ctrl, name, filename_suffix, title_suffix):
     ax2.set_title("") 
     
     ax3 = fig.add_subplot(3, 1, 3)
-    ax3.plot(tf*10, U) 
+    ax3.step(t*10, np.append(U, U[-1]), where='post') 
     ax3.grid(True)
     ax3.set_ylabel(r'u [N]')
     ax3.set_xlabel('k')

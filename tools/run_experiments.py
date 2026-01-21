@@ -123,7 +123,7 @@ def run_single_experiment(ctrl, name, wind_enabled=False):
     axes[1].legend()
     
     # Control
-    axes[2].plot(tf*10, U, label=r'$u$')
+    axes[2].step(t*10, np.append(U, U[-1]), where='post', label=r'$u$')
     axes[2].set_ylabel(r'Siła sterująca $u$ [N]')
     axes[2].set_xlabel('k')
     axes[2].grid(True)
@@ -233,7 +233,7 @@ def main():
                     ref_val = np.ones_like(t_ref) * 0.1 
                     plot_ref = True
                 elif signal_type == 'u':
-                    ax.plot(tf*10, U, label=name, linewidth=3)
+                    ax.step(t*10, np.append(U, U[-1]), where='post', label=name, linewidth=3)
                     ylabel = r'u [N]'
                     plot_ref = False
         

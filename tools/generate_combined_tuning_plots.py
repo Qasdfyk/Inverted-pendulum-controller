@@ -79,7 +79,8 @@ def plot_combined_tuning(controller_name, configs, filename_suffix):
         axes[1].plot(x_axis_data, X[:, 2], label=lbl, color=col, linestyle=ls)
         
         # Control
-        axes[2].plot(x_axis_data_u, U, label=lbl, color=col, linestyle=ls)
+        # Control
+        axes[2].step(x_axis_data, np.append(U, U[-1]), where='post', label=lbl, color=col, linestyle=ls)
 
     # Reference lines (using last t)
     # Theta Ref

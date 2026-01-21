@@ -183,7 +183,7 @@ def plot_combined(trajectories, signal_type, filename, title):
             ref_val = np.zeros_like(t_ref)
             plot_ref = True
         elif signal_type == 'u':
-            ax.plot(tf*10, U, label=name, linewidth=3)
+            ax.step(t*10, np.append(U, U[-1]), where='post', label=name, linewidth=3)
             ylabel = r'u [N]'
             plot_ref = False
     
