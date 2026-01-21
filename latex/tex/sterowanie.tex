@@ -84,7 +84,7 @@ przyjmuje postać dyskretną.
     u_{\theta}(k) = K_{p,\theta} e_{\theta}(k) + K_{i,\theta} \sum_{j=0}^{k} e_{\theta}(j) T - K_{d,\theta} \frac{\theta(k) - \theta(k-1)}{T}, \label{eq:pd_theta} \\
     u_{x}(k) = K_{p,x} e_x(k) + K_{i,x} \sum_{j=0}^{k} e_x(j) T - K_{d,x} \frac{x(k) - x(k-1)}{T}. \label{eq:pd_x}
 \end{align}
-gdzie $T$ oznacza okres próbkowania.
+gdzie $T=0{,}1$~s oznacza okres próbkowania, co pozwala na przejście z opisu w czasie ciągłym $t$ do dyskretnych chwil $k$.
 \subsubsection{Proces doboru nastaw oraz analiza PID}
 Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo.
 Wstępny dobór nastaw przeprowadzono metodą eksperymentalną prób i błędów, 
