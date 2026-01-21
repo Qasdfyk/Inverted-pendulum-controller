@@ -53,7 +53,7 @@ def f_damped(x, u, pars):
 def generate_open_loop_plot():
     # Parameters
     dt = 0.05
-    T = 6.0 
+    T = 10.0 
     steps = int(T / dt)
     
     # Initial condition: slightly unstable (small angle)
