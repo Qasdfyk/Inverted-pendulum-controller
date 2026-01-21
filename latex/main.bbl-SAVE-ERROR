@@ -1,0 +1,464 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{Segway2018}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=343bc4a5591ff78c043574cab76f2d43}{%
+           family={Azevedo\bibnamedelima Perdicoúlis},
+           familyi={A\bibinitperiod\bibinitdelim P\bibinitperiod},
+           given={T.\bibnamedelimi P.},
+           giveni={T\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+        {{hash=d8f41e094ee47ed585bc7c5af270621b}{%
+           family={Lopes\bibnamedelimb dos\bibnamedelima Santos},
+           familyi={L\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim S\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{759f262c6182656dbac76d93da7834dd}
+      \strng{fullhash}{759f262c6182656dbac76d93da7834dd}
+      \strng{fullhashraw}{759f262c6182656dbac76d93da7834dd}
+      \strng{bibnamehash}{759f262c6182656dbac76d93da7834dd}
+      \strng{authorbibnamehash}{759f262c6182656dbac76d93da7834dd}
+      \strng{authornamehash}{759f262c6182656dbac76d93da7834dd}
+      \strng{authorfullhash}{759f262c6182656dbac76d93da7834dd}
+      \strng{authorfullhashraw}{759f262c6182656dbac76d93da7834dd}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{MATEC Web of Conferences}
+      \field{title}{The Secrets of Segway Revealed to Students: Revisiting the Inverted Pendulum}
+      \field{volume}{211}
+      \field{year}{2018}
+      \field{pages}{15003}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1051/matecconf/201821115003
+      \endverb
+    \endentry
+    \entry{Crane2012}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=35df6397d9379127a68d2ccdf94cbe60}{%
+           family={Ngo},
+           familyi={N\bibinitperiod},
+           given={Q.\bibnamedelimi H.},
+           giveni={Q\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=575b32c92fa7af333ba77a4e4053517f}{%
+           family={Hong},
+           familyi={H\bibinitperiod},
+           given={K.\bibnamedelimi S.},
+           giveni={K\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{fullhash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{fullhashraw}{25682bf4feea9471d618569ee3d4c918}
+      \strng{bibnamehash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{authorbibnamehash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{authornamehash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{authorfullhash}{25682bf4feea9471d618569ee3d4c918}
+      \strng{authorfullhashraw}{25682bf4feea9471d618569ee3d4c918}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE/ASME Transactions on Mechatronics}
+      \field{number}{2}
+      \field{title}{Sliding-Mode Antisway Control of an Offshore Container Crane}
+      \field{volume}{17}
+      \field{year}{2012}
+      \field{pages}{201\bibrangedash 209}
+      \range{pages}{9}
+      \verb{doi}
+      \verb 10.1109/TMECH.2010.2100045
+      \endverb
+    \endentry
+    \entry{Prasad2014}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=49a2228798f6e682eb2778d9ed9cc076}{%
+           family={Prasad},
+           familyi={P\bibinitperiod},
+           given={L.\bibnamedelimi B.},
+           giveni={L\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+        {{hash=82d97e99f679c59a37409123f9ad2774}{%
+           family={Tyagi},
+           familyi={T\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod}}}%
+        {{hash=b6704db85da33e74931ebdc19422e6bf}{%
+           family={Gupta},
+           familyi={G\bibinitperiod},
+           given={H.\bibnamedelimi O.},
+           giveni={H\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+      }
+      \strng{namehash}{dad4897a5975a13f0b18fab9a1a9de56}
+      \strng{fullhash}{d6abadc95a1b44ded543fd464079533f}
+      \strng{fullhashraw}{d6abadc95a1b44ded543fd464079533f}
+      \strng{bibnamehash}{d6abadc95a1b44ded543fd464079533f}
+      \strng{authorbibnamehash}{d6abadc95a1b44ded543fd464079533f}
+      \strng{authornamehash}{dad4897a5975a13f0b18fab9a1a9de56}
+      \strng{authorfullhash}{d6abadc95a1b44ded543fd464079533f}
+      \strng{authorfullhashraw}{d6abadc95a1b44ded543fd464079533f}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Automation and Computing}
+      \field{number}{6}
+      \field{title}{Optimal Control of Nonlinear Inverted Pendulum System Using PID Controller and LQR: Performance Analysis Without and With Disturbance Input}
+      \field{volume}{11}
+      \field{year}{2014}
+      \field{pages}{661\bibrangedash 670}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1007/s11633-014-0818-1
+      \endverb
+    \endentry
+    \entry{Varghese2017}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=ff5432ddf2577fe43cd5151b8ae8b003}{%
+           family={Varghese},
+           familyi={V\bibinitperiod},
+           given={Elisa\bibnamedelima Sara},
+           giveni={E\bibinitperiod\bibinitdelim S\bibinitperiod}}}%
+        {{hash=b83e6a331b71f6644c94e84e43503c4b}{%
+           family={Vincent},
+           familyi={V\bibinitperiod},
+           given={Anju\bibnamedelima K.},
+           giveni={A\bibinitperiod\bibinitdelim K\bibinitperiod}}}%
+        {{hash=f6068c625c4cf4febf1273918f527436}{%
+           family={Bagyaveereswaran},
+           familyi={B\bibinitperiod},
+           given={V.},
+           giveni={V\bibinitperiod}}}%
+      }
+      \strng{namehash}{adec594d9ee38400facf563caf48218e}
+      \strng{fullhash}{6a0007f6f7bd76f11081b095e21951de}
+      \strng{fullhashraw}{6a0007f6f7bd76f11081b095e21951de}
+      \strng{bibnamehash}{6a0007f6f7bd76f11081b095e21951de}
+      \strng{authorbibnamehash}{6a0007f6f7bd76f11081b095e21951de}
+      \strng{authornamehash}{adec594d9ee38400facf563caf48218e}
+      \strng{authorfullhash}{6a0007f6f7bd76f11081b095e21951de}
+      \strng{authorfullhashraw}{6a0007f6f7bd76f11081b095e21951de}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{IOP Conference Series: Materials Science and Engineering}
+      \field{number}{5}
+      \field{title}{Optimal control of inverted pendulum system using PID controller, LQR and MPC}
+      \field{volume}{263}
+      \field{year}{2017}
+      \field{pages}{052007}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1088/1757-899X/263/5/052007
+      \endverb
+    \endentry
+    \entry{Nguyen2024}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=69b0e7bbe19a874a9b242bfff9e36065}{%
+           family={Nguyen},
+           familyi={N\bibinitperiod},
+           given={Thi-Van-Anh},
+           giveni={T\bibinithyphendelim V\bibinithyphendelim A\bibinitperiod}}}%
+        {{hash=51cb79b06da09c1984d90227c22ff923}{%
+           family={Tran},
+           familyi={T\bibinitperiod},
+           given={Ngoc-Hiep},
+           giveni={N\bibinithyphendelim H\bibinitperiod}}}%
+      }
+      \strng{namehash}{d9e27f34e3bb5f2019f0a41e4050a25c}
+      \strng{fullhash}{d9e27f34e3bb5f2019f0a41e4050a25c}
+      \strng{fullhashraw}{d9e27f34e3bb5f2019f0a41e4050a25c}
+      \strng{bibnamehash}{d9e27f34e3bb5f2019f0a41e4050a25c}
+      \strng{authorbibnamehash}{d9e27f34e3bb5f2019f0a41e4050a25c}
+      \strng{authornamehash}{d9e27f34e3bb5f2019f0a41e4050a25c}
+      \strng{authorfullhash}{d9e27f34e3bb5f2019f0a41e4050a25c}
+      \strng{authorfullhashraw}{d9e27f34e3bb5f2019f0a41e4050a25c}
+      \field{sortinit}{6}
+      \field{sortinithash}{b33bc299efb3c36abec520a4c896a66d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Applied Science and Engineering}
+      \field{number}{5}
+      \field{title}{An Integrated Controller for Stabilizing an Inverted Pendulum: LQR and Fuzzy Logic Control with Observer-Based State Estimation}
+      \field{volume}{27}
+      \field{year}{2024}
+      \field{pages}{2493\bibrangedash 2502}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.6180/jase.202405_27(5).0006
+      \endverb
+    \endentry
+    \entry{Jezierski2017}{incollection}{}{}
+      \name{author}{3}{}{%
+        {{hash=fe12aa0e97b1d2643adee70bc67f8577}{%
+           family={Jezierski},
+           familyi={J\bibinitperiod},
+           given={Andrzej},
+           giveni={A\bibinitperiod}}}%
+        {{hash=2c4f23cc800397c76b72ef379b009577}{%
+           family={Mozaryn},
+           familyi={M\bibinitperiod},
+           given={Jakub},
+           giveni={J\bibinitperiod}}}%
+        {{hash=dd04fc3be6481eb6508f86108643c064}{%
+           family={Suski},
+           familyi={S\bibinitperiod},
+           given={Damian},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cham}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{d5ab36739d21bf38890b3dc05f88bc90}
+      \strng{fullhash}{b11488eefb72d673eb992a3a578afc51}
+      \strng{fullhashraw}{b11488eefb72d673eb992a3a578afc51}
+      \strng{bibnamehash}{b11488eefb72d673eb992a3a578afc51}
+      \strng{authorbibnamehash}{b11488eefb72d673eb992a3a578afc51}
+      \strng{authornamehash}{d5ab36739d21bf38890b3dc05f88bc90}
+      \strng{authorfullhash}{b11488eefb72d673eb992a3a578afc51}
+      \strng{authorfullhashraw}{b11488eefb72d673eb992a3a578afc51}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Trends in Advanced Intelligent Control, Optimization and Automation}
+      \field{series}{Advances in Intelligent Systems and Computing}
+      \field{title}{A Comparison of LQR and MPC Control Algorithms of an Inverted Pendulum}
+      \field{volume}{577}
+      \field{year}{2017}
+      \field{pages}{65\bibrangedash 76}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1007/978-3-319-60699-6_8
+      \endverb
+    \endentry
+    \entry{Camacho2007}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=15ba64c29210ce6f6ade73c5d69ac3ae}{%
+           family={Camacho},
+           familyi={C\bibinitperiod},
+           given={Eduardo\bibnamedelima F.},
+           giveni={E\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=afffb6ded8f4576b41f45b7e6998955e}{%
+           family={Bordons},
+           familyi={B\bibinitperiod},
+           given={Carlos},
+           giveni={C\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {London}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{5acefe3acf95863766150a121e12e231}
+      \strng{fullhash}{5acefe3acf95863766150a121e12e231}
+      \strng{fullhashraw}{5acefe3acf95863766150a121e12e231}
+      \strng{bibnamehash}{5acefe3acf95863766150a121e12e231}
+      \strng{authorbibnamehash}{5acefe3acf95863766150a121e12e231}
+      \strng{authornamehash}{5acefe3acf95863766150a121e12e231}
+      \strng{authorfullhash}{5acefe3acf95863766150a121e12e231}
+      \strng{authorfullhashraw}{5acefe3acf95863766150a121e12e231}
+      \field{sortinit}{8}
+      \field{sortinithash}{a231b008ebf0ecbe0b4d96dcc159445f}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{title}{Model Predictive Control}
+      \field{year}{2007}
+      \verb{doi}
+      \verb 10.1007/978-1-84628-615-5
+      \endverb
+    \endentry
+    \entry{Mills2009}{inproceedings}{}{}
+      \name{author}{3}{}{%
+        {{hash=c1521c94eee5b63801ad97b18546e8f2}{%
+           family={Mills},
+           familyi={M\bibinitperiod},
+           given={Adam},
+           giveni={A\bibinitperiod}}}%
+        {{hash=fab21355ad1dec2960931935e8dfb3dd}{%
+           family={Wills},
+           familyi={W\bibinitperiod},
+           given={Adrian},
+           giveni={A\bibinitperiod}}}%
+        {{hash=0de7130037a289c38b412fcef676289a}{%
+           family={Ninness},
+           familyi={N\bibinitperiod},
+           given={Brett},
+           giveni={B\bibinitperiod}}}%
+      }
+      \strng{namehash}{64a4958f807c0209187708313f7ea45c}
+      \strng{fullhash}{e0d88cbe972f3c3792601a6931703b8a}
+      \strng{fullhashraw}{e0d88cbe972f3c3792601a6931703b8a}
+      \strng{bibnamehash}{e0d88cbe972f3c3792601a6931703b8a}
+      \strng{authorbibnamehash}{e0d88cbe972f3c3792601a6931703b8a}
+      \strng{authornamehash}{64a4958f807c0209187708313f7ea45c}
+      \strng{authorfullhash}{e0d88cbe972f3c3792601a6931703b8a}
+      \strng{authorfullhashraw}{e0d88cbe972f3c3792601a6931703b8a}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the American Control Conference}
+      \field{title}{Nonlinear Model Predictive Control of an Inverted Pendulum}
+      \field{year}{2009}
+      \field{pages}{2335\bibrangedash 2340}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/ACC.2009.5160600
+      \endverb
+    \endentry
+    \entry{Roose2017}{article}{}{}
+      \name{author}{3}{}{%
+        {{hash=9f45a6ed7825227f1bc6cc5f130777f5}{%
+           family={Roose},
+           familyi={R\bibinitperiod},
+           given={Alain\bibnamedelima I.},
+           giveni={A\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+        {{hash=bc00c4079008ce0b08d1fcac8902d0b1}{%
+           family={Smiley},
+           familyi={S\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod}}}%
+        {{hash=1d82336057ab6f18d554e82fea0f0430}{%
+           family={Ali},
+           familyi={A\bibinitperiod},
+           given={A.\bibnamedelimi Y.},
+           giveni={A\bibinitperiod\bibinitdelim Y\bibinitperiod}}}%
+      }
+      \strng{namehash}{8f149b78dcb5385d66c447dffb979ac0}
+      \strng{fullhash}{8a994e6946c358d6ae9b96e408dfd621}
+      \strng{fullhashraw}{8a994e6946c358d6ae9b96e408dfd621}
+      \strng{bibnamehash}{8a994e6946c358d6ae9b96e408dfd621}
+      \strng{authorbibnamehash}{8a994e6946c358d6ae9b96e408dfd621}
+      \strng{authornamehash}{8f149b78dcb5385d66c447dffb979ac0}
+      \strng{authorfullhash}{8a994e6946c358d6ae9b96e408dfd621}
+      \strng{authorfullhashraw}{8a994e6946c358d6ae9b96e408dfd621}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Computers \& Electrical Engineering}
+      \field{title}{Fuzzy-logic control of an inverted pendulum on a cart}
+      \field{volume}{63}
+      \field{year}{2017}
+      \field{pages}{260\bibrangedash 272}
+      \range{pages}{13}
+      \verb{doi}
+      \verb 10.1016/j.compeleceng.2017.05.016
+      \endverb
+    \endentry
+    \entry{Harris2020}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{3}{}{%
+        {{hash=db2b4761cc46be347b418e68660c9554}{%
+           family={Harris},
+           familyi={H\bibinitperiod},
+           given={Charles\bibnamedelima R.},
+           giveni={C\bibinitperiod\bibinitdelim R\bibinitperiod}}}%
+        {{hash=b053969d2c6a9ec8689980fb6463cd56}{%
+           family={Millman},
+           familyi={M\bibinitperiod},
+           given={K.\bibnamedelimi Jarrod},
+           giveni={K\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=9a5a65a789013a8d1e8035ec28df9b6e}{%
+           family={Walt},
+           familyi={W\bibinitperiod},
+           given={Stéfan\bibnamedelima J.},
+           giveni={S\bibinitperiod\bibinitdelim J\bibinitperiod},
+           prefix={van\bibnamedelima der},
+           prefixi={v\bibinitperiod\bibinitdelim d\bibinitperiod}}}%
+      }
+      \strng{namehash}{754b3dec5e203c19b9a5798bbb902222}
+      \strng{fullhash}{6689ecc3c9e295b778f29b8693fbf88e}
+      \strng{fullhashraw}{6689ecc3c9e295b778f29b8693fbf88e}
+      \strng{bibnamehash}{6689ecc3c9e295b778f29b8693fbf88e}
+      \strng{authorbibnamehash}{6689ecc3c9e295b778f29b8693fbf88e}
+      \strng{authornamehash}{754b3dec5e203c19b9a5798bbb902222}
+      \strng{authorfullhash}{6689ecc3c9e295b778f29b8693fbf88e}
+      \strng{authorfullhashraw}{6689ecc3c9e295b778f29b8693fbf88e}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature}
+      \field{title}{Array programming with {NumPy}}
+      \field{volume}{585}
+      \field{year}{2020}
+      \field{pages}{357\bibrangedash 362}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1038/s41586-020-2649-2
+      \endverb
+    \endentry
+    \entry{Virtanen2020}{article}{}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{3}{}{%
+        {{hash=18703a2bb6a62484483c193a212da2f8}{%
+           family={Virtanen},
+           familyi={V\bibinitperiod},
+           given={Pauli},
+           giveni={P\bibinitperiod}}}%
+        {{hash=646fbfe08374cc41c2f9bd971d8c4725}{%
+           family={Gommers},
+           familyi={G\bibinitperiod},
+           given={Ralf},
+           giveni={R\bibinitperiod}}}%
+        {{hash=d500f4849030f34359cdb3e1513acf83}{%
+           family={Oliphant},
+           familyi={O\bibinitperiod},
+           given={Travis\bibnamedelima E.},
+           giveni={T\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \strng{namehash}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{fullhash}{2614ea043823efadef6a201c96446be0}
+      \strng{fullhashraw}{2614ea043823efadef6a201c96446be0}
+      \strng{bibnamehash}{2614ea043823efadef6a201c96446be0}
+      \strng{authorbibnamehash}{2614ea043823efadef6a201c96446be0}
+      \strng{authornamehash}{f252038edd7f112d75da3bf0c1edecbc}
+      \strng{authorfullhash}{2614ea043823efadef6a201c96446be0}
+      \strng{authorfullhashraw}{2614ea043823efadef6a201c96446be0}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Nature Methods}
+      \field{title}{{SciPy} 1.0: fundamental algorithms for scientific computing in {Python}}
+      \field{volume}{17}
+      \field{year}{2020}
+      \field{pages}{261\bibrangedash 272}
+      \range{pages}{12}
+      \verb{doi}
+      \verb 10.1038/s41592-019-0686-2
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
