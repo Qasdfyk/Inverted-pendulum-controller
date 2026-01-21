@@ -302,7 +302,9 @@ która w~odróżnieniu od~LQR, uwzględnia wprost ograniczenia sygnału sterują
 oraz nieliniową dynamikę obiektu \cite{Camacho2007}.
 Zaimplementowany w~klasie \texttt{MPCController} 
 algorytm rozwiązuje w~każdym kroku symulacji problem optymalizacji dynamicznej
-nieliniowej (NMPC). Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:diagram_mpc}.
+nieliniowej (NMPC). Model predykcyjny wykorzystuje numeryczne całkowanie równań ruchu metodą 
+Rungego-Kutty 4. rzędu (RK4), co pozwala na dokładne odwzorowanie nieliniowej dynamiki obiektu. 
+Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:diagram_mpc}.
 
 \begin{figure}[H]
     \centering
@@ -438,7 +440,7 @@ $Q=\mathrm{diag}([158, 41, 43, 20])$, $R=0,086$.
 \subsection{MPC z~rozszerzonym wskaźnikiem jakości (MPC-alt)}
 
 Dodatkowo zaimplementowano regulator MPC z alternatywną funkcją kosztu. 
-Jego struktura jest zbliżona do~podstawowego MPC, jednak funkcja kosztu została rozbudowana
+Jego struktura oraz nieliniowy model predykcyjny (oparty na całkowaniu RK4) są identyczne jak w~podstawowym wariancie MPC, jednak funkcja kosztu została rozbudowana
 o~dodatkowy składnik karzący bezwzględną wartość sygnału sterującego (energię).
 
 Zmodyfikowana funkcja celu:
