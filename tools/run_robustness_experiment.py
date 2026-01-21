@@ -126,8 +126,8 @@ def calculate_metrics(t, x, u, x_ref, dt):
     metrics['energy_l2'] = control_energy_l2(tf, u)
     metrics['energy_l1'] = control_energy_l1(tf, u)
     
-    metrics['ts_theta'] = settling_time(t, theta, ref_theta, eps=0.01, hold_time=0.5)
-    metrics['ts_x'] = settling_time(t, pos, ref_pos, eps=0.01, hold_time=0.5)
+    metrics['ts_theta'] = settling_time(t, theta, ref_theta, eps=0.001, hold_time=0.5)
+    metrics['ts_x'] = settling_time(t, pos, ref_pos, eps=0.002, hold_time=0.5)
     
     metrics['max_theta'] = np.max(np.abs(theta))
     metrics['max_x'] = np.max(np.abs(pos))

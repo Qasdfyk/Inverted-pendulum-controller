@@ -119,17 +119,34 @@ def control_energy_l1(t, u):
     
     return float(np.trapz(np.abs(u), t))
 
-def settling_time(t, y, yref, eps, hold_time):
+def settling_time(t, y, yref, eps, hold_time=None):
+    """
+    Calculates settling time as the time after which the error stays within eps.
+    hold_time is kept for backward compatibility but strictly we look for 'settled until end'.
+    """
     t = np.asarray(t); e = np.abs(np.asarray(y) - np.asarray(yref))
     inside = e <= eps
-    N = len(t)
-    if N < 2: return float('nan')
-    dt = np.diff(t).mean()
-    win = max(1, int(np.round(hold_time / dt)))
-    for i in range(N - win + 1):
-        if np.all(inside[i:i+win]):
-            return float(t[i])
-    return float('nan')
+    
+    # If not inside at the end, it never settled
+    if not inside[-1]:
+        return float('nan')
+
+    # Find indices where it was OUTSIDE
+    outside_idxs = np.where(~inside)[0]
+    
+    if len(outside_idxs) == 0:
+        # Never outside
+        return float(t[0])
+    
+    # Last time it was outside
+    last_out = outside_idxs[-1]
+    
+    # Settling time is the next sample
+    if last_out < len(t) - 1:
+        return float(t[last_out + 1])
+    else:
+        # Should not happen given inside[-1] check unless last sample is unique
+        return float(t[-1])
 
 def overshoot(y, yref_final):
     y = np.asarray(y); r = float(yref_final)
