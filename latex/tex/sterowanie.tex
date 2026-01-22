@@ -4,10 +4,17 @@ W~niniejszym rozdziale przedstawiono szczegółowy opis algorytmów sterowania
 zaimplementowanych i~przeanalizowanych w~ramach pracy. Kod regulatorów został
 zrealizowany w~języku Python w~postaci klas dziedziczących wspólną strukturę,
 co zapewnia modularność i~łatwą wymienność w~pętli symulacyjnej. Każdy
-regulator wyznacza sygnał sterujący $\mathrm{u(k)}$ (siłę przyłożoną do wózka)
-na~podstawie aktualnego wektora stanu
-$x(k) = [\theta, \dot{\theta}, x, \dot{x}]^T$ oraz wartości zadanych
-$x_{\mathrm{ref}}$.
+regulator wyznacza sygnał sterujący $u(k)$ (siłę przyłożoną do wózka)
+na~podstawie aktualnego, dyskretnego wektora stanu
+$x(k) = [x_1(k), x_2(k), x_3(k), x_4(k)]^T$ oraz wartości zadanych
+$x_{\mathrm{ref}}$. Przyjęto następujące przyporządkowanie zmiennych stanu, 
+gdzie $t = k \cdot T$ ($T$ oznacza okres próbkowania):
+\begin{itemize}
+    \item $x_1(k)$ -- kąt wychylenia wahadła ($\theta$),
+    \item $x_2(k)$ -- prędkość kątowa wahadła (odpowiednik $\dot{\theta}$),
+    \item $x_3(k)$ -- pozycja wózka ($x$),
+    \item $x_4(k)$ -- prędkość liniowa wózka (odpowiednik $\dot{x}$).
+\end{itemize}
 
 W~literaturze problem sterowania wahadłem odwróconym jest szeroko omawiany
 jako klasyczny problem testowy dla metod sterowania liniowego i~nieliniowego
@@ -73,18 +80,20 @@ całkowity sygnał sterujący jest sumą reakcji na~błąd kąta oraz błąd poz
     \caption{Schemat blokowy regulatora PID o~strukturze równoległej.}
     \label{fig:diagram_pdpd}
 \end{figure}
-Prawo sterowania wyraża się wzorem:
+
+Prawo sterowania w~chwili $k$ wyraża się sumą sygnałów z~dwóch pętli regulacji:
 \begin{equation}
-    u(k) = u_{\theta}(k) + u_{x}(k),
+    u(k) =  u_{\theta}(k) + u_{x}(k).
 \end{equation}
-Definiując uchyby regulacji w $k$-tej chwili próbkowania jako $e_{\theta}(k) = \theta_{\mathrm{ref}} - \theta(k)$ 
-oraz $e_x(k) = x_{\mathrm{ref}} - x(k)$, prawo sterowania w implementacji cyfrowej
-przyjmuje postać dyskretną.
+W implementacji cyfrowej algorytm został zdyskretyzowany z~okresem próbkowania $T=0{,}1$~s. Dla uchybów regulacji zdefiniowanych jako $e_{\theta}(k) = \theta_{\mathrm{ref}} - x_1(k)$ oraz $e_x(k) = x_{\mathrm{ref}} - x_3(k)$, człon proporcjonalny realizowany jest jako proste wzmocnienie uchybu. Człon całkujący przybliżono numerycznie metodą prostokątów (sumowanie uchybów w~czasie), wyposażając go dodatkowo w~mechanizm \textit{anti-windup}, który ogranicza wartość całki do zakresu $\pm 5{,}0$. 
+
+Istotną modyfikację wprowadzono w~członie różniczkującym. Zamiast klasycznego obliczania różnicy uchybów ($\frac{\Delta e}{\Delta t}$), co może prowadzić do wzmacniania szumów kwantyzacji, zastosowano technikę różniczkowania sygnału wyjściowego (ang. \textit{derivative on measurement}). Wykorzystując fakt, że przy stałych wartościach zadanych pochodna uchybu odpowiada ujemnej prędkości obiektu ($\dot{e} \approx -\dot{x}_{\mathrm{pomiar}}$), w~równaniach sterowania użyto bezpośrednio zmiennych stanu prędkości. Ostateczne równania różnicowe regulatora przyjmują postać:
 \begin{align}
-    u_{\theta}(k) = K_{p,\theta} e_{\theta}(k) + K_{i,\theta} \sum_{j=0}^{k} e_{\theta}(j) T - K_{d,\theta} \frac{\theta(k) - \theta(k-1)}{T}, \label{eq:pd_theta} \\
-    u_{x}(k) = K_{p,x} e_x(k) + K_{i,x} \sum_{j=0}^{k} e_x(j) T - K_{d,x} \frac{x(k) - x(k-1)}{T}. \label{eq:pd_x}
+    u_{\theta}(k) &= K_{p,\theta} e_{\theta}(k) + K_{i,\theta} \sum_{j=0}^{k} e_{\theta}(j) T + K_{d,\theta} \left( -x_2(k) \right), \label{eq:pd_theta} \\
+    u_{x}(k) &= K_{p,x} e_x(k) + K_{i,x} \sum_{j=0}^{k} e_x(j) T + K_{d,x} \left( -x_4(k) \right). \label{eq:pd_x}
 \end{align}
-gdzie $T=0{,}1$~s oznacza okres próbkowania, co pozwala na przejście z opisu w czasie ciągłym $t$ do dyskretnych chwil $k$.
+W powyższych zależnościach $x_2(k)$ oznacza prędkość kątową wahadła, a~$x_4(k)$ prędkość liniową wózka w~bieżącym kroku symulacji. Zastosowanie takiej struktury pozwala na uzyskanie gładszego przebiegu sygnału sterującego oraz eliminuje gwałtowne skoki sterowania przy zmianach wartości zadanej (tzw. \textit{derivative kick}).
+
 \subsubsection{Proces doboru nastaw oraz analiza PID}
 Dobór nastaw dla regulatora PID został zrealizowany wieloetapowo.
 Wstępny dobór nastaw przeprowadzono metodą eksperymentalną prób i błędów, 
@@ -143,28 +152,38 @@ W~implementacji programowej przyjęto następujące nastawy:
 
 Regulator liniowo-kwadratowy (LQR) stanowi fundamentalną metodę sterowania optymalnego
 dla systemów liniowych wielowymiarowych MIMO~\cite{Jezierski2017}. 
+Ze względu na cyfrową realizację sterowania (czas dyskretny), w~pracy zastosowano 
+wariant dyskretny algorytmu (DLQR -- \textit{Discrete Linear Quadratic Regulator}).
 W~odróżnieniu od~regulatorów PID, które wymagają empirycznego doboru wzmocnień 
-dla każdej zmiennej stanu, LQR wyznacza optymalne wzmocnienia automatycznie 
-na~podstawie modelu liniowego obiektu oraz macierzy wag $Q$ i~$R$ definiujących 
+dla każdej zmiennej stanu, LQR wyznacza optymalny wektor wzmocnień automatycznie 
+na~podstawie dyskretnego modelu obiektu oraz macierzy wag $Q$ i~$R$, definiujących 
 kompromis między jakością regulacji a~zużyciem energii.
-Problem LQR polega na~znalezieniu prawa sterowania $u(k) = -K x(k)$, które 
-minimalizuje wskaźnik jakości:
+
+Problem sterowania optymalnego polega na~znalezieniu prawa sterowania 
+$u(k) = -K x(k)$, które minimalizuje wskaźnik jakości zdefiniowany jako nieskończona suma:
 \begin{equation}
-    J = \sum_{0}^{\infty} \left( x(k)^T Q x(k) + u(k)^T R u(k) \right),
+    J = \sum_{k=0}^{\infty} \left( x(k)^T Q x(k) + u(k)^T R u(k) \right),
 \end{equation}
 gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą sterowania. 
-Optymalna macierz wzmocnień $K$ wyznaczana jest poprzez rozwiązanie algebraicznego 
-równania Riccatiego:
+Punktem wyjścia jest model dyskretny układu: $x(k+1) = A_d x(k) + B_d u(k)$, 
+gdzie macierze $A_d$ i~$B_d$ wyznaczono z~modelu ciągłego metodą ekstrapolatora 
+rzędu zerowego (ZOH) dla czasu próbkowania $T=0{,}1$~s.
+
+Optymalna macierz wzmocnień $K$ wyznaczana jest na~podstawie rozwiązania 
+Dyskretnego Algebraicznego Równania Riccatiego (DARE):
 \begin{equation}
-    A^T P + P A - P B R^{-1} B^T P + Q = 0,
+    P = A_d^T P A_d - A_d^T P B_d \left( R + B_d^T P B_d \right)^{-1} B_d^T P A_d + Q.
 \end{equation}
-skąd $K = R^{-1} B^T P$. Macierze $A$ i~$B$ pochodzą z~linearyzacji modelu wahadła 
-wokół górnego punktu równowagi ($\theta = 0$).
-Klasa \texttt{PIDLQRController} implementuje sterowanie
-oparte na~pełnym wektorze stanu, wspomagane dodatkowym członem PID dla uchybu
-pozycji, co tworzy strukturę hybrydową opisaną m.in. w~\cite{Prasad2014} oraz
-\cite{Nguyen2024} (w~kontekście porównawczym). Schemat blokowy tego układu 
-przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
+Macierz $P$ jest unikalnym, symetrycznym i~dodatnio określonym rozwiązaniem tego równania. 
+Ostateczna postać wzmocnienia regulatora wyraża się wzorem:
+\begin{equation}
+    K = \left( R + B_d^T P B_d \right)^{-1} B_d^T P A_d.
+\end{equation}
+
+Zaimplementowano sterowanie oparte na~pełnym wektorze stanu, 
+wspomagane dodatkowym członem PID dla uchybu pozycji, co tworzy strukturę hybrydową 
+opisaną m.in. w~\cite{Prasad2014} oraz \cite{Nguyen2024}. 
+Schemat blokowy tego układu przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
 
 \begin{figure}[H]
     \centering
@@ -176,7 +195,7 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
         \node [sum, right=0.8cm of in] (sum_lqr) {\tiny $+$};
         
         % Blok LQR
-        \node [block, right=0.8cm of sum_lqr] (lqr) {LQR};
+        \node [block, right=0.8cm of sum_lqr] (lqr) {DLQR};
         
         % Suma sterowania
         \node [sum, right=1.2cm of lqr] (sum_u) {\tiny $+$};
@@ -201,7 +220,6 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
         \draw [arrow] (pd_pos.east) -| node[above left, font=\scriptsize] {$u_{\mathrm{PID}}$} (sum_u.south);
         
         % Reszta toru
-
         \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$u$} (plant);
         \draw [arrow] (plant) -- node[above, font=\scriptsize] {$x$} (out);
         
@@ -228,7 +246,7 @@ przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
     \label{fig:diagram_pdlqr}
 \end{figure}
 
-W~zaimplementowanym rozwiązaniu, sygnał sterujący
+W~zaimplementowanym rozwiązaniu, sygnał sterujący w~chwili $k$
 składa się z~dwóch komponentów:
 \begin{equation}
     u(k) = u_{\mathrm{LQR}}(k) + u_{\mathrm{PID,pos}}(k).
@@ -237,11 +255,10 @@ Składnik LQR realizuje stabilizację wokół punktu pracy:
 \begin{equation}
     u_{\mathrm{LQR}}(k) = -K \cdot (x(k) - x_{\mathrm{ref}}).
 \end{equation}
-Dodatkowy człon PID na~pętli pozycji (zrealizowany analogicznie do Rów.~\ref{eq:pd_x}) 
+Dodatkowy człon PID na~pętli pozycji (zrealizowany analogicznie do równań przedstawionych w~sekcji dotyczącej regulatora PID) 
 ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
-$x_{\mathrm{ref}}$, co jest częstą praktyką w~aplikacjach praktycznych, gdzie LQR
-zapewnia stabilność, a~regulator zewnętrzny dba o~uchyb w~stanie ustalonym
-\cite{Varghese2017}.
+$x_{\mathrm{ref}}$ oraz eliminację uchybu ustalonego wynikającego z zakłóceń i niedokładności modelu.
+\cite{Prasad2014}.
 
 \newpage
 \subsubsection{Dobór wag macierzy Q i R}
@@ -356,14 +373,23 @@ Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:diagram_mpc}.
     \caption{Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym.}
     \label{fig:diagram_mpc}
 \end{figure}
+
+% --- DODANY FRAGMENT O RK4 I DYSKRETYZACJI ---
+W przypadku nieliniowego sterowania predykcyjnego (NMPC), predykcja przyszłych stanów wymaga dyskretnego modelu obiektu. Ze względu na nieliniowy charakter dynamiki wahadła $\dot{x}(t) = f_c(x(t), u(t))$, nie jest możliwe wyznaczenie analitycznej postaci modelu dyskretnego (jak w~przypadku ZOH dla układów liniowych). Dlatego też, przejście z~czasu ciągłego do~dyskretnego realizowane jest poprzez numeryczne całkowanie równań stanu w~przedziale próbkowania $T_s$. Wartość wektora stanu w~kolejnej chwili dyskretnej $k+1$ wyznaczana jest zgodnie z~zależnością:
+\begin{equation}
+x(k+1) = x(k) + \int_{t_k}^{t_k + T_s} f_c(x(\tau), u(k)) \, d\tau
+\end{equation}
+W implementacji algorytmu całka ta jest przybliżana metodą Rungego-Kutty czwartego rzędu (RK4) ze~stałym krokiem całkowania równym okresowi próbkowania regulatora. Przyjęto założenie (ZOH), że sterowanie $u(k)$ jest stałe w~całym przedziale całkowania $[t_k, t_{k+1})$.
+% ------------------------------------------------
+
 W każdym kroku algorytmu regulacji predykcyjnej zostaje wyznaczona przyszła sekwencja sygnału sterującego, przedstawiona jako wektor przyrostów sygnału sterującego:
 \begin{equation}
 \Delta u(k) = \left[ \Delta u(k|k) \quad \Delta u(k+1|k) \quad \dots \quad \Delta u(k+N_{u}-1|k) \right]^{T}
 \end{equation}
-\begin{equation} \tag{15}
+\begin{equation} %\tag{15} % Opcjonalnie usuń tagowanie ręczne jeśli używasz numeracji automatycznej
 \Delta u_{p}(k)=\Delta u(k+p|k)
 \end{equation}
-klasyczna funkcja kosztu dla MPC prezentuje się w następujący sposób:
+Klasyczna funkcja kosztu dla MPC prezentuje się w~następujący sposób:
 \begin{equation}
 e_{p}(k)={x}_{\mathrm{ref}}(k+p|k) - \hat{x}(k+p|k)
 \end{equation}
@@ -373,16 +399,15 @@ J(k)=\sum_{p=1}^{N}e_{p}(k)^{T}Q~e_{p}(k)+\sum_{p=0}^{N_{u}-1}\Delta u_{p}(k)^{T
 przy ograniczeniach:
 \begin{align}
     \hat{x}_{k+1} &= f(\hat{x}_k, u_k), \quad k=0,\dots,N-1 \\
-    u_{\mathrm{min}} &\le u_k \le u_{\mathrm{max}}, \\
+    u_{\mathrm{min}} &\le u_k \le u_{\mathrm{max}},
 \end{align}
 gdzie:
 \begin{itemize}
     \item $N $ -- horyzont predykcji,
-    \item $N_u$ -- horyzont sterowania. 
-    \item $f(\cdot)$ -- nieliniowy model dyskretny obiektu (całkowanie metodą
-    Rungego-Kutty 4. rzędu),
+    \item $N_u$ -- horyzont sterowania,
+    \item $f(\cdot)$ -- nieliniowy model dyskretny obiektu (realizowany poprzez całkowanie numeryczne metodą RK4 opisaną wyżej),
     \item $Q $ -- macierz kar stanu,
-    \item $R$-- współczynnik kary za~zmianę sterowania ($\Delta u$).
+    \item $R$ -- współczynnik kary za~zmianę sterowania ($\Delta u$).
 \end{itemize}
 Kluczową zaletę MPC, podkreślaną w~pracach \cite{Mills2009} oraz
 \cite{Jezierski2017}, jest możliwość bezpośredniego uwzględnienia ograniczeń

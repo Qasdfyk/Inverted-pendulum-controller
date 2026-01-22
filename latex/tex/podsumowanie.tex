@@ -19,9 +19,10 @@ najefektywniej niwelował wpływ zakłóceń zewnętrznych, choć kosztem
 większego zużycia energii. Z kolei w warunkach nominalnych najbardziej
 ekonomicznym i bezpiecznym dla mechaniki układu rozwiązaniem okazało się
 sterowanie predykcyjne MPC, które w sposób jawny uwzględnia ograniczenia
-fizyczne napędu. Jako rozwiązanie uniwersalne, łączące zalety obu podejść,
-wskazać można regulator hybrydowy PID-LQR, oferujący dobry balans między
-wydajnością a zużyciem energetycznym. Badania potwierdziły również, że kluczowym
+fizyczne napędu. Jako rozwiązanie alternatywne można wskazać regulator hybrydowy PID-LQR, 
+który w warunkach nominalnych zapewnia szybką stabilizację pozycji. Jednak w obecności 
+silnych zakłóceń, jego agresywne działanie prowadzi do zwiększonego zużycia energii 
+oraz większych oscylacji wahadła w porównaniu do metod predykcyjnych. Badania potwierdziły również, że kluczowym
 czynnikiem wpływającym na stabilność i odporność układu jest właściwy
 dobór funkcji kosztu i parametrów regulatora.
 
