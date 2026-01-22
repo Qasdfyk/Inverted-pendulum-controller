@@ -40,20 +40,15 @@ grupy regulatorów klasycznych. Analizując wykres kąta wychylenia $\theta$
 (Rys. \ref{fig:nom_classical}), można zaobserwować wyraźną przewagę regulatora hybrydowego.
 
 Zoptymalizowany regulator PID-LQR, wykorzystujący duże wzmocnienia dla błędu pozycji,
-charakteryzuje się krótkim czasem regulacji ($T_s \approx 2{,}1$~s). Jest to wynik
-dwukrotnie lepszy od regulatora PID-PID ($T_s \approx 4{,}2$~s), który wykazuje znacznie
-dłuższy okres dochodzenia do równowagi.
+charakteryzuje się znacznie krótszym czasem regulacji ($T_s \approx 2{,}9$~s) niż regulator PID-PID ($T_s \approx 4{,}2$~s).
+Mimo to, jego zużycie energii ($E_u \approx 0{,}92$) jest zbliżone do klasycznego układu PID-PID ($E_u \approx 0{,}95$).
+Oznacza to, że poprawa dynamiki stabilizacji została osiągnięta głównie poprzez bardziej agresywne sterowanie,
+co nie przełożyło się na oszczędność energetyczną w tym przypadku.
 
-Co istotne, wyższa dynamika PID-LQR idzie w parze z oszczędnością energetyczną.
-Zużywa on o blisko 40\% mniej energii ($E_u \approx 0.59$) niż regulator PID-PID ($E_u \approx 0.95$).
-Oznacza to, że precyzyjnie dobrane wzmocnienia LQR pozwalają stłumić wychylenie
-szybkim i skutecznym impulsem, podczas gdy PID-PID działa w sposób bardziej zachowawczy,
-ale rozciągnięty w czasie, co ostatecznie generuje większy koszt energetyczny.
-
-Warto jednak zauważyć, że PID-LQR utrzymuje wózek w węższym zakresie roboczym 
-($Max |x| \approx 0.10$ m) niż PID-PID ($0.15$ m), przy jednocześnie krótszym czasie ustalania 
-pozycji ($T_{s,x} \approx 1{,}6$~s w porównaniu do $4{,}6$~s). Pod każdym względem PID-LQR oferuje
-lepszą jakość regulacji niż klasyczny układ PID-PID.
+Dla PID-LQR kluczową zaletą pozostaje znacznie lepsze utrzymanie pozycji wózka.
+Maksymalne wychylenie wynosi jedynie ($Max |x| \approx 0.11$ m) wobec ($0.15$ m) dla PID-PID,
+przy ponad dwukrotnie szybszym ustaleniu pozycji ($T_{s,x} \approx 2{,}3$~s w porównaniu do $4{,}6$~s).
+PID-LQR oferuje zatem lepszą, ,,sztywniejszą'' regulację pozycji kosztem podobnego wydatku energetycznego.
 
 \begin{figure}[ht!]
     \centering
@@ -82,16 +77,16 @@ W grupie regulatorów zaawansowanych, których wyniki zaprezentowano na Rysunkac
 \ref{fig:nom_advanced}, \ref{fig:nom_pos_advanced} i~\ref{fig:nom_control_advanced},
 można zaobserwować szerokie spektrum zachowań, wynikające z różnic w sformułowaniu zadań sterowania.
 
-Najlepsze wyniki w warunkach nominalnych osiąga regulator PID-LQR oraz MPC.
+Najlepszy wynik w warunkach nominalnych osiąga regulator MPC (nieliniowy).
 MPC-alt (J2), mimo funkcji kosztu karającej bezpośrednio sterowanie, uzyskuje czas regulacji ($T_s \approx 2{,}7$~s).
-Lepszą dynamikę wykazuje standardowy MPC ($T_s \approx 2{,}1$~s), który dorównuje PID-LQR.
+Lepszą dynamikę wykazuje standardowy MPC ($T_s \approx 2{,}1$~s), który deklasuje konkurencję.
 Potwierdza to, że odpowiednio nastrojony regulator predykcyjny może łączyć wysoką dynamikę
 z oszczędnością energii ($E_u \approx 0{,}51$ dla MPC-alt).
 
-Standardowy regulator MPC (nieliniowy) działa równie szybko jak PID-LQR.
+Standardowy regulator MPC (nieliniowy) działa znacznie szybciej niż PID-LQR czy PID-PID.
 Jego czas regulacji wynosi $T_s \approx 2{,}1$~s.
-Mimo dobrej reakcji, charakteryzuje się bardzo niskim kosztem energetycznym ($E_u \approx 0{,}56$),
-ustępując pod tym względem jedynie wariantowi J2 i PID-LQR.
+Mimo świetnej reakcji, charakteryzuje się bardzo niskim kosztem energetycznym ($E_u \approx 0{,}56$),
+będąc jednym z najbardziej efektywnych rozwiązań.
 
 Liniowy regulator predykcyjny LMPC plasuje się pośrodku stawki.
 Osiąga czas regulacji $T_s \approx 3{,}1$~s przy zużyciu energii $E_u \approx 0{,}79$.
@@ -133,10 +128,12 @@ reakcję, zachowując rozsądny balans między szybkością a kosztem sterowania
 W~celu bezpośredniego porównania wszystkich zaimplementowanych strategii sterowania, 
 na~Rysunkach \ref{fig:nom_advanced_all}--\ref{fig:nom_control_advanced_all} zestawiono 
 przebiegi czasowe dla wszystkich regulatorów. Wykresy te potwierdzają, że w~idealnych 
-warunkach nominalnych najlepszą dynamikę oferują regulatory PID-LQR oraz MPC, 
-które najszybciej sprowadzają wahadło do~pionu przy umiarkowanym przemieszczeniu wózka. 
+warunkach nominalnych najlepszą dynamikę oferuje regulator MPC, 
+który najszybciej sprowadza wahadło do~pionu przy umiarkowanym przemieszczeniu wózka. 
 Widać wyraźny kontrast między metodami szybkimi a~zachowawczym regulatorem PID-PID, 
-który charakteryzuje się znacznie dłuższym czasem regulacji. Zestawienie to uwidacznia 
+który charakteryzuje się znacznie dłuższym czasem regulacji. PID-LQR plasuje się pośrodku,
+zapewniając dobrą stabilizację pozycji, ale ustępując MPC w kwestii szybkości i oszczędności energii.
+Zestawienie to uwidacznia 
 również różnicę w~charakterystyce sygnałów sterujących -- od~gładkich przebiegów dla MPC, 
 po~bardziej agresywne działania Fuzzy-LQR, co przekłada się na~omówione wcześniej różnice 
 w~kosztach energetycznych.
@@ -180,13 +177,14 @@ bardzo pozwolić wózkowi uciec, by utrzymać wahadło w pionie.
 \subsubsection{Charakterystyka regulatorów klasycznych}
 
 W grupie klasycznej (Rys. \ref{fig:wind_classical}--\ref{fig:wind_control_classical}) nastąpiła
-istotna zmiana w stosunku do wcześniejszych analiz. Nowe strojenie PID-LQR, nastawione na
-karę za zmianę pozycji, przyniosło znakomite rezultaty. Regulator ten znacząco poprawił
-stabilizację kąta ($Max |\theta| \approx 0.062$ vs $0.090$~rad dla PID-PID) oraz
-ograniczył dryf pozycji ($Max |x| \approx 0.27$ m vs $0.56$ m).
-Co kluczowe, osiągnął to przy niemal dwukrotnie niższym zużyciu energii ($E_u \approx 12.56$)
-niż regulator PID-PID ($22.78$). Świadczy to o tym, że szybka i zdecydowana reakcja na
-pojawiające się zakłócenie jest bardziej ekonomiczna niż długotrwała walka z oscylacjami.
+istotna zmiana w porównaniu do warunków nominalnych. Agresywne strojenie PID-LQR, nastawione na
+utrzymanie pozycji wózka, skutkuje mieszanymi rezultatami. Z jednej strony regulator ten 
+skutecznie ograniczył dryf pozycji ($Max |x| \approx 0.30$ m vs $0.56$ m dla PID-PID).
+Z drugiej jednak, odbyło się to kosztem pogorszenia jakości stabilizacji kąta 
+($Max |\theta| \approx 0.096$~rad vs $0.090$~rad) oraz drastycznym wzrostem zużycia energii 
+($E_u \approx 33.37$ vs $22.78$). Widać wyraźnie, że w warunkach silnych zakłóceń, 
+sztywna walka o utrzymanie pozycji wózka przez PID-LQR jest nieefektywna energetycznie 
+i prowadzi do większych chybotliwości wahadła.
 
 \begin{figure}[h!]
     \centering
@@ -213,10 +211,11 @@ pojawiające się zakłócenie jest bardziej ekonomiczna niż długotrwała walk
 
 W grupie zaawansowanej (Rys. \ref{fig:wind_advanced}--\ref{fig:wind_control_advanced})
 W grupie zaawansowanej (Rys. \ref{fig:wind_advanced}--\ref{fig:wind_control_advanced})
-Fuzzy-LQR potwierdza swoją skuteczność, choć nie dominuje już we wszystkich kategoriach.
+Fuzzy-LQR potwierdza swoją skuteczność.
 Uzyskał on bardzo dobre wyniki stabilizacji: małe wychylenie kątowe ($Max |\theta| \approx 0.063$~rad)
 oraz niski dryf wózka ($Max |x| \approx 0.31$ m).
-Pod względem zużycia energii ($E_u \approx 13.97$) ustępuje on jednak nieco regulatorom MPC i PID-LQR.
+Pod względem zużycia energii ($E_u \approx 13.97$) ustępuje on nieco regulatorom MPC, ale jest znacznie
+bardziej oszczędny niż klasyczne PID-PID czy PID-LQR.
 Mimo to, niskie wartości wskaźników całkowych błędu ($IAE_\theta$) świadczą o wysokiej jakości regulacji
 i zdolności do szybkiego tłumienia zakłóceń.
 
@@ -227,7 +226,8 @@ Jednakże, wysoka kara za wartość sterowania ograniczyła jego zdolność do s
 co skutkowało największym dryfem wózka w grupie ($Max |x| \approx 0.57$ m), porównywalnym z PID-PID.
 Mimo to, jego zużycie energii pozostało na umiarkowanym poziomie ($12.3$).
 
-Regulator LMPC dobrze poradził sobie ze stabilizacją. Jednak gorzej poradził sobie jeśli chodzi o 
+Regulator LMPC dobrze poradził sobie ze stabilizacją, utrzymując kąt w ryzach lepiej niż PID-PID czy PID-LQR.
+Jednak gorzej poradził sobie jeśli chodzi o 
 koszt energetyczny ($E_u \approx 22.7$), zbliżony do wyniku regulatora PID-PID.
 Ograniczenia modelu liniowego w obliczu silnych zakłóceń wymusiły mniejszą efektywność sterowania,
 co widać również w nieco gorszej stabilizacji kąta ($0.085$ rad) w porównaniu
@@ -260,10 +260,10 @@ do nieliniowego MPC.
 Analogicznie do warunków nominalnych, przeprowadzono zbiorcze 
 zestawienie wyników dla wszystkich badanych regulatorów w obecności 
 zakłóceń (Rys. \ref{fig:wind_all_theta}--\ref{fig:wind_all_u}).
-Wykresy te dobitnie pokazują przewagę regulatora Fuzzy-LQR oraz PID-LQR 
+Wykresy te dobitnie pokazują przewagę regulatora Fuzzy-LQR oraz MPC
 w tłumieniu zakłóceń.
 Widać wyraźnie, że metody te utrzymują oscylacje wahadła w najwęższym paśmie, 
-podczas gdy klasyczny PID-PID oraz predykcyjne MPC pozwalają na znacznie większe wychylenia.
+podczas gdy klasyczny PID-PID oraz PID-LQR pozwalają na znacznie większe wychylenia.
 Zestawienie sygnałów sterujących ujawnia koszt tej precyzji - Fuzzy-LQR charakteryzuje 
 się najbardziej aktywnym sterowaniem, co jednak w ogólnym rozrachunku (dzięki szybkiej stabilizacji) 
 nie prowadzi do najgorszego zużycia energii.
@@ -314,9 +314,10 @@ oraz przesuwny horyzont predykcji pozwalają na bieżącą korektę sterowania,
 dzięki czemu spadek jakości regulacji jest minimalny.
 
 Regulator PID-LQR, dzięki wysokim wzmocnieniom, a także regulatory MPC,
-utrzymują precyzję stabilizacji zbliżoną do warunków nominalnych.
+utrzymują precyzję stabilizacji zbliżoną do warunków nominalnych, choć w przypadku PID-LQR
+widoczny jest wzrost czasu regulacji.
 Wskazuje to, że dla perturbacji parametrów (rzędu 100\%),
-dobrze nastrojony regulator liniowy oraz nieliniowy MPC są równie skuteczne.
+dobrze nastrojony regulator liniowy oraz nieliniowy MPC zachowują poprawność działania.
 
 Zdecydowanie najsłabsze wyniki w tym zestawieniu osiągnął klasyczny układ PID-PID.
 Charakteryzuje się on najdłuższym czasem regulacji ($T_s \approx 6{,}8$~s) oraz największym
@@ -328,7 +329,7 @@ ale ustępuje nieliniowym odpowiednikom MPC, co wynika z ograniczeń modelu lini
 
 Regulator Fuzzy-LQR w tym scenariuszu prezentuje się bardzo dobrze.
 Osiąga czas regulacji $T_s \approx 2{,}3$~s oraz bardzo niski uchyb całkowy ($IAE_\theta \approx 0{,}016$),
-przewyższając pod tym względem nawet PID-LQR.
+znacząco przewyższając pod tym względem PID-LQR.
 Co ważne, jego zużycie energii ($E_u \approx 0.80$) jest niskie i porównywalne z innymi regulatorami,
 co stanowi znaczącą poprawę w stosunku do historycznych wyników.
 Elastyczność logiki rozmytej pozwala na skuteczną adaptację do zmienionej dynamiki obiektu
@@ -415,14 +416,14 @@ oraz stabilizacji wózka (pozycja).
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-alt & Fuzzy-LQR & LMPC \\ \hline
-        $MSE_\theta$ & \cellcolor{red!25}0,00011 & 0,00005 & 0,00006 & 0,00007 & \cellcolor{green!25}0,00005 & 0,00008 \\ \hline
-        $IAE_\theta$ & \cellcolor{red!25}0,04567 & 0,01805 & 0,02323 & 0,02848 & \cellcolor{green!25}0,01578 & 0,02992 \\ \hline
-        $T_{s, \theta}$ & \cellcolor{red!25}4,20000 & \cellcolor{green!25}2,10000 & 2,10000 & 2,70000 & 2,30000 & 3,10000 \\ \hline
+        $MSE_\theta$ & \cellcolor{red!25}0,00011 & 0,00009 & 0,00006 & 0,00007 & \cellcolor{green!25}0,00005 & 0,00008 \\ \hline
+        $IAE_\theta$ & \cellcolor{red!25}0,04567 & 0,03169 & 0,02323 & 0,02848 & \cellcolor{green!25}0,01578 & 0,02992 \\ \hline
+        $T_{s, \theta}$ & \cellcolor{red!25}4,20000 & 2,90000 & \cellcolor{green!25}2,10000 & 2,70000 & 2,30000 & 3,10000 \\ \hline
         \hline
-        $MSE_x$ & 0,00051 & \cellcolor{green!25}0,00038 & \cellcolor{green!25}0,00038 & \cellcolor{red!25}0,00073 & 0,00043 & 0,00039 \\ \hline
-        $T_{s, x}$ & 4,60000 & \cellcolor{green!25}1,60000 & 3,60000 & \cellcolor{red!25}5,20000 & 3,00000 & 2,70000 \\ \hline
+        $MSE_x$ & 0,00051 & \cellcolor{green!25}0,00036 & 0,00038 & \cellcolor{red!25}0,00073 & 0,00043 & 0,00039 \\ \hline
+        $T_{s, x}$ & 4,60000 & \cellcolor{green!25}2,30000 & 3,60000 & \cellcolor{red!25}5,20000 & 3,00000 & 2,70000 \\ \hline
         \hline
-        $E_{u}$ & \cellcolor{red!25}0,95046 & 0,59229 & 0,55762 & \cellcolor{green!25}0,51499 & 0,77627 & 0,78994 \\ \hline
+        $E_{u}$ & \cellcolor{red!25}0,95046 & 0,92481 & 0,55762 & \cellcolor{green!25}0,51499 & 0,77627 & 0,78994 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -433,14 +434,14 @@ oraz stabilizacji wózka (pozycja).
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-alt & Fuzzy-LQR & LMPC \\ \hline
-        $MSE_\theta$ & \cellcolor{red!25}\phantom{0}0,00146 & \phantom{0}0,00057 & \phantom{0}0,00058 & \phantom{0}0,00063 & \cellcolor{green!25}\phantom{0}0,00054 & \phantom{0}0,00118 \\ \hline
-        $IAE_\theta$ & \cellcolor{red!25}\phantom{0}0,30988 & \phantom{0}0,18541 & \phantom{0}0,18151 & \phantom{0}0,18607 & \cellcolor{green!25}\phantom{0}0,17797 & \phantom{0}0,27259 \\ \hline
-        $Max |\theta|$ & \cellcolor{red!25}\phantom{0}0,09006 & \cellcolor{green!25}\phantom{0}0,06187 & \phantom{0}0,06246 & \phantom{0}0,06715 & \phantom{0}0,06344 & \phantom{0}0,08539 \\ \hline
+        $MSE_\theta$ & \cellcolor{red!25}\phantom{0}0,00146 & \phantom{0}0,00178 & \phantom{0}0,00058 & \phantom{0}0,00063 & \cellcolor{green!25}\phantom{0}0,00054 & \phantom{0}0,00118 \\ \hline
+        $IAE_\theta$ & \cellcolor{red!25}\phantom{0}0,30988 & \phantom{0}0,33268 & \phantom{0}0,18151 & \phantom{0}0,18607 & \cellcolor{green!25}\phantom{0}0,17797 & \phantom{0}0,27259 \\ \hline
+        $Max |\theta|$ & \phantom{0}0,09006 & \cellcolor{red!25}\phantom{0}0,09650 & \phantom{0}0,06246 & \phantom{0}0,06715 & \cellcolor{green!25}\phantom{0}0,06344 & \phantom{0}0,08539 \\ \hline
         \hline
-        $MSE_x$ & \phantom{0}0,04382 & \cellcolor{green!25}\phantom{0}0,00522 & \phantom{0}0,01843 & \cellcolor{red!25}\phantom{0}0,04383 & \phantom{0}0,00859 & \phantom{0}0,01551 \\ \hline
-        $Max |x|$ & \phantom{0}0,55997 & \cellcolor{green!25}\phantom{0}0,26817 & \phantom{0}0,40938 & \cellcolor{red!25}\phantom{0}0,56993 & \phantom{0}0,31153 & \phantom{0}0,39981 \\ \hline
+        $MSE_x$ & \phantom{0}0,04382 & \cellcolor{green!25}\phantom{0}0,00653 & \phantom{0}0,01843 & \cellcolor{red!25}\phantom{0}0,04383 & \phantom{0}0,00859 & \phantom{0}0,01551 \\ \hline
+        $Max |x|$ & \phantom{0}0,55997 & \cellcolor{green!25}\phantom{0}0,29510 & \phantom{0}0,40938 & \cellcolor{red!25}\phantom{0}0,56993 & \phantom{0}0,31153 & \phantom{0}0,39981 \\ \hline
         \hline
-        $E_{u}$ & \cellcolor{red!25}22,77583 & 12,56274 & 12,43920 & \cellcolor{green!25}12,26560 & 13,96835 & 22,74390 \\ \hline
+        $E_{u}$ & 22,77583 & \cellcolor{red!25}33,36971 & 12,43920 & \cellcolor{green!25}12,26560 & 13,96835 & 22,74390 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -451,14 +452,14 @@ oraz stabilizacji wózka (pozycja).
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-alt & Fuzzy-LQR & LMPC \\ \hline
-        $MSE_\theta$ & \cellcolor{red!25}0,00015 & 0,00005 & 0,00007 & 0,00007 & \cellcolor{green!25}0,00005 & 0,00009 \\ \hline
-        $IAE_\theta$ & \cellcolor{red!25}0,06524 & 0,01854 & 0,02517 & 0,02530 & \cellcolor{green!25}0,01620 & 0,03379 \\ \hline
-        $T_{s, \theta}$ & \cellcolor{red!25}6,80000 & 2,00000 & 2,00000 & 2,00000 & \cellcolor{green!25}2,30000 & 2,90000 \\ \hline
+        $MSE_\theta$ & \cellcolor{red!25}0,00015 & 0,00011 & 0,00007 & 0,00007 & \cellcolor{green!25}0,00005 & 0,00009 \\ \hline
+        $IAE_\theta$ & \cellcolor{red!25}0,06524 & 0,03900 & 0,02517 & 0,02530 & \cellcolor{green!25}0,01620 & 0,03379 \\ \hline
+        $T_{s, \theta}$ & \cellcolor{red!25}6,80000 & 3,70000 & \cellcolor{green!25}2,00000 & 2,00000 & 2,30000 & 2,90000 \\ \hline
         \hline
-        $MSE_x$ & \cellcolor{red!25}0,00065 & \cellcolor{green!25}0,00038 & 0,00038 & 0,00038 & 0,00043 & 0,00040 \\ \hline
-        $T_{s, x}$& \cellcolor{red!25}8,30000 & \cellcolor{green!25}1,60000 & 3,00000 & 3,00000 & 3,10000 & 2,20000 \\ \hline
+        $MSE_x$ & \cellcolor{red!25}0,00065 & \cellcolor{green!25}0,00037 & 0,00038 & 0,00038 & 0,00043 & 0,00040 \\ \hline
+        $T_{s, x}$& \cellcolor{red!25}8,30000 & 2,90000 & 3,00000 & 3,00000 & 3,10000 & \cellcolor{green!25}2,20000 \\ \hline
         \hline
-        $E_{u}$ & \cellcolor{red!25}1,49205 & \cellcolor{green!25}0,62520 & 0,64753 & 0,64818 & 0,79775 & 1,01039 \\ \hline
+        $E_{u}$ & \cellcolor{red!25}1,49205 & 1,28519 & 0,64753 & \cellcolor{green!25}0,64818 & 0,79775 & 1,01039 \\ \hline
     \end{tabular}
 \end{table}
 

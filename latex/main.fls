@@ -695,6 +695,7 @@ INPUT .\tex\sterowanie.tex
 INPUT .\tex\sterowanie.tex
 INPUT .\tex\sterowanie.tex
 INPUT tex\sterowanie.tex
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futmi.vf
 INPUT .\images\tuning\combined\combined_pdpd.png
 INPUT .\images\tuning\combined\combined_pdpd.png
 INPUT .\images\tuning\combined\combined_pdpd.png
@@ -727,7 +728,6 @@ INPUT .\images\tuning\combined\combined_mpcj2.png
 INPUT .\images\tuning\combined\combined_mpcj2.png
 INPUT .\images\tuning\combined\combined_mpcj2.png
 INPUT .\images\tuning\combined\combined_mpcj2.png
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futmi.vf
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futmi.vf
 INPUT .\images\tuning\combined\combined_lmpc.png
 INPUT .\images\tuning\combined\combined_lmpc.png
