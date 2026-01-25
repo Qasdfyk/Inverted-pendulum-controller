@@ -10,7 +10,7 @@
 \contentsline {subsection}{\numberline {2.5\relax .\enspace }Linearyzacja modelu w~punkcie pracy}{14}{subsection.2.5}%
 \contentsline {subsubsection}{\numberline {2.5.1\relax .\enspace }Analiza wartości własnych układu otwartego}{15}{subsubsection.2.5.1}%
 \contentsline {subsubsection}{\numberline {2.5.2\relax .\enspace }Sterowność i~obserwowalność}{15}{subsubsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.6\relax .\enspace }Analiza zachowania układu w pętli otwartej}{15}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.6\relax .\enspace }Analiza zachowania układu w pętli otwartej}{16}{subsection.2.6}%
 \contentsline {section}{\numberline {3\relax .\enspace }Środowisko symulacyjne i implementacja}{17}{section.3}%
 \contentsline {subsection}{\numberline {3.1\relax .\enspace }Narzędzia programistyczne}{17}{subsection.3.1}%
 \contentsline {subsection}{\numberline {3.2\relax .\enspace }Konfiguracja symulacji}{18}{subsection.3.2}%

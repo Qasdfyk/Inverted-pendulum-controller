@@ -183,13 +183,13 @@ oraz zakłócenia \(F_{\mathrm{w}}\), przyjmują postać~\cite{Prasad2014}:
     \label{eq:x_dd_final}
 \end{equation}
 
-% Definicja pomocnicza (można dać w tekście przed równaniem lub jako osobne równanie)
+% Definicja pomocnicza
 \begin{equation}
     M_{T} = M + m, \quad D(t) = l (M_{T} - m \cos^2\theta(t))
     \label{eq:defs}
 \end{equation}
 
-% Równanie główne
+% Równanie główne (przyspieszenie kątowe)
 \begin{equation}
 \begin{split}
     \ddot{\theta}(t) = \frac{1}{D(t)} \biggl[ & M_{T} g \sin\theta(t) - \cos\theta(t) \biggl( u(t) + \\
@@ -198,9 +198,16 @@ oraz zakłócenia \(F_{\mathrm{w}}\), przyjmują postać~\cite{Prasad2014}:
 \label{eq:theta_dd_final_short}
 \end{equation}
 
-Definiując wektor stanu \(x(t) = [\theta(t), \dot{\theta}(t), x(t), \dot{x}(t)]^T\), 
-model w~przestrzeni stanów zapisujemy jako układ czterech równań 
-różniczkowych pierwszego rzędu:
+% --- TUTAJ DODANO KLUCZOWY OPIS DLA PROMOTORA ---
+W celu sformułowania modelu w przestrzeni stanów, zdefiniowano wektor stanu \(x(t) = [x_1, x_2, x_3, x_4]^T\), przyporządkowując poszczególnym zmiennym następujące wielkości fizyczne:
+\begin{itemize}
+    \item \(x_1 = \theta\) -- kąt wychylenia wahadła od pionu [rad],
+    \item \(x_2 = \dot{\theta}\) -- prędkość kątowa wahadła [rad/s],
+    \item \(x_3 = x\) -- pozycja wózka [m],
+    \item \(x_4 = \dot{x}\) -- prędkość liniowa wózka [m/s].
+\end{itemize}
+
+Przyjmując powyższe oznaczenia, nieliniowy model dynamiki układu można zapisać jako układ czterech równań różniczkowych pierwszego rzędu:
 
 \begin{equation}
     \begin{bmatrix}
@@ -213,6 +220,7 @@ różniczkowych pierwszego rzędu:
     x_4 \\
     \frac{u + m l (\sin x_1) x_2^2 - m g \sin x_1 \cos x_1 + F_{\mathrm{w}} \sin^2 x_1}{M + m - m \cos^2 x_1}
     \end{bmatrix}.
+    \label{eq:state_space_nonlinear}
 \end{equation}
 
 Schemat blokowy modelu w~przestrzeni stanów, ilustrujący przepływ sygnałów 

@@ -62,8 +62,8 @@ całkowity sygnał sterujący jest sumą reakcji na~błąd kąta oraz błąd poz
         \draw [arrow] (sum_x) -- (pd_x);
         
         % PD do sumy sterowania (rozdzielone wejścia: góra i dół)
-        \draw [arrow] (pd_theta.east) -| node[above, font=\scriptsize] {$\mathrm{u_p}$} (sum_u.north);
-        \draw [arrow] (pd_x.east) -| node[below, font=\scriptsize] {$\mathrm{u_c}$} (sum_u.south);
+        \draw [arrow] (pd_theta.east) -| node[above, font=\scriptsize] {$\mathrm{u_{\theta}}$} (sum_u.north);
+        \draw [arrow] (pd_x.east) -| node[below, font=\scriptsize] {$\mathrm{u_x}$} (sum_u.south);
         
         % Suma -> sat -> plant -> wyjście
         \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$\mathrm{u}$} (plant);

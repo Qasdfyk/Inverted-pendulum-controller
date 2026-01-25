@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  25 JAN 2026 13:53
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  25 JAN 2026 21:13
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1433,7 +1433,7 @@ LaTeX Font Info:    Font shape `U/futm/m/n' will be
 
 
 Package babel Info: 'polish' activates 'polish' shorthands.
-(babel)             Reported on input line 98.
+(babel)             Reported on input line 99.
 [6] (tex/wstep.tex
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
 (Font)              scaled to size 13.24796pt on input line 15.
@@ -1481,37 +1481,37 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [11 <./images/diagrams/model.png>]
 
 [12]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
 
 [13]
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 5.51999pt on input line 233.
+(Font)              scaled to size 5.51999pt on input line 241.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 5.51999pt on input line 233.
+(Font)              scaled to size 5.51999pt on input line 241.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 6.25598pt on input line 247.
+(Font)              scaled to size 6.25598pt on input line 255.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 6.25598pt on input line 247.
+(Font)              scaled to size 6.25598pt on input line 255.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 
 
 [14]
 
 [15]
-<img/open_loop.png, id=403, 867.24pt x 505.89pt>
+<img/open_loop.png, id=402, 867.24pt x 505.89pt>
 File: img/open_loop.png Graphic file (type png)
 <use img/open_loop.png>
-Package pdftex.def Info: img/open_loop.png  used on input line 357.
+Package pdftex.def Info: img/open_loop.png  used on input line 365.
 (pdftex.def)             Requested size: 350.5393pt x 204.48291pt.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 358.
+(Font)              scaled to size 10.07397pt on input line 366.
 LaTeX Font Info:    Font shape `FMX/futm/m/n' will be
-(Font)              scaled to size 7.63599pt on input line 358.
+(Font)              scaled to size 7.63599pt on input line 366.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 10.07397pt on input line 358.
+(Font)              scaled to size 10.07397pt on input line 366.
 LaTeX Font Info:    Font shape `U/futm/m/n' will be
-(Font)              scaled to size 7.63599pt on input line 358.
+(Font)              scaled to size 7.63599pt on input line 366.
 )
 
 [16 <./img/open_loop.png>] (tex/srodowisko.tex
@@ -1942,14 +1942,14 @@ Package logreq Info: Writing requests to 'main.run.xml'.
  ) 
 Here is how much of TeX's memory you used:
  45595 strings out of 468080
- 930818 string characters out of 5425772
- 2031569 words of memory out of 5000000
- 72786 multiletter control sequences out of 15000+600000
- 786853 words of font info for 527 fonts, out of 8000000 for 9000
+ 930831 string characters out of 5425772
+ 2031596 words of memory out of 5000000
+ 72787 multiletter control sequences out of 15000+600000
+ 787538 words of font info for 527 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,19n,121p,1047b,2806s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (66 pages, 3272180 bytes).
+Output written on main.pdf (66 pages, 3272819 bytes).
 PDF statistics:
  1042 PDF objects out of 1200 (max. 8388607)
  239 named destinations out of 1000 (max. 500000)

@@ -1,12 +1,12 @@
 # Fdb version 4
-["biber main"] 1769100212.00728 "main.bcf" "main.bbl" "main" 1769345623.82752 0
+["biber main"] 1769100212.00728 "main.bcf" "main.bbl" "main" 1769372035.08539 0
   "bibliografia.bib" 1768386900 4135 e994733ce2ad5ac3a879b4d1ec044aa4 ""
-  "main.bcf" 1769345623 110116 045916b9b7a6859d32e0cd6e266f5112 "pdflatex"
+  "main.bcf" 1769372034 110116 045916b9b7a6859d32e0cd6e266f5112 "pdflatex"
   (generated)
   "main.bbl"
   "main.blg"
   (rewritten before read)
-["pdflatex"] 1769345606.88619 "c:/Users/adams/OneDrive/Pulpit/cartpole/latex/main.tex" "main.pdf" "main" 1769345623.82986 0
+["pdflatex"] 1769372027.46511 "c:/Users/adams/OneDrive/Pulpit/cartpole/latex/main.tex" "main.pdf" "main" 1769372035.08615 0
   "C:/Users/adams/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1767468175 82844 14da96008cbcd362999e575c0f47d96e ""
   "C:/Users/adams/AppData/Local/MiKTeX/fonts/pk/ljfour/jknappen/ec/dpi600/ectt1200.pk" 1762085466 24152 2c22d56fc1b2e1a5f2722f5025c76f5b ""
   "C:/Users/adams/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1762084665 13321867 fa717df4c1bbdf12100d55eeb67a36d5 ""
@@ -264,7 +264,7 @@
   "C:/Users/adams/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/adams/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
   "C:/Users/adams/AppData/Local/Programs/MiKTeX/tex/latex/xkeyval/xkeyval.sty" 1656236919 4937 4ce600ce9bd4ec84d0250eb6892fcf4f ""
-  "c:/Users/adams/OneDrive/Pulpit/cartpole/latex/main.tex" 1769099759 12492 9e264b0b20777857836dc47d082d6c08 ""
+  "c:/Users/adams/OneDrive/Pulpit/cartpole/latex/main.tex" 1769371069 12494 f45efffb1091b31ee51b1f44b14c1f43 ""
   "eiti/eiti-thesis.cls" 1762081584 15204 a297e4f7c25e43e18298925d9c62f1fc ""
   "eiti/header.png" 1762081586 96189 5f741ab9643c2309a548a148d7762c31 ""
   "eiti/title-inz.png" 1762081586 149789 d6e79f3ba007c791da2ee86beb735fc5 ""
@@ -301,20 +301,20 @@
   "img/animation.png" 1768413129 21598 64bee642fcef14db139e7446120c5841 ""
   "img/open_loop.png" 1768999310 162759 3fe19feda12d5f4099ebfb0d7b1d572e ""
   "img/wind_signal.png" 1768921685 48960 b22aa83b4364888f4f82102377423338 ""
-  "main.aux" 1769345622 29429 58fdd6dba96fd13d1db1fe4a45015757 "pdflatex"
+  "main.aux" 1769372034 29492 f79953a7d8fcde37c7880e23b9f14ef9 "pdflatex"
   "main.bbl" 1769100214 19557 5a6db9a13121788d4d14d2df2986d735 "biber main"
-  "main.lof" 1769345623 6606 5f53166a96100f25ff9e21e1c78cc975 "pdflatex"
-  "main.lot" 1769345623 1539 b8c9c9e9fe9d5946979160d2fa9f279e "pdflatex"
-  "main.out" 1769345623 10970 709662b4d818c9ef3a816ecdc7a27614 "pdflatex"
-  "main.run.xml" 1769345623 2403 774d68cdce99405f0870b4a35a1d196f "pdflatex"
-  "main.tex" 1769099759 12492 9e264b0b20777857836dc47d082d6c08 ""
-  "main.toc" 1769345623 5797 e04d3a43c2484c63b93ff6ba8eda2e5c "pdflatex"
+  "main.lof" 1769372034 6606 5f53166a96100f25ff9e21e1c78cc975 "pdflatex"
+  "main.lot" 1769372034 1539 b8c9c9e9fe9d5946979160d2fa9f279e "pdflatex"
+  "main.out" 1769372034 10970 709662b4d818c9ef3a816ecdc7a27614 "pdflatex"
+  "main.run.xml" 1769372034 2403 774d68cdce99405f0870b4a35a1d196f "pdflatex"
+  "main.tex" 1769371069 12494 f45efffb1091b31ee51b1f44b14c1f43 ""
+  "main.toc" 1769372034 5797 b5d6acfc37eee449df089f112a27e5fe "pdflatex"
   "tex/badania_wyniki.tex" 1769345598 28990 eef7f48639d5da4d3911ea5bde0575f8 ""
   "tex/eksperymenty.tex" 1768997518 6328 da4d029d0197d1bd5f15147d384dbaef ""
-  "tex/matma.tex" 1769096254 17465 73193399a33a78b2cd102c5e839edeca ""
+  "tex/matma.tex" 1769371444 17953 78ea77531cb73c99899f4a333b7d87b8 ""
   "tex/podsumowanie.tex" 1769099758 1849 0908fc0e1f69953eaa26cd29d8d4349e ""
   "tex/srodowisko.tex" 1768997919 11222 a2c3a6d17ce636f643f7b86fca5d85bc ""
-  "tex/sterowanie.tex" 1769342258 41021 c63aa2fce2973c4910f2ac75793f139a ""
+  "tex/sterowanie.tex" 1769372023 41028 b8a57a6b3dedb3fb4ba2d2dd247c1451 ""
   "tex/wstep.tex" 1769342044 7446 cc653fcd1852b40fa414a95a0a0cbc1a ""
   (generated)
   "main.aux"

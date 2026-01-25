@@ -695,6 +695,10 @@ INPUT .\tex\sterowanie.tex
 INPUT .\tex\sterowanie.tex
 INPUT .\tex\sterowanie.tex
 INPUT tex\sterowanie.tex
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futmii.vf
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-mlit.tfm
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-ml.tfm
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futri8r.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futmi.vf
 INPUT .\images\tuning\combined\combined_pdpd.png
 INPUT .\images\tuning\combined\combined_pdpd.png
