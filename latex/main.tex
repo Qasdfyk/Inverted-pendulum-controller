@@ -57,29 +57,26 @@
 %--------------------------------------
 \cleardoublepage
 \streszczenie
-% W pracy przeprowadzono analizę i porównanie wybranych metod sterowania odwróconym wahadłem na wózku — klasycznym przykładem nieliniowego i niestabilnego układu dynamicznego. Celem badań było opracowanie środowiska symulacyjnego umożliwiającego ocenę skuteczności różnych algorytmów regulacji oraz ich odporności na zakłócenia zewnętrzne. W ramach pracy zaimplementowano i przetestowano następujące podejścia: klasyczny regulator kaskadowy PID--PID, układ złożony PID--LQR, regulator LQR dla całego systemu, sterowanie predykcyjne modelowe MPC bez ograniczeń (MPC\_NO) w kilku wariantach funkcji kosztu, oraz regulator rozmyty Takagi--Sugeno.
 
-% Dla każdego z rozważanych regulatorów wykonano symulacje numeryczne w warunkach nominalnych oraz w obecności zakłóceń poziomych działających na wózek. Analizie poddano przebiegi kątów i położeń, a także obliczono wskaźniki jakości regulacji: średni błąd kwadratowy (MSE), średni błąd bezwzględny (MAE), czas regulacji, przeregulowanie, energię sygnału sterującego oraz średni czas obliczeń. Wyniki przedstawiono w postaci wykresów i tabel umożliwiających obiektywne porównanie metod.
-
-% Otrzymane rezultaty wskazują, że włączenie metod optymalnych i predykcyjnych pozwala znacząco poprawić stabilność oraz odporność układu w porównaniu z klasycznym sterowaniem PID. Regulator MPC zapewniał najkrótszy czas stabilizacji przy zachowaniu umiarkowanego kosztu sterowania, natomiast regulator rozmyty Takagi--Sugeno wykazał dobrą adaptacyjność przy zmiennych warunkach pracy. Opracowane środowisko może stanowić podstawę do dalszych badań nad sterowaniem nieliniowym, w tym nad integracją metod rozmytych, optymalnych i predykcyjnych.
-Praca poświęcona jest zagadnieniu sterowania nieliniowym układem odwróconego wahadła na wózku. Jej głównym celem było zaprojektowanie efektywnego układu stabilizacji oraz przeprowadzenie wielokryterialnej analizy porównawczej różnych algorytmów sterowania, w tym klasycznych (PID, PID-LQR), predykcyjnych (MPC, LMPC) oraz rozmytych (Fuzzy-LQR).
+Praca poświęcona jest zagadnieniu sterowania nieliniowym układem odwróconego wahadła na wózku. Jej głównym celem było zaprojektowanie efektywnego układu stabilizacji oraz przeprowadzenie wielokryterialnej analizy porównawczej różnych algorytmów sterowania, w tym klasycznych (PID, PID-LQR), predykcyjnych (MPC, MPC z rozszerzoną funkcją kosztu, LMPC) oraz rozmytych (Fuzzy-LQR).
 
 Etapy pracy obejmowały wyprowadzenie modelu matematycznego dynamiki układu, implementację środowiska symulacyjnego oraz syntezę i strojenie sześciu struktur sterowania. W trakcie realizacji rozwiązano problemy związane z nieliniowością i niestabilnością obiektu, a także wyzwania dotyczące doboru nastaw dla zaawansowanych algorytmów, w szczególności regulatora rozmytego i predykcyjnego, gdzie kluczowe było znalezienie kompromisu między horyzontem predykcji a stabilnością. Przeprowadzono również testy odporności układów na losowe zakłócenia zewnętrzne oraz zmiany parametrów fizycznych modelu.
 
 Analiza wyników wykazała, że nie istnieje jeden uniwersalny regulator idealny w każdym aspekcie; metody rozmyte (Fuzzy-LQR) najlepiej tłumią zakłócenia, podczas gdy sterowanie predykcyjne (MPC) jest najbardziej ekonomiczne energetycznie w warunkach nominalnych. Hybrydowy regulator PID-LQR, mimo skutecznej stabilizacji pozycji wózka, cechuje się wysokim zużyciem energii w warunkach zakłóceń. Potwierdzono również, że kluczowym czynnikiem dla stabilności układu jest właściwy dobór funkcji kosztu i precyzyjne strojenie parametrów.
-\slowakluczowe odwrócone wahadło,\allowbreak regulator PID,\allowbreak regulator LQR,\allowbreak regulator MPC,\allowbreak Takagi\allowbreak--\allowbreak Sugeno
+\slowakluczowe odwrócone wahadło,\allowbreak regulator PID,\allowbreak regulator LQR,\allowbreak regulator MPC,\allowbreak Takagi\allowbreak--\allowbreak Sugeno.
+
 %--------------------------------------
 % Streszczenie po angielsku
 %--------------------------------------
 \newpage
 \abstract
 
-The thesis focuses on the control of a nonlinear inverted pendulum system on a cart. Its main objective was to design an effective stabilization system and perform a multi-criteria comparative analysis of various control algorithms, including classical (PID, PID-LQR), predictive (MPC, LMPC), and fuzzy (Fuzzy-LQR) methods.
+The thesis focuses on the control of a nonlinear inverted pendulum system on a cart. Its main objective was to design an effective stabilization system and perform a multi-criteria comparative analysis of various control algorithms, including classical (PID, PID-LQR), predictive (MPC, MPC with extended cost function, LMPC), and fuzzy (Fuzzy-LQR) methods.
 
-The stages of the work involved deriving the mathematical model of the system dynamics, implementing the simulation environment, and synthesizing and tuning six control structures. During the implementation, problems related to the nonlinearity and instability of the object were solved, as well as challenges concerning the tuning of advanced algorithms, particularly the fuzzy and predictive controllers, where finding a trade-off between the prediction horizon and stability was crucial. Tests were also conducted to verify the systems' robustness against random external disturbances and changes in the physical parameters of the model.
+The stages of the work involved deriving the mathematical model of the system dynamics, implementing the simulation environment, and synthesizing and tuning six control structures. During the implementation, problems related to the nonlinearity and instability of the plant were solved, as well as challenges concerning the tuning of advanced algorithms, particularly the fuzzy and predictive controllers, where finding a trade-off between the prediction horizon and stability was crucial. Tests were also conducted to verify the systems' robustness against random external disturbances and changes in the physical parameters of the model.
 
 The analysis of the results showed that there is no single universal controller perfect for every aspect; fuzzy methods (Fuzzy-LQR) are best at suppressing disturbances, while predictive control (MPC) is the most energy-efficient under nominal conditions. The hybrid PID-LQR controller, while effective at stabilizing cart position, exhibits high energy consumption under disturbance conditions. It was also confirmed that the proper selection of the cost function and precise parameter tuning are key factors for system stability. 
-\keywords inverted pendulum, PID controller, LQR controller, MPC controller, Takagi\allowbreak--\allowbreak Sugeno, 
+\keywords inverted pendulum, PID controller, LQR controller, MPC controller, Takagi\allowbreak--\allowbreak Sugeno.
 %--------------------------------------
 % Oświadczenie o autorstwie
 %--------------------------------------

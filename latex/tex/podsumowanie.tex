@@ -1,29 +1,11 @@
 \section{Podsumowanie}
 
-Zrealizowano założone cele badawcze, implementując i poddając optymalizacji
-sześć strategii sterowania, od klasycznych PID, przez regulatory
-hybrydowe, aż po zaawansowane metody predykcyjne i rozmyte.
+Zrealizowano założone cele badawcze, implementując i poddając optymalizacji sześć strategii sterowania, od klasycznych PID, przez regulatory hybrydowe, aż po zaawansowane metody predykcyjne i rozmyte. Przeprowadzone badania symulacyjne pozwoliły na sformułowanie istotnych wniosków dotyczących doboru metody sterowania do konkretnych zastosowań. Kompletna implementacja środowiska symulacyjnego oraz kody źródłowe badanych regulatorów zostały udostępnione w repozytorium publicznym \href{https://github.com/Qasdfyk/Inverted-pendulum-controller}{Github}.
 
-Przeprowadzone badania symulacyjne pozwoliły na sformułowanie istotnych
-wniosków dotyczących doboru metody sterowania do konkretnych zastosowań.
-Kod źródłowy projektu dostępny na \href{https://github.com/Qasdfyk/Inverted-pendulum-controller}{github}.
-Wyniki wskazują jednoznacznie, że nie istnieje uniwersalny regulator
-dominujący we wszystkich aspektach. Wybór odpowiedniego algorytmu zawsze
-wiąże się z fundamentalnym kompromisem inżynierskim między jakością
-regulacji, definiowaną jako precyzja utrzymania punktu pracy, a kosztami
-eksploatacyjnymi i obciążeniem układu wykonawczego.
+Wyniki wskazują jednoznacznie, że nie istnieje uniwersalny regulator dominujący we wszystkich aspektach. Wybór odpowiedniego algorytmu zawsze wiąże się z fundamentalnym kompromisem inżynierskim między jakością regulacji, definiowaną jako precyzja utrzymania punktu pracy, a kosztami eksploatacyjnymi i obciążeniem układu wykonawczego.
 
-Wśród badanych metod szczególną skutecznością w zadaniach wymagających
-najwyższej precyzji wyróżnił się system rozmyty Fuzzy-LQR, który
-najefektywniej niwelował wpływ zakłóceń zewnętrznych, choć kosztem
-większego zużycia energii. Z kolei w warunkach nominalnych najbardziej
-ekonomicznym i bezpiecznym dla mechaniki układu rozwiązaniem okazało się
-sterowanie predykcyjne MPC, które w sposób jawny uwzględnia ograniczenia
-fizyczne napędu. Jako rozwiązanie alternatywne można wskazać regulator hybrydowy PID-LQR, 
-który w warunkach nominalnych zapewnia szybką stabilizację pozycji. Jednak w obecności 
-silnych zakłóceń, jego agresywne działanie prowadzi do zwiększonego zużycia energii 
-oraz większych oscylacji wahadła w porównaniu do metod predykcyjnych. Badania potwierdziły również, że kluczowym
-czynnikiem wpływającym na stabilność i odporność układu jest właściwy
-dobór funkcji kosztu i parametrów regulatora.
+Wśród badanych metod szczególną skutecznością w zadaniach wymagających najwyższej precyzji wyróżnił się system rozmyty Fuzzy-LQR, który najefektywniej niwelował wpływ zakłóceń zewnętrznych, choć kosztem większego zużycia energii. Z kolei w warunkach nominalnych najbardziej ekonomicznym i bezpiecznym dla mechaniki układu rozwiązaniem okazało się sterowanie predykcyjne MPC, które w sposób jawny uwzględnia ograniczenia fizyczne napędu. Jako rozwiązanie alternatywne można wskazać regulator hybrydowy PID-LQR, który w warunkach nominalnych zapewnia szybką stabilizację pozycji. Jednak w obecności silnych zakłóceń, jego gwałtowne działanie prowadzi do znacznego wzrostu zużycia energii oraz większych oscylacji wahadła w porównaniu do metod predykcyjnych. Badania potwierdziły również, że kluczowym czynnikiem wpływającym na stabilność i odporność układu jest właściwy dobór funkcji kosztu i parametrów regulatora.
+
+Możliwe kierunki dalszego rozwoju projektu obejmują weryfikację eksperymentalną algorytmów na rzeczywistym obiekcie fizycznym, co pozwoliłoby ocenić wpływ realnych szumów pomiarowych i opóźnień transmisji. Istotnym rozszerzeniem prac byłaby również optymalizacja kodu regulatora MPC pod kątem implementacji na platformach wbudowanych o ograniczonych zasobach obliczeniowych.
 
 
