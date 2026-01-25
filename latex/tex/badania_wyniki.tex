@@ -90,7 +90,7 @@ będąc jednym z najbardziej efektywnych rozwiązań.
 
 Liniowy regulator predykcyjny LMPC plasuje się pośrodku stawki.
 Osiąga czas regulacji $T_s \approx 3{,}1$~s przy zużyciu energii $E_u \approx 0{,}79$.
-Gorsze wyniki energetyczne w porównaniu do nieliniowych wariantów MPC ($0{,}79$ vs $0{,}51-0{,}56$)
+Gorsze wyniki energetyczne w porównaniu do nieliniowych wariantów MPC ($0{,}51$ i $0{,}56$)
 wynikają z uproszczeń modelu liniowego, który nie odwzorowuje idealnie dynamiki obiektu
 nawet w pobliżu punktu pracy, wymuszając częstsze korekty sterowania.
 
@@ -177,14 +177,14 @@ bardzo pozwolić wózkowi uciec, by utrzymać wahadło w pionie.
 \subsubsection{Charakterystyka regulatorów klasycznych}
 
 W grupie klasycznej (Rys. \ref{fig:wind_classical}--\ref{fig:wind_control_classical}) nastąpiła
-istotna zmiana w porównaniu do warunków nominalnych. Agresywne strojenie PID-LQR, nastawione na
-utrzymanie pozycji wózka, skutkuje mieszanymi rezultatami. Z jednej strony regulator ten 
-skutecznie ograniczył dryf pozycji ($Max |x| \approx 0.30$ m vs $0.56$ m dla PID-PID).
+istotna zmiana w porównaniu do warunków nominalnych. Strojenie PID-LQR, nastawione na
+utrzymanie wahadła w pionie, skutkuje mieszanymi rezultatami. Z jednej strony regulator ten 
+skutecznie ograniczył dryf pozycji ($Max |x| \approx 0.30$ m).
 Z drugiej jednak, odbyło się to kosztem pogorszenia jakości stabilizacji kąta 
-($Max |\theta| \approx 0.096$~rad vs $0.090$~rad) oraz drastycznym wzrostem zużycia energii 
-($E_u \approx 33.37$ vs $22.78$). Widać wyraźnie, że w warunkach silnych zakłóceń, 
-sztywna walka o utrzymanie pozycji wózka przez PID-LQR jest nieefektywna energetycznie 
-i prowadzi do większych chybotliwości wahadła.
+($Max |\theta| \approx 0.096$~rad) oraz drastycznym wzrostem zużycia energii 
+($E_u \approx 33.37$). W warunkach występowania zakłóceń zewnętrznych, charakterystyka 
+regulatora PID-LQR wykazuje mniejszy dryf pozycji wózka w porównaniu do układu klasycznego, 
+co wiąże się z generowaniem sygnałów sterujących o większej energii całkowitej.
 
 \begin{figure}[h!]
     \centering
@@ -209,7 +209,6 @@ i prowadzi do większych chybotliwości wahadła.
 
 \subsubsection{Charakterystyka regulatorów zaawansowanych}
 
-W grupie zaawansowanej (Rys. \ref{fig:wind_advanced}--\ref{fig:wind_control_advanced})
 W grupie zaawansowanej (Rys. \ref{fig:wind_advanced}--\ref{fig:wind_control_advanced})
 Fuzzy-LQR potwierdza swoją skuteczność.
 Uzyskał on bardzo dobre wyniki stabilizacji: małe wychylenie kątowe ($Max |\theta| \approx 0.063$~rad)

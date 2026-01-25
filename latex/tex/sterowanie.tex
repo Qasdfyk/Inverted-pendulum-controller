@@ -317,8 +317,7 @@ Ostatecznie zastosowane wagi to:
 Algorytm MPC (Model Predictive Control) stanowi zaawansowaną metodę sterowania,
 która w~odróżnieniu od~LQR, uwzględnia wprost ograniczenia sygnału sterującego
 oraz nieliniową dynamikę obiektu \cite{Camacho2007}.
-Zaimplementowany w~klasie \texttt{MPCController} 
-algorytm rozwiązuje w~każdym kroku symulacji problem optymalizacji dynamicznej
+Zaimplementowany algorytm rozwiązuje w~każdym kroku symulacji problem optymalizacji dynamicznej
 nieliniowej (NMPC). Model predykcyjny wykorzystuje numeryczne całkowanie równań ruchu metodą 
 Rungego-Kutty 4. rzędu (RK4), co pozwala na dokładne odwzorowanie nieliniowej dynamiki obiektu. 
 Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:diagram_mpc}.
@@ -436,7 +435,7 @@ Zwiększenie horyzontu do~$N=10$ (przy $N_u=3$) w~ramach korekty ręcznej
 Dodatkowa manipulacja wagami $Q$ pozwoliła na~uzyskanie poprawnego
 sterowania.
 
-Aby zweryfikować dobrane nastawy znów zastosowano algorytm do automatyzacja procesu strojenia, 
+Aby zweryfikować dobrane nastawy znów zastosowano algorytm do automatyzacji procesu strojenia, 
 który pozwolił na~znalezienie nowych nastaw (linia zielona).
 Algorytm wyznaczył jeszcze lepsze nastawy regulatora MPC $N=12$ przy $N_u=4$ oraz nowe wartości macierzy $Q$ i skalara $R$.
 
