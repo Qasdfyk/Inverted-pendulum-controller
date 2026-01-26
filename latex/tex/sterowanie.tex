@@ -159,32 +159,6 @@ dla każdej zmiennej stanu, LQR wyznacza optymalny wektor wzmocnień automatyczn
 na~podstawie dyskretnego modelu obiektu oraz macierzy wag $Q$ i~$R$, definiujących 
 kompromis między jakością regulacji a~zużyciem energii.
 
-Problem sterowania optymalnego polega na~znalezieniu prawa sterowania 
-$u(k) = -K x(k)$, które minimalizuje wskaźnik jakości zdefiniowany jako nieskończona suma:
-\begin{equation}
-    J = \sum_{k=0}^{\infty} \left( x(k)^T Q x(k) + u(k)^T R u(k) \right),
-\end{equation}
-gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą sterowania. 
-Punktem wyjścia jest model dyskretny układu: $x(k+1) = A_d x(k) + B_d u(k)$, 
-gdzie macierze $A_d$ i~$B_d$ wyznaczono z~modelu ciągłego metodą ekstrapolatora 
-rzędu zerowego (ZOH) dla czasu próbkowania $T=0{,}1$~s.
-
-Optymalna macierz wzmocnień $K$ wyznaczana jest na~podstawie rozwiązania 
-Dyskretnego Algebraicznego Równania Riccatiego (DARE):
-\begin{equation}
-    P = A_d^T P A_d - A_d^T P B_d \left( R + B_d^T P B_d \right)^{-1} B_d^T P A_d + Q.
-\end{equation}
-Macierz $P$ jest unikalnym, symetrycznym i~dodatnio określonym rozwiązaniem tego równania. 
-Ostateczna postać wzmocnienia regulatora wyraża się wzorem:
-\begin{equation}
-    K = \left( R + B_d^T P B_d \right)^{-1} B_d^T P A_d.
-\end{equation}
-
-Zaimplementowano sterowanie oparte na~pełnym wektorze stanu, 
-wspomagane dodatkowym członem PID dla uchybu pozycji, co tworzy strukturę hybrydową 
-opisaną m.in. w~\cite{Prasad2014} oraz \cite{Nguyen2024}. 
-Schemat blokowy tego układu przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
-
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[auto, node distance=1.4cm, >=Stealth]
@@ -246,6 +220,32 @@ Schemat blokowy tego układu przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
     \label{fig:diagram_pdlqr}
 \end{figure}
 
+Problem sterowania optymalnego polega na~znalezieniu prawa sterowania 
+$u(k) = -K x(k)$, które minimalizuje wskaźnik jakości zdefiniowany jako nieskończona suma:
+\begin{equation}
+    J = \sum_{k=0}^{\infty} \left( x(k)^T Q x(k) + u(k)^T R u(k) \right),
+\end{equation}
+gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą sterowania. 
+Punktem wyjścia jest model dyskretny układu: $x(k+1) = A_d x(k) + B_d u(k)$, 
+gdzie macierze $A_d$ i~$B_d$ wyznaczono z~modelu ciągłego metodą ekstrapolatora 
+rzędu zerowego (ZOH) dla czasu próbkowania $T=0{,}1$~s.
+
+Optymalna macierz wzmocnień $K$ wyznaczana jest na~podstawie rozwiązania 
+Dyskretnego Algebraicznego Równania Riccatiego (DARE):
+\begin{equation}
+    P = A_d^T P A_d - A_d^T P B_d \left( R + B_d^T P B_d \right)^{-1} B_d^T P A_d + Q.
+\end{equation}
+Macierz $P$ jest unikalnym, symetrycznym i~dodatnio określonym rozwiązaniem tego równania. 
+Ostateczna postać wzmocnienia regulatora wyraża się wzorem:
+\begin{equation}
+    K = \left( R + B_d^T P B_d \right)^{-1} B_d^T P A_d.
+\end{equation}
+
+Zaimplementowano sterowanie oparte na~pełnym wektorze stanu, 
+wspomagane dodatkowym członem PID dla uchybu pozycji, co tworzy strukturę hybrydową 
+opisaną m.in. w~\cite{Prasad2014} oraz \cite{Nguyen2024}. 
+Schemat blokowy tego układu przedstawiono na~Rys.~\ref{fig:diagram_pdlqr}.
+
 W~zaimplementowanym rozwiązaniu, sygnał sterujący w~chwili $k$
 składa się z~dwóch komponentów:
 \begin{equation}
@@ -260,7 +260,6 @@ ma na~celu poprawę śledzenia skokowych zmian wartości zadanej
 $x_{\mathrm{ref}}$ oraz eliminację uchybu ustalonego wynikającego z zakłóceń i niedokładności modelu.
 \cite{Prasad2014}.
 
-\newpage
 \subsubsection{Dobór wag macierzy Q i R}
 Dobór wartości elementów macierzy wag $Q$ i~$R$ zrealizowano w~sposób
 wieloetapowy, ewoluując od~konfiguracji bazowej do~rozwiązania
@@ -304,7 +303,7 @@ Ostatecznie zastosowane wagi to:
 \end{equation}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_pdlqr.png}
+    \includegraphics[width=1.0\textwidth, height=15cm]{images/tuning/combined/combined_pdlqr.png}
     \caption{Porównanie nastaw regulatora PID-LQR.}
     \label{fig:combined_pdlqr}
 \end{figure}
@@ -761,6 +760,8 @@ niż w~przypadku pozostałych badanych algorytmów. Wynika to z~kilku czynników
     \end{tabular}
 \end{table}
 
+Ostatecznie użyty zestaw parametrów to: $F_{\theta}=40$, 
+    $F_{\dot{\theta}}=1$, $F_x=15$, $F_{\dot{x}}=20$, $G=0.36$.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1.0\textwidth]{images/tuning/combined/combined_fuzzy.png}
@@ -769,5 +770,3 @@ niż w~przypadku pozostałych badanych algorytmów. Wynika to z~kilku czynników
 \end{figure}
 
 
-Ostatecznie użyty zestaw parametrów to: $F_{\theta}=40$, 
-    $F_{\dot{\theta}}=1$, $F_x=15$, $F_{\dot{x}}=20$, $G=0.36$.

@@ -5,8 +5,8 @@
 \contentsline {table}{\numberline {4.3}{\ignorespaces Zestawienie parametrów strojenia regulatora MPC.}}{29}{table.caption.16}%
 \contentsline {table}{\numberline {4.4}{\ignorespaces Analiza wpływu kary energetycznej w MPC-alt (przy stałych $Q$ i $R_{\Delta }$).}}{31}{table.caption.18}%
 \contentsline {table}{\numberline {4.5}{\ignorespaces Zestawienie parametrów strojenia LMPC.}}{33}{table.caption.20}%
-\contentsline {table}{\numberline {4.6}{\ignorespaces Parametry regulatora Fuzzy-LQR.}}{37}{table.caption.24}%
-\contentsline {table}{\numberline {6.1}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - warunki nominalne}}{59}{table.caption.48}%
-\contentsline {table}{\numberline {6.2}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - zakłócenia zewnętrzne}}{59}{table.caption.49}%
-\contentsline {table}{\numberline {6.3}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - odporność na zmianę parametrów modelu (+100\% masy wahadła)}}{60}{table.caption.50}%
-\contentsline {table}{\numberline {6.4}{\ignorespaces Średni czas obliczeń jednej iteracji pętli sterowania}}{60}{table.caption.51}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Parametry regulatora Fuzzy-LQR.}}{36}{table.caption.24}%
+\contentsline {table}{\numberline {6.1}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - warunki nominalne}}{58}{table.caption.48}%
+\contentsline {table}{\numberline {6.2}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - zakłócenia zewnętrzne}}{58}{table.caption.49}%
+\contentsline {table}{\numberline {6.3}{\ignorespaces Wskaźniki jakości (Kąt i Pozycja) - odporność na zmianę parametrów modelu (+100\% masy wahadła)}}{59}{table.caption.50}%
+\contentsline {table}{\numberline {6.4}{\ignorespaces Średni czas obliczeń jednej iteracji pętli sterowania}}{59}{table.caption.51}%
