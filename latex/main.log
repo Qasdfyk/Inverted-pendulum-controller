@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  26 JAN 2026 21:54
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2025.11.2)  29 JAN 2026 16:16
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1542,7 +1542,7 @@ Package pdftex.def Info: img/animation.png  used on input line 220.
 [20 <./img/animation.png>] (tex/sterowanie.tex
 
 [21]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+Underfull \vbox (badness 4872) has occurred while \output is active []
 
 
 
@@ -1552,6 +1552,9 @@ File: images/tuning/combined/combined_pdpd.png Graphic file (type png)
 <use images/tuning/combined/combined_pdpd.png>
 Package pdftex.def Info: images/tuning/combined/combined_pdpd.png  used on input line 141.
 (pdftex.def)             Requested size: 438.17247pt x 438.1711pt.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 
 
 [23 <./images/tuning/combined/combined_pdpd.png>]
@@ -1933,14 +1936,14 @@ Package logreq Info: Writing requests to 'main.run.xml'.
  ) 
 Here is how much of TeX's memory you used:
  45593 strings out of 468080
- 930817 string characters out of 5425772
+ 930821 string characters out of 5425772
  2032596 words of memory out of 5000000
  72787 multiletter control sequences out of 15000+600000
  787538 words of font info for 527 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  123i,19n,121p,1076b,2806s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <C:\Users\adams\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\ectt1200.pk><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mcl.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mex.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ml.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-mlit.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/public/fourier/fourier-ms.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putb8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putr8a.pfb><C:/Users/adams/AppData/Local/Programs/MiKTeX/fonts/type1/adobe/utopia/putri8a.pfb>
-Output written on main.pdf (64 pages, 3272129 bytes).
+Output written on main.pdf (64 pages, 3272077 bytes).
 PDF statistics:
  1035 PDF objects out of 1200 (max. 8388607)
  237 named destinations out of 1000 (max. 500000)

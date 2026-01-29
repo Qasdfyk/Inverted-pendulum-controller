@@ -8,7 +8,7 @@ regulator wyznacza sygnał sterujący $u(k)$ (siłę przyłożoną do wózka)
 na~podstawie aktualnego, dyskretnego wektora stanu
 $x(k) = [x_1(k), x_2(k), x_3(k), x_4(k)]^T$ oraz wartości zadanych
 $x_{\mathrm{ref}}$. Przyjęto następujące przyporządkowanie zmiennych stanu, 
-gdzie $t = k \cdot T$ ($T$ oznacza okres próbkowania):
+gdzie $t = k \cdot T_p$ ($T_p$ oznacza okres próbkowania):
 \begin{itemize}
     \item $x_1(k)$ -- kąt wychylenia wahadła ($\theta$),
     \item $x_2(k)$ -- prędkość kątowa wahadła (odpowiednik $\dot{\theta}$),
@@ -85,12 +85,12 @@ Prawo sterowania w~chwili $k$ wyraża się sumą sygnałów z~dwóch pętli regu
 \begin{equation}
     u(k) =  u_{\theta}(k) + u_{x}(k).
 \end{equation}
-W implementacji cyfrowej algorytm został zdyskretyzowany z~okresem próbkowania $T=0{,}1$~s. Dla uchybów regulacji zdefiniowanych jako $e_{\theta}(k) = \theta_{\mathrm{ref}} - x_1(k)$ oraz $e_x(k) = x_{\mathrm{ref}} - x_3(k)$, człon proporcjonalny realizowany jest jako proste wzmocnienie uchybu. Człon całkujący przybliżono numerycznie metodą prostokątów (sumowanie uchybów w~czasie), wyposażając go dodatkowo w~mechanizm \textit{anti-windup}, który ogranicza wartość całki do zakresu $\pm 5{,}0$. 
+W implementacji cyfrowej algorytm został zdyskretyzowany z~okresem próbkowania $T_p$. Dla uchybów regulacji zdefiniowanych jako $e_{\theta}(k) = \theta_{\mathrm{ref}} - x_1(k)$ oraz $e_x(k) = x_{\mathrm{ref}} - x_3(k)$, człon proporcjonalny realizowany jest jako proste wzmocnienie uchybu. Człon całkujący przybliżono numerycznie metodą prostokątów (sumowanie uchybów w~czasie), wyposażając go dodatkowo w~mechanizm \textit{anti-windup}, który ogranicza wartość całki do zakresu $\pm 5{,}0$. 
 
-Istotną modyfikację wprowadzono w~członie różniczkującym. Zamiast klasycznego obliczania różnicy uchybów ($\frac{\Delta e}{\Delta t}$), co może prowadzić do wzmacniania szumów kwantyzacji, zastosowano technikę różniczkowania sygnału wyjściowego (ang. \textit{derivative on measurement}). Wykorzystując fakt, że przy stałych wartościach zadanych pochodna uchybu odpowiada ujemnej prędkości obiektu ($\dot{e} \approx -\dot{x}_{\mathrm{pomiar}}$), w~równaniach sterowania użyto bezpośrednio zmiennych stanu prędkości. Ostateczne równania różnicowe regulatora przyjmują postać:
+Istotną modyfikację wprowadzono w~członie różniczkującym. Zamiast klasycznego obliczania różnicy uchybów ($\frac{\Delta e}{\Delta t}$), co może prowadzić do wzmacniania szumów kwantyzacji, zastosowano technikę różniczkowania sygnału wyjściowego (ang. \textit{derivative on measurement}). Wykorzystując fakt, że przy stałych wartościach zadanych pochodna uchybu odpowiada ujemnej prędkości obiektu, w~równaniach sterowania użyto bezpośrednio zmiennych stanu prędkości. Ostateczne równania różnicowe regulatora przyjmują postać:
 \begin{align}
-    u_{\theta}(k) &= K_{p,\theta} e_{\theta}(k) + K_{i,\theta} \sum_{j=0}^{k} e_{\theta}(j) T + K_{d,\theta} \left( -x_2(k) \right), \label{eq:pd_theta} \\
-    u_{x}(k) &= K_{p,x} e_x(k) + K_{i,x} \sum_{j=0}^{k} e_x(j) T + K_{d,x} \left( -x_4(k) \right). \label{eq:pd_x}
+    u_{\theta}(k) &= K_{p,\theta} e_{\theta}(k) + K_{i,\theta} \sum_{j=0}^{k} e_{\theta}(j) T_p + K_{d,\theta} \left( -x_2(k) \right), \label{eq:pd_theta} \\
+    u_{x}(k) &= K_{p,x} e_x(k) + K_{i,x} \sum_{j=0}^{k} e_x(j) T_p + K_{d,x} \left( -x_4(k) \right). \label{eq:pd_x}
 \end{align}
 W powyższych zależnościach $x_2(k)$ oznacza prędkość kątową wahadła, a~$x_4(k)$ prędkość liniową wózka w~bieżącym kroku symulacji. Zastosowanie takiej struktury pozwala na uzyskanie gładszego przebiegu sygnału sterującego oraz eliminuje gwałtowne skoki sterowania przy zmianach wartości zadanej (tzw. \textit{derivative kick}).
 
@@ -228,7 +228,7 @@ $u(k) = -K x(k)$, które minimalizuje wskaźnik jakości zdefiniowany jako niesk
 gdzie $Q \succeq 0$ jest macierzą wag stanu, a~$R > 0$ wagą sterowania. 
 Punktem wyjścia jest model dyskretny układu: $x(k+1) = A_d x(k) + B_d u(k)$, 
 gdzie macierze $A_d$ i~$B_d$ wyznaczono z~modelu ciągłego metodą ekstrapolatora 
-rzędu zerowego (ZOH) dla czasu próbkowania $T=0{,}1$~s.
+rzędu zerowego (ZOH) dla czasu próbkowania $T_p$.
 
 Optymalna macierz wzmocnień $K$ wyznaczana jest na~podstawie rozwiązania 
 Dyskretnego Algebraicznego Równania Riccatiego (DARE):
@@ -373,9 +373,9 @@ Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:diagram_mpc}.
 \end{figure}
 
 % --- DODANY FRAGMENT O RK4 I DYSKRETYZACJI ---
-W przypadku nieliniowego sterowania predykcyjnego (NMPC), predykcja przyszłych stanów wymaga dyskretnego modelu obiektu. Ze względu na nieliniowy charakter dynamiki wahadła $\dot{x}(t) = f_c(x(t), u(t))$, nie jest możliwe wyznaczenie analitycznej postaci modelu dyskretnego (jak w~przypadku ZOH dla układów liniowych). Dlatego też, przejście z~czasu ciągłego do~dyskretnego realizowane jest poprzez numeryczne całkowanie równań stanu w~przedziale próbkowania $T_s$. Wartość wektora stanu w~kolejnej chwili dyskretnej $k+1$ wyznaczana jest zgodnie z~zależnością:
+W przypadku nieliniowego sterowania predykcyjnego (NMPC), predykcja przyszłych stanów wymaga dyskretnego modelu obiektu. Ze względu na nieliniowy charakter dynamiki wahadła $\dot{x}(t) = f_c(x(t), u(t))$, nie jest możliwe wyznaczenie analitycznej postaci modelu dyskretnego (jak w~przypadku ZOH dla układów liniowych). Dlatego też, przejście z~czasu ciągłego do~dyskretnego realizowane jest poprzez numeryczne całkowanie równań stanu wewnątrz okresu próbkowania $T_p$. Wartość wektora stanu w~kolejnej chwili dyskretnej $k+1$ wyznaczana jest zgodnie z~zależnością:
 \begin{equation}
-x(k+1) = x(k) + \int_{t_k}^{t_k + T_s} f_c(x(\tau), u(k)) \, d\tau
+x(k+1) = x(k) + \int_{t_k}^{t_k + T_p} f_c(x(\tau), u(k)) \, d\tau
 \end{equation}
 W implementacji algorytmu całka ta jest przybliżana metodą Rungego-Kutty czwartego rzędu (RK4) ze~stałym krokiem całkowania równym okresowi próbkowania regulatora. Przyjęto założenie (ZOH), że sterowanie $u(k)$ jest stałe w~całym przedziale całkowania $[t_k, t_{k+1})$.
 % ------------------------------------------------
