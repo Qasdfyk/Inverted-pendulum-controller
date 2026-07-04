@@ -1,0 +1,402 @@
+\RequirePackage{fix-cm}
+\documentclass[twocolumn]{svjour3}
+
+\usepackage{cite}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{upgreek}
+\usepackage{adjustbox}
+\usepackage{placeins}    
+\usepackage{balance}
+\usepackage[misc]{ifsym}
+\usepackage{url}
+\usepackage{multirow}
+\usepackage{tikz}
+\usepackage{soul}
+
+\newcommand\hhl[1]{%
+	\bgroup
+	\hskip0pt\color{blue!80!blue}%
+	#1%
+	\egroup
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\journalname{Nonlinear Dynamics}
+	
+\begin{document}
+	
+	\title{\hl{Nie uzupelniac}}
+	
+	\titlerunning{\hl{Nie uzupelniac}}
+	
+	\author{Adam~Soko{\l}owski, Robert~Nebeluk}
+	
+	\authorrunning{A.~Soko{\l}owski, R.~Nebeluk} 
+	
+	\institute{A.~Soko{\l}owski, R.~Nebeluk, \at
+		Warsaw University of Technology\\
+		Institute of Control and Computation Engineering\\  
+		ul. Nowowiejska 15/19, 00-665 Warsaw, Poland\\
+		\email{ \hl{a.sokolowski2003@gmail.com}, Robert.Nebeluk@pw.edu.pl}
+	}
+	
+	\date{Received: date / Accepted: date}
+	% The correct dates will be entered by the editor
+
+	\maketitle
+	
+	\begin{abstract}
+		\hl{Nie uzupelniac}
+		\keywords{\hl{Nie uzupelniac}}
+	
+	\end{abstract}
+	
+	\section{Introduction}
+	\label{sec:p}
+    \hl{Nie uzupelniac}\\
+    \hl{Na wszelki wypadek: prosze pamietac aby nie generowac tekstu przy pomocy narzedzi AI - pliki zrodlowe po wyslaniu beda sprawdzane przez odpowiednie narzedzia. Dopoki sam Pan tlumaczy i sam Pan wymysla kolejne linijki tekstu to na pewno bedzie wszystko w porzadku.}
+    \section{Modeling of inverted pendulum on cart system}
+	\label{sec:pp}
+    \hl{TODO: Wykorzystac material z pracy inżynierskiej: rozdzial 2 (bez rozdz. 2.5.1, 2.5.2, 2.6) oraz tabelka 3.1}
+The inverted pendulum on a cart is an underactuated mechanical system that serves as a
+standard benchmark for evaluating control strategies. The system
+consists of a cart of mass $M$ constrained to horizontal translation, with a rigid pendulum of
+mass $m$ and length $l$ pinned at the cart centre. The sole actuator applies a horizontal force
+$u(t)$ to the cart; an external horizontal disturbance $F_\mathrm{w}(t)$ acting on the pendulum
+tip is also considered. The physical parameters employed throughout this work are listed in
+Table~\ref{tab:params}.
+
+\setlength\tabcolsep{4pt}
+\begin{table}[htbp]
+\caption{Physical parameters of the inverted-pendulum system.}
+\label{tab:params}
+\centering
+\begin{small}
+\begin{tabular}{lcc}
+\hline
+\rule{0pt}{3mm}Parameter & Symbol & Value \\
+\hline
+\rule{0pt}{3.5mm}Cart mass         & $M$ & $2.40$~kg \\
+Pendulum mass     & $m$ & $0.23$~kg \\
+Pendulum length   & $l$ & $0.36$~m  \\
+Gravitational acceleration & $g$ & $9.81$~m/s$^{2}$ \\
+\hline
+\end{tabular}
+\end{small}
+\end{table}
+
+The following simplifying assumptions are adopted: the rod is massless and
+rigid; friction at the wheels and at the pivot is negligible; motion is planar; and the
+pendulum mass is treated as a point mass at the rod tip. The coordinate $\theta(t)$ denotes the
+pendulum deflection from the upright equilibrium (positive clockwise, $\theta=0$ at the top),
+and $x(t)$ is the cart displacement.
+
+\subsection{Equations of motion}
+
+The position of the pendulum tip in the fixed frame is
+$x_G = x + l\sin\theta$, $y_G = l\cos\theta$.
+Differentiating twice and applying Newton's second law to the whole system in the horizontal
+direction gives:
+\begin{equation}
+(M{+}m)\ddot{x} + ml\cos\theta\,\ddot{\theta} - ml\sin\theta\,\dot{\theta}^{2} = u + F_\mathrm{w}.
+\label{eq:trans}
+\end{equation}
+Balancing moments about the pivot yields:
+\begin{equation}
+ml\cos\theta\,\ddot{x} + ml^{2}\ddot{\theta} = mgl\sin\theta + lF_\mathrm{w}\cos\theta.
+\label{eq:rot}
+\end{equation}
+Introducing $M_T = M+m$ and $D(\theta)=l\bigl(M_T - m\cos^{2}\!\theta\bigr)$, the explicit
+accelerations resolved from \eqref{eq:trans}--\eqref{eq:rot} are:
+\begin{align}
+\ddot{x} &= \frac{u + ml\sin\theta\,\dot{\theta}^{2} - mg\sin\theta\cos\theta}{M_T - m\cos^{2}\!\theta},
+\label{eq:xdd}\\[2pt]
+\ddot{\theta} &= \frac{M_T g\sin\theta - \cos\theta\!\left(u + ml\sin\theta\,\dot{\theta}^{2}\right)}{D(\theta)}.
+\label{eq:tdd}
+\end{align}
+
+\subsection{Nonlinear state-space model}
+
+Defining the state vector $x(t) = [\theta,\dot{\theta},x,\dot{x}]^T$,
+the dynamics \eqref{eq:xdd}--\eqref{eq:tdd} take the form $\dot{x} = f(x,u,F_\mathrm{w})$:
+\begin{equation}
+\begin{bmatrix}\dot{x}_1\\\dot{x}_2\\\dot{x}_3\\\dot{x}_4\end{bmatrix}
+=
+\begin{bmatrix}
+x_2\\[2pt]
+\dfrac{M_T g\sin x_1 - \cos x_1\!\left(u + ml\sin x_1\,x_2^{2}\right)}{D(x_1)}\\[6pt]
+x_4\\[2pt]
+\dfrac{u + ml\sin x_1\,x_2^{2} - mg\sin x_1\cos x_1}{M_T - m\cos^{2}\!x_1}
+\end{bmatrix}.
+\label{eq:nonlin_ss}
+\end{equation}
+
+\subsection{Linearized model}
+
+For small deflections around the upright equilibrium ($\theta\approx 0$), the approximations
+$\sin\theta\approx\theta$, $\cos\theta\approx 1$ yield the linear time-invariant
+model $\dot{x} = Ax + Bu + B_\mathrm{d}F_\mathrm{w}$:
+\begin{equation}
+A = \begin{bmatrix}0&1&0&0\\ \dfrac{M_T g}{Ml}&0&0&0\\[4pt]0&0&0&1\\[2pt]-\dfrac{mg}{M}&0&0&0\end{bmatrix},\;
+B = \begin{bmatrix}0\\[2pt]-\dfrac{1}{Ml}\\[4pt]0\\[2pt]\dfrac{1}{M}\end{bmatrix}.
+\label{eq:linear}
+\end{equation}
+The eigenvalues of $A$ are $\lambda_{1,2}=0$ and $\lambda_{3,4}\approx\pm 5.49$; the positive
+real eigenvalue confirms open-loop instability. The pair $(A,B)$ has full controllability rank
+equal to four, guaranteeing the existence of a stabilising feedback law.
+    
+    \section{Control system design}
+	\label{sec:r}
+	\hl{TODO: Wykorzystac material z pracy inżynierskiej: rozdzial 3 (tylko opis matematyczny/implementacyjny - bez rysunkow/wynikow/strojenia)}
+
+ 
+All controllers operate in discrete time with sampling period $T_p$ and share the state vector
+$$x(k) = [\theta(k),\dot{\theta}(k),x(k),\dot{x}(k)]^T$$
+The control output $u(k)$ is the horizontal force applied to the cart at time instant
+$t = k T_p$.
+
+\subsection{PID control scheme}
+
+The parallel PID scheme employs two independent PID loops whose outputs are summed:
+\begin{equation}
+u(k) = u_{\theta}(k) + u_{x}(k),
+\end{equation}
+where $e_{\theta}(k)=\theta_\mathrm{ref}-x_1(k)$ and $e_x(k)=x_\mathrm{ref}-x_3(k)$.
+Each loop follows a discrete-time PID law with \emph{derivative on measurement} to suppress
+quantisation-noise amplification:
+\begin{align}
+u_{\theta}(k) &= K_{p,\theta}e_{\theta}(k) + K_{i,\theta}\!\sum_{j=0}^{k}\!e_{\theta}(j)T_p
+               - K_{d,\theta}x_2(k),\label{eq:pid_theta}\\
+u_{x}(k) &= K_{p,x}e_x(k) + K_{i,x}\!\sum_{j=0}^{k}\!e_x(j)T_p
+           - K_{d,x}x_4(k).\label{eq:pid_x}
+\end{align}
+Using the velocity states $x_2$ and $x_4$ directly as derivative feedback eliminates
+derivative kick during reference steps. An anti-windup mechanism limits the integral
+accumulation to $\pm 5.0$.
+
+\subsection{LQR control scheme}
+
+The Discrete Linear Quadratic Regulator (DLQR)~\cite{Jezierski2017} finds the
+state-feedback gain $K$ minimising the infinite-horizon cost:
+\begin{equation}
+J = \sum_{k=0}^{\infty}\!\left(x(k)^T Q\,x(k) + u(k)^T R\,u(k)\right),
+\label{eq:lqr_cost}
+\end{equation}
+subject to the linearised discrete model $x(k{+}1)=A_dx(k)+B_du(k)$,
+where $A_d,B_d$ are obtained from $(A,B)$ of \eqref{eq:linear} via zero-order-hold (ZOH)
+discretisation at period $T_p$. The gain is computed from the unique positive-definite
+solution $P$ of the Discrete Algebraic Riccati Equation (DARE):
+\begin{equation}
+P = A_d^T P A_d - A_d^T P B_d(R+B_d^T P B_d)^{-1}B_d^T P A_d + Q,
+\end{equation}
+yielding:
+\begin{equation}
+K = (R + B_d^T P B_d)^{-1}B_d^T P A_d,
+\end{equation}
+and the control law $u(k) = -K\bigl(x(k) - x_\mathrm{ref}\bigr)$,
+where $Q\succeq 0$, $R>0$ are design weighting matrices.
+
+\subsection{LQR-I control scheme}
+
+To eliminate steady-state cart-position error, the DLQR is augmented with an integrator
+acting on the position tracking error. The accumulated error state is:
+\begin{equation}
+z(k+1) = z(k) + \bigl(x_\mathrm{ref} - x_3(k)\bigr)T_p.
+\end{equation}
+The augmented state $x_\mathrm{aug}(k)=[x_1,x_2,x_3,x_4,z]^T$ obeys:
+\begin{equation}
+x_\mathrm{aug}(k{+}1) = \tilde{A}_d\,x_\mathrm{aug}(k) + \tilde{B}_d\,u(k),
+\end{equation}
+where $\tilde{A}_d\in\mathbb{R}^{5\times 5}$ and $\tilde{B}_d\in\mathbb{R}^{5\times 1}$
+append the integrator row to $A_d$ and $B_d$, respectively. Applying DLQR to the augmented
+system with extended weighting matrices $\tilde{Q}$ and $R$ yields:
+\begin{equation}
+u(k) = -\tilde{K}\,x_\mathrm{aug}(k),
+\end{equation}
+providing zero steady-state position error for constant references.
+
+\subsection{PID-LQR control scheme}
+
+The PID-LQR scheme combines DLQR stabilisation with an outer PID loop on the position
+error:
+\begin{equation}
+u(k) = u_\mathrm{LQR}(k) + u_\mathrm{PID,pos}(k),
+\end{equation}
+where the LQR component acts on the full state:
+\begin{equation}
+u_\mathrm{LQR}(k) = -K\bigl(x(k) - x_\mathrm{ref}\bigr),
+\end{equation}
+and $u_\mathrm{PID,pos}(k)$ follows the discrete PID law of \eqref{eq:pid_x} restricted to the
+cart-position loop. This additive structure improves step-reference tracking and rejects
+steady-state errors due to model uncertainty.
+
+\subsection{Fuzzy LQR control scheme}
+
+The Fuzzy-LQR scheme operates a Takagi-Sugeno (T-S) fuzzy block in parallel with the
+DLQR:
+\begin{equation}
+u(k) = u_\mathrm{LQR}(k) + G\cdot u_\mathrm{Fuzzy}(k).
+\end{equation}
+Triangular membership functions over two linguistic sets (\emph{small error},
+\emph{large error}) for each of the four state variables yield a rule base of
+$2^4=16$ rules of the form:
+\begin{quote}
+\textbf{IF} $e_\theta$ is $A_i$ \textbf{AND} $\dot\theta$ is $B_i$
+$\ldots$ \textbf{THEN} $u_i = -K^{(i)}x$.
+\end{quote}
+The local gain vectors adapt to the severity of the deviation:
+\begin{equation}
+K^{(i)} = K_\mathrm{base} + \alpha\,L_i,
+\end{equation}
+where $L_i\in\{0,\ldots,4\}$ is the number of state variables currently in the
+\emph{large-error} region, and $\alpha$ is a fixed increment. The defuzzified
+output is the firing-strength-weighted average:
+\begin{equation}
+u_\mathrm{Fuzzy}(k) = \frac{\displaystyle\sum_{i=1}^{16}w_i(x)\,u_i}
+                           {\displaystyle\sum_{i=1}^{16}w_i(x)},
+\end{equation}
+where $G$ is a global scaling gain. This adaptive-gain structure intensifies the
+corrective action at large deflections while remaining benign near the equilibrium.
+
+\subsection{MPC-NO control scheme}
+
+The Nonlinear Model Predictive Controller (NMPC) solves, at each sampling instant, the
+finite-horizon optimisation~\cite{Camacho2007,Mills2009}:
+\begin{equation}
+\min_{\Delta\u(k)}\;J(k) = \sum_{p=1}^{N}e_p^T Q\,e_p
+                              + \sum_{p=0}^{N_u-1}\Delta u_p^T R\,\Delta u_p,
+\label{eq:mpc_cost}
+\end{equation}
+where $e_p(k)=x_\mathrm{ref}(k{+}p|k)-\hat{x}(k{+}p|k)$,
+$\Delta u_p = u(k{+}p|k)-u(k{+}p{-}1|k)$, $N$ is the prediction horizon and
+$N_u\leq N$ the control horizon, subject to:
+\begin{align}
+\hat{x}_{k+1} &= f\!\left(\hat{x}_k,u_k\right),\quad k=0,\ldots,N{-}1,\\
+u_{\min} &\leq u_k \leq u_{\max}.
+\end{align}
+The prediction model $f(\cdot)$ integrates the nonlinear dynamics \eqref{eq:nonlin_ss} over
+one sampling period using fourth-order Runge-Kutta (RK4) with a ZOH assumption on the input.
+The optimisation is solved by the SLSQP algorithm from \texttt{scipy.optimize}.
+
+\subsection{MPC-NO-alt control scheme}
+
+The MPC-NO-alt variant extends the cost \eqref{eq:mpc_cost} with a direct penalty on control
+amplitude to reduce actuator wear and energy consumption:
+\begin{equation}
+J(k) = \sum_{p=1}^{N}e_p^T Q\,e_p
+      + \sum_{p=0}^{N_u-1}\!\left(\Delta u_p^T R\,\Delta u_p + u_p^T R_\mathrm{abs}\,u_p\right),
+\end{equation}
+where $R_\mathrm{abs}>0$ penalises the absolute force magnitude. The prediction model,
+constraint structure, and solver are identical to the MPC-NO formulation.
+
+\subsection{LMPC control scheme}
+
+The Linear MPC (LMPC) replaces the nonlinear RK4 prediction model with the ZOH-discretised
+linear model obtained from \eqref{eq:linear}:
+\begin{equation}
+\hat{x}_{k+1} = A_d\hat{x}_k + B_du_k,\quad k=0,\ldots,N{-}1,
+\end{equation}
+reducing prediction to fast matrix recursions. The cost function is identical to
+\eqref{eq:mpc_cost} and the same SLSQP solver is used. Although the linear model introduces
+approximation errors at large deflections, it substantially lowers the per-step computational
+burden compared with NMPC.
+
+\section{Control quality indicators}
+\hl{TODO: Wykorzystac material z pracy inżynierskiej: rozdzial 5.2}
+To provide a quantitative and objective comparison of the evaluated control strategies, the
+following performance indices are computed over $N$ discrete samples of the controlled
+output $y(k)$ (pendulum angle $\theta$ or cart position $x$):
+\begin{itemize}
+\item \textbf{Mean Squared Error} (MSE) --- penalises large deviations strongly:
+\begin{equation}
+\mathrm{MSE} = \frac{1}{N}\sum_{k=1}^{N}\bigl(y(k)-y_\mathrm{ref}(k)\bigr)^2.
+\end{equation}
+\item \textbf{Mean Absolute Error} (MAE) --- average absolute deviation:
+\begin{equation}
+\mathrm{MAE} = \frac{1}{N}\sum_{k=1}^{N}\bigl|y(k)-y_\mathrm{ref}(k)\bigr|.
+\end{equation}
+\item \textbf{Integral of Squared Error} (ISE) --- cumulative quadratic error energy:
+\begin{equation}
+\mathrm{ISE} = \sum_{k=1}^{N}\bigl(y(k)-y_\mathrm{ref}(k)\bigr)^2.
+\end{equation}
+\item \textbf{Integral of Absolute Error} (IAE) --- cumulative absolute error:
+\begin{equation}
+\mathrm{IAE} = \sum_{k=1}^{N}\bigl|y(k)-y_\mathrm{ref}(k)\bigr|.
+\end{equation}
+\item \textbf{Quadratic control cost} $E_{u,L_2}$ and \textbf{absolute control cost}
+$E_{u,L_1}$, measuring actuator effort:
+\begin{align}
+E_{u,L_2} &= \sum_{k=1}^{N}u(k)^{2},\\
+E_{u,L_1} &= \sum_{k=1}^{N}|u(k)|.
+\end{align}
+\item \textbf{Settling time} $T_s$ --- the first instant after which
+$|\theta(k)|<\varepsilon_\theta = 0.001$~rad and $|x(k)|<\varepsilon_x = 0.002$~m hold
+persistently (2\,\% of the initial deflection).
+\item \textbf{Overshoot} $M_p$ --- maximum percentage excursion of $y$ beyond $y_\mathrm{ref}$
+relative to the initial step amplitude.
+\item \textbf{Steady-state error} $e_{ss}$ --- mean tracking error over the final 10\,\% of the
+simulation horizon, measuring static accuracy.
+\end{itemize}
+ 
+\section{Simulations}
+\label{sec:s}
+\hl{Nie uzupelniac}
+
+
+    
+\setlength\tabcolsep{2pt}
+\begin{table}
+\caption{Example}
+\label{table:qqq}
+\centering
+\begin{small}\scalebox{1}{
+\begin{tabular}{lcccc}
+\hline
+\multicolumn{1}{c}{Algorithm\rule{0pt}{3mm}} & \multicolumn{1}{c}{$E^{\mathrm{pan}}_\mathrm{IAE}$} &\multicolumn{1}{c}{$E^{\mathrm{tilt}}_\mathrm{IAE}$} &\multicolumn{1}{c}{$E^{\mathrm{pan}}_\mathrm{MSE}$} &\multicolumn{1}{c}{$E^{\mathrm{tilt}}_\mathrm{MSE}$}\\
+\hline
+\rule{0pt}{3.5mm} PID &$3.58\times10^{-4} $ &$4.08\times10^{-4}$ &$4.18\times10^{-4}$ &$1.38\times10^{-3}$ \\
+\rule{0pt}{3.5mm} DMC &$3.60\times10^{-4} $ &$ 4.08\times10^{-4}$ &$6.95\times10^{-7}$ &$9.22\times10^{-4}$ \\
+\rule{0pt}{3.5mm} GPC &$1.24\times10^{-3} $ &$ 3.32\times10^{-4}$ &$6.56\times10^{-4}$ &$2.12\times10^{-2}$ \\
+\hline
+\end{tabular}}
+\end{small}
+\end{table}
+
+    
+	
+	\begin{figure}[!htbp]
+         \begin{center}
+		\includegraphics[trim=0.0cm 0.1cm 0.0cm 0.0cm, clip=true, width=0.95\linewidth]{./Img/velma_b_v2.pdf}
+		\end{center}
+        \caption{Example}
+        \label{fig:qqq}
+    \end{figure}
+
+    
+	\section{Conclusions}
+	\label{sec:Conclusions}
+	\hl{Nie uzupelniac}
+	
+	\bibliographystyle{spmpsci}
+	\bibliography{references}
+	
+	\section*{Statements and Declarations}
+	
+	The authors declare that no funds, grants, or other support were received during the preparation of this manuscript.
+	
+	The authors have no relevant financial or non-financial interests to disclose.
+		
+	The datasets generated during and/or analyzed during the current study are not publicly available due to complexity of the experiments, but are available from the corresponding author on reasonable request.
+	
+\end{document}
+
+
+
+
