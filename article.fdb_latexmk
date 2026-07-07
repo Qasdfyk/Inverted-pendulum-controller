@@ -1,12 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1783442029.82915 "c:/Users/adams/OneDrive/Pulpit/STUDIA/inz/cartpole/article.tex" "article.pdf" "article" 1783442030.30031 2
-  "C:/Users/adams/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1762084665 13321867 fa717df4c1bbdf12100d55eeb67a36d5 ""
-  "C:/Users/adams/AppData/Local/Programs/MiKTeX/tex/latex/base/fix-cm.sty" 1749467999 14741 6ad9efc94c78efc56749b0f059d15546 ""
-  "C:/Users/adams/AppData/Local/Programs/MiKTeX/tex/latex/base/ts1enc.def" 1749467999 8090 bcb38b4f148e75e16d2c33225dbca53b ""
-  "article.aux" 1783442021 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "article.tex" 1783442028 18832 242f1f1cb688431d27eb66b494f5f214 ""
-  "c:/Users/adams/OneDrive/Pulpit/STUDIA/inz/cartpole/article.tex" 1783442028 18832 242f1f1cb688431d27eb66b494f5f214 ""
-  "svjour3.cls" 0 -1 0 ""
+["pdflatex"] 0 "c:/Users/adams/OneDrive/Pulpit/STUDIA/inz/cartpole/article.tex" "article.pdf" "article" 0 -1
+  "article.aux" 0 -1 0 "pdflatex"
+  "c:/Users/adams/OneDrive/Pulpit/STUDIA/inz/cartpole/article.tex" 0 -1 0 ""
   (generated)
   "article.aux"
   "article.log"
