@@ -22,7 +22,7 @@ plt.rcParams.update({
     'axes.titlesize': 24,
     'xtick.labelsize': 20,
     'ytick.labelsize': 20,
-    'legend.fontsize': 15,
+    'legend.fontsize': 20,
     'lines.linewidth': 3
 })
 
@@ -355,7 +355,7 @@ def main():
                                        Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592)
     
     # 5. MPC-J2
-    controllers['MPC-J2'] = MPCControllerJ2(
+    controllers['MPC-alt'] = MPCControllerJ2(
         pars=PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
         Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592, r_abs=0.001
     )

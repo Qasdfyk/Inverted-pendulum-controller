@@ -415,14 +415,14 @@ oraz stabilizacji wózka (pozycja).
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-alt & Fuzzy-LQR & LMPC \\ \hline
-        $MSE_\theta$ & \cellcolor{red!25}0,00011 & 0,00009 & 0,00006 & 0,00007 & \cellcolor{green!25}0,00005 & 0,00008 \\ \hline
-        $IAE_\theta$ & \cellcolor{red!25}0,04567 & 0,03169 & 0,02323 & 0,02848 & \cellcolor{green!25}0,01578 & 0,02992 \\ \hline
-        $T_{s, \theta}$ & \cellcolor{red!25}4,20000 & 2,90000 & \cellcolor{green!25}2,10000 & 2,70000 & 2,30000 & 3,10000 \\ \hline
+        $MSE_\theta$ & 0,00011 & 0,00009 & 0,00006 & 0,00007 & 0,00005 & 0,00008 \\ \hline
+        $IAE_\theta$ & 0,04567 & 0,03169 & 0,02323 & 0,02848 & 0,01578 & 0,02992 \\ \hline
+        $T_{s, \theta}$ & 4,20000 & 2,90000 & 2,10000 & 2,70000 & 2,30000 & 3,10000 \\ \hline
         \hline
-        $MSE_x$ & 0,00051 & \cellcolor{green!25}0,00036 & 0,00038 & \cellcolor{red!25}0,00073 & 0,00043 & 0,00039 \\ \hline
-        $T_{s, x}$ & 4,60000 & \cellcolor{green!25}2,30000 & 3,60000 & \cellcolor{red!25}5,20000 & 3,00000 & 2,70000 \\ \hline
+        $MSE_x$ & 0,00051 & 0,00036 & 0,00038 & 0,00073 & 0,00043 & 0,00039 \\ \hline
+        $T_{s, x}$ & 4,60000 & 2,30000 & 3,60000 & 5,20000 & 3,00000 & 2,70000 \\ \hline
         \hline
-        $E_{u}$ & \cellcolor{red!25}0,95046 & 0,92481 & 0,55762 & \cellcolor{green!25}0,51499 & 0,77627 & 0,78994 \\ \hline
+        $E_{u}$ & 0,95046 & 0,92481 & 0,55762 & 0,51499 & 0,77627 & 0,78994 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -433,14 +433,14 @@ oraz stabilizacji wózka (pozycja).
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-alt & Fuzzy-LQR & LMPC \\ \hline
-        $MSE_\theta$ & \cellcolor{red!25}\phantom{0}0,00146 & \phantom{0}0,00178 & \phantom{0}0,00058 & \phantom{0}0,00063 & \cellcolor{green!25}\phantom{0}0,00054 & \phantom{0}0,00118 \\ \hline
-        $IAE_\theta$ & \cellcolor{red!25}\phantom{0}0,30988 & \phantom{0}0,33268 & \phantom{0}0,18151 & \phantom{0}0,18607 & \cellcolor{green!25}\phantom{0}0,17797 & \phantom{0}0,27259 \\ \hline
-        $Max |\theta|$ & \phantom{0}0,09006 & \cellcolor{red!25}\phantom{0}0,09650 & \phantom{0}0,06246 & \phantom{0}0,06715 & \cellcolor{green!25}\phantom{0}0,06344 & \phantom{0}0,08539 \\ \hline
+        $MSE_\theta$ & \phantom{0}0,00146 & \phantom{0}0,00178 & \phantom{0}0,00058 & \phantom{0}0,00063 & \phantom{0}0,00054 & \phantom{0}0,00118 \\ \hline
+        $IAE_\theta$ & \phantom{0}0,30988 & \phantom{0}0,33268 & \phantom{0}0,18151 & \phantom{0}0,18607 & \phantom{0}0,17797 & \phantom{0}0,27259 \\ \hline
+        $Max |\theta|$ & \phantom{0}0,09006 & \phantom{0}0,09650 & \phantom{0}0,06246 & \phantom{0}0,06715 & \phantom{0}0,06344 & \phantom{0}0,08539 \\ \hline
         \hline
-        $MSE_x$ & \phantom{0}0,04382 & \cellcolor{green!25}\phantom{0}0,00653 & \phantom{0}0,01843 & \cellcolor{red!25}\phantom{0}0,04383 & \phantom{0}0,00859 & \phantom{0}0,01551 \\ \hline
-        $Max |x|$ & \phantom{0}0,55997 & \cellcolor{green!25}\phantom{0}0,29510 & \phantom{0}0,40938 & \cellcolor{red!25}\phantom{0}0,56993 & \phantom{0}0,31153 & \phantom{0}0,39981 \\ \hline
+        $MSE_x$ & \phantom{0}0,04382 & \phantom{0}0,00653 & \phantom{0}0,01843 & \phantom{0}0,04383 & \phantom{0}0,00859 & \phantom{0}0,01551 \\ \hline
+        $Max |x|$ & \phantom{0}0,55997 & \phantom{0}0,29510 & \phantom{0}0,40938 & \phantom{0}0,56993 & \phantom{0}0,31153 & \phantom{0}0,39981 \\ \hline
         \hline
-        $E_{u}$ & 22,77583 & \cellcolor{red!25}33,36971 & 12,43920 & \cellcolor{green!25}12,26560 & 13,96835 & 22,74390 \\ \hline
+        $E_{u}$ & 22,77583 & 33,36971 & 12,43920 & 12,26560 & 13,96835 & 22,74390 \\ \hline
     \end{tabular}
 \end{table}
 
@@ -451,14 +451,14 @@ oraz stabilizacji wózka (pozycja).
     \begin{tabular}{|l|c|c|c|c|c|c|}
         \hline
         Wskaźnik & PID-PID & PID-LQR & MPC & MPC-alt & Fuzzy-LQR & LMPC \\ \hline
-        $MSE_\theta$ & \cellcolor{red!25}0,00015 & 0,00011 & 0,00007 & 0,00007 & \cellcolor{green!25}0,00005 & 0,00009 \\ \hline
-        $IAE_\theta$ & \cellcolor{red!25}0,06524 & 0,03900 & 0,02517 & 0,02530 & \cellcolor{green!25}0,01620 & 0,03379 \\ \hline
-        $T_{s, \theta}$ & \cellcolor{red!25}6,80000 & 3,70000 & \cellcolor{green!25}2,00000 & 2,00000 & 2,30000 & 2,90000 \\ \hline
+        $MSE_\theta$ & 0,00015 & 0,00011 & 0,00007 & 0,00007 & 0,00005 & 0,00009 \\ \hline
+        $IAE_\theta$ & 0,06524 & 0,03900 & 0,02517 & 0,02530 & 0,01620 & 0,03379 \\ \hline
+        $T_{s, \theta}$ & 6,80000 & 3,70000 & 2,00000 & 2,00000 & 2,30000 & 2,90000 \\ \hline
         \hline
-        $MSE_x$ & \cellcolor{red!25}0,00065 & \cellcolor{green!25}0,00037 & 0,00038 & 0,00038 & 0,00043 & 0,00040 \\ \hline
-        $T_{s, x}$& \cellcolor{red!25}8,30000 & 2,90000 & 3,00000 & 3,00000 & 3,10000 & \cellcolor{green!25}2,20000 \\ \hline
+        $MSE_x$ & 0,00065 & 0,00037 & 0,00038 & 0,00038 & 0,00043 & 0,00040 \\ \hline
+        $T_{s, x}$& 8,30000 & 2,90000 & 3,00000 & 3,00000 & 3,10000 & 2,20000 \\ \hline
         \hline
-        $E_{u}$ & \cellcolor{red!25}1,49205 & 1,28519 & 0,64753 & \cellcolor{green!25}0,64818 & 0,79775 & 1,01039 \\ \hline
+        $E_{u}$ & 1,49205 & 1,28519 & 0,64753 & 0,64818 & 0,79775 & 1,01039 \\ \hline
     \end{tabular}
 \end{table}
 

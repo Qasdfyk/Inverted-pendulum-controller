@@ -695,10 +695,14 @@ INPUT .\tex\sterowanie.tex
 INPUT .\tex\sterowanie.tex
 INPUT .\tex\sterowanie.tex
 INPUT tex\sterowanie.tex
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futb8t.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futmii.vf
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-mlit.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-ml.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futri8r.tfm
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futb8t.vf
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\futb8r.tfm
+INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-alt-bold.tfm
 INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futmi.vf
 INPUT .\images\tuning\combined\combined_pdpd.png
 INPUT .\images\tuning\combined\combined_pdpd.png
@@ -714,10 +718,6 @@ INPUT .\images\tuning\combined\combined_pdlqr.png
 INPUT .\images\tuning\combined\combined_pdlqr.png
 INPUT .\images\tuning\combined\combined_pdlqr.png
 INPUT .\images\tuning\combined\combined_pdlqr.png
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futmi.vf
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\vf\public\fourier\futsy.vf
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-ms.tfm
-INPUT C:\Users\adams\AppData\Local\Programs\MiKTeX\fonts\tfm\public\fourier\fourier-mcl.tfm
 INPUT .\images\tuning\combined\combined_mpc.png
 INPUT .\images\tuning\combined\combined_mpc.png
 INPUT .\images\tuning\combined\combined_mpc.png

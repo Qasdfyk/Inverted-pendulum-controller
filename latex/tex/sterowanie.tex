@@ -40,11 +40,11 @@ całkowity sygnał sterujący jest sumą reakcji na~błąd kąta oraz błąd poz
         \node [sum, right=0.8cm of in_x] (sum_x) {\tiny $+$};
         
         % Regulatory PD
-        \node [block, right=0.8cm of sum_theta] (pd_theta) {$\mathrm{PID}_\theta$};
-        \node [block, right=0.8cm of sum_x] (pd_x) {$\mathrm{PID}_x$};
+        \node [block, right=1.2cm of sum_theta] (pd_theta) {$\mathrm{PID}_\theta$};
+        \node [block, right=1.2cm of sum_x] (pd_x) {$\mathrm{PID}_\mathrm{x}$};
         
         % Suma sterowania (między nimi)
-        \node [sum, right=1.8cm of pd_theta, yshift=-0.6cm] (sum_u) {\tiny $+$};
+        \node [sum, right=1.5cm of pd_theta, yshift=-0.6cm] (sum_u) {\tiny $+$};
         
         % Saturacja i obiekt
         \node [bigblock, right=1.5cm of sum_u] (plant) {Wahadło};
@@ -54,28 +54,28 @@ całkowity sygnał sterujący jest sumą reakcji na~błąd kąta oraz błąd poz
         
         % --- Połączenia ---
         % Wejścia do sum
-        \draw [arrow] (in_theta) -- node[above, font=\scriptsize] {$\theta_{\mathrm{ref}}$} (sum_theta);
-        \draw [arrow] (in_x) -- node[above, font=\scriptsize] {$x_{\mathrm{ref}}$} (sum_x);
+        \draw [arrow] (in_theta) -- node[above left=0.1pt, font=\scriptsize] {$\theta_{\mathrm{ref}}\mathrm{(k)}$} (sum_theta);
+        \draw [arrow] (in_x) -- node[above left=0.1pt, font=\scriptsize] {$\mathrm{x}_{\mathrm{ref}}\mathrm{(k)}$} (sum_x);
         
         % Sumy do PD
-        \draw [arrow] (sum_theta) -- (pd_theta);
-        \draw [arrow] (sum_x) -- (pd_x);
+        \draw [arrow] (sum_theta) -- node[above, font=\scriptsize] {$\mathrm{e_\theta(k)}$} (pd_theta);
+        \draw [arrow] (sum_x) -- node[above, font=\scriptsize] {$\mathrm{e_x(k)}$} (pd_x);
         
         % PD do sumy sterowania (rozdzielone wejścia: góra i dół)
-        \draw [arrow] (pd_theta.east) -| node[above, font=\scriptsize] {$\mathrm{u_{\theta}}$} (sum_u.north);
-        \draw [arrow] (pd_x.east) -| node[below, font=\scriptsize] {$\mathrm{u_x}$} (sum_u.south);
+        \draw [arrow] (pd_theta.east) -| node[above, font=\scriptsize] {$\mathrm{u_{\theta}(k)}$} (sum_u.north);
+        \draw [arrow] (pd_x.east) -| node[below, font=\scriptsize] {$\mathrm{u_x(k)}$} (sum_u.south);
         
         % Suma -> sat -> plant -> wyjście
-        \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$\mathrm{u}$} (plant);
-        \draw [arrow] (plant) -- node[above, font=\scriptsize] {$\mathrm{\theta,x}$} (out);
+        \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$\mathrm{u(k)}$} (plant);
+        \draw [arrow] (plant) -- node[above right=2pt and 2pt, font=\scriptsize] {$\mathrm{\theta(k),x(k)}$} (out);
         
         % Sprzężenie zwrotne (na dole) - ciągła linia
         \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,+1.8) -| (sum_theta.north);
         \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-1.8) -| (sum_x.south);
         
         % Znak minus na sumach
-        \node [above=3pt of sum_theta.north, font=\tiny] {$-$};
-        \node [below=3pt of sum_x.south, font=\tiny] {$-$};
+        \node [above right=2pt and 2pt of sum_theta.north, font=\tiny] {$\textbf{--}$};
+        \node [below right=2pt and 2pt of sum_x.south, font=\tiny] {$\textbf{--}$};
     \end{tikzpicture}
     \caption{Schemat blokowy regulatora PID o~strukturze równoległej.}
     \label{fig:diagram_pdpd}
@@ -161,18 +161,21 @@ kompromis między jakością regulacji a~zużyciem energii.
 
 \begin{figure}[H]
     \centering
-    \begin{tikzpicture}[auto, node distance=1.4cm, >=Stealth]
-        % Wejście
-        \node [input] (in) {};
+    \begin{tikzpicture}[auto, node distance=1.5cm, >=Stealth]
+        % Wejścia (po lewej)
+        \node [input] (in_theta) {};
+        \node [below=1.2cm of in_theta, input] (in_x) {};
         
-        % Suma błędu LQR
-        \node [sum, right=0.8cm of in] (sum_lqr) {\tiny $+$};
+        % Sumy błędów
+        \node [sum, right=0.8cm of in_theta] (sum_theta) {\tiny $+$};
+        \node [sum, right=0.8cm of in_x] (sum_x) {\tiny $+$};
         
-        % Blok LQR
-        \node [block, right=0.8cm of sum_lqr] (lqr) {DLQR};
+        % Regulatory PD
+        \node [block, right=0.8cm of sum_theta] (pd_theta) {$\mathrm{LQR}$};
+        \node [block, right=0.8cm of sum_x] (pd_x) {$\mathrm{PID}_\mathrm{x}$};
         
-        % Suma sterowania
-        \node [sum, right=1.2cm of lqr] (sum_u) {\tiny $+$};
+        % Suma sterowania (między nimi)
+        \node [sum, right=1.8cm of pd_theta, yshift=-0.6cm] (sum_u) {\tiny $+$};
         
         % Saturacja i obiekt
         \node [bigblock, right=1.5cm of sum_u] (plant) {Wahadło};
@@ -180,41 +183,30 @@ kompromis między jakością regulacji a~zużyciem energii.
         % Wyjście
         \node [output, right=1.2cm of plant] (out) {};
         
-        % PD pozycji (poniżej)
-        \node [sum, below=1.4cm of sum_lqr] (sum_pd) {\tiny $+$};
-        \node [block, right=0.8cm of sum_pd] (pd_pos) {$\mathrm{PID}_x$};
-        
         % --- Połączenia ---
-        % Wejście LQR
-        \draw [arrow] (in) -- node[above, font=\scriptsize] {$x_{\mathrm{ref}}$} (sum_lqr);
-        \draw [arrow] (sum_lqr) -- (lqr);
-        \draw [arrow] (lqr) -- node[above, font=\scriptsize] {$u_{\mathrm{LQR}}$} (sum_u);
+        % Wejścia do sum
+        \draw [arrow] (in_theta) -- node[above left=0.05pt, font=\scriptsize] {$\theta_{\mathrm{ref}}\mathrm{(k)}, \mathrm{x}_{\mathrm{ref}}\mathrm{(k)}$} (sum_theta);
+        \draw [arrow] (in_x) -- node[above left=0.1pt, font=\scriptsize] {$\mathrm{x}_{\mathrm{ref}}\mathrm{(k)}$} (sum_x);
         
-        % PD -> suma sterowania
-        \draw [arrow] (pd_pos.east) -| node[above left, font=\scriptsize] {$u_{\mathrm{PID}}$} (sum_u.south);
+        % Sumy do PD
+        \draw [arrow] (sum_theta) -- node[above, font=\scriptsize] {$\mathrm{e(k)}$} (pd_theta);
+        \draw [arrow] (sum_x) -- node[above, font=\scriptsize] {$\mathrm{e_x(k)}$} (pd_x);
         
-        % Reszta toru
-        \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$u$} (plant);
-        \draw [arrow] (plant) -- node[above, font=\scriptsize] {$x$} (out);
+        % PD do sumy sterowania (rozdzielone wejścia: góra i dół)
+        \draw [arrow] (pd_theta.east) -| node[above, font=\scriptsize] {$\mathrm{u_{LQR}(k)}$} (sum_u.north);
+        \draw [arrow] (pd_x.east) -| node[below, font=\scriptsize] {$\mathrm{u_x(k)}$} (sum_u.south);
         
-        % Wejście referencyjne PD
-        \node [input, left=0.8cm of sum_pd] (in_pd) {};
-        \draw [arrow] (in_pd) -- node[above, font=\scriptsize] {$x_{\mathrm{ref}}$} (sum_pd);
-        \draw [arrow] (sum_pd) -- (pd_pos);
+        % Suma -> sat -> plant -> wyjście
+        \draw [arrow] (sum_u) -- node[above, font=\scriptsize] {$\mathrm{u(k)}$} (plant);
+        \draw [arrow] (plant) -- node[above right=2pt and 2pt, font=\scriptsize] {$\mathrm{\theta(k),x(k)}$} (out);
         
-        % Sprzężenie zwrotne LQR (na dole) - ciągła strzałka
-        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,1.4) -| (sum_lqr.north);
-        \node [above=3pt of sum_lqr.north, font=\tiny] {$-$};
+        % Sprzężenie zwrotne (na dole) - ciągła linia
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,+1.8) -| (sum_theta.north);
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-1.8) -| (sum_x.south);
         
-        % Sprzężenie zwrotne PD (x) - od głównej linii sprzężenia
-        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-3.4) -| (sum_pd.south);
-        \node [below=3pt of sum_pd.south, font=\tiny] {$-$};
-        
-        % Ramka LQR
-        \begin{scope}[on background layer]
-            \node [draw, dashed, rounded corners, fill=green!5, 
-                   fit=(sum_lqr) (lqr), inner sep=6pt] {};
-        \end{scope}
+        % Znak minus na sumach
+        \node [above right=2pt and 2pt of sum_theta.north, font=\tiny] {$\textbf{--}$};
+        \node [below right=2pt and 2pt of sum_x.south, font=\tiny] {$\textbf{--}$};
     \end{tikzpicture}
     \caption{Schemat blokowy hybrydowego regulatora PID-LQR.}
     \label{fig:diagram_pdlqr}
@@ -327,46 +319,36 @@ Zasadę działania regulatora MPC ilustruje Rys.~\ref{fig:diagram_mpc}.
         % Wejście
         \node [input] (in) {};
         
-        % Optymalizator MPC
-        \node [draw, fill=orange!15, rectangle, minimum height=3em, minimum width=5em, 
-               right=1cm of in, rounded corners=3pt, align=center, font=\small] (opt) {
-            Optymalizator\\[-2pt]
-            \scriptsize $\min J(\Delta U)$
-        };
+        % Suma błędu
+        \node [sum, right=0.8cm of in] (sum_e) {\tiny $+$};
         
-        % Obiekt
-        \node [bigblock, right=1.5cm of opt] (plant) {Wahadło};
+        % Blok LQR (góra)
+        \node [block, right=1.8cm of sum_e] (lqr) {MPC};
+        
+        
+        % Saturacja i obiekt
+        \node [bigblock, right=1.8cm of lqr] (plant) {Wahadło};
         
         % Wyjście
         \node [output, right=1.2cm of plant] (out) {};
         
-        % Model predykcyjny (poniżej optymalizatora)
-        \node [draw, fill=yellow!20, rectangle, minimum height=2em, minimum width=4em,
-               below=1cm of opt, rounded corners=2pt, font=\small] (model) {Model $f(x,u)$};
-        
         % --- Połączenia ---
-        % Wejście -> Optymalizator
-        \draw [arrow] (in) -- node[above, font=\scriptsize] {$x_{\mathrm{ref}}$} (opt);
+        % Wejście -> Suma błędu
+        \draw [arrow] (in) -- node[above, font=\scriptsize] {$\mathrm{x_{\mathrm{ref}}(k)}$} (sum_e);
         
-        % Optymalizator -> Obiekt
-        \draw [arrow] (opt) -- node[above, font=\scriptsize] {$u^*_0$} (plant);
+        % Suma błędu -> rozgałęzienie do LQR i Fuzzy
+        \draw [line] (sum_e.east) -- ++(0.5,0) coordinate (branch);
+        \draw [arrow] (branch) |- node[above, font=\scriptsize] {$\mathrm{e(k)}$}  (lqr.west);
         
-        % Obiekt -> Wyjście
-        \draw [arrow] (plant) -- node[above, font=\scriptsize] {$x$} (out);
+        % LQR i Fuzzy -> Suma sterowania
+        \draw [arrow] (lqr.east) -- node[above, font=\scriptsize] {$\mathrm{u(k)}$} (plant.west);
+        
+        % Reszta toru
+        \draw [arrow] (plant) -- node[above, font=\scriptsize] {$\mathrm{x(k)}$} (out);
         
         % Sprzężenie zwrotne - ciągła strzałka
-        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-0.8) -| node[pos=0.25, below, font=\scriptsize] {$x(t)$} ($(opt.south) + (0.6,0)$);
-        
-        % Predykcja: Optymalizator <-> Model (dwukierunkowe, obok siebie)
-        \draw [arrow, dashed] ($(opt.south) + (-0.3,0)$) -- ($(model.north) + (-0.3,0)$);
-        \draw [arrow, dashed] ($(model.north) + (0.3,0)$) -- node[right, font=\scriptsize] {$\hat{x}$} ($(opt.south) + (0.3,0)$);
-        
-        % Ramka MPC
-        \begin{scope}[on background layer]
-            \node [draw, dashed, rounded corners, fill=blue!5, 
-                   fit=(opt) (model), inner sep=8pt, 
-                   label={[font=\scriptsize]below:Regulator MPC}] {};
-        \end{scope}
+        \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-1.8) -| (sum_e.south);
+        \node [below right=1pt  of sum_e.south, font=\tiny] {$-$};
     \end{tikzpicture}
     \caption{Schemat blokowy regulatora MPC z~wewnętrznym modelem predykcyjnym.}
     \label{fig:diagram_mpc}
@@ -670,7 +652,7 @@ generuje dodatkowy sygnał korekcyjny, aktywujący się silniej przy większych 
         
         % Sprzężenie zwrotne - ciągła strzałka
         \draw [arrow] ($(plant.east) + (0.3,0)$) -- ++(0,-1.8) -| (sum_e.south);
-        \node [below=3pt of sum_e.south, font=\tiny] {$-$};
+        \node [below right=1pt of sum_e.south, font=\tiny] {$-$};
     \end{tikzpicture}
     \caption{Schemat blokowy regulatora Fuzzy-LQR z~równoległą strukturą hybrydową.}
     \label{fig:diagram_fuzzy}

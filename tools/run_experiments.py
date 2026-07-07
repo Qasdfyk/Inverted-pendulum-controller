@@ -157,7 +157,7 @@ def main():
                                      Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.08592)
     
     # 4. MPC-J2 Variants
-    controllers['MPC-J2'] = MPCControllerJ2(
+    controllers['MPC-alt'] = MPCControllerJ2(
         pars=PLANT, dt=dt, N=12, Nu=4, umin=-u_sat, umax=u_sat,
         Q=np.diag([158.39, 40.80, 43.41, 19.71]), R=0.001, r_abs=1
     )
@@ -198,10 +198,10 @@ def main():
 
     # Define Controller Groups
     group_classical = ['PID-PID', 'PID-LQR']
-    group_advanced = ['MPC', 'MPC-J2', 'LMPC', 'Fuzzy-LQR']
-    group_mpc_study = ['MPC-J2']
-    group_all = ['PID-PID', 'PID-LQR', 'MPC', 'MPC-J2', 'Fuzzy-LQR', 'LMPC']
-    group_all_lmpc = ['PID-PID', 'PID-LQR', 'MPC', 'MPC-J2', 'Fuzzy-LQR', 'LMPC']
+    group_advanced = ['MPC', 'MPC-alt', 'LMPC', 'Fuzzy-LQR']
+    group_mpc_study = ['MPC-alt']
+    group_all = ['PID-PID', 'PID-LQR', 'MPC', 'MPC-alt', 'Fuzzy-LQR', 'LMPC']
+    group_all_lmpc = ['PID-PID', 'PID-LQR', 'MPC', 'MPC-alt', 'Fuzzy-LQR', 'LMPC']
 
     # Helper function for grouped plots
     def plot_group(group_names, trajectories, title_suffix, filename_suffix, scenario_title, signal_type='theta'):

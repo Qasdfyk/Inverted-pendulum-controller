@@ -23,7 +23,7 @@
 \contentsline {subsubsection}{\numberline {4.2.1\relax .\enspace }Dobór wag macierzy Q i R}{25}{subsubsection.4.2.1}%
 \contentsline {subsection}{\numberline {4.3\relax .\enspace }Nieliniowe sterowanie predykcyjne (MPC)}{27}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1\relax .\enspace }Dobór horyzontu i wag funkcji celu}{28}{subsubsection.4.3.1}%
-\contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-alt)}{30}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.4\relax .\enspace }MPC z~rozszerzonym wskaźnikiem jakości (MPC-alt)}{29}{subsection.4.4}%
 \contentsline {subsubsection}{\numberline {4.4.1\relax .\enspace }Dobór parametrów i analiza wpływu kary za energię}{30}{subsubsection.4.4.1}%
 \contentsline {subsection}{\numberline {4.5\relax .\enspace }Liniowy regulator MPC (LMPC)}{32}{subsection.4.5}%
 \contentsline {subsubsection}{\numberline {4.5.1\relax .\enspace }Dobór parametrów i~analiza działania}{32}{subsubsection.4.5.1}%
