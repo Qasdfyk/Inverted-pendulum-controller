@@ -25,3 +25,6 @@ runs/
 Thumbs.db
 
 readmes/
+
+# Literature PDFs/EPUBs (copyrighted, not committed)
+article/lit/
