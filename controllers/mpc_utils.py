@@ -34,6 +34,16 @@ class Wind:
     def __call__(self, t: float) -> float:
         return float(np.interp(t, self.tgrid, self.Fw))
 
+class StepDisturbance:
+    """Piecewise-constant disturbance: level[i] acts from t_on[i] until the next change."""
+    def __init__(self, t_on, levels):
+        self.t_on = np.asarray(t_on, dtype=float)
+        self.levels = np.asarray(levels, dtype=float)
+
+    def __call__(self, t: float) -> float:
+        i = np.searchsorted(self.t_on, t + 1e-9, side='right') - 1
+        return float(self.levels[i]) if i >= 0 else 0.0
+
 # =========================
 # Dynamics
 # =========================
@@ -98,6 +108,11 @@ def mse(y, yref):
 def mae(y, yref):
     y, yref = np.asarray(y), np.asarray(yref)
     return float(np.mean(np.abs(y - yref)))
+
+def kvt(u, u0=0.0):
+    """Valve-travel index: sum |u(k) - u(k-1)| with u(0) = u0."""
+    u = np.concatenate(([u0], np.asarray(u, dtype=float)))
+    return float(np.sum(np.abs(np.diff(u))))
 
 def iae(t, y, yref):
     t = np.asarray(t); e = np.abs(np.asarray(y) - np.asarray(yref))
@@ -212,6 +227,8 @@ def simulate_mpc(pars, controller, x0, x_ref, T, dt,
                  u0=0.0,
                  wind: Optional[Callable[[float], float]] = None):
     steps = int(np.round(T / dt))
+    if hasattr(controller, "reset"):
+        controller.reset()
     x = np.asarray(x0, float).copy(); u_prev = float(u0)
     traj = [x.copy()]
     forces = []      # control u(t_k)

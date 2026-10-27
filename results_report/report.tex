@@ -1,0 +1,170 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[polish]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{amsmath,amssymb,graphicx,booktabs,float,placeins}
+\usepackage{caption}
+\input{tables/S1_picked.tex}
+\input{tables/S2_picked.tex}
+
+\title{NMPC z alternatywnymi funkcjami kosztu -- wahadło odwrócone na wózku\\[2pt]
+\large Wyniki badań symulacyjnych (materiał roboczy do artykułu)}
+\author{Adam Sokołowski}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Założenia badań}
+
+Zgodnie z~uwagami do artykułu, w~algorytmie NMPC z~nieliniową optymalizacją zmieniana jest
+wyłącznie postać drugiego członu funkcji kosztu (kara na przyrosty sterowania), tak jak
+w~pracy~[Nebeluk, ICCMA 2024]. Pierwszy człon pozostaje kwadratowy:
+\begin{equation}
+J(k)=\sum_{p=1}^{N}e_{p}(k)^{T}Q~e_{p}(k)+R\sum_{p=0}^{N_{u}-1}\rho\bigl(\Delta u_{p}(k)\bigr),
+\label{eq:J}
+\end{equation}
+gdzie $e_p(k)=x_\mathrm{ref}(k+p|k)-\hat{x}(k+p|k)$, a~$\rho(\cdot)$ jest M-estymatorem
+typu $\rho$. Dla $\rho(\Delta u)=\Delta u^2$ otrzymuje się dotychczasowy regulator NMPC-L$_2$
+(MPC z~pracy inżynierskiej). Pozostałe ustawienia są \textbf{identyczne} jak po strojeniu
+NMPC-L$_2$: $N=12$, $N_u=4$, $Q=\mathrm{diag}(158{,}39;\,40{,}80;\,43{,}41;\,19{,}71)$,
+$R=0{,}08592$, $T_p=0{,}1$~s, $u_\mathrm{min}=-100$~N, $u_\mathrm{max}=100$~N, model predykcji
+nieliniowy (RK4), solver SLSQP. Parametry kształtu wszystkich funkcji przyjęto domyślnie
+$c=1$ (jak w~ICCMA 2024). Przebiegi funkcji $\rho$ pokazano na rys.~\ref{fig:rho}, a~wzory
+zestawiono w~tab.~\ref{tab:rho}.
+
+\begin{table}[H]\centering\small
+\caption{Rozważane funkcje $\rho(\Delta u)$ (numeracja wzorów jak w~ICCMA 2024).}
+\label{tab:rho}
+\begin{tabular}{lll}
+\toprule
+Algorytm & Funkcja & $\rho(\Delta u)$ \\
+\midrule
+NMPC-L$_2$ & L$_2$ (3) & $\Delta u^2$\\
+NMPC-L$_1$ & L$_1$ (5) & $|\Delta u|$\\
+NMPC-Ch & Charbonnier (6) & $2\bigl(\sqrt{1+\Delta u^2/2}-1\bigr)$\\
+NMPC-F & Fair (7) & $c^2\bigl(|\Delta u|/c-\ln(1+|\Delta u|/c)\bigr)$\\
+NMPC-Hu & Huber (8) & $\Delta u^2/2$ dla $|\Delta u|\le c$; $c|\Delta u|-c^2/2$ w~p.p.\\
+NMPC-MH & Modified Huber (9) & $c^2(1-\cos(\Delta u/c))$ dla $|\Delta u|\le\frac{\pi}{2}c$; $c|\Delta u|+c^2(1-\frac{\pi}{2})$ w~p.p.\\
+NMPC-K & Kong (10) & $\Delta u^2/(c+|\Delta u|)$\\
+NMPC-L & Logistic (11) & $c^2\ln\cosh(\Delta u/c)$\\
+NMPC-M & Müller (12) & $\Delta u^2/2$ dla $|\Delta u|\le c$; $c|\Delta u|/2$ w~p.p.\\
+NMPC-Z & Zhang (13) & $\Delta u^2/(2+c|\Delta u|)$\\
+NMPC-BH & Bab-Hadiashar (14) & $\Delta u^2/2$ dla $|\Delta u|\le c$; $c^2(\ln(|\Delta u|/c)+0{,}5)$ w~p.p.\\
+NMPC-Be & Bell (15) & $\frac{5c^2}{4}\bigl(1-(1+\Delta u^2/(5c^2))^{-2}\bigr)$\\
+NMPC-C & Cauchy (16) & $\frac{c^2}{2}\ln(1+\Delta u^2/c^2)$\\
+NMPC-MS & Merril-Schweppe (17) & $\Delta u^2/2$ dla $|\Delta u|\le c$; $2c^{3/2}\sqrt{|\Delta u|}-1{,}5c^2$ w~p.p.\\
+NMPC-R & Ramsay (18) & $c^{-2}\bigl(1-(1+c|\Delta u|)e^{-c|\Delta u|}\bigr)$\\
+NMPC-Y & Youssef (19) & $\Delta u^2/2$ dla $|\Delta u|\le c$; $\ln(\Delta u^2+1)+c^2/2-\ln(c^2+1)$ w~p.p.\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]\centering
+\includegraphics[width=0.8\linewidth]{figs/rho_functions.pdf}
+\caption{Funkcje $\rho(\Delta u)$ dla $c=1$ (odpowiednik rys.~2 z~ICCMA 2024).}
+\label{fig:rho}
+\end{figure}
+
+\paragraph{Uwagi implementacyjne.}
+\begin{itemize}
+\item Funkcja L$_1$ jest nieróżniczkowalna w~zerze, dlatego NMPC-L$_1$ rozwiązywany jest
+w~postaci równoważnej z~dodatkowymi zmiennymi $s_r\ge|\Delta u_r|$ (minimalizacja $R\sum s_r$),
+co daje zadanie gładkie dla SLSQP. Pozostałe funkcje są klasy co najmniej $C^1$.
+\item Ograniczenia $u_\mathrm{min}\le u(k+p|k)\le u_\mathrm{max}$ nałożono na skumulowane
+sterowanie (w~pracy inżynierskiej ograniczane były pojedyncze przyrosty). W~badanych scenariuszach
+ograniczenia nie są aktywne ($|u|<10$~N).
+\item Tolerancję solvera zaostrzono do $10^{-8}$; przy $10^{-4}$ solver kończył obliczenia przed
+osiągnięciem minimum, co zaburzałoby porównanie funkcji kosztu. Wynik NMPC-L$_2$ w~scenariuszu
+nominalnym pokrywa się z~pracą inżynierską (IAE$_\theta$: $0{,}02325$ vs.~$0{,}02323$).
+\item Regulatory LQR (dyskretny, DLQR) oraz LQR-I (DLQR z~całkowaniem uchybu położenia)
+dostrojono tym samym algorytmem ewolucji różnicowej i~tym samym kryterium co pozostałe regulatory
+w~pracy (scenariusz nominalny).
+\item Wskaźniki liczone są zgodnie z~artykułem dla $k=1,\ldots,N_s$; $K_\mathrm{VT}$ z~$u(0)=0$.
+\end{itemize}
+
+\section{Scenariusze}
+
+\paragraph{S1 -- nominalny} (jak w~pracy inżynierskiej): $x(0)=[0{,}05;\,0;\,0;\,0]^T$,
+$x_\mathrm{ref}=[0;\,0;\,0{,}1;\,0]^T$, $T=10$~s ($N_s=100$), brak zakłócenia.
+
+\paragraph{S2 -- skoki zakłócenia.} Układ startuje z~położenia równowagi
+($x(0)=x_\mathrm{ref}=0$), a~siła $F_\mathrm{w}$ zmienia się skokowo:
+\input{tables/s2_levels.tex}
+Każda wartość utrzymywana jest przez 20~s, tak aby wszystkie regulatory zdążyły ustalić
+przebiegi przed kolejną zmianą; $T=82$~s ($N_s=820$).
+
+\paragraph{Ważna uwaga dot. scenariusza S2 (prośba o decyzję).}
+Przy stałej sile $F_\mathrm{w}$ działającej na końcu wahadła położenie $\theta=0$ \emph{nie jest}
+punktem równowagi. Z~równań ruchu (przy $\ddot\theta=\ddot x_\mathrm{p}=0$) wynika
+\begin{equation}
+\tan\theta_\mathrm{ss}=-\frac{F_\mathrm{w}}{mg},\qquad u_\mathrm{ss}\approx -F_\mathrm{w},
+\end{equation}
+czyli ok.~$0{,}44$~rad na każdy 1~N zakłócenia ($m=0{,}23$~kg). Żaden regulator nie sprowadzi
+więc kąta do zera -- kąt zbiega do $\theta_\mathrm{ss}$ (linia przerywana na wykresach), a~do
+zera może wrócić jedynie położenie wózka, i~to tylko w~regulatorach z~całkowaniem. Z~tego powodu:
+\begin{itemize}
+\item amplitudy dobrano małe ($0{,}04$--$0{,}1$~N, $|\theta_\mathrm{ss}|\le 2{,}5^\circ$), rzędu
+zakłócenia z~pracy inżynierskiej; przy $0{,}3$--$0{,}5$~N NMPC-L$_2$ tracił stabilność, a~wózek
+przemieszczał się o~kilka metrów;
+\item wskaźniki $\mathrm{MSE}_\theta$ i~$\mathrm{MAE}_\theta$ liczone względem $\theta_\mathrm{ref}=0$
+zawierają składnik wynikający z~$\theta_\mathrm{ss}\neq0$, jednakowy dla wszystkich stabilnych
+regulatorów -- różnice między algorytmami wynikają ze stanów przejściowych;
+\item \textbf{pytanie:} czy pozostawić taką postać scenariusza, czy zastosować np.~impulsy
+prostokątne (zakłócenie pojawia się i~znika, po każdym impulsie układ wraca do zera)?
+\end{itemize}
+
+\section{Parametry regulatorów}
+\begin{table}[H]\centering\small
+\caption{Parametry wszystkich regulatorów (takie same w~obu scenariuszach).}
+\input{tables/params.tex}
+\end{table}
+
+\section{Wyniki}
+Oznaczenia: $^{\dagger}$ -- niestabilny ($|\theta|>\pi/4$ lub $|x_\mathrm{p}|>5$~m),
+$^{\ddagger}$ -- przebiegi nieustalone na końcu odcinka (automatyczny test; każdy przebieg
+przejrzano dodatkowo na wykresach w~dodatku). Pogrubiono najlepszą wartość wśród regulatorów
+stabilnych.
+
+\begin{table}[H]\centering\small
+\caption{Scenariusz S1 (nominalny) -- wskaźniki jakości regulacji.}
+\input{tables/S1_indicators.tex}
+\end{table}
+
+\begin{table}[H]\centering\small
+\caption{Scenariusz S2 (skoki zakłócenia) -- wskaźniki jakości regulacji.}
+\input{tables/S2_indicators.tex}
+\end{table}
+
+\begin{table}[H]\centering\small
+\caption{Status stabilności (test automatyczny), wartości maksymalne w~S2 i~liczba niepowodzeń solvera (S1+S2).}
+\resizebox{\linewidth}{!}{\input{tables/status.tex}}
+\end{table}
+
+\input{observations.tex}
+
+\section{Przebiegi reprezentatywne}
+\begin{figure}[H]\centering
+\includegraphics[width=0.9\linewidth]{figs/S1_compare_baseline.pdf}
+\caption{S1: regulatory bazowe i~NMPC-L$_2$.}
+\end{figure}
+\begin{figure}[H]\centering
+\includegraphics[width=0.9\linewidth]{figs/S1_compare_nmpc.pdf}
+\caption{S1: \PickedSA.}
+\end{figure}
+\begin{figure}[H]\centering
+\includegraphics[width=0.9\linewidth]{figs/S2_compare_baseline.pdf}
+\caption{S2: regulatory bazowe i~NMPC-L$_2$.}
+\end{figure}
+\begin{figure}[H]\centering
+\includegraphics[width=0.9\linewidth]{figs/S2_compare_nmpc.pdf}
+\caption{S2: \PickedSB.}
+\end{figure}
+
+\clearpage
+\appendix
+\section{Przebiegi wszystkich algorytmów (z~histogramami błędów i~sterowania)}
+\input{tables/all_figures.tex}
+
+\end{document}

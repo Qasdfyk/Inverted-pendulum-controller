@@ -18,6 +18,10 @@ class PDPDController:
         self.u_limit = u_limit
         self.integ_limit = integ_limit
         
+        self.reset()
+
+    def reset(self):
+        """Clears integrator states before a new simulation run."""
         self.z_ang = 0.0
         self.z_cart = 0.0
 

@@ -20,54 +20,73 @@ class MPCController:
         self.umax = umax
         self.Q = Q
         self.R = R
+        # Tight tolerance: with 1e-4 SLSQP stops before the optimum, which would bias cost comparisons
+        self.solver_options = {'maxiter': 500, 'ftol': 1e-8, 'disp': False}
+        # Lower-triangular ones: u(k+p|k) = u_prev + L @ du, p = 0..Nu-1
+        self._L = np.tril(np.ones((Nu, Nu)))
+        self.reset()
+
+    def reset(self):
+        """Clears solver statistics before a new simulation run."""
+        self.n_calls = 0
+        self.n_fail = 0
+
+    def _u_seq(self, du, u_prev):
+        """Builds u(k+p|k), p = 0..N-1, from increments (u held after Nu)."""
+        u_seq = np.full(self.N, float(u_prev))
+        if self.Nu > 0:
+            upto = min(self.Nu, self.N)
+            u_cum = u_prev + np.cumsum(du)
+            u_seq[:upto] = u_cum[:upto]
+            u_seq[upto:] = u_cum[upto - 1]
+        return u_seq
 
     def _rollout(self, x0, u_seq):
         x = np.array(x0, dtype=float)
-        traj = []
-        for ui in u_seq:
+        traj = np.empty((len(u_seq), x.size))
+        for i, ui in enumerate(u_seq):
             x = rk4_step(f_nonlinear, x, float(ui), self.pars, self.dt)
-            traj.append(x.copy())
-        return np.asarray(traj)
+            traj[i] = x
+        return traj
+
+    def _cost_state(self, du, x0, x_ref, u_prev):
+        u_seq = self._u_seq(du, u_prev)
+        err = self._rollout(x0, u_seq) - x_ref.reshape(1, -1)
+        return float(np.einsum('pi,ij,pj->', err, self.Q, err)), u_seq
 
     def _cost(self, du, x0, x_ref, u_prev):
         du = np.asarray(du, dtype=float)
-        u_seq = np.zeros(self.N)
-        if self.Nu > 0:
-            u_cum = u_prev + np.cumsum(du)
-            upto = min(self.Nu, self.N)
-            u_seq[:upto] = u_cum[:upto]
-            if self.N > self.Nu:
-                u_seq[self.Nu:] = u_cum[upto-1]
-        else:
-            u_seq[:] = u_prev
+        cost_y, _ = self._cost_state(du, x0, x_ref, u_prev)
+        return cost_y + float(self.R * np.sum(du * du))
 
-        preds = self._rollout(x0, u_seq)
-        err = preds - x_ref.reshape(1, -1)
-        cost_y = float(np.sum([e.T @ self.Q @ e for e in err]))
-        cost_u = float(self.R * np.sum(du * du))
-        return cost_y + cost_u
+    def _constraints(self, u_prev):
+        # umin <= u_prev + L du <= umax over the control horizon
+        L = self._L
+        return [
+            {'type': 'ineq', 'fun': lambda du: self.umax - u_prev - L @ du, 'jac': lambda du: -L},
+            {'type': 'ineq', 'fun': lambda du: u_prev + L @ du - self.umin, 'jac': lambda du: L},
+        ]
 
-    def compute_control(self, x0, x_ref, u_prev):
-        du_min = self.umin - u_prev
-        du_max = self.umax - u_prev
-        bounds = [(du_min, du_max)] * self.Nu
+    def _solve(self, x0, x_ref, u_prev):
         du0 = np.zeros(self.Nu)
-
+        bounds = [(self.umin - self.umax, self.umax - self.umin)] * self.Nu
         res = minimize(
             self._cost, du0,
             args=(x0, x_ref, u_prev),
             method='SLSQP',
             bounds=bounds,
-            options={'maxiter': 500, 'ftol': 1e-4, 'disp': False}
+            constraints=self._constraints(u_prev),
+            options=self.solver_options
         )
-        du_opt = res.x if res.success else du0
+        self.n_calls += 1
+        if not res.success:
+            self.n_fail += 1
+            return du0
+        return res.x
 
-        u_seq = np.zeros(self.N)
-        u_cum = u_prev + np.cumsum(du_opt)
-        upto = min(self.Nu, self.N)
-        u_seq[:upto] = u_cum[:upto]
-        if self.N > self.Nu:
-            u_seq[self.Nu:] = u_cum[upto-1]
+    def compute_control(self, x0, x_ref, u_prev):
+        du_opt = self._solve(x0, x_ref, u_prev)
+        u_seq = self._u_seq(du_opt, u_prev)
         np.clip(u_seq, self.umin, self.umax, out=u_seq)
         return u_seq
 

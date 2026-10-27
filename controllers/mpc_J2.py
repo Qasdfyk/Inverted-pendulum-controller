@@ -4,77 +4,27 @@ import numpy as np
 from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 
+from mpc import MPCController
 from mpc_utils import (PLANT, SIM, Wind, f_nonlinear, rk4_step, simulate_mpc, 
                        print_summary, animate_cartpole,
                        mse, mae, iae, ise, control_energy_l2, control_energy_l1,
                        settling_time, overshoot, steady_state_error, disturbance_robustness)
 
-class MPCControllerJ2:
+class MPCControllerJ2(MPCController):
+    """MPC-alt: NMPC cost extended with a penalty on the control amplitude."""
     def __init__(self, pars: dict, dt: float, N: int, Nu: int,
-                 umin: float, umax: float, 
+                 umin: float, umax: float,
                  Q: np.ndarray, R: float, r_abs: float = 0.0):
-        self.pars = pars
-        self.dt = dt
-        self.N = N
-        self.Nu = Nu
-        self.umin = umin
-        self.umax = umax
-        self.Q = Q
-        self.R = R
+        super().__init__(pars, dt, N, Nu, umin, umax, Q, R)
         self.r_abs = r_abs
-
-    def _rollout(self, x0, u_seq):
-        x = np.array(x0, dtype=float)
-        traj = []
-        for ui in u_seq:
-            x = rk4_step(f_nonlinear, x, float(ui), self.pars, self.dt)
-            traj.append(x.copy())
-        return np.asarray(traj)
 
     def _cost(self, du, x0, x_ref, u_prev):
         du = np.asarray(du, dtype=float)
-        u_seq = np.zeros(self.N)
-        if self.Nu > 0:
-            u_cum = u_prev + np.cumsum(du)
-            upto = min(self.Nu, self.N)
-            u_seq[:upto] = u_cum[:upto]
-            if self.N > self.Nu:
-                u_seq[self.Nu:] = u_cum[upto-1]
-        else:
-            u_seq[:] = u_prev
-
-        preds = self._rollout(x0, u_seq)
-        err = preds - x_ref.reshape(1, -1)
-        
-        cost_state = float(np.sum([e.T @ self.Q @ e for e in err]))
+        cost_state, u_seq = self._cost_state(du, x0, x_ref, u_prev)
         cost_du = float(self.R * np.sum(du**2))
-        cost_u_abs = self.r_abs * np.sum(u_seq**2)
-
+        # Amplitude term summed over the whole prediction horizon (p = 0..N-1)
+        cost_u_abs = float(self.r_abs * np.sum(u_seq**2))
         return cost_state + cost_du + cost_u_abs
-
-    def compute_control(self, x0, x_ref, u_prev):
-        du_min = self.umin - u_prev
-        du_max = self.umax - u_prev
-        bounds = [(du_min, du_max)] * self.Nu
-        du0 = np.zeros(self.Nu)
-
-        res = minimize(
-            self._cost, du0,
-            args=(x0, x_ref, u_prev),
-            method='SLSQP',
-            bounds=bounds,
-            options={'maxiter': 500, 'ftol': 1e-4, 'disp': False}
-        )
-        du_opt = res.x if res.success else du0
-
-        u_seq = np.zeros(self.N)
-        u_cum = u_prev + np.cumsum(du_opt)
-        upto = min(self.Nu, self.N)
-        u_seq[:upto] = u_cum[:upto]
-        if self.N > self.Nu:
-            u_seq[self.Nu:] = u_cum[upto-1]
-        np.clip(u_seq, self.umin, self.umax, out=u_seq)
-        return u_seq
 
 if __name__ == "__main__":
     dt, T = SIM["dt"], SIM["T"]

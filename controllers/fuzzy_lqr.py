@@ -98,6 +98,10 @@ class TSFuzzyController:
         self.dt = dt
         self.du_max = du_max
         self.ramp_T = ramp_T
+        self.reset()
+
+    def reset(self):
+        """Clears internal state before a new simulation run."""
         self.u_prev = 0.0
         self.step_counter = 0
 

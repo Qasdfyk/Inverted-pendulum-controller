@@ -1,0 +1,54 @@
+\subsection{Obserwacje}
+
+\paragraph{Stabilność.} Wszystkie 23 algorytmy działają poprawnie w~obu scenariuszach -- żaden
+nie stracił stabilności, a~solver nie zgłosił ani jednego niepowodzenia. Jedyny przypadek
+oznaczony jako nieustalony to PID w~S2: integrator pętli kąta nie może sprowadzić uchybu
+$\theta$ do zera (bo $\theta_\mathrm{ss}\neq0$), nasyca się i~wózek dryfuje
+($|x_\mathrm{p}|$ do $1{,}5$~m). Dwa algorytmy NMPC działają, ale z~wadą widoczną dopiero na
+przebiegach (rys.~w~dodatku):
+\begin{itemize}
+\item \textbf{NMPC-L$_1$} -- w~stanie ustalonym utrzymują się drobne oscylacje sterowania
+($|\Delta u|\approx0{,}07$~N) i~kąta, co podnosi $K_\mathrm{VT}$ w~S2 o~ok.~12\% względem
+NMPC-L$_2$. Funkcja $|\Delta u|$ jest nieróżniczkowalna w~zerze, czyli dokładnie w~punkcie,
+w~którym leży rozwiązanie w~stanie ustalonym. Zgadza się to ze słabymi wynikami NMPC-L$_1$
+w~ICCMA 2024 oraz z~[Karamanakos i~in. 2018].
+\item \textbf{NMPC-M} (Müller) -- oscylacje ($|\Delta u|\approx0{,}11$~N) w~ostatnim odcinku S2,
+$K_\mathrm{VT}$ większe o~22\%. Funkcja (12) ma w~$|\Delta u|=c$ skok pochodnej (z~$c$ na
+$c/2$). Ponieważ model predykcji nie zna zakłócenia, regulator planuje w~dalszej części
+horyzontu przyrosty $|\Delta u|\approx1=c$, a~więc dokładnie w~punkcie załamania, i~SLSQP
+przeskakuje między jego stronami. Huber, równy Müllerowi dla $|\Delta u|\le c$, ma ciągłą
+pochodną i~nie oscyluje. Zmiana tolerancji solvera ($10^{-8}$--$10^{-12}$) nie usuwa efektu.
+\end{itemize}
+
+\paragraph{S1 -- wpływ funkcji kosztu.} Wszystkie 15 alternatywnych funkcji daje mniejsze
+$\mathrm{MSE}_\theta$ (o~12--17\%) i~$\mathrm{MAE}_\theta$ (o~7--11\%) niż NMPC-L$_2$, kosztem
+większego $K_\mathrm{VT}$ (o~8--12\%). Przyczyną jest pierwszy, duży ruch sterowania
+($|\Delta u|\approx2{,}5$--$3$~N), dla którego funkcje odporne rosną wolniej niż kwadratowa --
+duży przyrost jest ,,tańszy'' i~regulator reaguje mocniej ($u(0)=2{,}95$~N dla NMPC-R
+i~NMPC-Be wobec $2{,}55$~N dla NMPC-L$_2$). Jest to ten sam kompromis co w~ICCMA 2024 dla
+reaktora pH (szybsza regulacja, większe $K_\mathrm{VT}$). Najmniejsze $\mathrm{MSE}_\theta$:
+NMPC-Be, NMPC-R, NMPC-C; najmniejsze $K_\mathrm{VT}$ wśród alternatywnych: NMPC-Ch.
+$\mathrm{MSE}_x$ jest prawie bez zmian (od $-2\%$ do $+3\%$, najgorsze NMPC-L$_1$).
+
+\paragraph{S2 -- wpływ funkcji kosztu.} Tutaj alternatywne funkcje poprawiają
+\emph{jednocześnie} wszystkie wskaźniki: $\mathrm{MSE}_x$ mniejsze o~19--25\%,
+$\mathrm{MSE}_\theta$ o~3\% (mała różnica, bo dominuje wspólny składnik od $\theta_\mathrm{ss}$),
+a~$K_\mathrm{VT}$ o~5--6\% -- z~wyjątkiem NMPC-L$_1$ i~NMPC-M opisanych wyżej. Najlepsze:
+NMPC-R i~NMPC-Be ($\mathrm{MSE}_\theta$, $\mathrm{MSE}_x$), NMPC-MH ($K_\mathrm{VT}$).
+
+\paragraph{Porównanie z~pozostałymi algorytmami.} Różnice między wariantami NMPC są
+mniejsze niż różnice między klasami regulatorów. Fuzzy-LQR ma najmniejsze
+$\mathrm{MSE}_\theta$ w~obu scenariuszach, ale największe $K_\mathrm{VT}$ w~S1. PID-LQR
+najlepiej utrzymuje położenie wózka w~S2 (całkowanie w~pętli położenia przy dużych
+wzmocnieniach), za to ma jedno z~największych $K_\mathrm{VT}$. LMPC ma najmniejsze
+$K_\mathrm{VT}$ w~S1. Regulatory bez całkowania nie sprowadzają wózka do zera w~S2; LQR-I robi to
+bardzo wolno, bo waga integratora dobrana na scenariuszu nominalnym jest mała ($0{,}06$).
+
+\paragraph{Uwagi do dalszych prac (do decyzji).}
+\begin{itemize}
+\item Parametry kształtu $c=1$ przyjęto jak w~ICCMA 2024. W~tym obiekcie przyrosty sterowania
+są rzędu 0,1--3~N, więc $c=1$ leży wewnątrz zakresu pracy (inaczej niż przy
+przeskalowanych zmiennych w~reaktorze pH). Ewentualna analiza wrażliwości na $c$ -- do decyzji.
+\item Czasy obliczeń nie są podawane: symulacje liczono równolegle, więc nie są miarodajne.
+Mogę je zmierzyć osobno, jeśli będą potrzebne.
+\end{itemize}

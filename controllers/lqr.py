@@ -6,12 +6,25 @@ import sys
 
 # Ensure we can import env from parent directory
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from scipy.linalg import solve_continuous_are
+from scipy.linalg import solve_discrete_are
+from scipy.signal import cont2discrete
 
 from mpc_utils import (PLANT, SIM, Wind, f_nonlinear, rk4_step, simulate_mpc, 
                        print_summary, animate_cartpole, linearize_upright,
                        mse, mae, iae, ise, control_energy_l2, control_energy_l1,
                        settling_time, overshoot, steady_state_error, disturbance_robustness)
+
+def discretize_upright(pars: dict, dt: float) -> tuple[np.ndarray, np.ndarray]:
+    """ZOH discretisation (A_d, B_d) of the upright linearisation."""
+    A, B = linearize_upright(pars["M"], pars["m"], pars["l"], pars["g"])
+    Ad, Bd, *_ = cont2discrete((A, B, np.zeros((1, A.shape[0])), np.zeros((1, 1))), dt, method='zoh')
+    return np.asarray(Ad), np.asarray(Bd)
+
+def dlqr_gain(Ad: np.ndarray, Bd: np.ndarray, Q: np.ndarray, R: np.ndarray) -> np.ndarray:
+    """K = (R + Bd^T P Bd)^-1 Bd^T P Ad, with P from the DARE."""
+    P = solve_discrete_are(Ad, Bd, Q, R)
+    BtP = Bd.T @ P
+    return np.linalg.solve(R + BtP @ Bd, BtP @ Ad).ravel()
 
 class LQRController:
     """Pure LQR controller for inverted pendulum stabilization.
@@ -26,18 +39,11 @@ class LQRController:
         self.lqr = lqr_gains
         self.u_limit = u_limit
 
-        # Compute LQR gain K
-        M, m, l, g = pars["M"], pars["m"], pars["l"], pars["g"]
-        A, B = linearize_upright(M, m, l, g)
-        Q_diag = lqr_gains.get("Q", [1, 1, 1, 1])
-        R_val = lqr_gains.get("R", 1.0)
-        
-        Q = np.diag(Q_diag)
-        R = np.array([[R_val]], dtype=float)
-        
-        P = solve_continuous_are(A, B, Q, R)
-        self.Klqr = (np.linalg.solve(R, B.T @ P)).ravel()
-        print(f"LQR Gain K: {self.Klqr}")
+        # Discrete LQR (DLQR) on the ZOH-discretised linear model
+        Ad, Bd = discretize_upright(pars, dt)
+        Q = np.diag(lqr_gains.get("Q", [1, 1, 1, 1]))
+        R = np.array([[lqr_gains.get("R", 1.0)]], dtype=float)
+        self.Klqr = dlqr_gain(Ad, Bd, Q, R)
 
     def compute_control(self, x0, x_ref, u_prev):
         # x0 = [th, thd, x, xd]

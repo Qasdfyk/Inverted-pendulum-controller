@@ -302,7 +302,7 @@ def main():
         """
         # Define desired order
         # User requested: pd-pd pd-lqr lmpc mpc mpc-j2 fuzzy
-        desired_order = ['PID-PID', 'PID-LQR', 'LMPC', 'MPC', 'MPC-J2', 'Fuzzy-LQR']
+        desired_order = ['PID-PID', 'PID-LQR', 'LMPC', 'MPC', 'MPC-alt', 'Fuzzy-LQR']
         
         # Filter controllers to only include those in desired_order that actually exist
         ordered_keys = [k for k in desired_order if k in controllers]

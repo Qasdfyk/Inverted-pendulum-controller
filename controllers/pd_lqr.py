@@ -59,7 +59,10 @@ class PDLQRController:
         BtP = Bd.T @ P
         self.Klqr = np.linalg.solve(R + BtP @ Bd, BtP @ Ad).ravel()
         
-        print(f"DLQR Gain K (Discrete): {self.Klqr}")
+
+    def reset(self):
+        """Clears the position-loop integrator before a new simulation run."""
+        self.z = 0.0
 
     def compute_control(self, x0, x_ref, u_prev):
         # x0 = [th, thd, x, xd]

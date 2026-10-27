@@ -6,6 +6,7 @@ from scipy.signal import cont2discrete
 import os
 
 # Import shared infrastructure
+from mpc import MPCController
 from mpc_utils import (
     PLANT, SIM, Wind, simulate_mpc,
     print_summary, animate_cartpole, linearize_upright,
@@ -14,19 +15,13 @@ from mpc_utils import (
 )
 
 # ==========================================
-# LINEAR MPC CONTROLLER (ZOH + minimize L-BFGS-B)
+# LINEAR MPC CONTROLLER (ZOH + minimize SLSQP)
 # ==========================================
-class LinearMPCController:
+class LinearMPCController(MPCController):
     def __init__(self, pars: dict, dt: float, N: int, Nu: int,
                  umin: float, umax: float, Q: np.ndarray, R: float):
-        self.pars = pars
-        self.dt = dt
-        self.N = N
-        self.Nu = Nu
-        self.umin = umin
-        self.umax = umax
-        self.Q = Q
-        self.R = R
+        super().__init__(pars, dt, N, Nu, umin, umax, Q, R)
+        self.solver_options = {"maxiter": 200, "ftol": 1e-8, "disp": False}
 
         # --- LINEARIZATION ---
         Ac, Bc = linearize_upright(pars["M"], pars["m"], pars["l"], pars["g"])
@@ -43,64 +38,19 @@ class LinearMPCController:
         self.Bd = np.asarray(Bd, dtype=float).reshape(4, 1)
         self.Bd_flat = self.Bd.flatten()
 
-    def _rollout_linear(self, x0, u_seq):
+    def _rollout(self, x0, u_seq):
         """Symulacja przyszłości przy użyciu modelu LINIOWEGO (dyskretny ZOH)."""
-        traj = []
         x_curr = np.array(x0, dtype=float)
-
-        for ui in u_seq:
+        traj = np.empty((len(u_seq), x_curr.size))
+        for i, ui in enumerate(u_seq):
             x_curr = self.Ad @ x_curr + self.Bd_flat * float(ui)
-            traj.append(x_curr.copy())
-
-        return np.asarray(traj)
-
-    def _cost(self, du, x0, x_ref, u_prev):
-        du = np.asarray(du, dtype=float)
-
-        # Rekonstrukcja sekwencji sterowania z przyrostów (du)
-        u_seq = np.zeros(self.N, dtype=float)
-        if self.Nu > 0:
-            u_cum = u_prev + np.cumsum(du)
-            upto = min(self.Nu, self.N)
-            u_seq[:upto] = u_cum[:upto]
-            if self.N > self.Nu:
-                u_seq[self.Nu:] = u_cum[upto - 1]
-        else:
-            u_seq[:] = u_prev
-
-        # Predykcja (liniowa, dyskretna)
-        preds = self._rollout_linear(x0, u_seq)
-
-        # Błąd i koszt
-        err = preds - np.asarray(x_ref, dtype=float).reshape(1, -1)
-
-        cost_y = 0.0
-        for e in err:
-            cost_y += float(e.T @ self.Q @ e)
-
-        cost_u = float(self.R * np.sum(du * du))
-        return cost_y + cost_u
+            traj[i] = x_curr
+        return traj
 
     def compute_control(self, x0, x_ref, u_prev):
-        # Bounds na du (tak jak w Twojej wersji)
-        du_min = self.umin - u_prev
-        du_max = self.umax - u_prev
-        bounds = [(du_min, du_max)] * self.Nu
-        du0 = np.zeros(self.Nu, dtype=float)
-
-        res = minimize(
-            self._cost, du0,
-            args=(x0, x_ref, u_prev),
-            method="SLSQP",
-            bounds=bounds,
-            options={"maxiter": 200, "ftol": 1e-6, "disp": False},
-        )
-        du_opt = res.x if res.success else du0
-
         # Pierwszy ruch
-        u_next = u_prev + float(du_opt[0]) if self.Nu > 0 else float(u_prev)
-        u_next = float(np.clip(u_next, self.umin, self.umax))
-        return [u_next]
+        u_seq = super().compute_control(x0, x_ref, u_prev)
+        return [float(u_seq[0])]
 
 
 # ==========================================
