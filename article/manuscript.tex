@@ -222,7 +222,7 @@ matrix:
 \begin{equation}
 A = \begin{bmatrix}0&1&0&0\\ \dfrac{M_T g}{Ml}&0&0&0\\[4pt]0&0&0&1\\[2pt]-\dfrac{mg}{M}&0&0&0\end{bmatrix},\;
 B = \begin{bmatrix}0\\[2pt]-\dfrac{1}{Ml}\\[4pt]0\\[2pt]\dfrac{1}{M}\end{bmatrix},\;
-B_\mathrm{d} = \begin{bmatrix}0\\[2pt]-\dfrac{1}{ml}\\[4pt]0\\[2pt]0\end{bmatrix}.
+B_\mathrm{d} = \begin{bmatrix}0\\[2pt]\dfrac{1}{ml}\\[4pt]0\\[2pt]0\end{bmatrix}.
 \label{eq:linear}
 \end{equation}
 The eigenvalues of $A$ are found from the characteristic equation $\det(\lambda I - A)=0$,
@@ -232,7 +232,7 @@ which for the given parameter values yields:
 \label{eq:charpoly}
 \end{equation}
 Solving \eqref{eq:charpoly} gives four eigenvalues:
-$\lambda_{1,2}=0$ and $\lambda_{3,4}=\pm\sqrt{\tfrac{(M+m)g}{Ml}}\approx\pm 5.49$.
+$\lambda_{1,2}=0$ and $\lambda_{3,4}=\pm\sqrt{\tfrac{(M+m)g}{Ml}}\approx\pm 5.46$.
 The positive eigenvalue $\lambda_4>0$ confirms that the system is open-loop unstable.
 The controllability matrix $\mathcal{C}=[B,\;AB,\;A^2B,\;A^3B]\in\mathbb{R}^{n\times n}$
 satisfies $\mathrm{rank}(\mathcal{C})=n=4$, so a stabilising feedback law exists.
@@ -338,12 +338,13 @@ where the LQR component acts on the full state:
 u_\mathrm{LQR}(k) = -K\bigl(x(k) - x_\mathrm{ref}\bigr),
 \end{equation}
 and $u_\mathrm{PID,pos}(k)$ follows the discrete PID law of \eqref{eq:pid_x} acting only on the
-cart-position loop. This structure improves setpoint tracking and reduces steady-state errors
-caused by model mismatch.
+cart-position loop. This structure increases the position stiffness and adds a slow integral
+action on the position error.
 
 \subsection{Fuzzy LQR control scheme}
 
-In Fuzzy-LQR~\cite{Nguyen2024}, a Takagi-Sugeno (T-S) fuzzy block runs in parallel with the DLQR:
+In Fuzzy-LQR~\cite{Nguyen2024}, a Takagi-Sugeno (T-S) fuzzy block runs in parallel with an LQR
+whose gain is computed from the continuous-time model $(A,B)$:
 \begin{equation}
 u(k) = u_\mathrm{LQR}(k) + G\cdot u_\mathrm{Fuzzy}(k).
 \end{equation}
@@ -352,14 +353,14 @@ Triangular membership functions over two linguistic sets (\emph{small error},
 $2^4=16$ rules of the form:
 \begin{quote}
 \textbf{IF} $e_\theta$ is $A_i$ \textbf{AND} $\dot\theta$ is $B_i$
-$\ldots$ \textbf{THEN} $u_i = -K^{(i)}x$.
+$\ldots$ \textbf{THEN} $u_i = K^{(i)}\bigl(x(k)-x_\mathrm{ref}\bigr)$.
 \end{quote}
-The local gain vectors adapt to the severity of the deviation:
+The local gain vectors depend on the severity of the deviation:
 \begin{equation}
 K^{(i)} = K_\mathrm{base} + \alpha\,L_i,
 \end{equation}
 where $L_i\in\{0,\ldots,4\}$ counts how many state variables are currently in the
-\emph{large-error} region, and $\alpha$ is a fixed step. The defuzzified output is the
+\emph{large-error} region, and $\alpha\in\mathbb{R}^{1\times n}$ is a fixed step vector. The defuzzified output is the
 weighted average:
 \begin{equation}
 u_\mathrm{Fuzzy}(k) = \frac{\displaystyle\sum_{i=1}^{16}w_i(x)\,u_i}
@@ -370,7 +371,7 @@ the controller reacts more strongly at large deflections and more gently near th
 
 \subsection{MPC-NO control scheme}
 
-At each sampling instant the Nonlinear MPC (NMPC)~\cite{Mills2009} solves the following
+At each sampling instant the Nonlinear MPC (NMPC)~\cite{Camacho2026} solves the following
 finite-horizon optimisation problem:
 \begin{multline}
 \min_{\Delta u(k)}\;J(k) = \sum_{p=1}^{N}e_p(k)^T Q\,e_p(k) \\
@@ -399,21 +400,22 @@ and held constant within each interval (ZOH). The optimisation is solved by the 
 \hl{Czy w literaturze [1] bylo pokazane odwrocena wahadlo na wozku i rozwazana taka postac funkcji kosztu? Jesli tak to o tym powiedziec, jezeli nie i po prostu bylo pokazane, ze ogolnie mozna taki koszt zastosowac to tak jeszcze skomentowac. Potrzebna bedzie literatura zwiazana z funkcjami kosztu w MPC, ktore byly stosowane dla tego konkretnie obiektu. Prosilbym Pana o poszukanie, zapewne znajdzie Pan w wiekszosci klasyczna funkcje kosztu L2 (dwa, nie trzy, człony w J(k)) ale prosze takie artykuly tez zachowac. Najwazniejsze tu jest dotrzec do tych mniej uzywanych, jakichs alternatywnych kosztow. Drugi "problem": prosze rozgladac sie rowniez za literatura ktora mowi o zaletach/korzysciach z stosowania wlasnie takich czlonow jak Pan zostosowal w kontekscie wahadla, czyli czlonow z kara na wart. sterowania lub/i przyrost. Trzeba uargumentowac dlaczego jest to potrzebne dla tego przykladu, co chcemy tym uzyskac, moze Pan znajdzie literature gdzie byly badania robione (nie jedne) ktore dla tego przykladu mowia o istotnosci tych czlonow, zapewne Pan je odrozni, bo bedzie pokazane dosc dokladnie strojenie regulatorow. Zaznaczam, ze literatury trzeba do art. szukac jak najwiecej, zwlaszcza, ze jest to obiekt bardzo znany, wiec recenzenci to zauwaza. Moze Pan jednym zdaniem kazda literature skomentowac we wstepie, potem zastanowimy sie, ulozy sie i wklei do odpowiedniej sekcji}
 For the cart--pendulum, the classical two-term quadratic cost (tracking error + control effort)
 is the default choice in NMPC studies such as~\cite{Mills2009}. The textbook formulation
-of~\cite{Camacho2007} already admits move-suppression terms in $\Delta u$ and, optionally, a direct
+of~\cite{Camacho2026} already admits move-suppression terms in $\Delta u$ and, optionally, a direct
 penalty on the absolute control amplitude $u$; it does not, however, treat the inverted pendulum
 as a numerical case study of a three-term cost. Alternative (non-quadratic) norms for NMPC are
 surveyed and compared in~\cite{Nebeluk2024}. On this plant the $\Delta u$ term is motivated by the
-need for smooth cart forces that limit jerk and actuator wear on a short track, while the
+need for smooth cart forces that limit jerk and actuator wear, while the
 $u^{\!T}R_\mathrm{abs}u$ term directly reduces the energy and peak force required to keep the
 unstable upright equilibrium---both effects are essential when comparing predictive controllers
 under identical horizons and state weights.
 MPC-NO-alt extends the cost \eqref{eq:mpc_cost} by adding a penalty on the
-control amplitude~\cite{Camacho2007,Nebeluk2024}:
+control amplitude~\cite{Camacho2026,Muske1993,Rao1999}:
 \begin{multline}
-J(k) = \sum_{p=1}^{N}e_p(k)^T Q\,e_p(k) \\
-+ \sum_{p=0}^{N_u-1}\!\left(\Delta u_p(k)^T R\,\Delta u_p(k) + u_p(k)^T R_\mathrm{abs}\,u_p(k)\right),
+J(k) = \sum_{p=1}^{N}e_p(k)^T Q\,e_p(k)
++ \sum_{p=0}^{N_u-1}\Delta u_p(k)^T R\,\Delta u_p(k) \\
++ \sum_{p=0}^{N-1}u_p(k)^T R_\mathrm{abs}\,u_p(k),
 \end{multline}
-where $R_\mathrm{abs}>0$ weights the force
+where $u_p(k)=u(k{+}p|k)$ is held constant for $p\geq N_u$ and $R_\mathrm{abs}>0$ weights the force
 magnitude directly. The prediction model, constraints, and solver are the same as in MPC-NO.
 
 \subsection{LMPC control scheme}
@@ -507,7 +509,7 @@ with the convention $u(0)=0$.
 	
 	The authors have no relevant financial or non-financial interests to disclose.
 		
-	The datasets generated during and/or analyzed during the current study are not publicly available due to complexity of the experiments, but are available from the corresponding author on reasonable request.
+	The simulation code and the results generated during the current study are available at \url{https://github.com/Qasdfyk/Inverted-pendulum-controller}.
 	
 \end{document}
 

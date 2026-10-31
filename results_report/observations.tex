@@ -39,8 +39,11 @@ NMPC-R i~NMPC-Be ($\mathrm{MSE}_\theta$, $\mathrm{MSE}_x$), NMPC-MH ($K_\mathrm{
 \paragraph{Porównanie z~pozostałymi algorytmami.} Różnice między wariantami NMPC są
 mniejsze niż różnice między klasami regulatorów. Fuzzy-LQR ma najmniejsze
 $\mathrm{MSE}_\theta$ w~obu scenariuszach, ale największe $K_\mathrm{VT}$ w~S1. PID-LQR
-najlepiej utrzymuje położenie wózka w~S2 (całkowanie w~pętli położenia przy dużych
-wzmocnieniach), za to ma jedno z~największych $K_\mathrm{VT}$. LMPC ma najmniejsze
+najlepiej utrzymuje położenie wózka w~S2 dzięki dużym wzmocnieniom w~pętli położenia, za to ma
+jedno z~największych $K_\mathrm{VT}$. Całkowanie jest w~nim bardzo wolne (stała czasowa
+ok.~100~s), więc w~odcinkach po 20~s wózek nie wraca do zera. W~stosunku do pracy inżynierskiej
+zmieniono znak $K_{i,x}$ z~$+0{,}1$ na $-0{,}1$: wartość z~pracy dawała biegun układu zamkniętego
+$1{,}001$, czyli powolną niestabilność niewidoczną przy $T=10$~s. LMPC ma najmniejsze
 $K_\mathrm{VT}$ w~S1. Regulatory bez całkowania nie sprowadzają wózka do zera w~S2; LQR-I robi to
 bardzo wolno, bo waga integratora dobrana na scenariuszu nominalnym jest mała ($0{,}06$).
 

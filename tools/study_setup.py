@@ -1,7 +1,8 @@
 """Controllers and scenarios shared by the cost-function study (article experiments).
 
-All controller parameters are the tuned values from the thesis (latex/tex/sterowanie.tex);
-LQR and LQR-I were tuned with tuning/tune_lqr.py using the same objective.
+All controller parameters are the tuned values from the thesis (latex/tex/sterowanie.tex),
+except the sign of Ki in PID-LQR; LQR and LQR-I were tuned with tuning/tune_lqr.py using the
+same objective.
 """
 import os
 import sys
@@ -29,7 +30,8 @@ PARAMS = {
                   "cart_pid": {"Kp": -1.0, "Ki": -0.1, "Kd": -3.0}},
     "LQR":       {"Q": [437.398, 56.197, 378.065, 77.873], "R": 8.3412},
     "LQR-I":     {"Q": [148.887, 51.76, 326.26, 41.484, 0.06], "R": 5.9162},
-    "PID-LQR":   {"pid_gains": {"Kp": -7.0, "Ki": 0.1, "Kd": -3.0},
+    # Ki < 0, same sign as Kp: the thesis value Ki = +0.1 gives a closed-loop pole at 1.001
+    "PID-LQR":   {"pid_gains": {"Kp": -7.0, "Ki": -0.1, "Kd": -3.0},
                   "lqr_gains": {"Q": [200.0, 3.0, 35.0, 40.0], "R": 1.0}},
     "Fuzzy-LQR": {"du_max": 800.0},
     "LMPC":      {"N": 12, "Nu": 4, "Q": [15.0, 1.0, 15.0, 1.0], "R": 0.1},
